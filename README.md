@@ -1,5 +1,8 @@
 # Erga
 
+To start postgres run:
+`docker-compose up`
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
