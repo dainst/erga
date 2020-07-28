@@ -1,0 +1,33 @@
+<h1>Show Stakeholder</h1>
+
+<ul>
+
+  <li>
+    <strong>Project:</strong>
+    <%= @stakeholder.project_id %>
+  </li>
+
+  <li>
+    <strong>Stakeholder:</strong>
+    <%= @stakeholder.stakeholder_id %>
+  </li>
+
+  <li>
+    <strong>Label:</strong>
+    <%= @stakeholder.label %>
+  </li>
+
+  <li>
+    <strong>Role:</strong>
+    <%= @stakeholder.role %>
+  </li>
+
+  <li>
+    <strong>Type:</strong>
+    <%= @stakeholder.type %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.stakeholder_path(@conn, :edit, @stakeholder) %></span>
+<span><%= link "Back", to: Routes.stakeholder_path(@conn, :index) %></span>

@@ -1,0 +1,23 @@
+<h1>Show Image</h1>
+
+<ul>
+
+  <li>
+    <strong>Project:</strong>
+    <%= @image.project_id %>
+  </li>
+
+  <li>
+    <strong>Label:</strong>
+    <%= @image.label %>
+  </li>
+
+  <li>
+    <strong>Path:</strong>
+    <%= @image.path %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.image_path(@conn, :edit, @image) %></span>
+<span><%= link "Back", to: Routes.image_path(@conn, :index) %></span>

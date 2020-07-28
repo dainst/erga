@@ -17,6 +17,10 @@ defmodule ErgaWeb.Router do
     pipe_through :browser
 
     resources "/projects", ProjectController
+    resources "/stakeholders", StakeholderController
+    resources "/linked_resources", LinkedResourceController
+    resources "/images", ImageController
+    resources "/translated_contents", TranslatedContentController
 
     get "/", PageController, :index
   end

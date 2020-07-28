@@ -1,0 +1,33 @@
+<h1>Show Linked resource</h1>
+
+<ul>
+
+  <li>
+    <strong>Project:</strong>
+    <%= @linked_resource.project_id %>
+  </li>
+
+  <li>
+    <strong>Linked system:</strong>
+    <%= @linked_resource.linked_system %>
+  </li>
+
+  <li>
+    <strong>Linked:</strong>
+    <%= @linked_resource.linked_id %>
+  </li>
+
+  <li>
+    <strong>Label:</strong>
+    <%= @linked_resource.label %>
+  </li>
+
+  <li>
+    <strong>Context:</strong>
+    <%= @linked_resource.context %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.linked_resource_path(@conn, :edit, @linked_resource) %></span>
+<span><%= link "Back", to: Routes.linked_resource_path(@conn, :index) %></span>

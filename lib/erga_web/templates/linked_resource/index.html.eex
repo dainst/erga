@@ -1,0 +1,34 @@
+<h1>Listing Linked resources</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Project</th>
+      <th>Linked system</th>
+      <th>Linked</th>
+      <th>Label</th>
+      <th>Context</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for linked_resource <- @linked_resources do %>
+    <tr>
+      <td><%= linked_resource.project_id %></td>
+      <td><%= linked_resource.linked_system %></td>
+      <td><%= linked_resource.linked_id %></td>
+      <td><%= linked_resource.label %></td>
+      <td><%= linked_resource.context %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.linked_resource_path(@conn, :show, linked_resource) %></span>
+        <span><%= link "Edit", to: Routes.linked_resource_path(@conn, :edit, linked_resource) %></span>
+        <span><%= link "Delete", to: Routes.linked_resource_path(@conn, :delete, linked_resource), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Linked resource", to: Routes.linked_resource_path(@conn, :new) %></span>

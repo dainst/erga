@@ -101,4 +101,388 @@ defmodule Erga.Research do
   def change_project(%Project{} = project, attrs \\ %{}) do
     Project.changeset(project, attrs)
   end
+
+  alias Erga.Research.LinkedResource
+
+  @doc """
+  Returns the list of linked_resources.
+
+  ## Examples
+
+      iex> list_linked_resources()
+      [%LinkedResource{}, ...]
+
+  """
+  def list_linked_resources do
+    Repo.all(LinkedResource)
+  end
+
+  @doc """
+  Gets a single linked_resource.
+
+  Raises `Ecto.NoResultsError` if the Linked resource does not exist.
+
+  ## Examples
+
+      iex> get_linked_resource!(123)
+      %LinkedResource{}
+
+      iex> get_linked_resource!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_linked_resource!(id), do: Repo.get!(LinkedResource, id)
+
+  @doc """
+  Creates a linked_resource.
+
+  ## Examples
+
+      iex> create_linked_resource(%{field: value})
+      {:ok, %LinkedResource{}}
+
+      iex> create_linked_resource(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_linked_resource(attrs \\ %{}) do
+    %LinkedResource{}
+    |> LinkedResource.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a linked_resource.
+
+  ## Examples
+
+      iex> update_linked_resource(linked_resource, %{field: new_value})
+      {:ok, %LinkedResource{}}
+
+      iex> update_linked_resource(linked_resource, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_linked_resource(%LinkedResource{} = linked_resource, attrs) do
+    linked_resource
+    |> LinkedResource.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a linked_resource.
+
+  ## Examples
+
+      iex> delete_linked_resource(linked_resource)
+      {:ok, %LinkedResource{}}
+
+      iex> delete_linked_resource(linked_resource)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_linked_resource(%LinkedResource{} = linked_resource) do
+    Repo.delete(linked_resource)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking linked_resource changes.
+
+  ## Examples
+
+      iex> change_linked_resource(linked_resource)
+      %Ecto.Changeset{data: %LinkedResource{}}
+
+  """
+  def change_linked_resource(%LinkedResource{} = linked_resource, attrs \\ %{}) do
+    LinkedResource.changeset(linked_resource, attrs)
+  end
+
+  alias Erga.Research.Stakeholder
+
+  @doc """
+  Returns the list of stakeholders.
+
+  ## Examples
+
+      iex> list_stakeholders()
+      [%Stakeholder{}, ...]
+
+  """
+  def list_stakeholders do
+    Repo.all(Stakeholder)
+  end
+
+  @doc """
+  Gets a single stakeholder.
+
+  Raises `Ecto.NoResultsError` if the Stakeholder does not exist.
+
+  ## Examples
+
+      iex> get_stakeholder!(123)
+      %Stakeholder{}
+
+      iex> get_stakeholder!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_stakeholder!(id), do: Repo.get!(Stakeholder, id)
+
+  @doc """
+  Creates a stakeholder.
+
+  ## Examples
+
+      iex> create_stakeholder(%{field: value})
+      {:ok, %Stakeholder{}}
+
+      iex> create_stakeholder(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_stakeholder(attrs \\ %{}) do
+    %Stakeholder{}
+    |> Stakeholder.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a stakeholder.
+
+  ## Examples
+
+      iex> update_stakeholder(stakeholder, %{field: new_value})
+      {:ok, %Stakeholder{}}
+
+      iex> update_stakeholder(stakeholder, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_stakeholder(%Stakeholder{} = stakeholder, attrs) do
+    stakeholder
+    |> Stakeholder.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a stakeholder.
+
+  ## Examples
+
+      iex> delete_stakeholder(stakeholder)
+      {:ok, %Stakeholder{}}
+
+      iex> delete_stakeholder(stakeholder)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_stakeholder(%Stakeholder{} = stakeholder) do
+    Repo.delete(stakeholder)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking stakeholder changes.
+
+  ## Examples
+
+      iex> change_stakeholder(stakeholder)
+      %Ecto.Changeset{data: %Stakeholder{}}
+
+  """
+  def change_stakeholder(%Stakeholder{} = stakeholder, attrs \\ %{}) do
+    Stakeholder.changeset(stakeholder, attrs)
+  end
+
+  alias Erga.Research.Image
+
+  @doc """
+  Returns the list of images.
+
+  ## Examples
+
+      iex> list_images()
+      [%Image{}, ...]
+
+  """
+  def list_images do
+    Repo.all(Image)
+  end
+
+  @doc """
+  Gets a single image.
+
+  Raises `Ecto.NoResultsError` if the Image does not exist.
+
+  ## Examples
+
+      iex> get_image!(123)
+      %Image{}
+
+      iex> get_image!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_image!(id), do: Repo.get!(Image, id)
+
+  @doc """
+  Creates a image.
+
+  ## Examples
+
+      iex> create_image(%{field: value})
+      {:ok, %Image{}}
+
+      iex> create_image(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_image(attrs \\ %{}) do
+    %Image{}
+    |> Image.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a image.
+
+  ## Examples
+
+      iex> update_image(image, %{field: new_value})
+      {:ok, %Image{}}
+
+      iex> update_image(image, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_image(%Image{} = image, attrs) do
+    image
+    |> Image.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a image.
+
+  ## Examples
+
+      iex> delete_image(image)
+      {:ok, %Image{}}
+
+      iex> delete_image(image)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_image(%Image{} = image) do
+    Repo.delete(image)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking image changes.
+
+  ## Examples
+
+      iex> change_image(image)
+      %Ecto.Changeset{data: %Image{}}
+
+  """
+  def change_image(%Image{} = image, attrs \\ %{}) do
+    Image.changeset(image, attrs)
+  end
+
+  alias Erga.Research.TranslatedContent
+
+  @doc """
+  Returns the list of translated_contents.
+
+  ## Examples
+
+      iex> list_translated_contents()
+      [%TranslatedContent{}, ...]
+
+  """
+  def list_translated_contents do
+    Repo.all(TranslatedContent)
+  end
+
+  @doc """
+  Gets a single translated_content.
+
+  Raises `Ecto.NoResultsError` if the Translated content does not exist.
+
+  ## Examples
+
+      iex> get_translated_content!(123)
+      %TranslatedContent{}
+
+      iex> get_translated_content!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_translated_content!(id), do: Repo.get!(TranslatedContent, id)
+
+  @doc """
+  Creates a translated_content.
+
+  ## Examples
+
+      iex> create_translated_content(%{field: value})
+      {:ok, %TranslatedContent{}}
+
+      iex> create_translated_content(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_translated_content(attrs \\ %{}) do
+    %TranslatedContent{}
+    |> TranslatedContent.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a translated_content.
+
+  ## Examples
+
+      iex> update_translated_content(translated_content, %{field: new_value})
+      {:ok, %TranslatedContent{}}
+
+      iex> update_translated_content(translated_content, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_translated_content(%TranslatedContent{} = translated_content, attrs) do
+    translated_content
+    |> TranslatedContent.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a translated_content.
+
+  ## Examples
+
+      iex> delete_translated_content(translated_content)
+      {:ok, %TranslatedContent{}}
+
+      iex> delete_translated_content(translated_content)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_translated_content(%TranslatedContent{} = translated_content) do
+    Repo.delete(translated_content)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking translated_content changes.
+
+  ## Examples
+
+      iex> change_translated_content(translated_content)
+      %Ecto.Changeset{data: %TranslatedContent{}}
+
+  """
+  def change_translated_content(%TranslatedContent{} = translated_content, attrs \\ %{}) do
+    TranslatedContent.changeset(translated_content, attrs)
+  end
 end
