@@ -25,10 +25,12 @@ defmodule ErgaWeb.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", ErgaWeb do
-  #   pipe_through :api
-  # end
+  #Other scopes may use custom stacks.
+  scope "/api", ErgaWeb.Api, as: :api do
+    pipe_through :api
+
+    resources "/projects", ProjectController, only: [:show, :index]
+  end
 
   # Enables LiveDashboard only for development
   #
