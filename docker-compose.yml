@@ -1,0 +1,11 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+    db:
+        image: postgres:12-alpine
+        container_name: erga_db
+        environment:
+            POSTGRES_PASSWORD: postgres
+        ports:
+            - 5432:5432
