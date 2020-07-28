@@ -11,6 +11,12 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
+## Troubleshooting
+
+### MacOS
+
+If the compilation went wrong try this comand to clean your installation ` mix deps.clean --all && mix deps.compile`
+
 ## Learn more
 
   * Official website: https://www.phoenixframework.org/
