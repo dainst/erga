@@ -15,7 +15,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 
 ### MacOS
 
-If the compilation went wrong try this comand to clean your installation ` mix deps.clean --all && mix deps.compile`
+If the compilation went wrong try this comand to clean your installation ` mix deps.clean --all && mix deps.get`
 
 ## Learn more
 
