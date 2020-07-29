@@ -37,6 +37,15 @@ defmodule Erga.Research do
   """
   def get_project!(id), do: Repo.get!(Project, id)
 
+
+  @doc """
+  returns a list of all projects that where updated x days ago
+  """
+  def update_days_ago(days_ago) do
+    d = String.to_integer(days_ago)
+    Repo.all(from p in Project, where: p.updated_at >= ago(^d, "day") )
+  end
+
   @doc """
   Creates a project.
 
