@@ -6,7 +6,7 @@ defmodule Erga.Research do
   import Ecto.Query, warn: false
   alias Erga.Repo
 
-  alias Erga.Research.Project
+  alias Erga.Research.{Project, LinkedResource, Image, Stakeholder, TranslatedContent}
 
   @doc """
   Returns the list of projects.
@@ -18,7 +18,9 @@ defmodule Erga.Research do
 
   """
   def list_projects do
-    Repo.all(Project)
+    Project
+    |> Repo.all()
+    |> Repo.preload(:stakeholders)
   end
 
   @doc """
@@ -35,7 +37,10 @@ defmodule Erga.Research do
       ** (Ecto.NoResultsError)
 
   """
-  def get_project!(id), do: Repo.get!(Project, id)
+  def get_project!(id) do
+    Repo.get!(Project, id)
+    |> Repo.preload(:stakeholders)
+  end
 
 
   @doc """
@@ -61,6 +66,7 @@ defmodule Erga.Research do
   def create_project(attrs \\ %{}) do
     %Project{}
     |> Project.changeset(attrs)
+    |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
     |> Repo.insert()
   end
 
@@ -79,6 +85,7 @@ defmodule Erga.Research do
   def update_project(%Project{} = project, attrs) do
     project
     |> Project.changeset(attrs)
+    |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
     |> Repo.update()
   end
 
@@ -110,8 +117,6 @@ defmodule Erga.Research do
   def change_project(%Project{} = project, attrs \\ %{}) do
     Project.changeset(project, attrs)
   end
-
-  alias Erga.Research.LinkedResource
 
   @doc """
   Returns the list of linked_resources.
@@ -207,8 +212,6 @@ defmodule Erga.Research do
     LinkedResource.changeset(linked_resource, attrs)
   end
 
-  alias Erga.Research.Stakeholder
-
   @doc """
   Returns the list of stakeholders.
 
@@ -303,8 +306,6 @@ defmodule Erga.Research do
     Stakeholder.changeset(stakeholder, attrs)
   end
 
-  alias Erga.Research.Image
-
   @doc """
   Returns the list of images.
 
@@ -398,8 +399,6 @@ defmodule Erga.Research do
   def change_image(%Image{} = image, attrs \\ %{}) do
     Image.changeset(image, attrs)
   end
-
-  alias Erga.Research.TranslatedContent
 
   @doc """
   Returns the list of translated_contents.

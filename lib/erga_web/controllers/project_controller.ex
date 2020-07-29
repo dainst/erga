@@ -2,7 +2,7 @@ defmodule ErgaWeb.ProjectController do
   use ErgaWeb, :controller
 
   alias Erga.Research
-  alias Erga.Research.Project
+  alias Erga.Research.{Project, Stakeholder}
 
   def index(conn, _params) do
     projects = Research.list_projects()
@@ -10,7 +10,10 @@ defmodule ErgaWeb.ProjectController do
   end
 
   def new(conn, _params) do
-    changeset = Research.change_project(%Project{})
+    changeset =
+      Research.change_project(%Project{})
+      |> Ecto.Changeset.put_assoc(:stakeholders, [%Stakeholder{}])
+
     render(conn, "new.html", changeset: changeset)
   end
 

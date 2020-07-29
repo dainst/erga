@@ -4,7 +4,7 @@
 
   <li>
     <strong>Project:</strong>
-    <%= @project.project_id %>
+    <%= @project.project_code %>
   </li>
 
   <li>
@@ -15,6 +15,15 @@
   <li>
     <strong>Description:</strong>
     <%= @project.description %>
+  </li>
+
+  <li>
+  <strong>Stakeholders:</strong>
+    <ul>
+      <%= for stakeholder <- @project.stakeholders do %>
+        <li><%= stakeholder.label %> | <%= stakeholder.role %> | <%= stakeholder.type %> | <%= stakeholder.external_id %></li>
+      <% end %>
+    </ul>
   </li>
 
 </ul>

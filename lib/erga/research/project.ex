@@ -3,9 +3,13 @@ defmodule Erga.Research.Project do
   import Ecto.Changeset
 
   schema "projects" do
-    field :description, :string
-    field :project_id, :string
-    field :title, :string
+    field(:description, :string)
+    field(:project_code, :string)
+    field(:title, :string)
+
+    has_many(:stakeholders, Erga.Research.Stakeholder)
+    has_many(:linked_resources, Erga.Research.LinkedResource)
+    has_many(:images, Erga.Research.Image)
 
     timestamps()
   end
@@ -13,7 +17,8 @@ defmodule Erga.Research.Project do
   @doc false
   def changeset(project, attrs) do
     project
-    |> cast(attrs, [:project_id, :title, :description])
-    |> validate_required([:project_id, :title, :description])
+    |> cast(attrs, [:project_code, :title, :description])
+    |> validate_required([:project_code, :title, :description])
+    |> cast_assoc(:stakeholders, required: true)
   end
 end

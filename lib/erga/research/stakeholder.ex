@@ -3,11 +3,13 @@ defmodule Erga.Research.Stakeholder do
   import Ecto.Changeset
 
   schema "stakeholders" do
-    field :label, :string
-    field :project_id, :integer
-    field :role, :string
-    field :stakeholder_id, :string
-    field :type, :string
+    field(:label, :string)
+
+    field(:role, :string)
+    field(:type, :string)
+    field(:external_id, :string)
+
+    belongs_to(:project, Erga.Research.Project)
 
     timestamps()
   end
@@ -15,7 +17,8 @@ defmodule Erga.Research.Stakeholder do
   @doc false
   def changeset(stakeholder, attrs) do
     stakeholder
-    |> cast(attrs, [:project_id, :stakeholder_id, :label, :role, :type])
-    |> validate_required([:project_id, :stakeholder_id, :label, :role, :type])
+    |> cast(attrs, [:external_id, :label, :role, :type])
+    |> validate_required([:external_id, :label, :role, :type])
+    |> cast_assoc(:project)
   end
 end

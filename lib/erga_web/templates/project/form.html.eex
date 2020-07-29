@@ -5,9 +5,9 @@
     </div>
   <% end %>
 
-  <%= label f, :project_id %>
-  <%= text_input f, :project_id %>
-  <%= error_tag f, :project_id %>
+  <%= label f, :project_code %>
+  <%= text_input f, :project_code %>
+  <%= error_tag f, :project_code %>
 
   <%= label f, :title %>
   <%= text_input f, :title %>
@@ -16,6 +16,30 @@
   <%= label f, :description %>
   <%= textarea f, :description %>
   <%= error_tag f, :description %>
+
+  <div class="form-group">
+    <h2>Stakeholders:</h2>
+    <%= inputs_for f, :stakeholders, fn sf -> %>
+      <%= label sf, :label %>
+      <%= text_input sf, :label %>
+      <%= error_tag sf, :label %>
+
+      <%= label sf, :role %>
+      <%= text_input sf, :role %>
+      <%= error_tag sf, :role %>
+
+      <%= label sf, :type %>
+      <%= text_input sf, :type %>
+      <%= error_tag sf, :type %>
+
+      <%= label sf, :external_id %>
+      <%= text_input sf, :external_id %>
+      <%= error_tag sf, :external_id %>
+    <% end %>
+
+    <!-- TODO: Somehow add additional stakeholder changesets -->
+
+  </div>
 
   <div>
     <%= submit "Save" %>
