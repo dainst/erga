@@ -21,10 +21,12 @@
   <h2>Stakeholders</h2>
   <div>
     <%= for stakeholder <- @project.stakeholders do %>
+    <div>
         <%= stakeholder.label %>, <%= stakeholder.role %>,
         <%= stakeholder.type %>, <%= stakeholder.external_id %> |
         <%= link "edit", to: Routes.stakeholder_path(@conn, :edit, stakeholder.id) %> |
         <%= link "remove", to: Routes.stakeholder_path(@conn, :delete, stakeholder, @project.id), method: :delete, data: [confirm: "Are you sure?"] %>
+    </div>
     <% end %>
     <br/>
     <%= link "Add Stakeholder", to: Routes.stakeholder_path(@conn, :new, @project.id) %>
