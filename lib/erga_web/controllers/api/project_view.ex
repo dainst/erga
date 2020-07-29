@@ -10,10 +10,13 @@ defmodule ErgaWeb.Api.ProjectView do
   end
 
   def render("project.json", %{project: project}) do
-    %{project_id: project.project_id,
-        title: project.title,
-        description: project.description,
-      }
+    %{
+      id: project.id,
+      project_key: project.project_code,
+      title: project.title,
+      description: project.description,
+      inserted_at: project.inserted_at,
+      updated_at: project.updated_at
+    }
   end
-
 end
