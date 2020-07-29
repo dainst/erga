@@ -9,7 +9,7 @@
 
   <li>
     <strong>Stakeholder:</strong>
-    <%= @stakeholder.stakeholder_id %>
+    <%= @stakeholder.external_id %>
   </li>
 
   <li>

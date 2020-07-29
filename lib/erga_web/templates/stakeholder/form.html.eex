@@ -5,13 +5,7 @@
     </div>
   <% end %>
 
-  <%= label f, :project_id %>
-  <%= number_input f, :project_id %>
-  <%= error_tag f, :project_id %>
-
-  <%= label f, :stakeholder_id %>
-  <%= text_input f, :stakeholder_id %>
-  <%= error_tag f, :stakeholder_id %>
+  <%= hidden_input f, :project_id %>
 
   <%= label f, :label %>
   <%= text_input f, :label %>
@@ -24,6 +18,10 @@
   <%= label f, :type %>
   <%= text_input f, :type %>
   <%= error_tag f, :type %>
+
+  <%= label f, :external_id, "Identifier" %>
+  <%= text_input f, :external_id %>
+  <%= error_tag f, :external_id %>
 
   <div>
     <%= submit "Save" %>

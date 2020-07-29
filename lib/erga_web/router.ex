@@ -2,34 +2,36 @@ defmodule ErgaWeb.Router do
   use ErgaWeb, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_flash)
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   scope "/", ErgaWeb do
-    pipe_through :browser
+    pipe_through(:browser)
 
-    resources "/projects", ProjectController
-    resources "/stakeholders", StakeholderController
-    resources "/linked_resources", LinkedResourceController
-    resources "/images", ImageController
-    resources "/translated_contents", TranslatedContentController
+    resources("/projects", ProjectController)
+    delete("/stakeholders/:id/:project_id", StakeholderController, :delete)
+    get("/stakeholders/new/:project_id", StakeholderController, :new)
+    resources("/stakeholders", StakeholderController)
+    resources("/linked_resources", LinkedResourceController)
+    resources("/images", ImageController)
+    resources("/translated_contents", TranslatedContentController)
 
-    get "/", PageController, :index
+    get("/", PageController, :index)
   end
 
-  #Other scopes may use custom stacks.
+  # Other scopes may use custom stacks.
   scope "/api", ErgaWeb.Api, as: :api do
-    pipe_through :api
+    pipe_through(:api)
 
-    resources "/projects", ProjectController, only: [:show, :index]
+    resources("/projects", ProjectController, only: [:show, :index])
   end
 
   # Enables LiveDashboard only for development
@@ -43,8 +45,8 @@ defmodule ErgaWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :browser
-      live_dashboard "/dashboard", metrics: ErgaWeb.Telemetry
+      pipe_through(:browser)
+      live_dashboard("/dashboard", metrics: ErgaWeb.Telemetry)
     end
   end
 end

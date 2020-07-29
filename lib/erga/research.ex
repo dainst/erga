@@ -253,9 +253,12 @@ defmodule Erga.Research do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_stakeholder(attrs \\ %{}) do
+  def create_stakeholder(attrs = %{"project_id" => project_id}) do
+    project = get_project!(project_id)
+
     %Stakeholder{}
     |> Stakeholder.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:project, project)
     |> Repo.insert()
   end
 
@@ -304,6 +307,7 @@ defmodule Erga.Research do
   """
   def change_stakeholder(%Stakeholder{} = stakeholder, attrs \\ %{}) do
     Stakeholder.changeset(stakeholder, attrs)
+    |> Ecto.Changeset.cast_assoc(:project, with: &Project.changeset/2)
   end
 
   @doc """

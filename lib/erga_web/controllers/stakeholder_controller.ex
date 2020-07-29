@@ -9,8 +9,11 @@ defmodule ErgaWeb.StakeholderController do
     render(conn, "index.html", stakeholders: stakeholders)
   end
 
-  def new(conn, _params) do
-    changeset = Research.change_stakeholder(%Stakeholder{})
+  def new(conn, %{"project_id" => project_id}) do
+    changeset =
+      Research.change_stakeholder(%Stakeholder{})
+      |> Ecto.Changeset.put_change(:project_id, project_id)
+
     render(conn, "new.html", changeset: changeset)
   end
 
@@ -19,7 +22,7 @@ defmodule ErgaWeb.StakeholderController do
       {:ok, stakeholder} ->
         conn
         |> put_flash(:info, "Stakeholder created successfully.")
-        |> redirect(to: Routes.stakeholder_path(conn, :show, stakeholder))
+        |> redirect(to: Routes.project_path(conn, :edit, stakeholder.project_id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -44,11 +47,20 @@ defmodule ErgaWeb.StakeholderController do
       {:ok, stakeholder} ->
         conn
         |> put_flash(:info, "Stakeholder updated successfully.")
-        |> redirect(to: Routes.stakeholder_path(conn, :show, stakeholder))
+        |> redirect(to: Routes.project_path(conn, :edit, stakeholder.project_id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", stakeholder: stakeholder, changeset: changeset)
     end
+  end
+
+  def delete(conn, %{"id" => id, "project_id" => project_id}) do
+    stakeholder = Research.get_stakeholder!(id)
+    {:ok, _stakeholder} = Research.delete_stakeholder(stakeholder)
+
+    conn
+    |> put_flash(:info, "Stakeholder deleted successfully.")
+    |> redirect(to: Routes.project_path(conn, :edit, project_id))
   end
 
   def delete(conn, %{"id" => id}) do

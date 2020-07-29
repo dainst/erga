@@ -19,6 +19,6 @@ defmodule Erga.Research.Project do
     project
     |> cast(attrs, [:project_code, :title, :description])
     |> validate_required([:project_code, :title, :description])
-    |> cast_assoc(:stakeholders, required: true)
+    |> cast_assoc(:stakeholders)
   end
 end

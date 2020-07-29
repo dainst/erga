@@ -16,7 +16,7 @@
 <%= for stakeholder <- @stakeholders do %>
     <tr>
       <td><%= stakeholder.project_id %></td>
-      <td><%= stakeholder.stakeholder_id %></td>
+      <td><%= stakeholder.external_id %></td>
       <td><%= stakeholder.label %></td>
       <td><%= stakeholder.role %></td>
       <td><%= stakeholder.type %></td>
@@ -30,5 +30,3 @@
 <% end %>
   </tbody>
 </table>
-
-<span><%= link "New Stakeholder", to: Routes.stakeholder_path(@conn, :new) %></span>
