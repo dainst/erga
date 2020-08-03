@@ -9,8 +9,11 @@ defmodule ErgaWeb.LinkedResourceController do
     render(conn, "index.html", linked_resources: linked_resources)
   end
 
-  def new(conn, _params) do
-    changeset = Research.change_linked_resource(%LinkedResource{})
+  def new(conn, %{"project_id" => project_id}) do
+    changeset =
+      Research.change_linked_resource(%LinkedResource{})
+      |> Ecto.Changeset.put_change(:project_id, project_id)
+
     render(conn, "new.html", changeset: changeset)
   end
 
@@ -19,7 +22,7 @@ defmodule ErgaWeb.LinkedResourceController do
       {:ok, linked_resource} ->
         conn
         |> put_flash(:info, "Linked resource created successfully.")
-        |> redirect(to: Routes.linked_resource_path(conn, :show, linked_resource))
+        |> redirect(to: Routes.project_path(conn, :edit, linked_resource.project_id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -44,11 +47,20 @@ defmodule ErgaWeb.LinkedResourceController do
       {:ok, linked_resource} ->
         conn
         |> put_flash(:info, "Linked resource updated successfully.")
-        |> redirect(to: Routes.linked_resource_path(conn, :show, linked_resource))
+        |> redirect(to: Routes.project_path(conn, :edit, linked_resource.project_id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", linked_resource: linked_resource, changeset: changeset)
     end
+  end
+
+  def delete(conn, %{"id" => id, "project_id" => project_id}) do
+    stakeholder = Research.get_linked_resource!(id)
+    {:ok, _stakeholder} = Research.delete_linked_resource(stakeholder)
+
+    conn
+    |> put_flash(:info, "Linked resource deleted successfully.")
+    |> redirect(to: Routes.project_path(conn, :edit, project_id))
   end
 
   def delete(conn, %{"id" => id}) do

@@ -5,9 +5,15 @@
     </div>
   <% end %>
 
-  <%= label f, :project_id %>
-  <%= number_input f, :project_id %>
-  <%= error_tag f, :project_id %>
+  <%= hidden_input f, :project_id %>
+
+  <%= label f, :label %>
+  <%= text_input f, :label %>
+  <%= error_tag f, :label %>
+
+  <%= label f, :context %>
+  <%= text_input f, :context %>
+  <%= error_tag f, :context %>
 
   <%= label f, :linked_system %>
   <%= text_input f, :linked_system %>
@@ -16,14 +22,6 @@
   <%= label f, :linked_id %>
   <%= text_input f, :linked_id %>
   <%= error_tag f, :linked_id %>
-
-  <%= label f, :label %>
-  <%= number_input f, :label %>
-  <%= error_tag f, :label %>
-
-  <%= label f, :context %>
-  <%= number_input f, :context %>
-  <%= error_tag f, :context %>
 
   <div>
     <%= submit "Save" %>

@@ -21,6 +21,7 @@ defmodule Erga.Research do
     Project
     |> Repo.all()
     |> Repo.preload(:stakeholders)
+    |> Repo.preload(:linked_resources)
   end
 
   @doc """
@@ -40,15 +41,15 @@ defmodule Erga.Research do
   def get_project!(id) do
     Repo.get!(Project, id)
     |> Repo.preload(:stakeholders)
+    |> Repo.preload(:linked_resources)
   end
-
 
   @doc """
   returns a list of all projects that where updated x days ago
   """
   def update_days_ago(days_ago) do
     d = String.to_integer(days_ago)
-    Repo.all(from p in Project, where: p.updated_at >= ago(^d, "day") )
+    Repo.all(from(p in Project, where: p.updated_at >= ago(^d, "day")))
   end
 
   @doc """
@@ -67,6 +68,7 @@ defmodule Erga.Research do
     %Project{}
     |> Project.changeset(attrs)
     |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:linked_resources, with: &Stakeholder.changeset/2)
     |> Repo.insert()
   end
 
@@ -86,6 +88,7 @@ defmodule Erga.Research do
     project
     |> Project.changeset(attrs)
     |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:linked_resources, with: &Stakeholder.changeset/2)
     |> Repo.update()
   end
 
@@ -159,9 +162,12 @@ defmodule Erga.Research do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_linked_resource(attrs \\ %{}) do
+  def create_linked_resource(attrs = %{"project_id" => project_id}) do
+    project = get_project!(project_id)
+
     %LinkedResource{}
     |> LinkedResource.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:project, project)
     |> Repo.insert()
   end
 

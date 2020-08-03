@@ -31,6 +31,20 @@
     <br/>
     <%= link "Add Stakeholder", to: Routes.stakeholder_path(@conn, :new, @project.id) %>
   </div>
+
+  <h2>Linked resources</h2>
+  <div>
+    <%= for resource <- @project.linked_resources do %>
+    <div>
+        <%= resource.label %>, <%= resource.context %>,
+        <%= resource.linked_system %>, <%= resource.linked_id %> |
+        <%= link "edit", to: Routes.linked_resource_path(@conn, :edit, resource.id) %> |
+        <%= link "remove", to: Routes.linked_resource_path(@conn, :delete, resource, @project.id), method: :delete, data: [confirm: "Are you sure?"] %>
+    </div>
+    <% end %>
+    <br/>
+    <%= link "Add linked resource", to: Routes.linked_resource_path(@conn, :new, @project.id) %>
+  </div>
   <% end %>
 
   <div>

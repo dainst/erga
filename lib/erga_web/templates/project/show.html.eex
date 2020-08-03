@@ -26,6 +26,15 @@
     </ul>
   </li>
 
+  <li>
+  <strong>Linked resources:</strong>
+    <ul>
+      <%= for resource <- @project.linked_resources do %>
+        <li><%= resource.label %>, <%= resource.context %>: <%= resource.linked_id %> | <%= resource.linked_system %></li>
+      <% end %>
+    </ul>
+  </li>
+
 </ul>
 
 <span><%= link "Edit", to: Routes.project_path(@conn, :edit, @project) %></span>

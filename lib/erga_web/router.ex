@@ -17,8 +17,15 @@ defmodule ErgaWeb.Router do
     pipe_through(:browser)
 
     resources("/projects", ProjectController)
+
+    # TODO: Nötig? Man könnte den reroute auch darüber lösen dass man die id vorm löschen ausliest.
     delete("/stakeholders/:id/:project_id", StakeholderController, :delete)
     get("/stakeholders/new/:project_id", StakeholderController, :new)
+
+    # TODO: Nötig? Man könnte den reroute auch darüber lösen dass man die id vorm löschen ausliest.
+    delete("/linked_resources/:id/:project_id", LinkedResourceController, :delete)
+    get("/linked_resources/new/:project_id", LinkedResourceController, :new)
+
     resources("/stakeholders", StakeholderController)
     resources("/linked_resources", LinkedResourceController)
     resources("/images", ImageController)
