@@ -16,7 +16,8 @@ defmodule ErgaWeb.Api.ProjectView do
       title: project.title,
       description: project.description,
       inserted_at: project.inserted_at,
-      updated_at: project.updated_at
+      updated_at: project.updated_at,
+      stakeholders: render_many(project.stakeholders, ErgaWeb.Api.StakeholderView, "stakeholder.json")
     }
   end
 end
