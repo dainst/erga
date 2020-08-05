@@ -13,8 +13,8 @@ defmodule ErgaWeb.LinkedResourceLive.New do
       socket
       |> assign(changeset: changeset)
       |> assign(:linked_system, "none")
-      |> assign(:linked_val, "val")
-      |> assign(:search_result, "empty")
+      |> assign(:linked_val, "")
+      |> assign(:search_result, [])
     {:ok, socket}
   end
 
@@ -34,15 +34,15 @@ defmodule ErgaWeb.LinkedResourceLive.New do
     response = if String.length(val) > 1 do
                   GazetteerService.start()
                   res = GazetteerService.get!(val).body[:result]
-                  for  n <- res, do: n["prefName"]["title"]
+                  for  n <- res, do: n["prefName"]
                 else
-                  %{}
+                  []
                 end
 
     socket =
       socket
       |> assign(:linked_val, val)
-      |> assign(:search_result, Poison.encode!(response))
+      |> assign(:search_result, response)
 
     {:noreply, socket}
   end
