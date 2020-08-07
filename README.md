@@ -14,6 +14,11 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
+### Seeding
+run `mix run priv/repo/seeds.exs`
+
+This will delete all entries in the database and replace them with default ones.
+
 ## Troubleshooting
 
 ### MacOS
