@@ -9,7 +9,7 @@ defmodule ErgaWeb.Router do
     plug :fetch_live_flash
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
-    plug :put_root_layout, {ErgaWeb.LayoutView, :root}
+    plug :put_root_layout, {ErgaWeb.LayoutView, :app}
   end
 
   pipeline :api do
@@ -34,6 +34,8 @@ defmodule ErgaWeb.Router do
     live "/linked_resources/:id", LinkedResourceLive.Show
     live "/linked_resources/:id/edit", LinkedResourceLive.Edit
 
+    post "/linked_resources/new/:project_id", LinkedResourceController, :create
+    
     resources("/stakeholders", StakeholderController)
     #resources("/linked_resources", LinkedResourceController)
     resources("/images", ImageController)

@@ -14,7 +14,7 @@ defmodule ErgaWeb.LinkedResourceLive.Show do
 
       socket =
         socket
-        |> assign("linked_resource", linked_resource)
+        |> assign(:linked_resource, linked_resource)
 
       {:ok, socket}
     rescue Ecto.NoResultsError ->
@@ -28,8 +28,9 @@ defmodule ErgaWeb.LinkedResourceLive.Show do
   end
 
   # def handle_params(%{"id" => id}, _url, socket) do
-  #   if connected?(socket), do: Demo.Accounts.subscribe(id)
-  #   {:noreply, socket |> assign(id: id) |> fetch()}
+  #    if connected?(socket), do:
+  #
+  #    {:noreply, update(socket, :linked_resource, fn cur -> Research.get_linked_resource!(id) end )}
   # end
 
   # defp fetch(%Socket{assigns: %{id: id}} = socket) do

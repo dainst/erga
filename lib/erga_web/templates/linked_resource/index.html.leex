@@ -22,8 +22,8 @@
       <td><%= linked_resource.context %></td>
 
       <td>
-        <span><%= link "Show", to: Routes.live_path(@socket, LinkeResourcesLive.Show, linked_resource) %></span>
-        <span><%= link "Edit", to: Routes.live_path(@socket, LinkeResourcesLive.Edit, linked_resource) %></span>
+        <span><%= link "Show", to: Routes.live_path(@socket, ErgaWeb.LinkedResourceLive.Show, linked_resource) %></span>
+        <span><%= link "Edit", to: Routes.live_path(@socket, ErgaWeb.LinkedResourceLive.Edit, linked_resource) %></span>
         <span><%= link "Delete", to: "#", phx_click: "delete_resource", phx_value_id: linked_resource.id, data: [confirm: "Are you sure?"] %></span>
       </td>
     </tr>

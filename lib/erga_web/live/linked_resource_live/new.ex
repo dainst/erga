@@ -1,5 +1,6 @@
 defmodule ErgaWeb.LinkedResourceLive.New do
   use Phoenix.LiveView
+  require Logger
 
 
   alias ErgaWeb.LinkedResourceLive
@@ -7,13 +8,17 @@ defmodule ErgaWeb.LinkedResourceLive.New do
   alias Erga.Research
   alias Erga.Research.LinkedResource
 
-  def mount(_params, _session, socket) do
-    changeset = Research.change_linked_resource(%LinkedResource{})
+  def mount(%{"project_id" => project_id}, _session, socket) do
+    changeset =
+      Research.change_linked_resource(%LinkedResource{})
+      |> Ecto.Changeset.put_change(:project_id, project_id)
+
     socket =
       socket
       |> assign(changeset: changeset)
       |> assign(:linked_system, "none")
       |> assign(:linked_val, "")
+      |> assign(:linked_id, 0)
       |> assign(:search_result, [])
     {:ok, socket}
   end
@@ -29,31 +34,40 @@ defmodule ErgaWeb.LinkedResourceLive.New do
     {:noreply, assign(socket, changeset: changeset)}
   end
 
-  def handle_event("search_resource", %{"value" => val}, socket) do
+  def handle_event("choose_resource", %{"id" => id, "name" => name}, socket) do
+    socket =
+      socket
+      |> assign(:linked_val, name)
+      |> assign(:linked_id, id)
 
+    {:noreply, socket}
+  end
+
+  def handle_event("search_resource", %{"value" => val}, socket) do
+    # permit users to use wildcard on thier own
+    val = String.replace_trailing(val, "*", "")
+
+    # perform a search or return empty list
     response = if String.length(val) > 1 do
                   GazetteerService.start()
-                  res = GazetteerService.get!(val).body[:result]
-                  for  n <- res, do: n["prefName"]
+                  res = GazetteerService.get!(val <> "*").body[:result]
+
+                  for  n <- res, do: %{name: n["prefName"], resId: n["gazId"]}
                 else
                   []
                 end
 
-    socket =
-      socket
-      |> assign(:linked_val, val)
-      |> assign(:search_result, response)
-
-    {:noreply, socket}
+    # update socket
+    {:noreply, update(socket, :search_result, fn res -> response end)}
   end
 
   def handle_event("save", %{"linked_resource" => linked_resource_params}, socket) do
     case Research.create_linked_resource(linked_resource_params) do
       {:ok, linked_resource} ->
-        {:stop,
+        {:noreply,
          socket
          |> put_flash(:info, "Linked resource created successfully.")
-         |> redirect(to: Routes.live_path(socket, LinkedResourceLive.Show, linked_resource))}
+         |> redirect(to: Routes.live_path(socket, ErgaWeb.LinkedResourceLive.Show, linked_resource))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
