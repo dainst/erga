@@ -1,9 +1,4 @@
 <%= f = form_for @changeset, "#", [phx_change: :validate, phx_submit: :save] %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
-    </div>
-  <% end %>
 
   <%= hidden_input f, :project_id %>
 
@@ -24,7 +19,7 @@
   <%= hidden_input f, :linked_id, value: @linked_id %>
   <%= error_tag f, :linked_id %>
   <div>
-    <%= submit "Save" %>
+    <%= submit "Save", disabled: !@changeset.valid? %>
   </div>
 </form>
 <%= unless @search_result == [] do %>

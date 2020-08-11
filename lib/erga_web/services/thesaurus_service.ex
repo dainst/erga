@@ -1,4 +1,4 @@
-defmodule GazetteerService do
+defmodule ThesaurusService do
   use HTTPoison.Base
 
 

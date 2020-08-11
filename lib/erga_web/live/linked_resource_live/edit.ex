@@ -1,4 +1,4 @@
-defmodule ErgaWeb.LinkedResourceLive.New do
+defmodule ErgaWeb.LinkedResourceLive.Edit do
   use Phoenix.LiveView
   require Logger
 
@@ -8,22 +8,31 @@ defmodule ErgaWeb.LinkedResourceLive.New do
   alias Erga.Research
   alias Erga.Research.LinkedResource
 
-  def mount(%{"project_id" => project_id}, _session, socket) do
-    changeset =
-      Research.change_linked_resource(%LinkedResource{})
-      |> Ecto.Changeset.put_change(:project_id, project_id)
-
+  def mount(%{"id" => id}, _session, socket) do
+    linked_resource = Research.get_linked_resource!(id)
+    changeset = Research.change_linked_resource(linked_resource)
+    linked_val = loading_choosen_resource(linked_resource.linked_id, linked_resource.linked_system).name["title"]
     socket =
       socket
       |> assign(changeset: changeset)
       |> assign(:linked_system, "none")
-      |> assign(:linked_val, "")
+      |> assign(:linked_val, linked_val)
       |> assign(:linked_id, 0)
       |> assign(:search_result, [])
     {:ok, socket}
   end
 
-  def render(assigns), do: Phoenix.View.render(ErgaWeb.LinkedResourceView, "new.html", assigns)
+  defp loading_choosen_resource(resId, system_name) do
+    system_service =
+      case String.downcase(system_name) do
+        "gazetteer" -> GazetteerService
+        _ -> raise "no matching linked system"
+      end
+
+    system_service.get_by_id(resId)
+  end
+
+  def render(assigns), do: Phoenix.View.render(ErgaWeb.LinkedResourceView, "edit.html", assigns)
 
   def handle_event("validate", %{"linked_resource" => linked_resource_params}, socket) do
     changeset =
@@ -49,7 +58,10 @@ defmodule ErgaWeb.LinkedResourceLive.New do
 
     # perform a search or return empty list
     response = if String.length(val) > 1 do
-                  GazetteerService.get_list(val)
+                  GazetteerService.start()
+                  res = GazetteerService.get!(val <> "*").body[:result]
+
+                  for  n <- res, do: %{name: n["prefName"], resId: n["gazId"]}
                 else
                   []
                 end

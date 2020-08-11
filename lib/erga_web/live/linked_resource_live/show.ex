@@ -27,24 +27,15 @@ defmodule ErgaWeb.LinkedResourceLive.Show do
 
   end
 
-  # def handle_params(%{"id" => id}, _url, socket) do
-  #    if connected?(socket), do:
-  #
-  #    {:noreply, update(socket, :linked_resource, fn cur -> Research.get_linked_resource!(id) end )}
-  # end
+  def get_resource_name(resId, system_name) do
+    system_service =
+      case String.downcase(system_name) do
+        "gazetteer" -> GazetteerService
+        _ -> raise "no matching linked system"
+      end
 
-  # defp fetch(%Socket{assigns: %{id: id}} = socket) do
-  #   assign(socket, user: Accounts.get_user!(id))
-  # end
+    system_service.get_by_id(resId).name["title"]
+  end
 
-  # def handle_info({Accounts, [:user, :updated], _}, socket) do
-  #   {:noreply, fetch(socket)}
-  # end
 
-  # def handle_info({Accounts, [:user, :deleted], _}, socket) do
-  #   {:stop,
-  #    socket
-  #    |> put_flash(:error, "This user has been deleted from the system")
-  #    |> redirect(to: Routes.live_path(socket, UserLive.Index))}
-  # end
 end
