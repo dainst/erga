@@ -2,11 +2,11 @@ defmodule ErgaWeb.LinkedResourceLive.New do
   use Phoenix.LiveView
   require Logger
 
-
   alias ErgaWeb.LinkedResourceLive
   alias ErgaWeb.Router.Helpers, as: Routes
   alias Erga.Research
   alias Erga.Research.LinkedResource
+
 
   def mount(%{"project_id" => project_id}, _session, socket) do
     changeset =
@@ -16,7 +16,7 @@ defmodule ErgaWeb.LinkedResourceLive.New do
     socket =
       socket
       |> assign(changeset: changeset)
-      |> assign(:linked_system, "none")
+      |> assign(:linked_system, "gazetteer")
       |> assign(:linked_val, "")
       |> assign(:linked_id, 0)
       |> assign(:search_result, [])
@@ -31,7 +31,20 @@ defmodule ErgaWeb.LinkedResourceLive.New do
       |> Erga.Research.change_linked_resource(linked_resource_params)
       |> Map.put(:action, :insert)
 
+    socket =
+      socket
+      |> assign(changeset: changeset)
+      |> assign(:linked_system, linked_resource_params["linked_system"])
+
     {:noreply, assign(socket, changeset: changeset)}
+  end
+
+  defp get_system_service(system_name) do
+      case String.downcase(system_name) do
+        "gazetteer" -> GazetteerService
+        "chrontology" -> ChrontologyService
+        _ -> raise "no matching linked system"
+      end
   end
 
   def handle_event("choose_resource", %{"id" => id, "name" => name}, socket) do
@@ -44,12 +57,15 @@ defmodule ErgaWeb.LinkedResourceLive.New do
   end
 
   def handle_event("search_resource", %{"value" => val}, socket) do
+
+    service = get_system_service(socket.assigns.linked_system)
+
     # permit users to use wildcard on thier own
     val = String.replace_trailing(val, "*", "")
 
     # perform a search or return empty list
     response = if String.length(val) > 1 do
-                  GazetteerService.get_list(val)
+                  service.get_list(val)
                 else
                   []
                 end

@@ -10,7 +10,7 @@ defmodule GazetteerService do
       |> Poison.decode!
       |> Map.get("result")
 
-    for  n <- res, do: %{name: n["prefName"], resId: n["gazId"]}
+    get_result_list(res)
   end
 
   def get_by_id(id) do
@@ -21,12 +21,15 @@ defmodule GazetteerService do
         |> Poison.decode!
         |> Map.get("result")
 
-      res = for n <- res, do: %{name: n["prefName"], resId: n["gazId"]}
-      List.first(res)
+      List.first(get_result_list(res))
     else
       raise(ArgumentError, message: "id not a number: " <> to_string(id))
     end
 
+  end
+
+  defp get_result_list(res) do
+    for n <- res, do: %{name: n["prefName"]["title"], resId: n["gazId"]}
   end
 
 

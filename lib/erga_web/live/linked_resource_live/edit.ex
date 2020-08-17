@@ -11,7 +11,7 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
   def mount(%{"id" => id}, _session, socket) do
     linked_resource = Research.get_linked_resource!(id)
     changeset = Research.change_linked_resource(linked_resource)
-    linked_val = loading_choosen_resource(linked_resource.linked_id, linked_resource.linked_system).name["title"]
+    linked_val = loading_choosen_resource(linked_resource.linked_id, linked_resource.linked_system).name
     socket =
       socket
       |> assign(changeset: changeset)
@@ -23,13 +23,16 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
   end
 
   defp loading_choosen_resource(resId, system_name) do
-    system_service =
+    system_service = get_system_service(system_name)
+    system_service.get_by_id(resId)
+  end
+
+  defp get_system_service(system_name) do
       case String.downcase(system_name) do
         "gazetteer" -> GazetteerService
+        "chrontology" -> ChrontologyService
         _ -> raise "no matching linked system"
       end
-
-    system_service.get_by_id(resId)
   end
 
   def render(assigns), do: Phoenix.View.render(ErgaWeb.LinkedResourceView, "edit.html", assigns)
@@ -53,15 +56,14 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
   end
 
   def handle_event("search_resource", %{"value" => val}, socket) do
+    service = get_system_service(socket.assigns.linked_system)
+
     # permit users to use wildcard on thier own
     val = String.replace_trailing(val, "*", "")
 
     # perform a search or return empty list
     response = if String.length(val) > 1 do
-                  GazetteerService.start()
-                  res = GazetteerService.get!(val <> "*").body[:result]
-
-                  for  n <- res, do: %{name: n["prefName"], resId: n["gazId"]}
+                  service.get_list(val)
                 else
                   []
                 end
