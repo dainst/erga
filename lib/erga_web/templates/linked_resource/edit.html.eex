@@ -1,5 +1,0 @@
-<h1>Edit Linked resource</h1>
-
-<%= render "form.html", Map.put(assigns, :action, Routes.linked_resource_path(@conn, :update, @linked_resource)) %>
-
-<span><%= link "Back", to: Routes.linked_resource_path(@conn, :index) %></span>

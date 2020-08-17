@@ -29,5 +29,5 @@
 
 </ul>
 
-<span><%= link "Edit", to: Routes.linked_resource_path(@conn, :edit, @linked_resource) %></span>
-<span><%= link "Back", to: Routes.linked_resource_path(@conn, :index) %></span>
+<span><%= link "Edit", to: Routes.live_path(@socket, LinkedResourceLive.Edit, @linked_resource) %></span>
+<span><%= link "Back", to: Routes.live_path(@socket, LinkedResourceLive.Index) %></span>

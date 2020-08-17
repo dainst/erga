@@ -1,12 +1,15 @@
 defmodule ErgaWeb.Router do
   use ErgaWeb, :router
 
+  import Phoenix.LiveView.Router
+
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
-    plug(:fetch_flash)
+    plug :fetch_live_flash
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+    plug :put_root_layout, {ErgaWeb.LayoutView, :app}
   end
 
   pipeline :api do
@@ -23,11 +26,18 @@ defmodule ErgaWeb.Router do
     get("/stakeholders/new/:project_id", StakeholderController, :new)
 
     # TODO: Nötig? Man könnte den reroute auch darüber lösen dass man die id vorm löschen ausliest.
-    delete("/linked_resources/:id/:project_id", LinkedResourceController, :delete)
-    get("/linked_resources/new/:project_id", LinkedResourceController, :new)
+    #delete("/linked_resources/:id/:project_id", LinkedResourceController, :delete)
+    #get("/linked_resources/new/:project_id", LinkedResourceController, :new)
 
+    live "/linked_resources/new/:project_id", LinkedResourceLive.New
+    live "/linked_resources", LinkedResourceLive.Index
+    live "/linked_resources/:id", LinkedResourceLive.Show
+    live "/linked_resources/:id/edit", LinkedResourceLive.Edit
+
+    post "/linked_resources/new/:project_id", LinkedResourceController, :create
+    
     resources("/stakeholders", StakeholderController)
-    resources("/linked_resources", LinkedResourceController)
+    #resources("/linked_resources", LinkedResourceController)
     resources("/images", ImageController)
     resources("/translated_contents", TranslatedContentController)
 
