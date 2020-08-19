@@ -32,3 +32,4 @@ If the compilation went wrong try this comand to clean your installation ` mix d
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+  * LiveView Examples: https://github.com/chrismccord/phoenix_live_view_example
