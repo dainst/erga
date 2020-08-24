@@ -1,5 +1,11 @@
 <h1>Listing Linked resources</h1>
-
+<%= f = form_for :foo, "#", [phx_change: :load_resources] %>
+  <%= label f, :project %>
+  <%= select f, :project, @project_list, selected: @project %>
+</form>
+<%= if @project != "0" do %>
+  <%= link "New", to: Routes.live_path(@socket, ErgaWeb.LinkedResourceLive.New, @project) %>
+<% end %>
 <table>
   <thead>
     <tr>

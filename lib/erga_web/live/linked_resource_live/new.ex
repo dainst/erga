@@ -25,27 +25,14 @@ defmodule ErgaWeb.LinkedResourceLive.New do
 
   def render(assigns), do: Phoenix.View.render(ErgaWeb.LinkedResourceView, "new.html", assigns)
 
+  @spec handle_event(<<_::32, _::_*8>>, map, %{
+          __struct__: Phoenix.LiveView.Socket | Phoenix.Socket
+        }) :: {:noreply, any}
   def handle_event("validate", %{"linked_resource" => linked_resource_params}, socket) do
-    changeset =
-      %LinkedResource{}
-      |> Erga.Research.change_linked_resource(linked_resource_params)
-      |> Map.put(:action, :insert)
-
-    socket =
-      socket
-      |> assign(changeset: changeset)
-      |> assign(:linked_system, linked_resource_params["linked_system"])
-
-    {:noreply, assign(socket, changeset: changeset)}
+    socket = EventHandler.validate(linked_resource_params, socket)
+    {:noreply, socket}
   end
 
-  defp get_system_service(system_name) do
-      case String.downcase(system_name) do
-        "gazetteer" -> GazetteerService
-        "chrontology" -> ChrontologyService
-        _ -> raise "no matching linked system"
-      end
-  end
 
   def handle_event("choose_resource", %{"id" => id, "name" => name}, socket) do
     socket =
@@ -58,7 +45,7 @@ defmodule ErgaWeb.LinkedResourceLive.New do
 
   def handle_event("search_resource", %{"value" => val}, socket) do
 
-    service = get_system_service(socket.assigns.linked_system)
+    service = ServiceHelpers.get_system_service(socket.assigns.linked_system)
 
     # permit users to use wildcard on thier own
     val = String.replace_trailing(val, "*", "")

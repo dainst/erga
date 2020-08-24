@@ -9,7 +9,7 @@ defmodule ChrontologyService do
       HTTPoison.get!(@base_url <> "?q=" <> val <> "*" ).body
       |> Poison.decode!
       |> Map.get("results")
-
+    IO.inspect(res)
     get_result_list(res)
   end
 
@@ -25,7 +25,15 @@ defmodule ChrontologyService do
   end
 
   defp get_result_list(res) do
-    for  n <- res, do: %{name: Enum.join(n["resource"]["names"]["de"], ", "), resId: n["resource"]["id"]}
+    if is_list(res) do
+      for  n <- res do
+        names = if n["resource"]["names"]["de"], do: Enum.join( n["resource"]["names"]["de"], ", "), else: ""
+        %{name: names, resId: n["resource"]["id"]}
+      end
+    else
+      []
+    end
+
   end
 
 
