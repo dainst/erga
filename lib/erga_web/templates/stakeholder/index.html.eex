@@ -5,7 +5,7 @@
     <tr>
       <th>Project</th>
       <th>Stakeholder</th>
-      <th>Label</th>
+      <th>Person Id</th>
       <th>Role</th>
       <th>Type</th>
 
@@ -17,7 +17,7 @@
     <tr>
       <td><%= stakeholder.project_id %></td>
       <td><%= stakeholder.external_id %></td>
-      <td><%= stakeholder.label %></td>
+      <td><%= stakeholder.person_id %></td>
       <td><%= stakeholder.role %></td>
       <td><%= stakeholder.type %></td>
 

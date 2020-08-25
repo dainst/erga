@@ -3,6 +3,8 @@ defmodule ErgaWeb.StakeholderController do
 
   alias Erga.Research
   alias Erga.Research.Stakeholder
+  alias Erga.Staff.Person
+  alias Erga.Staff
 
   def index(conn, _params) do
     stakeholders = Research.list_stakeholders()
@@ -13,8 +15,8 @@ defmodule ErgaWeb.StakeholderController do
     changeset =
       Research.change_stakeholder(%Stakeholder{})
       |> Ecto.Changeset.put_change(:project_id, project_id)
-
-    render(conn, "new.html", changeset: changeset)
+    persons = Staff.list_persons()
+    render(conn, "new.html", changeset: changeset, persons: persons)
   end
 
   def create(conn, %{"stakeholder" => stakeholder_params}) do
@@ -37,7 +39,8 @@ defmodule ErgaWeb.StakeholderController do
   def edit(conn, %{"id" => id}) do
     stakeholder = Research.get_stakeholder!(id)
     changeset = Research.change_stakeholder(stakeholder)
-    render(conn, "edit.html", stakeholder: stakeholder, changeset: changeset)
+    persons = Staff.list_persons()
+    render(conn, "edit.html", stakeholder: stakeholder, changeset: changeset, persons: persons)
   end
 
   def update(conn, %{"id" => id, "stakeholder" => stakeholder_params}) do

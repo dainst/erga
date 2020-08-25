@@ -13,8 +13,8 @@
   </li>
 
   <li>
-    <strong>Label:</strong>
-    <%= @stakeholder.label %>
+    <strong>PersonId:</strong>
+    <%= @stakeholder.person_id %>
   </li>
 
   <li>

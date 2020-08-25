@@ -136,9 +136,9 @@ defmodule Erga.ResearchTest do
   describe "stakeholders" do
     alias Erga.Research.Stakeholder
 
-    @valid_attrs %{label: "some label", project_id: 42, role: "some role", stakeholder_id: "some stakeholder_id", type: "some type"}
-    @update_attrs %{label: "some updated label", project_id: 43, role: "some updated role", stakeholder_id: "some updated stakeholder_id", type: "some updated type"}
-    @invalid_attrs %{label: nil, project_id: nil, role: nil, stakeholder_id: nil, type: nil}
+    @valid_attrs %{person_id: 1, project_id: 42, role: "some role", stakeholder_id: "some stakeholder_id", type: "some type"}
+    @update_attrs %{person_id: 2, project_id: 43, role: "some updated role", stakeholder_id: "some updated stakeholder_id", type: "some updated type"}
+    @invalid_attrs %{person_id: nil, project_id: nil, role: nil, stakeholder_id: nil, type: nil}
 
     def stakeholder_fixture(attrs \\ %{}) do
       {:ok, stakeholder} =
@@ -161,7 +161,7 @@ defmodule Erga.ResearchTest do
 
     test "create_stakeholder/1 with valid data creates a stakeholder" do
       assert {:ok, %Stakeholder{} = stakeholder} = Research.create_stakeholder(@valid_attrs)
-      assert stakeholder.label == "some label"
+      assert stakeholder.person_id == 1
       assert stakeholder.project_id == 42
       assert stakeholder.role == "some role"
       assert stakeholder.stakeholder_id == "some stakeholder_id"
@@ -175,7 +175,7 @@ defmodule Erga.ResearchTest do
     test "update_stakeholder/2 with valid data updates the stakeholder" do
       stakeholder = stakeholder_fixture()
       assert {:ok, %Stakeholder{} = stakeholder} = Research.update_stakeholder(stakeholder, @update_attrs)
-      assert stakeholder.label == "some updated label"
+      assert stakeholder.person_id == 2
       assert stakeholder.project_id == 43
       assert stakeholder.role == "some updated role"
       assert stakeholder.stakeholder_id == "some updated stakeholder_id"

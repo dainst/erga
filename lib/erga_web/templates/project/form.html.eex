@@ -22,7 +22,7 @@
   <div>
     <%= for stakeholder <- @project.stakeholders do %>
     <div>
-        <%= stakeholder.label %>, <%= stakeholder.role %>,
+        <%= stakeholder.person_id %>, <%= stakeholder.role %>,
         <%= stakeholder.type %>, <%= stakeholder.external_id %> |
         <%= link "edit", to: Routes.stakeholder_path(@conn, :edit, stakeholder.id) %> |
         <%= link "remove", to: Routes.stakeholder_path(@conn, :delete, stakeholder, @project.id), method: :delete, data: [confirm: "Are you sure?"] %>
@@ -38,12 +38,12 @@
     <div>
         <%= resource.label %>, <%= resource.context %>,
         <%= resource.linked_system %>, <%= resource.linked_id %> |
-        <%= link "edit", to: Routes.linked_resource_path(@conn, :edit, resource.id) %> |
-        <%= link "remove", to: Routes.linked_resource_path(@conn, :delete, resource, @project.id), method: :delete, data: [confirm: "Are you sure?"] %>
+        <%= link "edit", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Edit, resource.id) %> |
+        <%= #link "remove", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Index, resource), phx_click: "delete_resource", phx_value_id: resource.id, data: [confirm: "Are you sure?"] %>
     </div>
     <% end %>
     <br/>
-    <%= link "Add linked resource", to: Routes.linked_resource_path(@conn, :new, @project.id) %>
+    <%= link "Add linked resource", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.New, @project.id) %>
   </div>
   <% end %>
 

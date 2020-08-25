@@ -6,7 +6,7 @@ defmodule ErgaWeb.Api.StakeholderView do
       #id: stakeholder.id,
       type: stakeholder.type,
       title: stakeholder.role,
-      label: stakeholder.label
+      label: stakeholder.person_id
     }
   end
 end
