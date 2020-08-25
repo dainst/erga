@@ -34,8 +34,15 @@ defmodule ErgaWeb.Router do
     live "/linked_resources/:id", LinkedResourceLive.Show
     live "/linked_resources/:id/edit", LinkedResourceLive.Edit
 
+    live "/persons", PersonLive.Index, :index
+    live "/persons/new", PersonLive.Index, :new
+    live "/persons/:id/edit", PersonLive.Index, :edit
+
+    live "/persons/:id", PersonLive.Show, :show
+    live "/persons/:id/show/edit", PersonLive.Show, :edit
+
     post "/linked_resources/new/:project_id", LinkedResourceController, :create
-    
+
     resources("/stakeholders", StakeholderController)
     #resources("/linked_resources", LinkedResourceController)
     resources("/images", ImageController)

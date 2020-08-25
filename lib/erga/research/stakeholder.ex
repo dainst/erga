@@ -10,6 +10,7 @@ defmodule Erga.Research.Stakeholder do
     field(:external_id, :string)
 
     belongs_to(:project, Erga.Research.Project)
+    belongs_to(:person, Erga.Staff.Person)
 
     timestamps()
   end
