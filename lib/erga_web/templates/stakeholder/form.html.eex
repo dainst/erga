@@ -11,6 +11,8 @@
   <%= select f, :person_id, Enum.map(@persons, &{&1.title <> " " <> &1.firstname <> " " <> &1.lastname, &1.id}), prompt: "Bitte wählen"%>
   <%= error_tag f, :person_id %>
 
+  <%= link "New Person", to: "/persons/new" %>
+
   <%= label f, :role %>
   <%= text_input f, :role %>
   <%= error_tag f, :role %>
