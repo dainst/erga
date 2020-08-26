@@ -40,7 +40,7 @@ defmodule Erga.Research do
   """
   def get_project!(id) do
     Repo.get!(Project, id)
-    |> Repo.preload(:stakeholders)
+    |> Repo.preload([stakeholders: :person])
     |> Repo.preload(:linked_resources)
   end
 
@@ -229,6 +229,8 @@ defmodule Erga.Research do
   """
   def list_stakeholders do
     Repo.all(Stakeholder)
+    |> Repo.preload(:project)
+    |> Repo.preload(:person)
   end
 
   @doc """
@@ -245,7 +247,11 @@ defmodule Erga.Research do
       ** (Ecto.NoResultsError)
 
   """
-  def get_stakeholder!(id), do: Repo.get!(Stakeholder, id)
+  def get_stakeholder!(id) do
+    Repo.get!(Stakeholder, id)
+    |> Repo.preload(:project)
+    |> Repo.preload(:person)
+  end
 
   @doc """
   Creates a stakeholder.

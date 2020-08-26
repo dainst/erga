@@ -16,8 +16,8 @@ defmodule Erga.Research.Stakeholder do
   @doc false
   def changeset(stakeholder, attrs) do
     stakeholder
-    |> cast(attrs, [:external_id, :role, :type])
-    |> validate_required([:external_id, :role, :type])
+    |> cast(attrs, [:external_id, :role, :type, :person_id])
     |> cast_assoc(:project)
+    |> validate_required([:external_id, :role, :type])
   end
 end

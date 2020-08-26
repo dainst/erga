@@ -20,6 +20,7 @@ defmodule ErgaWeb.StakeholderController do
   end
 
   def create(conn, %{"stakeholder" => stakeholder_params}) do
+    IO.inspect(stakeholder_params)
     case Research.create_stakeholder(stakeholder_params) do
       {:ok, stakeholder} ->
         conn

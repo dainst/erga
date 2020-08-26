@@ -11,32 +11,38 @@
 # and so on) as they will fail if something goes wrong.
 
 alias Erga.Research.Stakeholder
+alias Erga.Staff.Person
 alias Erga.Research.Project
 
 Erga.Repo.delete_all Project
 Erga.Repo.delete_all Stakeholder
 
+Erga.Repo.insert!(%Person{
+  firstname: "Theodor",
+  lastname: "Wiegand",
+  title: "Prof. Dr."
+})
 
-Erga.Repo.insert! %Stakeholder{
-  label: "test_stakeholder_label",
-  role: "test_stakeholder_role",
-  type: "test_stakeholder_type",
-  external_id: "test_stakeholder_id_1"
-}
+Erga.Repo.insert!(%Person{
+  firstname: "Hansi",
+  lastname: "Flick",
+  title: "Cand. phil"
+})
+
 Erga.Repo.insert! %Project{
-  description: "test",
-  project_code: "test_code",
-  title: "test_title",
+  description: "This is a very informativ project description.",
+  project_code: "1234_PROJ_DAI",
+  title: "Great digging project",
   stakeholders: [%Stakeholder{
-    label: "test_label1",
-    role: "test_role",
-    type: "test_type",
-    external_id: "test_id_1"
+    role: "chef role",
+    type: "what was type for?",
+    external_id: "no clue what the external id was about",
+    person_id: 1
   },
     %Stakeholder{
-      label: "test_label2",
-      role: "test_role",
-      type: "test_type",
-      external_id: "test_id_2"
+      role: "intern",
+      type: "lazy",
+      external_id: "not needed",
+      person_id: 2
     }]
 }

@@ -21,7 +21,7 @@
   <strong>Stakeholders:</strong>
     <ul>
       <%= for stakeholder <- @project.stakeholders do %>
-        <li><%= stakeholder.person_id %> | <%= stakeholder.role %> | <%= stakeholder.type %> | <%= stakeholder.external_id %></li>
+        <li><%= stakeholder.person.title <> " " <> stakeholder.person.lastname %> | <%= stakeholder.role %> | <%= stakeholder.type %> | <%= stakeholder.external_id %></li>
       <% end %>
     </ul>
   </li>
