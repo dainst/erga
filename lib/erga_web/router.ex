@@ -9,7 +9,7 @@ defmodule ErgaWeb.Router do
     plug :fetch_live_flash
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
-    plug :put_root_layout, {ErgaWeb.LayoutView, :app}
+    plug :put_root_layout, {ErgaWeb.LayoutView, :root}
   end
 
   pipeline :api do

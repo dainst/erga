@@ -1,5 +1,5 @@
 defmodule ErgaWeb.PersonLive.Show do
-  use Phoenix.LiveView
+  use ErgaWeb, :live_view
   import ErgaWeb.LiveHelpers
   alias ErgaWeb.Router.Helpers, as: Routes
   alias Erga.Staff

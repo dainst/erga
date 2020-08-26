@@ -1,5 +1,5 @@
 defmodule ErgaWeb.LinkedResourceLive.Show do
-  use Phoenix.LiveView
+  use ErgaWeb, :live_view
   use Phoenix.HTML
 
   alias Erga.Research

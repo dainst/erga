@@ -1,5 +1,5 @@
 defmodule ErgaWeb.PersonLive.Index do
-  use Phoenix.LiveView
+  use ErgaWeb, :live_view
   import Phoenix.HTML.Link
   import ErgaWeb.LiveHelpers
 

@@ -1,5 +1,5 @@
 defmodule ErgaWeb.LinkedResourceLive.New do
-  use Phoenix.LiveView
+  use ErgaWeb, :live_view
   require Logger
 
   alias ErgaWeb.LinkedResourceLive

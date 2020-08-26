@@ -1,7 +1,7 @@
 
 
 defmodule ErgaWeb.LinkedResourceLive.Search do
-  use Phoenix.LiveView
+  use ErgaWeb, :live_view
   use Phoenix.HTML
 
   def render(assigns) do
@@ -20,5 +20,5 @@ defmodule ErgaWeb.LinkedResourceLive.Search do
   end
 
 
-  
+
 end

@@ -38,9 +38,26 @@ defmodule ErgaWeb do
       import Phoenix.Controller,
         only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
 
-      import Phoenix.LiveView.Helpers
-      import ErgaWeb.LiveHelpers
+
       # Include shared imports and aliases for views
+      unquote(view_helpers())
+    end
+  end
+
+  def live_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {ErgaWeb.LayoutView, "live.html"}
+
+      unquote(view_helpers())
+    end
+  end
+
+  @spec live_component :: {:__block__, [], [{:__block__, [], [...]} | {:use, [...], [...]}, ...]}
+  def live_component do
+    quote do
+      use Phoenix.LiveComponent
+
       unquote(view_helpers())
     end
   end
@@ -66,6 +83,10 @@ defmodule ErgaWeb do
     quote do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
+
+      # import helpers for live view
+      import Phoenix.LiveView.Helpers
+      import ErgaWeb.LiveHelpers
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
