@@ -48,7 +48,9 @@ defmodule Erga.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:httpoison, "~> 1.6"},
-      {:poison, "~> 3.1"}
+      {:poison, "~> 3.1"},
+      {:sparql_client, "~> 0.2.1"},
+      {:hackney, "~> 1.6"}
     ]
   end
 

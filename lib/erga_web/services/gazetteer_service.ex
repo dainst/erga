@@ -6,7 +6,7 @@ defmodule GazetteerService do
   def get_list(val) do
     HTTPoison.start
     res =
-      HTTPoison.get!(@base_url <> val <> "*" <> "&sort=prefName.title.sort&offset=0&limit=10").body
+      HTTPoison.get!(@base_url <> val <> "*" <> "&offset=0&limit=10").body
       |> Poison.decode!
       |> Map.get("result")
 
