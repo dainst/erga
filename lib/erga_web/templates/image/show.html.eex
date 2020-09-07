@@ -4,7 +4,7 @@
 
   <li>
     <strong>Project:</strong>
-    <%= @image.project_id %>
+    <%= link @project.title, to: Routes.project_path(@conn, :show, @project) %>
   </li>
 
   <li>

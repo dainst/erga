@@ -52,7 +52,8 @@ defmodule ErgaWeb.ImageController do
 
   def show(conn, %{"id" => id}) do
     image = Research.get_image!(id)
-    render(conn, "show.html", image: image)
+    project = Research.get_project!(image.project_id)
+    render(conn, "show.html", image: image, project: project)
   end
 
   def edit(conn, %{"id" => id}) do
