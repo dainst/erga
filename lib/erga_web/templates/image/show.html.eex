@@ -15,6 +15,7 @@
   <li>
     <strong>Path:</strong>
     <%= @image.path %>
+    <%= img_tag("/media/#{@image.path}", class: "image") %>
   </li>
 
 </ul>

@@ -22,6 +22,7 @@ defmodule Erga.Research do
     |> Repo.all()
     |> Repo.preload(:stakeholders)
     |> Repo.preload(:linked_resources)
+    |> Repo.preload(:images)
   end
 
   @doc """
@@ -40,8 +41,9 @@ defmodule Erga.Research do
   """
   def get_project!(id) do
     Repo.get!(Project, id)
-    |> Repo.preload([stakeholders: :person])
+    |> Repo.preload(stakeholders: :person)
     |> Repo.preload(:linked_resources)
+    |> Repo.preload(:images)
   end
 
   @doc """
@@ -68,7 +70,8 @@ defmodule Erga.Research do
     %Project{}
     |> Project.changeset(attrs)
     |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
-    |> Ecto.Changeset.cast_assoc(:linked_resources, with: &Stakeholder.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:linked_resources, with: &LinkedResource.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:images, with: &Image.changeset/2)
     |> Repo.insert()
   end
 
@@ -88,7 +91,8 @@ defmodule Erga.Research do
     project
     |> Project.changeset(attrs)
     |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
-    |> Ecto.Changeset.cast_assoc(:linked_resources, with: &Stakeholder.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:linked_resources, with: &LinkedResource.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:images, with: &Image.changeset/2)
     |> Repo.update()
   end
 
@@ -363,9 +367,12 @@ defmodule Erga.Research do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_image(attrs \\ %{}) do
+  def create_image(attrs = %{"project_id" => project_id}) do
+    project = get_project!(project_id)
+
     %Image{}
     |> Image.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:project, project)
     |> Repo.insert()
   end
 

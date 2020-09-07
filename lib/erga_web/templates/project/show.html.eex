@@ -35,6 +35,16 @@
     </ul>
   </li>
 
+  <li>
+  <strong>Images:</strong>
+      <%= for image <- @project.images do %>
+      <p>
+        <%= image.label %>, primary: <%= image.primary %>
+        <%= img_tag("/media/#{image.path}", class: "image") %>
+      </p>
+      <% end %>
+  </li>
+
 </ul>
 
 <span><%= link "Edit", to: Routes.project_path(@conn, :edit, @project) %></span>

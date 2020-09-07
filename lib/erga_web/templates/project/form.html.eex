@@ -47,6 +47,19 @@
   </div>
   <% end %>
 
+  <h2>Images</h2>
+  <div>
+    <%= for image <- @project.images do %>
+    <div>
+        <%= image.label %>, primary: <%= image.primary %>
+        <%= img_tag("/media/#{image.path}", class: "image") %>
+        <%= link "remove", to: Routes.image_path(@conn, :delete, image, @project.id), method: :delete, data: [confirm: "Are you sure?"]  %>
+        </div>
+    <% end %>
+    <br/>
+    <%= link "Add image", to: Routes.image_path(@conn, :new, @project.id) %>
+  </div>
+
   <div>
     <%= submit "Save" %>
   </div>
