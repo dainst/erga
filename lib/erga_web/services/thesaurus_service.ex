@@ -18,6 +18,17 @@ defmodule ThesaurusService do
   }
   """
 
+  @query_label """
+  PREFIX sdc: <http://sindice.com/vocab/search#>
+  PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+  PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+
+  select ?label
+  where {
+    ?s skosxl:literalForm ?label .
+  }
+  """
+
   def get_list(val) do
     HTTPoison.start()
     case HTTPoison.get(@base_search_url <> val) do
@@ -32,12 +43,12 @@ defmodule ThesaurusService do
 
   def get_by_id(id) do
     HTTPoison.start
+    IO.inspect(@base_single_value <> id <> ".ttl")
     res =
         HTTPoison.get!(@base_single_value <> id <> ".ttl").body
         |> RDF.Turtle.read_string!
-        |> SPARQL.execute_query(@query)
-
-    List.first(get_result_list(res))
+        |> SPARQL.execute_query(@query_label)
+    List.first(for n <- res, do: %{name: RDF.Literal.value(n["label"]), resId: id})
   end
 
   defp get_result_list(result) do

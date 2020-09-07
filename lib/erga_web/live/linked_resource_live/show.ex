@@ -28,13 +28,7 @@ defmodule ErgaWeb.LinkedResourceLive.Show do
   end
 
   def get_resource_name(resId, system_name) do
-    system_service =
-      case String.downcase(system_name) do
-        "gazetteer" -> GazetteerService
-        "chrontology" -> ChrontologyService
-        _ -> raise "no matching linked system"
-      end
-
+    system_service = ServiceHelpers.get_system_service(system_name)
     system_service.get_by_id(resId).name
   end
 
