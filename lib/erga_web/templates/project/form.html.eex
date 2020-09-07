@@ -53,6 +53,7 @@
     <div>
         <%= image.label %>, primary: <%= image.primary %>
         <%= img_tag("/media/#{image.path}", class: "image") %>
+        <%= link "edit", to: Routes.image_path(@conn, :edit, image.id) %> |
         <%= link "remove", to: Routes.image_path(@conn, :delete, image, @project.id), method: :delete, data: [confirm: "Are you sure?"]  %>
         </div>
     <% end %>
