@@ -8,6 +8,7 @@ defmodule Erga.Research do
 
   alias Erga.Research.{Project, LinkedResource, Image, Stakeholder, TranslatedContent}
 
+  @upload_directory Application.get_env(:erga, :uploads_directory)
   @doc """
   Returns the list of projects.
 
@@ -407,7 +408,14 @@ defmodule Erga.Research do
 
   """
   def delete_image(%Image{} = image) do
-    Repo.delete(image)
+    case Repo.delete(image) do
+      {:ok, _struct} = result ->
+        File.rm!("#{@upload_directory}/#{image.path}")
+        result
+
+      error ->
+        error
+    end
   end
 
   @doc """

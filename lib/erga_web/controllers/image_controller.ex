@@ -4,8 +4,6 @@ defmodule ErgaWeb.ImageController do
   alias Erga.Research
   alias Erga.Research.Image
 
-  @upload_directory Application.get_env(:erga, :uploads_directory)
-
   def index(conn, _params) do
     images = Research.list_images()
     render(conn, "index.html", images: images)
@@ -21,22 +19,7 @@ defmodule ErgaWeb.ImageController do
 
   def create(conn, %{"image" => image_params}) do
     project = Research.get_project!(image_params["project_id"])
-    upload = image_params["upload"]
-
-    project_directory = project.project_code
-    target_directory = "#{@upload_directory}/#{project_directory}"
-    File.mkdir_p(target_directory)
-
-    target_file = "#{target_directory}/#{upload.filename}"
-    # TODO: Check if file already exists
-
-    File.cp!(
-      upload.path,
-      target_file
-    )
-
-    # TODO: Return invalid changeset if something went wrong
-    image_params = Map.put(image_params, "path", "#{project_directory}/#{upload.filename}")
+    image_params = Map.put(image_params, "project_code", project.project_code)
 
     case Research.create_image(image_params) do
       {:ok, image} ->
@@ -45,7 +28,6 @@ defmodule ErgaWeb.ImageController do
         |> redirect(to: Routes.project_path(conn, :edit, image.project_id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        File.rm!(target_file)
         render(conn, "new.html", changeset: changeset)
     end
   end
@@ -79,8 +61,6 @@ defmodule ErgaWeb.ImageController do
   def delete(conn, %{"id" => id}) do
     image = Research.get_image!(id)
     {:ok, _image} = Research.delete_image(image)
-
-    File.rm!("#{@upload_directory}/#{image.path}")
 
     conn
     |> put_flash(:info, "Image deleted successfully.")
