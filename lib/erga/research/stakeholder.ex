@@ -18,6 +18,7 @@ defmodule Erga.Research.Stakeholder do
     stakeholder
     |> cast(attrs, [:external_id, :role, :type, :person_id])
     |> cast_assoc(:project)
+    |> cast_assoc(:person)
     |> validate_required([:external_id, :role, :type])
   end
 end
