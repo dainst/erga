@@ -5,12 +5,14 @@ defmodule ChrontologyService do
 
   def get_list(val) do
     HTTPoison.start
-    res =
-      HTTPoison.get!(@base_url <> "?q=" <> val <> "*" ).body
-      |> Poison.decode!
-      |> Map.get("results")
-    IO.inspect(res)
-    get_result_list(res)
+    case HTTPoison.get(@base_url <> "?q=" <> val <> "*" ) do
+      {:ok, response} -> list = response.body
+                        |> Poison.decode!
+                        |> Map.get("results")
+                        |> get_result_list
+                        {:ok, list}
+      {:error, reason} -> {:error, "Error during search: " <> Atom.to_string(reason.reason)}
+    end
   end
 
   def get_by_id(id) do

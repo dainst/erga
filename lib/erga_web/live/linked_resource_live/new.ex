@@ -20,6 +20,7 @@ defmodule ErgaWeb.LinkedResourceLive.New do
       |> assign(:linked_val, "")
       |> assign(:linked_id, 0)
       |> assign(:search_result, [])
+      |> assign(:search_error, "")
     {:ok, socket}
   end
 
@@ -51,14 +52,14 @@ defmodule ErgaWeb.LinkedResourceLive.New do
     val = String.replace_trailing(val, "*", "")
 
     # perform a search or return empty list
-    response = if String.length(val) > 1 do
-                  service.get_list(val)
-                else
-                  []
-                end
-
-    # update socket
-    {:noreply, update(socket, :search_result, fn res -> response end)}
+    if String.length(val) > 1 do
+      case service.get_list(val) do
+        {:ok, list} -> {:noreply, update(socket, :search_result, fn _old_val -> list end)}
+        {:error, reason} -> {:noreply, update(socket, :search_error, fn _old_val -> reason end)}
+      end
+    else
+      {:noreply, update(socket, :search_result, fn _l -> [] end)}
+    end
   end
 
   def handle_event("save", %{"linked_resource" => linked_resource_params}, socket) do
@@ -73,5 +74,4 @@ defmodule ErgaWeb.LinkedResourceLive.New do
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
-
 end

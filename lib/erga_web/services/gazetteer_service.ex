@@ -5,12 +5,15 @@ defmodule GazetteerService do
 
   def get_list(val) do
     HTTPoison.start
-    res =
-      HTTPoison.get!(@base_url <> val <> "*" <> "&offset=0&limit=10").body
-      |> Poison.decode!
-      |> Map.get("result")
+      case HTTPoison.get(@base_url <> val <> "*" <> "&offset=0&limit=10") do
+        {:ok, response} -> list = response.body
+                          |> Poison.decode!
+                          |> Map.get("result")
+                          |> get_result_list
+                          {:ok, list}
+        {:error, reason} -> {:error, "Error during search: " <> Atom.to_string(reason.reason)}
+      end
 
-    get_result_list(res)
   end
 
   def get_by_id(id) do
