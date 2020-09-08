@@ -17,7 +17,7 @@ defmodule Erga.Research.LinkedResource do
   def changeset(linked_resource, attrs) do
     linked_resource
     |> cast(attrs, [:linked_system, :linked_id, :label, :context])
-    |> validate_required([:linked_system, :linked_id, :label])
+    |> validate_required([:label])
     |> cast_assoc(:project)
   end
 end
