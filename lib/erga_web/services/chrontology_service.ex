@@ -5,7 +5,7 @@ defmodule ChrontologyService do
 
   def get_list(val) do
     url = @base_url <> "?q=" <> val <> "*"
-    get_list_request(url)
+    get_list_request(url, "results")
   end
 
   def get_by_id(id) do

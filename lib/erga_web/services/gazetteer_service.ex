@@ -4,7 +4,7 @@ defmodule GazetteerService do
   @base_url  "https://gazetteer.dainst.org/search.json?q="
 
   def get_list(val) do
-    get_list_request(@base_url <> val <> "*" <> "&offset=0&limit=10")
+    get_list_request(@base_url <> val <> "*" <> "&offset=0&limit=10", "result")
   end
 
   def get_by_id(id) do
@@ -28,9 +28,10 @@ defmodule GazetteerService do
   end
 
   def get_result_list(res) do
-    for n <- res, do: %{name: n["prefName"]["title"], resId: n["gazId"]}
+    if is_list(res) do
+      for n <- res, do: %{name: n["prefName"]["title"], resId: n["gazId"]}
+    else
+      []
+    end
   end
-
-
-
 end

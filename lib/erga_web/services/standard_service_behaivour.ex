@@ -5,12 +5,12 @@ defmodule StandardServiceBehaivour do
     quote do
       @behaviour StandardServiceBehaivour
 
-      def get_list_request(url) do
+      def get_list_request(url, result_name) do
         HTTPoison.start
         case HTTPoison.get(url) do
           {:ok, response} -> list = response.body
                             |> Poison.decode!
-                            |> Map.get("results")
+                            |> Map.get(result_name)
                             |> get_result_list
                             {:ok, list}
           {:error, reason} -> {:error, "Error during search: " <> Atom.to_string(reason.reason)}
