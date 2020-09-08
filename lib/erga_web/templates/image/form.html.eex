@@ -16,7 +16,7 @@
   <%= error_tag f, :primary %>
 
 
-  <%= if @image.path do %>
+  <%= if assigns[:image] && @image.path do %>
     <%= img_tag("/media/#{@image.path}", class: "image") %>
   <% else %>
   <div class="form-group">
