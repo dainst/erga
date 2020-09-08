@@ -1,51 +1,27 @@
-<h1>Show Project</h1>
+<div><%= link "Back", to: Routes.project_path(@conn, :index) %> | <%= link "Edit", to: Routes.project_path(@conn, :edit, @project) %> </div>
 
-<ul>
+<h1><%= @project.title %></h1>
 
-  <li>
-    <strong>Project:</strong>
-    <%= @project.project_code %>
-  </li>
+<div><strong><%= @project.project_code %></strong>: <%= @project.description %></div>
 
-  <li>
-    <strong>Title:</strong>
-    <%= @project.title %>
-  </li>
+<h2>Stakeholders</h2>
+<%= for stakeholder <- @project.stakeholders do %>
+  <div><%= stakeholder.person.title <> " " <> stakeholder.person.firstname <> " " <> stakeholder.person.lastname %></div>
+  <div><small><%= stakeholder.role %> | <%= stakeholder.type %> | <%= stakeholder.external_id %></small></div>
+<% end %>
 
-  <li>
-    <strong>Description:</strong>
-    <%= @project.description %>
-  </li>
+<h2>Linked resources:</h2>
+<%= for resource <- @project.linked_resources do %>
+  <div><%= resource.label %></div>
+  <div><small><%= resource.context %>: <%= resource.linked_id %> | <%= resource.linked_system %></small></div>
+<% end %>
 
-  <li>
-  <strong>Stakeholders:</strong>
-    <ul>
-      <%= for stakeholder <- @project.stakeholders do %>
-        <li><%= stakeholder.person.title <> " " <> stakeholder.person.lastname %> | <%= stakeholder.role %> | <%= stakeholder.type %> | <%= stakeholder.external_id %></li>
-      <% end %>
-    </ul>
-  </li>
+<h2>Images:</h2>
+<%= for image <- @project.images do %>
+<div>
+  <%= image.label %> <%= if image.primary do "(Primary)" end %>
+  <%= img_tag("/media/#{image.path}", class: "image") %>
+</div>
+<% end %>
 
-  <li>
-  <strong>Linked resources:</strong>
-    <ul>
-      <%= for resource <- @project.linked_resources do %>
-        <li><%= resource.label %>, <%= resource.context %>: <%= resource.linked_id %> | <%= resource.linked_system %></li>
-      <% end %>
-    </ul>
-  </li>
-
-  <li>
-  <strong>Images:</strong>
-      <%= for image <- @project.images do %>
-      <p>
-        <%= image.label %>, primary: <%= image.primary %>
-        <%= img_tag("/media/#{image.path}", class: "image") %>
-      </p>
-      <% end %>
-  </li>
-
-</ul>
-
-<span><%= link "Edit", to: Routes.project_path(@conn, :edit, @project) %></span>
-<span><%= link "Back", to: Routes.project_path(@conn, :index) %></span>
+<div><%= link "Back", to: Routes.project_path(@conn, :index) %> | <%= link "Edit", to: Routes.project_path(@conn, :edit, @project) %> </div>
