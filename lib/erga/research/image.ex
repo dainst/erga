@@ -24,7 +24,10 @@ defmodule Erga.Research.Image do
   end
 
   def validate_file(changeset, %{"upload" => upload} = attrs) do
-    project_directory = attrs["project_code"]
+    project_directory =
+      attrs["project_code"]
+      |> Zarex.sanitize()
+
     target_directory = "#{@upload_directory}/#{project_directory}"
 
     case File.mkdir_p(target_directory) do
@@ -39,7 +42,11 @@ defmodule Erga.Research.Image do
         :ok
     end
 
-    target_file = "#{target_directory}/#{upload.filename}"
+    filename =
+      upload.filename
+      |> Zarex.sanitize()
+
+    target_file = "#{target_directory}/#{filename}"
 
     if File.exists?(target_file) do
       add_error(
