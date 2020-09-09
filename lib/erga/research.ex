@@ -2,6 +2,7 @@ defmodule Erga.Research do
   @moduledoc """
   The Research context.
   """
+  require Logger
 
   import Ecto.Query, warn: false
   alias Erga.Repo
@@ -410,7 +411,13 @@ defmodule Erga.Research do
   def delete_image(%Image{} = image) do
     case Repo.delete(image) do
       {:ok, _struct} = result ->
-        File.rm!("#{@upload_directory}/#{image.path}")
+        cond do
+          {:error, reason} = File.rm("#{@upload_directory}/#{image.path}") ->
+            Logger.error(
+              "Failed to delete file: #{@upload_directory}/#{image.path}, reason: #{reason}."
+            )
+        end
+
         result
 
       error ->

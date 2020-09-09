@@ -26,7 +26,18 @@ defmodule Erga.Research.Image do
   def validate_file(changeset, %{"upload" => upload} = attrs) do
     project_directory = attrs["project_code"]
     target_directory = "#{@upload_directory}/#{project_directory}"
-    File.mkdir_p(target_directory)
+
+    case File.mkdir_p(target_directory) do
+      {:error, reason} ->
+        add_error(
+          changeset,
+          :path,
+          "Unable to create project upload directory: #{project_directory}, reason: #{reason}."
+        )
+
+      :ok ->
+        :ok
+    end
 
     target_file = "#{target_directory}/#{upload.filename}"
 
@@ -37,10 +48,20 @@ defmodule Erga.Research.Image do
         "File #{upload.filename} already exists in #{project_directory}."
       )
     else
-      File.cp!(
-        upload.path,
-        target_file
-      )
+      case File.cp(
+             upload.path,
+             target_file
+           ) do
+        {:error, reason} ->
+          add_error(
+            changeset,
+            :path,
+            "Unable to copy file #{upload.filename}, reason: #{reason}."
+          )
+
+        :ok ->
+          :ok
+      end
 
       put_change(changeset, :path, "#{project_directory}/#{upload.filename}")
     end
