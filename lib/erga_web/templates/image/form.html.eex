@@ -21,7 +21,7 @@
   <% else %>
   <div class="form-group">
     <label>Upload</label>
-    <%= file_input f, :upload, class: "form-control" %>
+    <%= file_input f, :upload, class: "form-control", accept: "image/*" %>
   </div>
   <%= error_tag f, :path %>
   <% end %>
