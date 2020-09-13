@@ -28,8 +28,8 @@ defmodule ErgaWeb.LinkedResourceLive.Show do
   end
 
   def get_resource_name(resId, system_name) do
-    system_service = ServiceHelpers.get_system_service(system_name)
-    if system_service do
+    if resId do
+      system_service = ServiceHelpers.get_system_service(system_name)
       system_service.get_by_id(resId).name
     end
   end
