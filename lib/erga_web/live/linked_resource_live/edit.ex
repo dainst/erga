@@ -25,7 +25,6 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
       |> assign(:linked_system, linked_resource.linked_system)
       |> assign(:linked_val, linked_val)
       |> assign(:linked_id, linked_resource.linked_id)
-      |> assign(:search_error, "")
 
     {:noreply, socket}
   end

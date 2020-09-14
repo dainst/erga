@@ -20,7 +20,6 @@ defmodule ErgaWeb.LinkedResourceLive.New do
       |> assign(:linked_val, "")
       |> assign(:linked_id, 0)
       |> assign(:search_result, [])
-      |> assign(:search_error, "")
     {:ok, socket}
   end
 
@@ -55,7 +54,7 @@ defmodule ErgaWeb.LinkedResourceLive.New do
     if String.length(val) > 1 do
       case service.get_list(val) do
         {:ok, list} -> {:noreply, update(socket, :search_result, fn _old_val -> list end)}
-        {:error, reason} -> {:noreply, update(socket, :search_error, fn _old_val -> reason end)}
+        {:error, reason} -> {:noreply, assign(socket, :search_error, reason)}
       end
     else
       {:noreply, update(socket, :search_result, fn _l -> [] end)}

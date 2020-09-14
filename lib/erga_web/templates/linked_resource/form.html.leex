@@ -30,6 +30,6 @@
   <% end %>
 </p>
 <% end %>
-<%= if @search_error do %>
-<p><%= @search_error %></p>
+<%= if assigns[:search_error] do %>
+  <p><%= @search_error %></p>
 <% end %>
