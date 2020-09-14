@@ -411,11 +411,12 @@ defmodule Erga.Research do
   def delete_image(%Image{} = image) do
     case Repo.delete(image) do
       {:ok, _struct} = result ->
-        cond do
-          {:error, reason} = File.rm("#{@upload_directory}/#{image.path}") ->
+        case File.rm("#{@upload_directory}/#{image.path}") do
+          {:error, reason} ->
             Logger.error(
               "Failed to delete file: #{@upload_directory}/#{image.path}, reason: #{reason}."
             )
+          _ -> :ok
         end
 
         result
