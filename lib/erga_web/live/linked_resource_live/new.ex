@@ -2,7 +2,6 @@ defmodule ErgaWeb.LinkedResourceLive.New do
   use ErgaWeb, :live_view
   require Logger
 
-  alias ErgaWeb.LinkedResourceLive
   alias ErgaWeb.Router.Helpers, as: Routes
   alias Erga.Research
   alias Erga.Research.LinkedResource
