@@ -2,12 +2,14 @@ defmodule Erga.Research do
   @moduledoc """
   The Research context.
   """
+  require Logger
 
   import Ecto.Query, warn: false
   alias Erga.Repo
 
   alias Erga.Research.{Project, LinkedResource, Image, Stakeholder, TranslatedContent}
 
+  @upload_directory Application.get_env(:erga, :uploads_directory)
   @doc """
   Returns the list of projects.
 
@@ -22,6 +24,7 @@ defmodule Erga.Research do
     |> Repo.all()
     |> Repo.preload(:stakeholders)
     |> Repo.preload(:linked_resources)
+    |> Repo.preload(:images)
   end
 
   @doc """
@@ -40,8 +43,9 @@ defmodule Erga.Research do
   """
   def get_project!(id) do
     Repo.get!(Project, id)
-    |> Repo.preload([stakeholders: :person])
+    |> Repo.preload(stakeholders: :person)
     |> Repo.preload(:linked_resources)
+    |> Repo.preload(:images)
   end
 
   @doc """
@@ -68,7 +72,8 @@ defmodule Erga.Research do
     %Project{}
     |> Project.changeset(attrs)
     |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
-    |> Ecto.Changeset.cast_assoc(:linked_resources, with: &Stakeholder.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:linked_resources, with: &LinkedResource.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:images, with: &Image.changeset/2)
     |> Repo.insert()
   end
 
@@ -88,7 +93,8 @@ defmodule Erga.Research do
     project
     |> Project.changeset(attrs)
     |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
-    |> Ecto.Changeset.cast_assoc(:linked_resources, with: &Stakeholder.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:linked_resources, with: &LinkedResource.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:images, with: &Image.changeset/2)
     |> Repo.update()
   end
 
@@ -363,9 +369,12 @@ defmodule Erga.Research do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_image(attrs \\ %{}) do
+  def create_image(attrs = %{"project_id" => project_id}) do
+    project = get_project!(project_id)
+
     %Image{}
     |> Image.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:project, project)
     |> Repo.insert()
   end
 
@@ -400,7 +409,21 @@ defmodule Erga.Research do
 
   """
   def delete_image(%Image{} = image) do
-    Repo.delete(image)
+    case Repo.delete(image) do
+      {:ok, _struct} = result ->
+        case File.rm("#{@upload_directory}/#{image.path}") do
+          {:error, reason} ->
+            Logger.error(
+              "Failed to delete file: #{@upload_directory}/#{image.path}, reason: #{reason}."
+            )
+          _ -> :ok
+        end
+
+        result
+
+      error ->
+        error
+    end
   end
 
   @doc """
