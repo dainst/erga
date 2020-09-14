@@ -18,12 +18,12 @@ defmodule Erga.Research.Image do
   def changeset(image, attrs) do
     image
     |> cast(attrs, [:label, :path, :primary])
-    |> validate_file(attrs)
+    |> handle_file(attrs)
     |> validate_required([:label, :path, :primary])
     |> cast_assoc(:project)
   end
 
-  def validate_file(changeset, %{"upload" => upload} = attrs) do
+  def handle_file(changeset, %{"upload" => upload} = attrs) do
     project_directory =
       attrs["project_code"]
       |> Zarex.sanitize()
@@ -74,7 +74,7 @@ defmodule Erga.Research.Image do
     end
   end
 
-  def validate_file(changeset, %{"path" => path}) do
+  def handle_file(changeset, %{"path" => path}) do
     if !File.exists?("#{@upload_directory}/#{path}") do
       add_error(changeset, :path, "File #{path} does not exists!")
     end
@@ -82,7 +82,7 @@ defmodule Erga.Research.Image do
     changeset
   end
 
-  def validate_file(changeset, _attrs) do
+  def handle_file(changeset, _attrs) do
     changeset
   end
 end
