@@ -6,7 +6,6 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
   alias ErgaWeb.LinkedResourceLive
   alias ErgaWeb.Router.Helpers, as: Routes
   alias Erga.Research
-  alias Erga.Research.LinkedResource
 
   def mount(_params, _session, socket) do
 
