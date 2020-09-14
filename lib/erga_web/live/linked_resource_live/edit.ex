@@ -16,7 +16,7 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
   def handle_params(%{"id" => id}, _url, socket) do
     linked_resource = Research.get_linked_resource!(id)
     changeset = Research.change_linked_resource(linked_resource)
-    linked_val = load_chosen_resource(linked_resource.linked_id, linked_resource.linked_system)
+    linked_val = load_chosen_resource(linked_resource)
 
     socket =
       socket
@@ -30,13 +30,14 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
     {:noreply, socket}
   end
 
-  defp load_chosen_resource(resId, system_name) do
-    if resId do
-      system_service = ServiceHelpers.get_system_service(system_name)
-      system_service.get_by_id(resId).name
-    end
+  defp load_chosen_resource(%{resId: resId, system_name: system_name}) do
+    system_service = ServiceHelpers.get_system_service(system_name)
+    system_service.get_by_id(resId).name
   end
 
+  defp load_chosen_resource(_) do
+    %{}
+  end
 
 
   def render(assigns), do: Phoenix.View.render(ErgaWeb.LinkedResourceView, "edit.html", assigns)
@@ -69,7 +70,7 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
                 end
 
     # update socket
-    {:noreply, update(socket, :search_result, fn res -> response end)}
+    {:noreply, update(socket, :search_result, fn _res -> response end)}
   end
 
   def handle_event("save", %{"linked_resource" => linked_resource_params}, socket) do
