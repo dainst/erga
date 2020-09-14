@@ -16,7 +16,7 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
   def handle_params(%{"id" => id}, _url, socket) do
     linked_resource = Research.get_linked_resource!(id)
     changeset = Research.change_linked_resource(linked_resource)
-    linked_val = loading_chosen_resource(linked_resource.linked_id, linked_resource.linked_system)
+    linked_val = load_chosen_resource(linked_resource.linked_id, linked_resource.linked_system)
 
     socket =
       socket
@@ -30,7 +30,7 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
     {:noreply, socket}
   end
 
-  defp loading_chosen_resource(resId, system_name) do
+  defp load_chosen_resource(resId, system_name) do
     if resId do
       system_service = ServiceHelpers.get_system_service(system_name)
       system_service.get_by_id(resId).name
