@@ -5,12 +5,12 @@
         <%= hidden_input f, :project_id %>
 
         <%= label f, :linked_system %>
-        <%= select f, :linked_system, ["Gazetteer": "gazetteer", "Chrontology": "chrontology", Thesaurus: "thesaurus", Arachne: "arachne" ] %>
+        <%= select f, :linked_system, ["Gazetteer": "gazetteer", "Chrontology": "chrontology", Thesaurus: "thesaurus", Arachne: "arachne", Other: "other", ] %>
         <%= error_tag f, :linked_system %>
       </div>
       <div class="column column-75">
         <%= label f, :label %>
-        <%= text_input f, :label, value: @linked_val, phx_keyup: "search_resource" %>
+        <%= text_input f, :label, value: @linked_val %>
         <%= error_tag f, :label %>
         <%= hidden_input f, :linked_id, value: @linked_id, readonly: true  %>
       </div>
@@ -32,7 +32,6 @@
   <%= label f, :search_resource %>
   <%= text_input f, :search_resource, phx_keyup: "search_resource" %>
   <%= error_tag f, :search_resource %>
-  <%= hidden_input f, :linked_id, value: @linked_id, readonly: true  %>
 </div>
 </form>
 <%= unless @search_result == [] do %>
@@ -42,6 +41,6 @@
   <% end %>
 </p>
 <% end %>
-<%= if @search_error do %>
-<p><%= @search_error %></p>
+<%= if assigns[:search_error] do %>
+  <p><%= @search_error %></p>
 <% end %>
