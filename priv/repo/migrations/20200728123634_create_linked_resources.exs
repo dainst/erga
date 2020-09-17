@@ -7,7 +7,7 @@ defmodule Erga.Repo.Migrations.CreateLinkedResources do
       add :linked_system, :string
       add :linked_id, :string
       add :label, :integer
-      add :context, :integer
+      add :description, :integer
 
       timestamps()
     end

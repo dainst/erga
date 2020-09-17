@@ -14,7 +14,7 @@
       <th>Linked</th>
       <th>Linked id</th>
       <th>Label</th>
-      <th>Context</th>
+      <th>Description</th>
 
       <th></th>
     </tr>
@@ -27,7 +27,7 @@
       <td><%= ErgaWeb.LinkedResourceLive.Show.get_resource_name(linked_resource) %></td>
       <td><small>(<%= linked_resource.linked_id %>)</small></td>
       <td><%= linked_resource.label %></td>
-      <td><%= linked_resource.context %></td>
+      <td><%= linked_resource.description %></td>
 
       <td>
         <span><%= link "Show", to: Routes.live_path(@socket, ErgaWeb.LinkedResourceLive.Show, linked_resource) %></span>

@@ -36,7 +36,7 @@
   <div>
     <%= for resource <- @project.linked_resources do %>
     <div>
-        <%= resource.label %>, <%= resource.context %>,
+        <%= resource.label %>, <%= resource.description %>,
         <%= resource.linked_system %>, <%= resource.linked_id %> |
         <%= link "edit", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Edit, resource.id) %> |
         <%= #link "remove", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Index, resource), phx_click: "delete_resource", phx_value_id: resource.id, data: [confirm: "Are you sure?"] %>
