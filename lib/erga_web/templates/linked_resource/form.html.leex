@@ -9,10 +9,18 @@
         <%= error_tag f, :linked_system %>
       </div>
       <div class="column column-75">
-        <%= label f, :label %>
-        <%= text_input f, :label, value: @linked_val %>
+        <div class="row">
+        <div class="column">
+          <%= label f, :label %>
+          <%= text_input f, :label, value: @linked_val %>
+        </div>
+        <div class="column column-20">
+          <%= label f, :id %>
+          <%= text_input f, :linked_id, value: @linked_id, readonly: true , disabled: true %>
+        </div>
+
         <%= error_tag f, :label %>
-        <%= hidden_input f, :linked_id, value: @linked_id, readonly: true  %>
+      </div>
       </div>
     </div>
     <div class="row">
