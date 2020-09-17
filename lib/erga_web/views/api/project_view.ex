@@ -17,9 +17,12 @@ defmodule ErgaWeb.Api.ProjectView do
       description: project.description,
       inserted_at: project.inserted_at,
       updated_at: project.updated_at,
-      stakeholders: render_many(project.stakeholders, ErgaWeb.Api.StakeholderView, "stakeholder.json")
+      stakeholders:
+        render_many(project.stakeholders, ErgaWeb.Api.StakeholderView, "stakeholder.json"),
+      images: render_many(project.images, ErgaWeb.Api.ImageView, "image.json")
     }
   end
+
   def render("project_short.json", %{project: project}) do
     %{
       id: project.id,
@@ -27,7 +30,8 @@ defmodule ErgaWeb.Api.ProjectView do
       title: project.title,
       inserted_at: project.inserted_at,
       updated_at: project.updated_at,
-      stakeholder_count: Enum.count(project.stakeholders)
+      stakeholder_count: Enum.count(project.stakeholders),
+      image_count: Enum.count(project.images)
     }
   end
 end

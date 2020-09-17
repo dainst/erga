@@ -15,12 +15,12 @@ defmodule ErgaWeb.StakeholderController do
     changeset =
       Research.change_stakeholder(%Stakeholder{})
       |> Ecto.Changeset.put_change(:project_id, project_id)
+
     persons = Staff.list_persons()
     render(conn, "new.html", changeset: changeset, persons: persons)
   end
 
   def create(conn, %{"stakeholder" => stakeholder_params}) do
-    IO.inspect(stakeholder_params)
     case Research.create_stakeholder(stakeholder_params) do
       {:ok, stakeholder} ->
         conn

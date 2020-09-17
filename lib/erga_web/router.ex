@@ -25,6 +25,9 @@ defmodule ErgaWeb.Router do
     delete("/stakeholders/:id/:project_id", StakeholderController, :delete)
     get("/stakeholders/new/:project_id", StakeholderController, :new)
 
+    delete("/images/:id/:project_id", ImageController, :delete)
+    get("/images/new/:project_id", ImageController, :new)
+
     # TODO: Nötig? Man könnte den reroute auch darüber lösen dass man die id vorm löschen ausliest.
     #delete("/linked_resources/:id/:project_id", LinkedResourceController, :delete)
     #get("/linked_resources/new/:project_id", LinkedResourceController, :new)
