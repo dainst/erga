@@ -8,11 +8,6 @@ defmodule ErgaWeb.ExternalLinkLive.Edit do
   alias Erga.Research
   alias Erga.Research.ExternalLink
 
-  def mount(_params, _session, socket) do
-
-    # load the name of the ressource
-    {:ok, assign(socket, search_result: [])}
-  end
 
   def handle_params(%{"id" => id}, _url, socket) do
     external_link = Research.get_external_link!(id)
