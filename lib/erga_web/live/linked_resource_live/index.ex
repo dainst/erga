@@ -1,20 +1,20 @@
-defmodule ErgaWeb.ExternalLinkLive.Index do
+defmodule ErgaWeb.LinkedResourceLive.Index do
   use ErgaWeb, :live_view
 
   alias Erga.Research
-  alias ErgaWeb.ExternalLinkView
+  alias ErgaWeb.LinkedResourceView
   alias ErgaWeb.Router.Helpers, as: Routes
 
-  def render(assigns), do: ExternalLinkView.render("index.html", assigns)
+  def render(assigns), do: LinkedResourceView.render("index.html", assigns)
 
   def mount(_params, _session, socket) do
-    external_links = Research.list_external_links()
+    linked_resources = Research.list_linked_resources()
     projects = Research.list_projects()
     project_list = ["All": 0] ++ for pro <- projects, do: {pro.title, pro.id}
 
     socket =
       socket
-      |> assign(:external_links, external_links)
+      |> assign(:linked_resources, linked_resources)
       |> assign(:project, "0")
       |> assign(:project_list, project_list)
 
@@ -23,28 +23,26 @@ defmodule ErgaWeb.ExternalLinkLive.Index do
   end
 
   def handle_event("delete_resource", %{"id" => id}, socket) do
-    resource = Research.get_external_link!(id)
-    {:ok, _resource} = Research.delete_external_link(resource)
-    external_links = Research.list_external_links()
+    resource = Research.get_linked_resource!(id)
+    {:ok, _resource} = Research.delete_linked_resource(resource)
+    linked_resources = Research.list_linked_resources()
     socket =
       socket
-      |> assign(:external_links, external_links)
+      |> assign(:linked_resources, linked_resources)
     {:noreply, socket}
   end
 
   def handle_event("load_resources", %{"foo" => params}, socket) do
-    IO.inspect(params)
     pid = String.to_integer(params["project"])
     socket = if pid > 0 do
       project = Research.get_project!(pid)
-      IO.inspect(project)
       socket
-        |> assign(:external_links, project.external_links )
+        |> assign(:linked_resources, project.linked_resources )
         |> assign(:project, pid )
     else
-      external_links = Research.list_external_links()
+      linked_resources = Research.list_linked_resources()
       socket
-        |> assign(:external_links, external_links )
+        |> assign(:linked_resources, linked_resources )
         |> assign(:project, "0")
     end
 

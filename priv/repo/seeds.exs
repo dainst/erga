@@ -11,6 +11,7 @@
 # and so on) as they will fail if something goes wrong.
 
 alias Erga.Research.Stakeholder
+alias Erga.Research.ExternalLink
 alias Erga.Staff.Person
 alias Erga.Research.Project
 
