@@ -23,6 +23,10 @@ This will delete all entries in the database and replace them with default ones.
 
 ## Troubleshooting
 
+### Restart postgress docker
+
+run 'docker restart erga_db'
+
 ### MacOS
 
 If the compilation went wrong try this comand to clean your installation ` mix deps.clean --all && mix deps.get`
