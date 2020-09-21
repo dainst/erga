@@ -21,9 +21,6 @@ defmodule ErgaWeb.ExternalLinkLive.New do
 
   def render(assigns), do: Phoenix.View.render(ErgaWeb.ExternalLinkView, "new.html", assigns)
 
-  @spec handle_event(<<_::32, _::_*8>>, map, %{
-          __struct__: Phoenix.LiveView.Socket | Phoenix.Socket
-        }) :: {:noreply, any}
   def handle_event("validate", %{"external_link" => external_link_params}, socket) do
     socket = EventHandler.validate(external_link_params, socket)
     {:noreply, socket}

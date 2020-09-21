@@ -40,7 +40,7 @@ defmodule ErgaWeb.Router do
 
     live "/external_links/new/:project_id", ExternalLinkLive.New
     live "/external_links", ExternalLinkLive.Index
-    live "/external_links/:id", ExternalLink.Show
+    live "/external_links/:id", ExternalLinkLive.Show
     live "/external_links/:id/edit", ExternalLinkLive.Edit
 
     live "/persons", PersonLive.Index, :index
