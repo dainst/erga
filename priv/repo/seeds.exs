@@ -33,6 +33,9 @@ Erga.Repo.insert! %Project{
   description: "This is a very informativ project description.",
   project_code: "1234_PROJ_DAI",
   title: "Great digging project",
+  external_links: [%ExternalLink{
+    label: "google",
+    url: "www.google.com"}],
   stakeholders: [%Stakeholder{
     role: "chef role",
     type: "what was type for?",

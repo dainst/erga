@@ -46,7 +46,18 @@
     <%= link "Add linked resource", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.New, @project.id) %>
   </div>
   <% end %>
-
+  <h2>External links</h2>
+  <div>
+    <%= for resource <- @project.external_links do %>
+    <div>
+      <%= resource.label %>, <%= resource.url %> |
+      <%= link "edit", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Edit, resource.id) %> |
+      <%= #link "remove", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Index, resource), phx_click: "delete_resource", phx_value_id: resource.id, data: [confirm: "Are you sure?"] %>
+    </div>
+    <% end %>
+    <br/>
+    <%= link "Add linked resource", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.New, @project.id) %>
+  </div>
   <h2>Images</h2>
   <div>
     <%= for image <- @project.images do %>

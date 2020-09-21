@@ -9,6 +9,7 @@ defmodule Erga.Research.Project do
 
     has_many(:stakeholders, Erga.Research.Stakeholder)
     has_many(:linked_resources, Erga.Research.LinkedResource)
+    has_many(:external_links, Erga.Research.ExternalLink)
     has_many(:images, Erga.Research.Image)
 
     timestamps()
@@ -21,6 +22,7 @@ defmodule Erga.Research.Project do
     |> validate_required([:project_code, :title, :description])
     |> cast_assoc(:stakeholders)
     |> cast_assoc(:linked_resources)
+    |> cast_assoc(:external_links)
     |> cast_assoc(:images)
   end
 end

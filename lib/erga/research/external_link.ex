@@ -3,8 +3,8 @@ defmodule Erga.Research.ExternalLink do
   import Ecto.Changeset
 
   schema "external_links" do
-    field :label, :string
-    field :url, :string
+    field(:label, :string)
+    field(:url, :string)
 
     belongs_to :project, Erga.Research.Project
 

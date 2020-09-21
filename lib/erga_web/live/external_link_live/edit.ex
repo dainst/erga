@@ -1,12 +1,12 @@
-defmodule ErgaWeb.ExternalLinkLive.Edit do
+defmodule ErgaWeb.LinkedResourceLive.Edit do
   use ErgaWeb, :live_view
   require Logger
 
 
-  alias ErgaWeb.ExternalLinkLive
+  alias ErgaWeb.LinkedResourceLive
   alias ErgaWeb.Router.Helpers, as: Routes
   alias Erga.Research
-  alias Erga.Research.ExternalLink
+  alias Erga.Research.LinkedResource
 
   def mount(_params, _session, socket) do
 
@@ -15,17 +15,17 @@ defmodule ErgaWeb.ExternalLinkLive.Edit do
   end
 
   def handle_params(%{"id" => id}, _url, socket) do
-    external_link = Research.get_external_link!(id)
-    changeset = Research.change_external_link(external_link)
-    linked_val = loading_choosen_resource(external_link.linked_id, external_link.linked_system).name
+    linked_resource = Research.get_linked_resource!(id)
+    changeset = Research.change_linked_resource(linked_resource)
+    linked_val = loading_choosen_resource(linked_resource.linked_id, linked_resource.linked_system).name
 
     socket =
       socket
-      |> assign(external_link: external_link)
+      |> assign(linked_resource: linked_resource)
       |> assign(changeset: changeset)
-      |> assign(:linked_system, external_link.linked_system)
+      |> assign(:linked_system, linked_resource.linked_system)
       |> assign(:linked_val, linked_val)
-      |> assign(:linked_id, external_link.linked_id)
+      |> assign(:linked_id, linked_resource.linked_id)
 
     {:noreply, socket}
   end
@@ -37,10 +37,10 @@ defmodule ErgaWeb.ExternalLinkLive.Edit do
 
 
 
-  def render(assigns), do: Phoenix.View.render(ErgaWeb.ExternalLinkView, "edit.html", assigns)
+  def render(assigns), do: Phoenix.View.render(ErgaWeb.LinkedResourceView, "edit.html", assigns)
 
-  def handle_event("validate", %{"external_link" => external_link_params}, socket) do
-    socket = EventHandler.validate(external_link_params, socket)
+  def handle_event("validate", %{"linked_resource" => linked_resource_params}, socket) do
+    socket = EventHandler.validate(linked_resource_params, socket)
     {:noreply, socket}
   end
 
@@ -70,13 +70,13 @@ defmodule ErgaWeb.ExternalLinkLive.Edit do
     {:noreply, update(socket, :search_result, fn res -> response end)}
   end
 
-  def handle_event("save", %{"external_link" => external_link_params}, socket) do
-    case Research.update_external_link(socket.assigns.external_link, external_link_params) do
-      {:ok, external_link} ->
+  def handle_event("save", %{"linked_resource" => linked_resource_params}, socket) do
+    case Research.update_linked_resource(socket.assigns.linked_resource, linked_resource_params) do
+      {:ok, linked_resource} ->
         {:noreply,
         socket
-        |> put_flash(:info, "External link updated successfully.")
-        |> redirect(to: Routes.live_path(socket, ExternalLinkLive.Show, external_link))}
+        |> put_flash(:info, "Linked resource updated successfully.")
+        |> redirect(to: Routes.live_path(socket, LinkedResourceLive.Show, linked_resource))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
