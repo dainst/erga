@@ -16,6 +16,8 @@ defmodule ErgaWeb.ExternalLinkLive.New do
     socket =
       socket
       |> assign(changeset: changeset)
+      |> assign(:label, "")
+      |> assign(:url, "")
     {:ok, socket}
   end
 

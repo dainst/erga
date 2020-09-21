@@ -26,13 +26,6 @@ defmodule ErgaWeb.ExternalLinkLive.Edit do
     {:noreply, socket}
   end
 
-  defp loading_choosen_resource(resId, system_name) do
-    system_service = ServiceHelpers.get_system_service(system_name)
-    system_service.get_by_id(resId)
-  end
-
-
-
   def render(assigns), do: Phoenix.View.render(ErgaWeb.ExternalLinkView, "edit.html", assigns)
 
   def handle_event("validate", %{"external_link" => external_link_params}, socket) do
