@@ -23,9 +23,13 @@ This will delete all entries in the database and replace them with default ones.
 
 ## Troubleshooting
 
+### Start postgress docker
+
+run `docker-compose up`
+
 ### Restart postgress docker
 
-run 'docker restart erga_db'
+run `docker restart erga_db`
 
 ### MacOS
 
