@@ -12,7 +12,7 @@
         <div class="row">
         <div class="column">
           <%= label f, :label %>
-          <%= text_input f, :label, value: @linked_val %>
+          <%= text_input f, :label, value: @label, phx_keyup: "change_label" %>
         </div>
         <div class="column column-20">
           <%= label f, :id %>

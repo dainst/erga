@@ -16,7 +16,7 @@ defmodule ErgaWeb.LinkedResourceLive.New do
       socket
       |> assign(changeset: changeset)
       |> assign(:linked_system, "gazetteer")
-      |> assign(:linked_val, "")
+      |> assign(:label, "")
       |> assign(:linked_id, 0)
       |> assign(:search_result, [])
     {:ok, socket}
@@ -32,11 +32,18 @@ defmodule ErgaWeb.LinkedResourceLive.New do
     {:noreply, socket}
   end
 
+  def handle_event("change_label", %{"value" => val}, socket) do
+    socket =
+      socket
+      |> assign(:label, val)
+
+    {:noreply, socket}
+  end
 
   def handle_event("choose_resource", %{"id" => id, "name" => name}, socket) do
     socket =
       socket
-      |> assign(:linked_val, name)
+      |> assign(:label, name)
       |> assign(:linked_id, id)
 
     {:noreply, socket}
