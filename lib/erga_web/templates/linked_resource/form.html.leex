@@ -13,13 +13,13 @@
         <div class="column">
           <%= label f, :label %>
           <%= text_input f, :label, value: @label, phx_keyup: "change_label" %>
+          <%= error_tag f, :label %>
         </div>
         <div class="column column-20">
           <%= label f, :id %>
           <%= text_input f, :linked_id, value: @linked_id, readonly: true , disabled: true %>
         </div>
 
-        <%= error_tag f, :label %>
       </div>
       </div>
     </div>
