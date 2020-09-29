@@ -9,7 +9,7 @@ defmodule ArachneService do
     case HTTPoison.get(@base_url <> "?q=" <> val <> "*" ) do
       {:ok, response} -> list = response.body
                         |> Poison.decode!
-                        |> Map.get("results")
+                        |> Map.get("entities")
                         |> get_result_list
                         {:ok, list}
       {:error, reason} -> {:error, "Error during search: " <> Atom.to_string(reason.reason)}
@@ -30,8 +30,8 @@ defmodule ArachneService do
   def get_result_list(res) do
     if is_list(res) do
       for  n <- res do
-        names = if n["resource"]["names"]["de"], do: Enum.join( n["resource"]["names"]["de"], ", "), else: ""
-        %{name: names, resId: n["resource"]["id"]}
+        name =  n["type"] <> ": " <> n["title"]
+        %{name: name, resId: n["entityId"]}
       end
     else
       []

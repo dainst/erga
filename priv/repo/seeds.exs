@@ -12,6 +12,7 @@
 
 alias Erga.Research.Stakeholder
 alias Erga.Staff.Person
+alias Erga.Research.LinkedResource
 alias Erga.Research.Project
 
 Erga.Repo.delete_all Project
@@ -33,16 +34,25 @@ Erga.Repo.insert! %Project{
   description: "This is a very informativ project description.",
   project_code: "1234_PROJ_DAI",
   title: "Great digging project",
-  stakeholders: [%Stakeholder{
-    role: "chef role",
-    type: "what was type for?",
-    external_id: "no clue what the external id was about",
-    person_id: 1
+  stakeholders: [
+    %Stakeholder{
+      role: "chef role",
+      type: "what was type for?",
+      external_id: "no clue what the external id was about",
+      person_id: 1
   },
     %Stakeholder{
       role: "intern",
       type: "lazy",
       external_id: "not needed",
       person_id: 2
-    }]
+    }],
+  linked_resources: [
+    %LinkedResource{
+      label: "Rom",
+      description: "Der Ort über den geschrieben wird."
+      linked_id: 2078206,
+      linked_system: "Gazetteer"
+    }
+  ]
 }
