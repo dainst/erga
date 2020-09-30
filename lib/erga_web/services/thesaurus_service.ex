@@ -29,7 +29,7 @@ defmodule ThesaurusService do
   }
   """
 
-  def get_list(val) do
+  def get_list(val, _filter) do
     HTTPoison.start()
     case HTTPoison.get(@base_search_url <> val) do
       {:ok, response} -> list = response.body

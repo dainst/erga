@@ -1,13 +1,13 @@
 <div><%= link "Back", to: Routes.project_path(@conn, :index) %> | <%= link "Edit", to: Routes.project_path(@conn, :edit, @project) %> </div>
 
-<h1><%= @project.title %></h1>
+<h1><%= @project.title %> (<%= @project.project_code %>)</h1>
 
-<div><strong><%= @project.project_code %></strong>: <%= @project.description %></div>
+<p><%= @project.description %></p>
 
 <h2>Stakeholders</h2>
 <%= for stakeholder <- @project.stakeholders do %>
   <div><%= stakeholder.person.title <> " " <> stakeholder.person.firstname <> " " <> stakeholder.person.lastname %></div>
-  <div><small><%= stakeholder.role %> | <%= stakeholder.type %> | <%= stakeholder.external_id %></small></div>
+  <div><small><%= stakeholder.role %> | <%= stakeholder.external_id %></small></div>
 <% end %>
 
 <h2>Linked resources:</h2>

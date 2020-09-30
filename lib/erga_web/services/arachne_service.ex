@@ -4,7 +4,7 @@ defmodule ArachneService do
   @base_url "https://arachne.dainst.org/data/search"
 
 
-  def get_list(val) do
+  def get_list(val, _filter) do
     HTTPoison.start
     case HTTPoison.get(@base_url <> "?q=" <> val <> "*" ) do
       {:ok, response} -> list = response.body

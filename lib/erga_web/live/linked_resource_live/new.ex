@@ -19,6 +19,7 @@ defmodule ErgaWeb.LinkedResourceLive.New do
       |> assign(:label, "")
       |> assign(:linked_id, 0)
       |> assign(:search_result, [])
+      |> assign(:search_filter, "populated-place")
     {:ok, socket}
   end
 
@@ -52,13 +53,14 @@ defmodule ErgaWeb.LinkedResourceLive.New do
   def handle_event("search_resource", %{"value" => val}, socket) do
 
     service = ServiceHelpers.get_system_service(socket.assigns.linked_system)
-
+    filter = socket.assigns.search_filter
+    IO.inspect(filter)
     # permit users to use wildcard on thier own
     val = String.replace_trailing(val, "*", "")
 
     # perform a search or return empty list
     if String.length(val) > 1 do
-      case service.get_list(val) do
+      case service.get_list(val, filter) do
         {:ok, list} -> {:noreply, update(socket, :search_result, fn _old_val -> list end)}
         {:error, reason} -> {:noreply, assign(socket, :search_error, reason)}
       end

@@ -3,7 +3,7 @@ defmodule ChrontologyService do
 
   @base_url  "https://chronontology.dainst.org/data/period/"
 
-  def get_list(val) do
+  def get_list(val, _filter) do
     url = @base_url <> "?q=" <> val <> "*"
     get_list_request(url, "results")
   end
