@@ -6,9 +6,9 @@ defmodule GazetteerService do
 
   def get_list(val, filter) do
     case filter do
-      "populated-place" -> get_list_request(@base_url <> val <> "*%20types:populated-place" , "result")
-      "building-institution" -> get_list_request(@base_url <> val <> "*%20types:building-institution" , "result")
-      "archaeological-site" -> get_list_request(@base_url <> val <> "*%20types:archaeological-site" , "result")
+      "populated-place" -> get_list_request(@base_url <> URI.encode(val <> "* types:populated-place")  , "result")
+      "building-institution" -> get_list_request(@base_url <> URI.encode(val <> "* types:building-institution")  , "result")
+      "archaeological-site" -> get_list_request(@base_url <> URI.encode(val <> "* types:archaeological-site")  , "result")
       _ -> get_list_request(@base_url <> val <> "*" , "result")
     end
 
@@ -36,7 +36,13 @@ defmodule GazetteerService do
 
   def get_result_list(res) do
     if is_list(res) do
-      for n <- res, do: %{name: n["prefName"]["title"] <> " - " <> List.first(n["parents"])["prefName"]["title"], resId: n["gazId"]}
+      for n <- res do
+        if List.first(n["parents"]) do
+          %{name: n["prefName"]["title"] <> " - " <> List.first(n["parents"])["prefName"]["title"], resId: n["gazId"]}
+        else
+          %{name: n["prefName"]["title"], resId: n["gazId"]}
+        end
+      end
     else
       []
     end
