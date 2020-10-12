@@ -33,11 +33,9 @@ defmodule ErgaWeb.LinkedResourceLive.Index do
   end
 
   def handle_event("load_resources", %{"foo" => params}, socket) do
-    IO.inspect(params)
     pid = String.to_integer(params["project"])
     socket = if pid > 0 do
       project = Research.get_project!(pid)
-      IO.inspect(project)
       socket
         |> assign(:linked_resources, project.linked_resources )
         |> assign(:project, pid )

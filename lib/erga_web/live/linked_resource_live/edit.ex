@@ -6,7 +6,6 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
   alias ErgaWeb.LinkedResourceLive
   alias ErgaWeb.Router.Helpers, as: Routes
   alias Erga.Research
-  alias Erga.Research.LinkedResource
 
   def mount(_params, _session, socket) do
 
@@ -17,24 +16,17 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
   def handle_params(%{"id" => id}, _url, socket) do
     linked_resource = Research.get_linked_resource!(id)
     changeset = Research.change_linked_resource(linked_resource)
-    linked_val = loading_choosen_resource(linked_resource.linked_id, linked_resource.linked_system).name
 
     socket =
       socket
       |> assign(linked_resource: linked_resource)
       |> assign(changeset: changeset)
       |> assign(:linked_system, linked_resource.linked_system)
-      |> assign(:linked_val, linked_val)
+      |> assign(:label, linked_resource.label)
       |> assign(:linked_id, linked_resource.linked_id)
 
     {:noreply, socket}
   end
-
-  defp loading_choosen_resource(resId, system_name) do
-    system_service = ServiceHelpers.get_system_service(system_name)
-    system_service.get_by_id(resId)
-  end
-
 
 
   def render(assigns), do: Phoenix.View.render(ErgaWeb.LinkedResourceView, "edit.html", assigns)
@@ -47,27 +39,37 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
   def handle_event("choose_resource", %{"id" => id, "name" => name}, socket) do
     socket =
       socket
-      |> assign(:linked_val, name)
+      |> assign(:label, name)
       |> assign(:linked_id, id)
 
     {:noreply, socket}
   end
 
+
+  def handle_event("change_label", %{"value" => val}, socket) do
+    socket =
+      socket
+      |> assign(:label, val)
+
+    {:noreply, socket}
+  end
+
   def handle_event("search_resource", %{"value" => val}, socket) do
+
     service = ServiceHelpers.get_system_service(socket.assigns.linked_system)
 
     # permit users to use wildcard on thier own
     val = String.replace_trailing(val, "*", "")
 
     # perform a search or return empty list
-    response = if String.length(val) > 1 do
-                  service.get_list(val)
-                else
-                  []
-                end
-
-    # update socket
-    {:noreply, update(socket, :search_result, fn res -> response end)}
+    if String.length(val) > 1 do
+      case service.get_list(val) do
+        {:ok, list} -> {:noreply, update(socket, :search_result, fn _old_val -> list end)}
+        {:error, reason} -> {:noreply, assign(socket, :search_error, reason)}
+      end
+    else
+      {:noreply, update(socket, :search_result, fn _l -> [] end)}
+    end
   end
 
   def handle_event("save", %{"linked_resource" => linked_resource_params}, socket) do
