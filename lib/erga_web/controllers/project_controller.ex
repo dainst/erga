@@ -26,9 +26,13 @@ defmodule ErgaWeb.ProjectController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id, "lang" => lang}) do
     project = Research.get_project!(id)
-    render(conn, "show.html", project: project)
+    render(conn, "show.html", project: project, lang: lang)
+  end
+
+  def show(conn, %{"id" => id}) do
+    redirect(conn, to: Routes.project_path(conn, :show, id, lang: "DE"))
   end
 
   def edit(conn, %{"id" => id}) do
