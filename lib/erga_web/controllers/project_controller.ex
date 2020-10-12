@@ -9,6 +9,10 @@ defmodule ErgaWeb.ProjectController do
     render(conn, "index.html", projects: projects, lang: lang)
   end
 
+  def index(conn, _) do
+    redirect(conn, to: Routes.project_path(conn, :index, lang: "DE"))
+  end
+
   def new(conn, _params) do
     changeset = Research.change_project(%Project{})
     render(conn, "new.html", changeset: changeset)
