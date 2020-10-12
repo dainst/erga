@@ -4,7 +4,6 @@ defmodule ErgaWeb.Api.StakeholderView do
   def render("stakeholder.json", %{stakeholder: stakeholder}) do
     %{
       #id: stakeholder.id,
-      type: stakeholder.type,
       title: stakeholder.role,
       label: stakeholder.person_id
     }

@@ -8,6 +8,11 @@ defmodule ErgaWeb.Api.ProjectController do
     render(conn, "list.json", projects: projects)
   end
 
+  def index(conn, %{"since"=> since_date}) do
+    projects = Research.update_since(since_date)
+    render(conn, "list.json", projects: projects)
+  end
+
   def index(conn, _params) do
     projects = Research.list_projects()
     render(conn, "list.json", projects: projects)

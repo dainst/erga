@@ -57,6 +57,26 @@ defmodule Erga.Research do
   end
 
   @doc """
+  returns a list of all projects that where updated since a given ISO Date
+  """
+  def update_since(%NaiveDateTime{} = date_since) do
+    from(p in Project, where: p.updated_at > ^date_since)
+    |> Repo.all
+    |> Repo.preload(:stakeholders)
+    |> Repo.preload(:images)
+  end
+
+  def update_since(date_since) do
+    cond do
+      String.match?(date_since, ~r/^\d{4}-\d{2}-\d{2}$/) -> update_since(NaiveDateTime.from_iso8601!(date_since <> " 00:00:00"))
+      String.match?(date_since, ~r/^\d{4}-\d{2}-\d{2}.?\d{2}:\d{2}:\d{2}$/) -> update_since(NaiveDateTime.from_iso8601!(date_since))
+      true -> raise ArgumentError, message: "wrong date format"
+    end
+  end
+
+
+
+  @doc """
   Creates a project.
 
   ## Examples

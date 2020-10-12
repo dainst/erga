@@ -7,6 +7,7 @@ defmodule StandardServiceBehaivour do
 
       def get_list_request(url, result_name) do
         HTTPoison.start
+        IO.inspect(url)
         case HTTPoison.get(url) do
           {:ok, response} -> list = response.body
                             |> Poison.decode!

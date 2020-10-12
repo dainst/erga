@@ -22,11 +22,6 @@
     <%= @stakeholder.role %>
   </li>
 
-  <li>
-    <strong>Type:</strong>
-    <%= @stakeholder.type %>
-  </li>
-
 </ul>
 
 <span><%= link "Edit", to: Routes.stakeholder_path(@conn, :edit, @stakeholder) %></span>
