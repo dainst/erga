@@ -54,7 +54,6 @@ defmodule ErgaWeb.LinkedResourceLive.New do
 
     service = ServiceHelpers.get_system_service(socket.assigns.linked_system)
     filter = socket.assigns.search_filter
-    IO.inspect(filter)
     # permit users to use wildcard on thier own
     val = String.replace_trailing(val, "*", "")
 

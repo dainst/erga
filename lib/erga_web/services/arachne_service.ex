@@ -21,7 +21,6 @@ defmodule ArachneService do
     res =
       HTTPoison.get!(@base_url <> id).body
       |> Poison.decode!
-    IO.puts(inspect(res))
 
     get_result_list([res])
     |> List.first
