@@ -14,8 +14,8 @@
 <%= for project <- @projects do %>
     <tr>
       <td><%= project.project_code %></td>
-      <td><%= project.title %></td>
-      <td><%= project.description %></td>
+      <td><%= get_title(project, @lang).content %></td>
+      <td><%= get_description(project, @lang).content %></td>
 
       <td>
         <span><%= link "Show", to: Routes.project_path(@conn, :show, project) %></span>

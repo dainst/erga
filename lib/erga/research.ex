@@ -25,6 +25,8 @@ defmodule Erga.Research do
     |> Repo.preload(:stakeholders)
     |> Repo.preload(:linked_resources)
     |> Repo.preload(:images)
+    |> Repo.preload(:title)
+    |> Repo.preload(:description)
   end
 
   @doc """

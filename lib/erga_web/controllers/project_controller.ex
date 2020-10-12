@@ -4,9 +4,9 @@ defmodule ErgaWeb.ProjectController do
   alias Erga.Research
   alias Erga.Research.Project
 
-  def index(conn, _params) do
+  def index(conn, %{"lang" => lang}) do
     projects = Research.list_projects()
-    render(conn, "index.html", projects: projects)
+    render(conn, "index.html", projects: projects, lang: lang)
   end
 
   def new(conn, _params) do

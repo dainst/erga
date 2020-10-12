@@ -13,6 +13,8 @@
 alias Erga.Research.Stakeholder
 alias Erga.Staff.Person
 alias Erga.Research.Project
+alias Erga.Research.TranslatedContent
+alias Erga.Research.ProjectTranslation
 
 Erga.Repo.delete_all Project
 Erga.Repo.delete_all Stakeholder
@@ -29,10 +31,28 @@ Erga.Repo.insert!(%Person{
   title: "Cand. phil"
 })
 
+Erga.Repo.insert!(%TranslatedContent{
+  language_code: "DE",
+  content: "Eine sehr informative Projektbeschreibung."
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  language_code: "EN",
+  content: "This is a very informativ project description."
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  language_code: "DE",
+  content: "Großartiges Ausgrabungsprojekt"
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  language_code: "EN",
+  content: "Great digging project"
+})
+
 Erga.Repo.insert! %Project{
-  description: "This is a very informativ project description.",
   project_code: "1234_PROJ_DAI",
-  title: "Great digging project",
   stakeholders: [%Stakeholder{
     role: "chef role",
     type: "what was type for?",
@@ -46,3 +66,27 @@ Erga.Repo.insert! %Project{
       person_id: 2
     }]
 }
+
+Erga.Repo.insert!(%ProjectTranslation{
+  project_id: 1,
+  translated_content_id: 1,
+  col_name: "descr"
+})
+
+Erga.Repo.insert!(%ProjectTranslation{
+  project_id: 1,
+  translated_content_id: 2,
+  col_name: "descr"
+})
+
+Erga.Repo.insert!(%ProjectTranslation{
+  project_id: 1,
+  translated_content_id: 3,
+  col_name: "title"
+})
+
+Erga.Repo.insert!(%ProjectTranslation{
+  project_id: 1,
+  translated_content_id: 4,
+  col_name: "title"
+})
