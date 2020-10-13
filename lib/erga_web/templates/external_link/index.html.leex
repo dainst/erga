@@ -1,34 +1,28 @@
-<h1>Listing External links</h1>
-<%= f = form_for :foo, "#", [phx_change: :load_resources] %>
-  <%= label f, :project %>
-  <%= select f, :project, @project_list, selected: @project %>
-</form>
-<%= if @project != "0" do %>
-  <%= link "New", to: Routes.live_path(@socket, ErgaWeb.ExternalLinkLive.New, @project) %>
-<% end %>
+<h1>Listing External Urls</h1>
+
 <table>
   <thead>
-    <tr>
-      <th>Project</th>
-      <th>Label</th>
-      <th>URL</th>
+  <tr>
+    <th>Project</th>
+    <th>Label</th>
+    <th>URL</th>
 
-      <th></th>
-    </tr>
+    <th></th>
+  </tr>
   </thead>
   <tbody>
-<%= for external_link <- @external_links do %>
-    <tr>
-      <td><%= external_link.project_id %></td>
-      <td><%= external_link.label %></td>
-      <td><%= external_link.url %></td>
+  <%= for link <- @external_links do %>
+  <tr>
+    <td><%= link.project_id %></td>
+    <td><%= link.label %></td>
+    <td><%= link.url %></td>
 
-      <td>
-        <span><%= link "Show", to: Routes.live_path(@socket, ErgaWeb.ExternalLinkLive.Show, external_link) %></span>
-        <span><%= link "Edit", to: Routes.live_path(@socket, ErgaWeb.ExternalLinkLive.Edit, external_link) %></span>
-        <span><%= link "Delete", to: "#", phx_click: "delete_resource", phx_value_id: external_link.id, data: [confirm: "Are you sure?"] %></span>
-      </td>
-    </tr>
-<% end %>
+    <td>
+      <span><%= link "Show", to: Routes.external_link_path(@conn, :show, link) %></span>
+      <span><%= link "Edit", to: Routes.external_link_path(@conn, :edit, link) %></span>
+    </td>
+  </tr>
+  <% end %>
   </tbody>
 </table>
+

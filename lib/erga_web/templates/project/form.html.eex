@@ -51,12 +51,12 @@
     <%= for resource <- @project.external_links do %>
     <div>
       <%= resource.label %>, <%= resource.url %> |
-      <%= link "edit", to: Routes.live_path(@conn, ErgaWeb.ExternalLinkLive.Edit, resource.id) %> |
-      <%= #link "remove", to: Routes.live_path(@conn, ErgaWeb.ExternalLinkLive.Index, resource), phx_click: "delete_resource", phx_value_id: resource.id, data: [confirm: "Are you sure?"] %>
+      <%= link "edit", to: Routes.external_link_path(@conn, :edit, resource.id) %> |
+      <%= #link "remove", to: Routes.external_link_path(@conn, :delete, resource, @project.id), method: :delete, data: [confirm: "Are you sure?"] %>
     </div>
     <% end %>
     <br/>
-    <%= link "Add external link", to: Routes.live_path(@conn, ErgaWeb.ExternalLinkLive.New, @project.id) %>
+    <%= link "Add external link", to: Routes.external_link_path(@conn, :new, @project.id) %>
   </div>
   <h2>Images</h2>
   <div>

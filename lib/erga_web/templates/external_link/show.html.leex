@@ -19,5 +19,5 @@
 
 </ul>
 
-<span><%= link "Edit", to: Routes.live_path(@socket, ExternalLinkLive.Edit, @external_link) %></span>
-<span><%= link "Back", to: Routes.live_path(@socket, ExternalLinkLive.Index) %></span>
+<span><%= link "Edit", to: Routes.external_link_path(@conn, :edit, @external_link) %></span>
+<span><%= link "Back", to: Routes.external_link_path(@conn, :index) %></span>
