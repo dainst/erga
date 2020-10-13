@@ -11,7 +11,7 @@ defmodule ErgaWeb.TranslatedContentController do
 
   def new(conn, _params) do
     changeset = Research.change_translated_content(%TranslatedContent{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, lang_codes: [de: "DE", en: "EN"])
   end
 
   def create(conn, %{"translated_content" => translated_content_params}) do

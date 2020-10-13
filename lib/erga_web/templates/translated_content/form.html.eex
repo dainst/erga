@@ -4,15 +4,18 @@
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
-
-  <%= label f, :language_code %>
-  <%= text_input f, :language_code %>
-  <%= error_tag f, :language_code %>
-
-  <%= label f, :content %>
-  <%= textarea f, :content %>
-  <%= error_tag f, :content %>
-
+    <div class="row">
+      <div class="col">
+        <%= label f, :language_code %>
+        <%= select f, :language_code, @lang_codes %>
+        <%= error_tag f, :language_code %>
+      </div>
+      <div class="col">
+        <%= label f, :content %>
+        <%= textarea f, :content %>
+        <%= error_tag f, :content %>
+      </div>
+    </div>
   <div>
     <%= submit "Save" %>
   </div>

@@ -17,7 +17,6 @@
   <%= textarea f, :description %>
   <%= error_tag f, :description %>
 
-  <%= if assigns[:project] do %>
   <h2>Stakeholders</h2>
   <div>
     <%= for stakeholder <- @project.stakeholders do %>
@@ -45,7 +44,6 @@
     <br/>
     <%= link "Add linked resource", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.New, @project.id) %>
   </div>
-  <% end %>
 
   <h2>Images</h2>
   <div>

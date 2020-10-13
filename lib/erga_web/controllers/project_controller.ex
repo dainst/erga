@@ -23,7 +23,7 @@ defmodule ErgaWeb.ProjectController do
       {:ok, project} ->
         conn
         |> put_flash(:info, "Project created successfully.")
-        |> redirect(to: Routes.project_path(conn, :show, project))
+        |> redirect(to: Routes.project_path(conn, :edit, project))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
