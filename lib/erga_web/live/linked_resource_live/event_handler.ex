@@ -9,8 +9,17 @@ defmodule EventHandler do
         |> Erga.Research.change_linked_resource(params)
         |> Map.put(:action, :insert)
 
-      assign(socket, :changeset, changeset)
-      |> assign(:linked_system, params["linked_system"])
+      socket =
+        assign(socket, :changeset, changeset)
+        |> assign(:linked_system, params["linked_system"])
+
+      socket = if params["search_filter"] do
+          assign(socket, :search_filter, params["search_filter"])
+        else
+          socket
+        end
+
+      socket
 
   end
 

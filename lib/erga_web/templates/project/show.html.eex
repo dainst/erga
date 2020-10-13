@@ -7,13 +7,13 @@
 <h2>Stakeholders</h2>
 <%= for stakeholder <- @project.stakeholders do %>
   <div><%= stakeholder.person.title <> " " <> stakeholder.person.firstname <> " " <> stakeholder.person.lastname %></div>
-  <div><small><%= stakeholder.role %> | <%= stakeholder.type %> | <%= stakeholder.external_id %></small></div>
+  <div><small><%= stakeholder.role %> | <%= stakeholder.external_id %></small></div>
 <% end %>
 
 <h2>Linked resources:</h2>
 <%= for resource <- @project.linked_resources do %>
   <div><%= resource.label %></div>
-  <div><small><%= resource.context %>: <%= resource.linked_id %> | <%= resource.linked_system %></small></div>
+  <div><small><%= resource.description %>: <%= resource.linked_id %> | <%= resource.linked_system %></small></div>
 <% end %>
 
 <h2>Images:</h2>

@@ -5,8 +5,9 @@ defmodule ServiceHelpers do
       "gazetteer" -> GazetteerService
       "chrontology" -> ChrontologyService
       "thesaurus" -> ThesaurusService
+      "arachne" -> ArachneService
       _ -> raise "no matching service"
     end
-end
+  end
 
 end

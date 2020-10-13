@@ -4,9 +4,9 @@ defmodule Erga.Repo.Migrations.FixLinkedResourceFieldTypes do
   def change do
     alter table(:linked_resources) do
       remove(:label)
-      remove(:context)
+      remove(:description)
       add(:label, :string)
-      add(:context, :string)
+      add(:description, :string)
     end
   end
 end
