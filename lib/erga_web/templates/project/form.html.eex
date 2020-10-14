@@ -48,11 +48,11 @@
   <% end %>
   <h2>External links</h2>
   <div>
-    <%= for resource <- @project.external_links do %>
+    <%= for link <- @project.external_links do %>
     <div>
-      <%= resource.label %>, <%= resource.url %> |
-      <%= link "edit", to: Routes.external_link_path(@conn, :edit, resource.id) %> |
-      <%= #link "remove", to: Routes.external_link_path(@conn, :delete, resource, @project.id), method: :delete, data: [confirm: "Are you sure?"] %>
+      <%= link.label %>, <%= link.url %> |
+      <%= link "edit", to: Routes.external_link_path(@conn, :edit, link.id) %> |
+      <%= link "remove", to: Routes.external_link_path(@conn, :delete, link, @project.id), method: :delete, data: [confirm: "Are you sure?"]  %>
     </div>
     <% end %>
     <br/>

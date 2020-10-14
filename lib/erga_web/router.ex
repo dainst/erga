@@ -39,8 +39,10 @@ defmodule ErgaWeb.Router do
 
 
     get("/external_links/new/:project_id", ExternalLinkController, :new)
+    delete("/external_links/:id/:project_id", ExternalLinkController, :delete)
 
-    live "/persons", PersonLive.Index, :index
+
+                                         live "/persons", PersonLive.Index, :index
     live "/persons/new", PersonLive.Index, :new
     live "/persons/:id/edit", PersonLive.Index, :edit
 
