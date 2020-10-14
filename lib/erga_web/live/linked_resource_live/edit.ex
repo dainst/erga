@@ -22,7 +22,7 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
       |> assign(linked_resource: linked_resource)
       |> assign(changeset: changeset)
       |> assign(:linked_system, linked_resource.linked_system)
-      |> assign(:linked_val, linked_resource.label)
+      |> assign(:label, linked_resource.label)
       |> assign(:linked_id, linked_resource.linked_id)
 
     {:noreply, socket}
@@ -39,8 +39,17 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
   def handle_event("choose_resource", %{"id" => id, "name" => name}, socket) do
     socket =
       socket
-      |> assign(:linked_val, name)
+      |> assign(:label, name)
       |> assign(:linked_id, id)
+
+    {:noreply, socket}
+  end
+
+
+  def handle_event("change_label", %{"value" => val}, socket) do
+    socket =
+      socket
+      |> assign(:label, val)
 
     {:noreply, socket}
   end
