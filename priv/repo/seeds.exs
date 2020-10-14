@@ -10,13 +10,16 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
+alias Erga.Research.ExternalLink
+alias Erga.Research.LinkedResource
 alias Erga.Research.Stakeholder
 alias Erga.Staff.Person
-alias Erga.Research.LinkedResource
 alias Erga.Research.Project
 
 Erga.Repo.delete_all Project
 Erga.Repo.delete_all Stakeholder
+Erga.Repo.delete_all ExternalLink
+Erga.Repo.delete_all LinkedResource
 
 Erga.Repo.insert!(%Person{
   firstname: "Theodor",
@@ -39,6 +42,9 @@ Erga.Repo.insert! %Project{
   Through this modern political boundaries are removed from the historical picture and the networking mechanisms in ancient time are revealed. ",
   project_code: "SPP2143",
   title: "SPP “Entangled Africa” and iDAI.world - A digital connection of time and space",
+  external_links: [%ExternalLink{
+    label: "google",
+    url: "www.google.com"}],
   stakeholders: [
     %Stakeholder{
       role: "chef role",

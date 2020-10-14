@@ -54,6 +54,15 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
     {:noreply, socket}
   end
 
+  def handle_event("change_system", _ , socket) do
+    socket =
+      socket
+      |> assign(:linked_resource, nil)
+      |> assign(:linked_id, '')
+
+    {:noreply, socket}
+  end
+
   def handle_event("search_resource", %{"value" => val}, socket) do
 
     service = ServiceHelpers.get_system_service(socket.assigns.linked_system)

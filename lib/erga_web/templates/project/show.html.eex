@@ -16,6 +16,11 @@
   <div><small><%= resource.description %>: <%= resource.linked_id %> | <%= resource.linked_system %></small></div>
 <% end %>
 
+<h2>External links:</h2>
+<%= for link <- @project.external_links do %>
+<div><%= link.label %> <small><%= link.url %></small></div>
+<% end %>
+
 <h2>Images:</h2>
 <%= for image <- @project.images do %>
 <div>

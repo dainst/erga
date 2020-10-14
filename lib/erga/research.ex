@@ -7,7 +7,7 @@ defmodule Erga.Research do
   import Ecto.Query, warn: false
   alias Erga.Repo
 
-  alias Erga.Research.{Project, LinkedResource, Image, Stakeholder, TranslatedContent}
+  alias Erga.Research.{Project, LinkedResource, ExternalLink, Image, Stakeholder, TranslatedContent}
 
   @upload_directory Application.get_env(:erga, :uploads_directory)
   @doc """
@@ -24,6 +24,7 @@ defmodule Erga.Research do
     |> Repo.all()
     |> Repo.preload(:stakeholders)
     |> Repo.preload(:linked_resources)
+    |> Repo.preload(:external_links)
     |> Repo.preload(:images)
   end
 
@@ -45,6 +46,7 @@ defmodule Erga.Research do
     Repo.get!(Project, id)
     |> Repo.preload(stakeholders: :person)
     |> Repo.preload(:linked_resources)
+    |> Repo.preload(:external_links)
     |> Repo.preload(:images)
   end
 
@@ -93,6 +95,7 @@ defmodule Erga.Research do
     |> Project.changeset(attrs)
     |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
     |> Ecto.Changeset.cast_assoc(:linked_resources, with: &LinkedResource.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:external_links, with: &ExternalLink.changeset/2)
     |> Ecto.Changeset.cast_assoc(:images, with: &Image.changeset/2)
     |> Repo.insert()
   end
@@ -114,6 +117,7 @@ defmodule Erga.Research do
     |> Project.changeset(attrs)
     |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
     |> Ecto.Changeset.cast_assoc(:linked_resources, with: &LinkedResource.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:external_links, with: &ExternalLink.changeset/2)
     |> Ecto.Changeset.cast_assoc(:images, with: &Image.changeset/2)
     |> Repo.update()
   end
@@ -242,6 +246,105 @@ defmodule Erga.Research do
   """
   def change_linked_resource(%LinkedResource{} = linked_resource, attrs \\ %{}) do
     LinkedResource.changeset(linked_resource, attrs)
+  end
+
+  @doc """
+  Returns the list of external_links.
+
+  ## Examples
+
+      iex> list_external_links()
+      [%ExternalLink{}, ...]
+
+  """
+  def list_external_links do
+    Repo.all(ExternalLink)
+  end
+
+  @doc """
+  Gets a single external_link.
+
+  Raises `Ecto.NoResultsError` if the external link does not exist.
+
+  ## Examples
+
+      iex> get_external_link!(123)
+      %LinkedResource{}
+
+      iex> get_external_link!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_external_link!(id), do: Repo.get!(ExternalLink, id)
+
+
+  @doc """
+  Creates an external_link.
+
+  ## Examples
+
+      iex> create_external_link(%{field: value})
+      {:ok, %ExternalLink{}}
+
+      iex> create_external_link(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_external_link(attrs = %{"project_id" => project_id}) do
+    project = get_project!(project_id)
+
+    %ExternalLink{}
+    |> ExternalLink.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:project, project)
+    |> Repo.insert()
+  end
+
+
+  @doc """
+  Updates an external_link.
+
+  ## Examples
+
+      iex> update_external_link(external_link, %{field: new_value})
+      {:ok, %ExternalLink{}}
+
+      iex> update_external_link(external_link, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_external_link(%ExternalLink{} = external_link, attrs) do
+    external_link
+    |> ExternalLink.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes an external_link
+
+  ## Examples
+
+      iex> delete_external_link(external_link)
+      {:ok, %ExternalLink{}}
+
+      iex> delete_external_link(external_link)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_external_link(%ExternalLink{} = external_link) do
+    Repo.delete(external_link)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking external_link changes.
+
+  ## Examples
+
+      iex> change_external_link(external_link)
+      %Ecto.Changeset{data: %ExternalLink{}}
+
+  """
+  def change_external_link(%ExternalLink{} = external_link, attrs \\ %{}) do
+    ExternalLink.changeset(external_link, attrs)
   end
 
   @doc """
