@@ -9,55 +9,112 @@
   <%= text_input f, :project_code %>
   <%= error_tag f, :project_code %>
 
-  <%= label f, :title %>
-  <%= text_input f, :title %>
-  <%= error_tag f, :title %>
+  <div class="box">
+  <h2>Titles</h2>
+   <table>
+        <thead>
+          <tr>
+            <th>Language</th>
+            <th>Text</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+        <%= for title <- @project.title do %>
+          <tr>
+            <td><%= title.language_code %></td>
+            <td><%= title.content %></td>
+            <td><%= link "edit", to: Routes.translated_content_path(@conn, :edit, title.id) %> |
+            <%= link "remove", to: Routes.translated_content_path(@conn, :delete, title.id), method: :delete, data: [confirm: "Are you sure?"] %></td>
+          </tr>
+        <% end %>
+        </tbody>
+    </table>
+  <%= link "Add Title", to: Routes.translated_content_path(@conn, :new, project_id: @project.id, col_name: "title") %>
+  </div>
 
-  <%= label f, :description %>
-  <%= textarea f, :description %>
-  <%= error_tag f, :description %>
+  <div class="box">
+    <h2>Descriptions</h2>
 
-  <h2>Stakeholders</h2>
-  <div>
-    <%= for stakeholder <- @project.stakeholders do %>
-    <div>
-        <%= stakeholder.person.lastname %>, <%= stakeholder.role %>, <%= stakeholder.external_id %> |
-        <%= link "edit", to: Routes.stakeholder_path(@conn, :edit, stakeholder.id) %> |
-        <%= link "remove", to: Routes.stakeholder_path(@conn, :delete, stakeholder, @project.id), method: :delete, data: [confirm: "Are you sure?"] %>
-    </div>
-    <% end %>
-    <br/>
+      <table>
+        <thead>
+          <tr>
+            <th>Language</th>
+            <th>Text</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+           <%= for descr <- @project.description do %>
+          <tr>
+            <td><%= descr.language_code %></td>
+            <td><%= descr.content%></td>
+            <td><%= link "edit", to: Routes.translated_content_path(@conn, :edit, descr.id) %> |
+            <%= link "remove", to: Routes.translated_content_path(@conn, :delete, descr.id), method: :delete, data: [confirm: "Are you sure?"] %></td>
+          </tr>
+           <% end %>
+
+        </tbody>
+      </table>
+    <%= link "Add Description", to: Routes.translated_content_path(@conn, :new, project_id: @project.id, col_name: "descr") %>
+  </div>
+  <div class="box">
+    <h2>Stakeholders</h2>
+    <table>
+      <thead>
+      <tr><th>Lastname</th><th>Firstname</th><th>Role</th><th>External ID</th><th></th></tr>
+      </thead>
+      <tbody>
+      <%= for stakeholder <- @project.stakeholders do %>
+        <tr>
+          <td><%= stakeholder.person.lastname %></td>
+          <td><%= stakeholder.person.firstname %></td>
+          <td><%= stakeholder.role %></td>
+          <td><%= stakeholder.external_id %></td>
+          <td><%= link "edit", to: Routes.stakeholder_path(@conn, :edit, stakeholder.id) %> |
+          <%= link "remove", to: Routes.stakeholder_path(@conn, :delete, stakeholder, @project.id), method: :delete, data: [confirm: "Are you sure?"] %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
     <%= link "Add Stakeholder", to: Routes.stakeholder_path(@conn, :new, @project.id) %>
   </div>
 
-  <h2>Linked resources</h2>
-  <div>
-    <%= for resource <- @project.linked_resources do %>
-    <div>
-        <%= resource.label %>, <%= resource.description %>,
-        <%= resource.linked_system %>, <%= resource.linked_id %> |
-        <%= link "edit", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Edit, resource.id) %> |
-        <%= #link "remove", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Index, resource), phx_click: "delete_resource", phx_value_id: resource.id, data: [confirm: "Are you sure?"] %>
-    </div>
-    <% end %>
-    <br/>
+  <div class="box">
+    <h2>Linked resources</h2>
+    <table>
+      <thead>
+        <tr><th>Label</th><th>Description</th><th>System</th><th>System ID</th><th></th></tr>
+      </thead>
+      <tbody>
+      <%= for resource <- @project.linked_resources do %>
+      <tr>
+          <td><%= resource.label %></td>
+          <td><%= resource.description %></td>
+          <td><%= resource.linked_system %></td>
+          <td><%= resource.linked_id %></td>
+          <td> <%= link "edit", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Edit, resource.id) %> |
+          <%= #link "remove", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Index, resource), phx_click: "delete_resource", phx_value_id: resource.id, data: [confirm: "Are you sure?"] %></td>
+      </tr>
+      <% end %>
+     </tbody>
+    </table>
     <%= link "Add linked resource", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.New, @project.id) %>
   </div>
-
-  <h2>Images</h2>
-  <div>
-    <%= for image <- @project.images do %>
+  <div class="box">
+    <h2>Images</h2>
     <div>
-        <%= image.label %>, primary: <%= image.primary %>
-        <%= img_tag("/media/#{image.path}", class: "image") %>
-        <%= link "edit", to: Routes.image_path(@conn, :edit, image.id) %> |
-        <%= link "remove", to: Routes.image_path(@conn, :delete, image, @project.id), method: :delete, data: [confirm: "Are you sure?"]  %>
-        </div>
-    <% end %>
-    <br/>
-    <%= link "Add image", to: Routes.image_path(@conn, :new, @project.id) %>
-  </div>
-
+      <%= for image <- @project.images do %>
+      <div>
+          <%= image.label %>, primary: <%= image.primary %>
+          <%= img_tag("/media/#{image.path}", class: "image") %>
+          <%= link "edit", to: Routes.image_path(@conn, :edit, image.id) %> |
+          <%= link "remove", to: Routes.image_path(@conn, :delete, image, @project.id), method: :delete, data: [confirm: "Are you sure?"]  %>
+          </div>
+      <% end %>
+      <%= link "Add image", to: Routes.image_path(@conn, :new, @project.id) %>
+    </div>
+    </div>
   <div>
     <%= submit "Save" %>
   </div>

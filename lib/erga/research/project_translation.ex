@@ -14,7 +14,7 @@ defmodule Erga.Research.ProjectTranslation do
   @doc false
   def changeset(project_translation, attrs) do
     project_translation
-    |> cast(attrs, [])
-    |> validate_required([])
+    |> cast(attrs, [:project_id, :translated_content_id, :col_name])
+    |> validate_required([:project_id, :translated_content_id, :col_name])
   end
 end

@@ -4,6 +4,8 @@
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
+  <%= hidden_input f, :project_id, value: @project_id %>
+  <%= hidden_input f, :col_name, value: @col_name %>
     <div class="row">
       <div class="col">
         <%= label f, :language_code %>

@@ -9,4 +9,7 @@
   <%= text_input f, :project_code %>
   <%= error_tag f, :project_code %>
 
+  <div>
+    <%= submit "Save" %>
+  </div>
 <% end %>
