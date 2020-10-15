@@ -5,7 +5,7 @@
         <%= hidden_input f, :project_id %>
 
         <%= label f, :linked_system %>
-        <%= select f, :linked_system, [Gazetteer: "gazetteer", Chrontology: "chrontology", Thesaurus: "thesaurus", Arachne: "arachne",] %>
+        <%= select f, :linked_system, [Gazetteer: "gazetteer", Chrontology: "chrontology", Thesaurus: "thesaurus", Arachne: "arachne",], phx_keyup: "change_system" %>
         <%= error_tag f, :linked_system %>
       </div>
       <div class="column column-20">
