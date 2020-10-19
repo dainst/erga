@@ -4,7 +4,7 @@ defmodule ErgaWeb.TranslatedContentController do
   alias Erga.Research
   alias Erga.Research.TranslatedContent
 
-  @lang_codes [de: "DE", en: "EN", fr: "FR", it: "IT"]
+  @lang_codes [de: "DE", en: "EN", fr: "FR", it: "IT", es: "ES", ru: "RU"]
 
   def index(conn, _params) do
     translated_contents = Research.list_translated_contents()
