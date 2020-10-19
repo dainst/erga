@@ -1,11 +1,11 @@
-<%= f = form_for @changeset, "#", [phx_change: :validate, phx_submit: :save]%>
+<%= f = form_for @changeset, "#", [phx_change: :form_change, phx_submit: :save]%>
   <div class="container-fluid">
     <div class="row">
       <div class="column column-20">
         <%= hidden_input f, :project_id %>
 
         <%= label f, :linked_system %>
-        <%= select f, :linked_system, [Gazetteer: "gazetteer", Chrontology: "chrontology", Thesaurus: "thesaurus", Arachne: "arachne",], phx_window_keydown: "change_system" %>
+        <%= select f, :linked_system, [Gazetteer: "gazetteer", Chrontology: "chrontology", Thesaurus: "thesaurus", Arachne: "arachne",] %>
         <%= error_tag f, :linked_system %>
       </div>
       <div class="column column-20">
@@ -27,7 +27,7 @@
     <div class="row">
       <div class="column">
         <%= label f, :label %>
-        <%= text_input f, :label, value: @label, phx_keyup: "change_label" %>
+        <%= text_input f, :label, value: @label%>
         <%= error_tag f, :label %>
       </div>
     </div>
