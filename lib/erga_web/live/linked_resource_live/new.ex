@@ -41,6 +41,15 @@ defmodule ErgaWeb.LinkedResourceLive.New do
     {:noreply, socket}
   end
 
+  def handle_event("change_system", _ , socket) do
+    socket =
+      socket
+      |> assign(:linked_resource, nil)
+      |> assign(:linked_id, '')
+
+    {:noreply, socket}
+  end
+
   def handle_event("choose_resource", %{"id" => id, "name" => name}, socket) do
     socket =
       socket

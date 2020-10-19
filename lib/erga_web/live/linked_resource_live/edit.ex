@@ -54,6 +54,7 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
     {:noreply, socket}
   end
 
+
   def handle_event("change_system", _ , socket) do
     socket =
       socket
@@ -69,7 +70,6 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
 
     # permit users to use wildcard on thier own
     val = String.replace_trailing(val, "*", "")
-
     # perform a search or return empty list
     if String.length(val) > 1 do
       case service.get_list(val) do
