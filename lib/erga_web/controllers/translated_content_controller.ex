@@ -28,6 +28,7 @@ defmodule ErgaWeb.TranslatedContentController do
         translated_content_params
         |> Map.put("translated_content_id", translated_content.id)
         |> Research.assoc_translated_content
+
         conn
         |> put_flash(:info, "Translated content created successfully.")
         |> redirect(to: Routes.project_path(conn, :edit, translated_content_params["project_id"]))
@@ -55,19 +56,19 @@ defmodule ErgaWeb.TranslatedContentController do
       {:ok, translated_content} ->
         conn
         |> put_flash(:info, "Translated content updated successfully.")
-        |> redirect(to: Routes.translated_content_path(conn, :show, translated_content))
+        |> redirect(to: Routes.project_path(conn, :edit, translated_content_params["project_id"]))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", translated_content: translated_content, changeset: changeset)
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => id, "project_id" => pid}) do
     translated_content = Research.get_translated_content!(id)
     {:ok, _translated_content} = Research.delete_translated_content(translated_content)
 
     conn
     |> put_flash(:info, "Translated content deleted successfully.")
-    |> redirect(to: Routes.translated_content_path(conn, :index))
+    |> redirect(to: Routes.project_path(conn, :edit, pid))
   end
 end
