@@ -1,7 +1,8 @@
 defmodule ErgaWeb.Router do
   use ErgaWeb, :router
-
+  use Pow.Phoenix.Router
   import Phoenix.LiveView.Router
+
 
   pipeline :browser do
     plug(:accepts, ["html"])
@@ -16,8 +17,19 @@ defmodule ErgaWeb.Router do
     plug(:accepts, ["json"])
   end
 
+  pipeline :protected do
+    plug Pow.Plug.RequireAuthenticated,
+         error_handler: Pow.Phoenix.PlugErrorHandler
+  end
+
+  scope "/" do
+    pipe_through :browser
+
+    pow_routes()
+  end
+
   scope "/", ErgaWeb do
-    pipe_through(:browser)
+    pipe_through [:browser, :protected]
 
     resources("/projects", ProjectController)
 
