@@ -4,9 +4,8 @@ defmodule EventHandler do
 
 
   def change(%{"_target" => targets,  "linked_resource" => params}, socket) do
-    IO.inspect(targets)
       cond do
-        "linked_system" in targets -> assign(socket, :linked_id, '') |> assign(:linked_system, params["linked_system"])
+        "linked_system" in targets -> assign(socket, :linked_id, '') |> assign(:search_result, [])
         "search_filter" in targets -> assign(socket, :search_filter, params["search_filter"])
         true -> validate(params, socket)
       end
