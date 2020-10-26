@@ -33,7 +33,8 @@ config :tesla, :adapter, Tesla.Adapter.Hackney
 
 config :erga, :pow,
   user: Erga.Accounts.User,
-  repo: Erga.Repo
+  repo: Erga.Repo,
+  web_module: ErgaWeb
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

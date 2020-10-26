@@ -25,7 +25,7 @@ defmodule ErgaWeb.Router do
   scope "/" do
     pipe_through :browser
 
-    pow_routes()
+    pow_session_routes()
   end
 
   scope "/", ErgaWeb do

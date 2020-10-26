@@ -13,9 +13,14 @@ To start your Phoenix server:
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+### Usermanagement
+To create a new user,
 
+run `mix run priv/repo/create_user.exs email@adress.com password`
 ### Database reset
 run `mix ecto.reset`
+
+Default User is `admin` : `erga123!`
 ### Seeding
 run `mix run priv/repo/seeds.exs`
 
