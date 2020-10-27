@@ -15,6 +15,7 @@ alias Erga.Research.LinkedResource
 alias Erga.Research.Stakeholder
 alias Erga.Staff.Person
 alias Erga.Research.Project
+alias Erga.Accounts.User
 alias Erga.Research.TranslatedContent
 alias Erga.Research.ProjectTranslation
 
@@ -22,6 +23,11 @@ Erga.Repo.delete_all Project
 Erga.Repo.delete_all Stakeholder
 Erga.Repo.delete_all ExternalLink
 Erga.Repo.delete_all LinkedResource
+
+Erga.Repo.insert!(%User{
+  email: "admin",
+  password_hash: Pow.Ecto.Schema.Password.pbkdf2_hash("erga123!")
+})
 
 Erga.Repo.insert!(%Person{
   firstname: "Theodor",
