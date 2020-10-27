@@ -4,9 +4,13 @@ defmodule ErgaWeb.ProjectController do
   alias Erga.Research
   alias Erga.Research.Project
 
-  def index(conn, _params) do
+  def index(conn, %{"lang" => lang}) do
     projects = Research.list_projects()
-    render(conn, "index.html", projects: projects)
+    render(conn, "index.html", projects: projects, lang: lang)
+  end
+
+  def index(conn, _) do
+    redirect(conn, to: Routes.project_path(conn, :index, lang: "DE"))
   end
 
   def new(conn, _params) do
@@ -19,16 +23,20 @@ defmodule ErgaWeb.ProjectController do
       {:ok, project} ->
         conn
         |> put_flash(:info, "Project created successfully.")
-        |> redirect(to: Routes.project_path(conn, :show, project))
+        |> redirect(to: Routes.project_path(conn, :edit, project))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
 
-  def show(conn, %{"id" => id}) do
+  def show(conn, %{"id" => id, "lang" => lang}) do
     project = Research.get_project!(id)
-    render(conn, "show.html", project: project)
+    render(conn, "show.html", project: project, lang: lang)
+  end
+
+  def show(conn, %{"id" => id}) do
+    redirect(conn, to: Routes.project_path(conn, :show, id, lang: "DE"))
   end
 
   def edit(conn, %{"id" => id}) do

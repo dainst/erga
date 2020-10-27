@@ -5,7 +5,7 @@ defmodule Erga.Research.TranslatedContent do
   schema "translated_contents" do
     field :content, :string
     field :language_code, :string
-
+    has_one :project_assoc, Erga.Research.ProjectTranslation
     timestamps()
   end
 

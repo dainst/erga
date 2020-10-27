@@ -7,7 +7,7 @@ defmodule Erga.Research do
   import Ecto.Query, warn: false
   alias Erga.Repo
 
-  alias Erga.Research.{Project, LinkedResource, ExternalLink, Image, Stakeholder, TranslatedContent}
+  alias Erga.Research.{Project, LinkedResource, ExternalLink, Image, Stakeholder, TranslatedContent, ProjectTranslation}
 
   @upload_directory Application.get_env(:erga, :uploads_directory)
   @doc """
@@ -26,6 +26,8 @@ defmodule Erga.Research do
     |> Repo.preload(:linked_resources)
     |> Repo.preload(:external_links)
     |> Repo.preload(:images)
+    |> Repo.preload(:title)
+    |> Repo.preload(:description)
   end
 
   @doc """
@@ -48,6 +50,8 @@ defmodule Erga.Research do
     |> Repo.preload(:linked_resources)
     |> Repo.preload(:external_links)
     |> Repo.preload(:images)
+    |> Repo.preload(:title)
+    |> Repo.preload(:description)
   end
 
   @doc """
@@ -589,7 +593,7 @@ defmodule Erga.Research do
       ** (Ecto.NoResultsError)
 
   """
-  def get_translated_content!(id), do: Repo.get!(TranslatedContent, id)
+  def get_translated_content!(id), do: Repo.get!(TranslatedContent, id) |> Repo.preload(:project_assoc)
 
   @doc """
   Creates a translated_content.
@@ -655,4 +659,10 @@ defmodule Erga.Research do
   def change_translated_content(%TranslatedContent{} = translated_content, attrs \\ %{}) do
     TranslatedContent.changeset(translated_content, attrs)
   end
+
+  def assoc_translated_content(attrs) do
+    ProjectTranslation.changeset(%ProjectTranslation{}, attrs)
+    |> Repo.insert!
+  end
+
 end
