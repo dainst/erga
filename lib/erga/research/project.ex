@@ -19,6 +19,7 @@ defmodule Erga.Research.Project do
   def changeset(project, attrs) do
     project
     |> cast(attrs, [:project_code])
+    |> unique_constraint(:project_code)
     |> validate_required([:project_code])
     |> cast_assoc(:stakeholders)
     |> cast_assoc(:linked_resources)
