@@ -102,6 +102,19 @@
     <%= link "Add linked resource", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.New, @project.id) %>
   </div>
   <div class="box">
+    <h2>External links</h2>
+    <div>
+      <%= for link <- @project.external_links do %>
+        <div>
+          <%= link.label %>, <%= link.url %> |
+          <%= link "edit", to: Routes.external_link_path(@conn, :edit, link.id) %> |
+          <%= link "remove", to: Routes.external_link_path(@conn, :delete, link, @project.id), method: :delete, data: [confirm: "Are you sure?"]  %>
+        </div>
+      <% end %>
+      <%= link "Add external link", to: Routes.external_link_path(@conn, :new, @project.id) %>
+    </div>
+  </div>
+  <div class="box">
     <h2>Images</h2>
     <div>
       <%= for image <- @project.images do %>
