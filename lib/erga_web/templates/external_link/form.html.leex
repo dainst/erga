@@ -1,0 +1,16 @@
+<%= f = form_for @changeset, "#", [phx_change: :validate, phx_submit: :save]%>
+
+<%= hidden_input f, :project_id %>
+
+<%= label f, :label %>
+<%= text_input f, :label %>
+<%= error_tag f, :label %>
+
+<%= label f, :url %>
+<%= text_input f, :url %>
+<%= error_tag f, :url %>
+
+
+<div>
+  <%= submit "Save" %>
+</div>

@@ -3,24 +3,22 @@ defmodule EventHandler do
   alias Erga.Research.LinkedResource
 
 
-  def validate(params, socket) do
-      changeset =
-        %LinkedResource{}
-        |> Erga.Research.change_linked_resource(params)
-        |> Map.put(:action, :insert)
+  def change(%{"_target" => targets,  "linked_resource" => params}, socket) do
+      cond do
+        "linked_system" in targets -> assign(socket, :linked_id, '') |> assign(:search_result, [])
+        "search_filter" in targets -> assign(socket, :search_filter, params["search_filter"])
+        true -> validate(params, socket)
+      end
+  end
 
-      socket =
-        assign(socket, :changeset, changeset)
-        |> assign(:linked_system, params["linked_system"])
+  defp validate(params, socket) do
+    changeset =
+      %LinkedResource{}
+      |> Erga.Research.change_linked_resource(params)
+      |> Map.put(:action, :insert)
 
-      socket = if params["search_filter"] do
-          assign(socket, :search_filter, params["search_filter"])
-        else
-          socket
-        end
-
-      socket
-
+      assign(socket, :changeset, changeset)
+      |> assign(:linked_system, params["linked_system"])
   end
 
 end

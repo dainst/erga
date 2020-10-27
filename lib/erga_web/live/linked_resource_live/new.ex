@@ -28,16 +28,8 @@ defmodule ErgaWeb.LinkedResourceLive.New do
   @spec handle_event(<<_::32, _::_*8>>, map, %{
           __struct__: Phoenix.LiveView.Socket | Phoenix.Socket
         }) :: {:noreply, any}
-  def handle_event("validate", %{"linked_resource" => linked_resource_params}, socket) do
-    socket = EventHandler.validate(linked_resource_params, socket)
-    {:noreply, socket}
-  end
-
-  def handle_event("change_label", %{"value" => val}, socket) do
-    socket =
-      socket
-      |> assign(:label, val)
-
+  def handle_event("form_change", linked_resource_params, socket) do
+    socket = EventHandler.change(linked_resource_params, socket)
     {:noreply, socket}
   end
 
