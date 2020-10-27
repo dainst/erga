@@ -1,8 +1,8 @@
 <div><%= link "Back", to: Routes.project_path(@conn, :index) %> | <%= link "Edit", to: Routes.project_path(@conn, :edit, @project) %> </div>
 
-<h1><%= @project.title %> (<%= @project.project_code %>)</h1>
+<h1><%= get_title(@project, @lang).content %></h1>
 
-<p><%= @project.description %></p>
+<div><strong><%= @project.project_code %></strong>: <%= get_description(@project, @lang).content %></div>
 
 <h2>Stakeholders</h2>
 <%= for stakeholder <- @project.stakeholders do %>
