@@ -20,7 +20,7 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 To create a new user, run `mix run priv/repo/create_user.exs email@adress.com password`. The default User is `admin` : `erga123!`, defined in [seeds.exs](priv/repo/seeds.exs).
 
 ## Database reset
-To remove all current data, apply all migrations and reseed based on [seeds.exs](priv/repo/seeds.exs) run `mix ecto.reset`. You may be unable to reset the database if it is still opened by another application (for example [pgAdmin](https://www.pgadmin.org).
+To remove all current data, apply all migrations and reseed based on [seeds.exs](priv/repo/seeds.exs) run `mix ecto.reset`. You may be unable to reset the database if it is still opened by another application (for example [pgAdmin](https://www.pgadmin.org)).
 
 ## Troubleshooting
 
