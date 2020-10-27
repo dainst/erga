@@ -8,7 +8,7 @@
   <%= hidden_input f, :project_id %>
 
   <%= label f, :person_id %>
-  <%= select f, :person_id, Enum.map(@persons, &{&1.title <> " " <> &1.firstname <> " " <> &1.lastname, &1.id}), prompt: "Bitte wählen", required: true%>
+  <%= select f, :person_id, Enum.map(@persons, &{ &1.firstname <> " " <> &1.lastname, &1.id}), prompt: "Bitte wählen", required: true%>
   <%= error_tag f, :person_id %>
 
   <%= link "New Person", to: "/persons/new" %>

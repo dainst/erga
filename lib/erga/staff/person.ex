@@ -16,7 +16,7 @@ defmodule Erga.Staff.Person do
   def changeset(person, attrs) do
     person
     |> cast(attrs, [:firstname, :lastname, :title])
-    |> validate_required([:firstname, :lastname, :title])
+    |> validate_required([:firstname, :lastname])
     |> cast_assoc(:stakeholders)
   end
 end
