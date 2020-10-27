@@ -13,28 +13,22 @@ To start your Phoenix server:
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+
 ### Usermanagement
-To create a new user,
+To create a new user, run `mix run priv/repo/create_user.exs email@adress.com password`. The default User is `admin` : `erga123!`, defined in [seeds.exs](priv/repo/seeds.exs).
 
-run `mix run priv/repo/create_user.exs email@adress.com password`
 ### Database reset
-run `mix ecto.reset`
-
-Default User is `admin` : `erga123!`
-### Seeding
-run `mix run priv/repo/seeds.exs`
-
-This will delete all entries in the database and replace them with default ones.
+To remove all current data, apply all migrations and reseed based on [seeds.exs](priv/repo/seeds.exs) run `mix ecto.reset`.
 
 ## Troubleshooting
 
-### Start postgress docker
+### Dockerized PostgreSQL 
 
-run `docker-compose up`
+Run `docker-compose up` to start database container.
 
-### Restart postgress docker
+Run `docker-compose down` to stop database container.
 
-run `docker restart erga_db`
+The container will save data to your local directory (see [docker-compose.yml](docker-compose.yml)).
 
 ### MacOS
 
