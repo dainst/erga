@@ -5,6 +5,7 @@ defmodule ErgaWeb.Api.StakeholderView do
     %{
       #id: stakeholder.id,
       title: stakeholder.role,
+      person: render_one(stakeholder.person, ErgaWeb.Api.PersonView, "person.json"),
       label: stakeholder.person_id
     }
   end
