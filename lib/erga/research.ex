@@ -60,6 +60,9 @@ defmodule Erga.Research do
   def update_days_ago(days_ago) do
     d = String.to_integer(days_ago)
     Repo.all(from(p in Project, where: p.updated_at >= ago(^d, "day")))
+    |> Repo.preload(:images)
+    |> Repo.preload(:title)
+    |> Repo.preload(:stakeholders)
   end
 
   @doc """
@@ -70,6 +73,8 @@ defmodule Erga.Research do
     |> Repo.all
     |> Repo.preload(:stakeholders)
     |> Repo.preload(:images)
+    |> Repo.preload(:title)
+
   end
 
   def update_since(date_since) do
