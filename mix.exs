@@ -51,7 +51,8 @@ defmodule Erga.MixProject do
       {:poison, "~> 3.1"},
       {:sparql_client, "~> 0.2.1"},
       {:hackney, "~> 1.6"},
-      {:zarex, "~> 1.0"}
+      {:zarex, "~> 1.0"},
+      {:pow, "~> 1.0.21"}
     ]
   end
 
