@@ -57,8 +57,8 @@ defmodule Erga.Research do
   @doc """
   returns a list of all projects that where updated x days ago
   """
-  def update_days_ago(days_ago) do
-    d = String.to_integer(days_ago)
+  def get_projects_updated_days_ago(number_of_days) do
+    d = String.to_integer(number_of_days)
     Repo.all(from(p in Project, where: p.updated_at >= ago(^d, "day")))
     |> Repo.preload(:images)
     |> Repo.preload(:title)
@@ -68,23 +68,14 @@ defmodule Erga.Research do
   @doc """
   returns a list of all projects that where updated since a given ISO Date
   """
-  def update_since(%NaiveDateTime{} = date_since) do
-    from(p in Project, where: p.updated_at > ^date_since)
+
+  def get_projects_updated_since(date) do
+    from(p in Project, where: p.updated_at > ^date)
     |> Repo.all
     |> Repo.preload(:stakeholders)
     |> Repo.preload(:images)
     |> Repo.preload(:title)
-
   end
-
-  def update_since(date_since) do
-    cond do
-      String.match?(date_since, ~r/^\d{4}-\d{2}-\d{2}$/) -> update_since(NaiveDateTime.from_iso8601!(date_since <> " 00:00:00"))
-      String.match?(date_since, ~r/^\d{4}-\d{2}-\d{2}.?\d{2}:\d{2}:\d{2}$/) -> update_since(NaiveDateTime.from_iso8601!(date_since))
-      true -> raise ArgumentError, message: "wrong date format"
-    end
-  end
-
 
 
   @doc """

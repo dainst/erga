@@ -4,13 +4,18 @@ defmodule ErgaWeb.Api.ProjectController do
   alias Erga.Research
 
   def index(conn, %{"updated_days_ago" => days_ago}) do
-    projects = Research.update_days_ago(days_ago)
+    projects = Research.get_projects_updated_days_ago(days_ago)
     render(conn, "list.json", projects: projects)
   end
 
-  def index(conn, %{"since"=> since_date}) do
-    projects = Research.update_since(since_date)
-    render(conn, "list.json", projects: projects)
+  def index(conn, %{"since"=> date_string}) do
+    case parse_date(date_string) do
+      {:ok, date} ->
+        projects = Research.get_projects_updated_since(date)
+        render(conn, "list.json", projects: projects)
+      {:error, error} ->
+        send_resp(conn, 400, "Malformed date: '#{date_string}'.")
+    end
   end
 
   def index(conn, _params) do
@@ -23,4 +28,13 @@ defmodule ErgaWeb.Api.ProjectController do
     render(conn, "show.json", project: project)
   end
 
+  defp parse_date(date_string) do
+    case NaiveDateTime.from_iso8601(date_string) do
+      {:error, _} ->
+        case NaiveDateTime.from_iso8601("#{date_string} 00:00:00") do
+          result -> result
+        end
+      success -> success
+    end
+  end
 end
