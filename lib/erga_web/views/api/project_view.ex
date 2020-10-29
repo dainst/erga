@@ -14,6 +14,8 @@ defmodule ErgaWeb.Api.ProjectView do
     %{
       id: project.id,
       project_key: project.project_code,
+      starts_at: project.starts_at,
+      ends_at: project.ends_at,
       title: render_many(project.title, ErgaWeb.Api.TranslatedContentView, "translated_content.json"),
       description: render_many(project.description, ErgaWeb.Api.TranslatedContentView, "translated_content.json"),
       inserted_at: project.inserted_at,
@@ -28,6 +30,8 @@ defmodule ErgaWeb.Api.ProjectView do
     %{
       id: project.id,
       project_key: project.project_code,
+      starts_at: project.starts_at,
+      ends_at: project.ends_at,
       title: render_many(project.title, ErgaWeb.Api.TranslatedContentView, "translated_content.json"),
       inserted_at: project.inserted_at,
       updated_at: project.updated_at,

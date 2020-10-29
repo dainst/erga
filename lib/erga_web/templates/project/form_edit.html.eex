@@ -9,6 +9,8 @@
   <%= text_input f, :project_code %>
   <%= error_tag f, :project_code %>
 
+
+
   <div class="box">
   <h2>Titles</h2>
    <table>
@@ -33,31 +35,40 @@
   <%= link "Add Title", to: Routes.translated_content_path(@conn, :new, project_id: @project.id, col_name: "title") %>
   </div>
 
-  <div class="box">
-    <h2>Descriptions</h2>
+<div class="box">
+  <h2>Descriptions</h2>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Language</th>
-            <th>Text</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-           <%= for descr <- @project.description do %>
-          <tr>
-            <td><%= descr.language_code %></td>
-            <td><%= descr.content%></td>
-            <td><%= link "edit", to: Routes.translated_content_path(@conn, :edit, descr.id) %> |
-            <%= link "remove", to: Routes.translated_content_path(@conn, :delete, descr.id, project_id: @project.id), method: :delete, data: [confirm: "Are you sure?"] %></td>
-          </tr>
-           <% end %>
+  <table>
+    <thead>
+    <tr>
+      <th>Language</th>
+      <th>Text</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <%= for descr <- @project.description do %>
+    <tr>
+      <td><%= descr.language_code %></td>
+      <td><%= descr.content%></td>
+      <td><%= link "edit", to: Routes.translated_content_path(@conn, :edit, descr.id) %> |
+        <%= link "remove", to: Routes.translated_content_path(@conn, :delete, descr.id, project_id: @project.id), method: :delete, data: [confirm: "Are you sure?"] %></td>
+    </tr>
+    <% end %>
 
-        </tbody>
-      </table>
-    <%= link "Add Description", to: Routes.translated_content_path(@conn, :new, project_id: @project.id, col_name: "descr") %>
-  </div>
+    </tbody>
+  </table>
+  <%= link "Add Description", to: Routes.translated_content_path(@conn, :new, project_id: @project.id, col_name: "descr") %>
+</div>
+<div class="box">
+  <h2>Informations</h2>
+  <%= label f, :starts_at %>
+  <%= date_input f, :starts_at %>
+  <%= error_tag f, :starts_at %>
+  <%= label f, :ends_at %>
+  <%= date_input f, :ends_at %>
+  <%= error_tag f, :ends_at %>
+</div>
   <div class="box">
     <h2>Stakeholders</h2>
     <table>

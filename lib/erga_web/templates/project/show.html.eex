@@ -4,6 +4,8 @@
 
 <div><strong><%= @project.project_code %></strong>: <%= get_description(@project, @lang).content %></div>
 
+<div><%= @project.starts_at %></div><div><%= @project.ends_at %></div>
+
 <h2>Stakeholders</h2>
 <%= for stakeholder <- @project.stakeholders do %>
   <div><%= stakeholder.person.title <> " " <> stakeholder.person.firstname <> " " <> stakeholder.person.lastname %></div>

@@ -5,9 +5,16 @@
     </div>
   <% end %>
 
-  <%= label f, :project_code %>
-  <%= text_input f, :project_code %>
-  <%= error_tag f, :project_code %>
+    <%= label f, :project_code %>
+    <%= text_input f, :project_code %>
+    <%= error_tag f, :project_code %>
+
+    <%= label f, :starts_at %>
+    <%= date_input f, :starts_at %>
+    <%= error_tag f, :starts_at %>
+    <%= label f, :ends_at %>
+    <%= date_input f, :ends_at %>
+    <%= error_tag f, :ends_at %>
 
   <div>
     <%= submit "Save" %>

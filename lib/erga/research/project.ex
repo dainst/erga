@@ -4,7 +4,8 @@ defmodule Erga.Research.Project do
 
   schema "projects" do
     field(:project_code, :string)
-
+    field(:starts_at, :utc_datetime)
+    field(:ends_at, :utc_datetime)
     has_many(:stakeholders, Erga.Research.Stakeholder)
     has_many(:linked_resources, Erga.Research.LinkedResource)
     has_many(:external_links, Erga.Research.ExternalLink)
@@ -18,7 +19,7 @@ defmodule Erga.Research.Project do
   @doc false
   def changeset(project, attrs) do
     project
-    |> cast(attrs, [:project_code])
+    |> cast(attrs, [:project_code, :starts_at, :ends_at])
     |> unique_constraint(:project_code)
     |> validate_required([:project_code])
     |> cast_assoc(:stakeholders)
