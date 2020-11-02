@@ -4,8 +4,8 @@ defmodule Erga.Research.Project do
 
   schema "projects" do
     field(:project_code, :string)
-    field(:starts_at, :utc_datetime)
-    field(:ends_at, :utc_datetime)
+    field(:starts_at, :date)
+    field(:ends_at, :date)
     has_many(:stakeholders, Erga.Research.Stakeholder)
     has_many(:linked_resources, Erga.Research.LinkedResource)
     has_many(:external_links, Erga.Research.ExternalLink)

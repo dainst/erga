@@ -69,8 +69,8 @@ Erga.Repo.insert! %Project{
   # Developed by DAI’s Scientific IT, iDAI.world offers various web services to publish and link scientific data: iDAI.chronontology collects cultural phases according to different references and puts them in relation to each other in a visually vivid way. In the iDAI.gazetteer , archaeological sites are listed with coordinates or entire regions are displayed as polygons. Both systems can be related to e.g. excavation finds and reference literature stored in iDAI.objects (formerly ARACHNE) and iDAI.bibliography (Zenon), the library catalogue of the institute. The cooperation between the SPP and the DAI aims to enable online queries to answer comprehensive questions and to present the results visually.
   # Through this modern political boundaries are removed from the historical picture and the networking mechanisms in ancient time are revealed. ",
   project_code: "SPP2143",
-  starts_at: DateTime.utc_now() |> DateTime.truncate(:second),
-  ends_at: DateTime.utc_now() |> DateTime.truncate(:second),
+  starts_at: Date.utc_today(),
+  ends_at: Date.utc_today(),
   #title: "SPP “Entangled Africa” and iDAI.world - A digital connection of time and space",
   stakeholders: [
     %Stakeholder{

@@ -6,8 +6,6 @@ defmodule Erga.Repo.Migrations.CreateProjects do
       add :project_id, :string
       add :title, :string
       add :description, :text
-      add :starts_at, :utc_datetime
-      add :ends_at, :utc_datetime
 
       timestamps()
     end

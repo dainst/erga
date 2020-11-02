@@ -3,8 +3,8 @@ defmodule Erga.Repo.Migrations.AddProjectStartAndEnd do
 
   def change do
     alter table(:projects) do
-      add(:start_date, :naive_datetime)
-      add(:end_date, :naive_datetime)
+      add(:starts_at, :date)
+      add(:ends_at, :date)
     end
 
     alter table(:images) do
