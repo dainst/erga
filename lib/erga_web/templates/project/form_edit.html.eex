@@ -61,7 +61,7 @@
   <%= link "Add Description", to: Routes.translated_content_path(@conn, :new, project_id: @project.id, col_name: "descr") %>
 </div>
 <div class="box">
-  <h2>Informations</h2>
+  <h2>Duration</h2>
   <%= label f, :starts_at %>
   <%= date_input f, :starts_at %>
   <%= error_tag f, :starts_at %>
