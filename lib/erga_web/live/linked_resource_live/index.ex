@@ -10,7 +10,8 @@ defmodule ErgaWeb.LinkedResourceLive.Index do
   def mount(_params, _session, socket) do
     linked_resources = Research.list_linked_resources()
     projects = Research.list_projects()
-    project_list = ["All": 0] ++ for pro <- projects, do: {pro.title, pro.id}
+    IO.inspect(projects)
+    project_list = ["All": 0] ++ for pro <- projects, do: {List.first(pro.title).content, pro.id}
 
     socket =
       socket
