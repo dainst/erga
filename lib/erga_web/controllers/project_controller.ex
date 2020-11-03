@@ -31,8 +31,19 @@ defmodule ErgaWeb.ProjectController do
   end
 
   def show(conn, %{"id" => id, "lang" => lang}) do
-    project = Research.get_project!(id)
-    render(conn, "show.html", project: project, lang: lang)
+    try do
+      project = Research.get_project!(id)
+      render(conn, "show.html", project: project, lang: lang)
+    rescue
+      _e in ArgumentError ->
+        case Research.get_project_code(id) do
+          {:ok, code} -> redirect(conn, to: Routes.project_path(conn, :show, code, lang: lang))
+          {:error, _e} ->
+            conn
+            |> put_flash(:error, "Project Code / ID not found.")
+            |> redirect(to: Routes.project_path(conn, :index))
+        end
+    end
   end
 
   def show(conn, %{"id" => id}) do
