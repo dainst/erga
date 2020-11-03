@@ -64,8 +64,8 @@ Erga.Repo.insert!(%TranslatedContent{
 Erga.Repo.insert! %Project{
 
   project_code: "SPP2143",
-  starts_at: ~U[2019-01-10],
-  ends_at: ~U[2023-10-10],
+  starts_at: ~D[2019-01-10],
+  ends_at: ~D[2023-10-10],
 
   stakeholders: [
     %Stakeholder{
