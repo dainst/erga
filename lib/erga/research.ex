@@ -123,6 +123,17 @@ defmodule Erga.Research do
   end
 
   @doc """
+  Updates a project updated_at to now.
+  """
+  def update_project_changed(project_id) do
+    if project_id do
+      Project
+      |> where([a], a.id == ^project_id)
+      |> Repo.update_all([set: [updated_at: DateTime.utc_now()]])
+    end
+  end
+
+  @doc """
   Deletes a project.
 
   ## Examples
@@ -193,8 +204,8 @@ defmodule Erga.Research do
 
   """
   def create_linked_resource(attrs = %{"project_id" => project_id}) do
+    update_project_changed(project_id)
     project = get_project!(project_id)
-
     %LinkedResource{}
     |> LinkedResource.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:project, project)
@@ -214,6 +225,7 @@ defmodule Erga.Research do
 
   """
   def update_linked_resource(%LinkedResource{} = linked_resource, attrs) do
+    update_project_changed(attrs["project_id"])
     linked_resource
     |> LinkedResource.changeset(attrs)
     |> Repo.update()
@@ -232,6 +244,8 @@ defmodule Erga.Research do
 
   """
   def delete_linked_resource(%LinkedResource{} = linked_resource) do
+    linked_resource = linked_resource |> Repo.preload(:project)
+    update_project_changed(linked_resource.project.id)
     Repo.delete(linked_resource)
   end
 
@@ -245,6 +259,7 @@ defmodule Erga.Research do
 
   """
   def change_linked_resource(%LinkedResource{} = linked_resource, attrs \\ %{}) do
+    update_project_changed(attrs["project_id"])
     LinkedResource.changeset(linked_resource, attrs)
   end
 
@@ -291,12 +306,13 @@ defmodule Erga.Research do
 
   """
   def create_external_link(attrs = %{"project_id" => project_id}) do
+    update_project_changed(project_id)
     project = get_project!(project_id)
-
     %ExternalLink{}
     |> ExternalLink.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:project, project)
     |> Repo.insert()
+
   end
 
 
@@ -313,6 +329,7 @@ defmodule Erga.Research do
 
   """
   def update_external_link(%ExternalLink{} = external_link, attrs) do
+    update_project_changed(attrs["project_id"])
     external_link
     |> ExternalLink.changeset(attrs)
     |> Repo.update()
@@ -331,6 +348,8 @@ defmodule Erga.Research do
 
   """
   def delete_external_link(%ExternalLink{} = external_link) do
+    external_link = external_link |> Repo.preload(:project)
+    update_project_changed(external_link.project.id)
     Repo.delete(external_link)
   end
 
@@ -344,6 +363,7 @@ defmodule Erga.Research do
 
   """
   def change_external_link(%ExternalLink{} = external_link, attrs \\ %{}) do
+    update_project_changed(attrs["project_id"])
     ExternalLink.changeset(external_link, attrs)
   end
 
@@ -395,6 +415,7 @@ defmodule Erga.Research do
 
   """
   def create_stakeholder(attrs = %{"project_id" => project_id}) do
+    update_project_changed(project_id)
     project = get_project!(project_id)
 
     %Stakeholder{}
@@ -416,6 +437,7 @@ defmodule Erga.Research do
 
   """
   def update_stakeholder(%Stakeholder{} = stakeholder, attrs) do
+    update_project_changed(attrs["project_id"])
     stakeholder
     |> Stakeholder.changeset(attrs)
     |> Repo.update()
@@ -434,6 +456,8 @@ defmodule Erga.Research do
 
   """
   def delete_stakeholder(%Stakeholder{} = stakeholder) do
+    stakeholder = stakeholder |> Repo.preload(:project)
+    update_project_changed(stakeholder.project.id)
     Repo.delete(stakeholder)
   end
 
@@ -447,6 +471,7 @@ defmodule Erga.Research do
 
   """
   def change_stakeholder(%Stakeholder{} = stakeholder, attrs \\ %{}) do
+    update_project_changed(attrs["project_id"])
     Stakeholder.changeset(stakeholder, attrs)
     |> Ecto.Changeset.cast_assoc(:project, with: &Project.changeset/2)
   end
@@ -493,6 +518,7 @@ defmodule Erga.Research do
 
   """
   def create_image(attrs = %{"project_id" => project_id}) do
+    update_project_changed(project_id)
     project = get_project!(project_id)
 
     %Image{}
@@ -514,6 +540,7 @@ defmodule Erga.Research do
 
   """
   def update_image(%Image{} = image, attrs) do
+    update_project_changed(attrs["project_id"])
     image
     |> Image.changeset(attrs)
     |> Repo.update()
@@ -532,6 +559,8 @@ defmodule Erga.Research do
 
   """
   def delete_image(%Image{} = image) do
+    image = image |> Repo.preload(:project)
+    update_project_changed(image.project.id)
     case Repo.delete(image) do
       {:ok, _struct} = result ->
         case File.rm("#{@upload_directory}/#{image.path}") do
@@ -559,6 +588,7 @@ defmodule Erga.Research do
 
   """
   def change_image(%Image{} = image, attrs \\ %{}) do
+    update_project_changed(attrs["project_id"])
     Image.changeset(image, attrs)
   end
 
@@ -604,9 +634,8 @@ defmodule Erga.Research do
 
   """
   def create_translated_content(attrs \\ %{}) do
-    %TranslatedContent{}
-    |> TranslatedContent.changeset(attrs)
-    |> Repo.insert()
+    update_project_changed(attrs["project_id"])
+    %TranslatedContent{} |> TranslatedContent.changeset(attrs) |> Repo.insert()
   end
 
   @doc """
@@ -622,6 +651,7 @@ defmodule Erga.Research do
 
   """
   def update_translated_content(%TranslatedContent{} = translated_content, attrs) do
+    update_project_changed(attrs["project_id"])
     translated_content
     |> TranslatedContent.changeset(attrs)
     |> Repo.update()
@@ -640,6 +670,10 @@ defmodule Erga.Research do
 
   """
   def delete_translated_content(%TranslatedContent{} = translated_content) do
+
+    translated_content = translated_content |> Repo.preload(:project_assoc)
+    project_assoc = translated_content.project_assoc |> Repo.preload(:project)
+    update_project_changed(project_assoc.project.id)
     Repo.delete(translated_content)
   end
 
@@ -653,12 +687,15 @@ defmodule Erga.Research do
 
   """
   def change_translated_content(%TranslatedContent{} = translated_content, attrs \\ %{}) do
+
+    update_project_changed(attrs["project_id"])
     TranslatedContent.changeset(translated_content, attrs)
   end
 
   def assoc_translated_content(attrs) do
-    ProjectTranslation.changeset(%ProjectTranslation{}, attrs)
-    |> Repo.insert!
+
+    update_project_changed(attrs["project_id"])
+    ProjectTranslation.changeset(%ProjectTranslation{}, attrs) |> Repo.insert!
   end
 
 end
