@@ -29,85 +29,100 @@ Erga.Repo.insert!(%User{
   password_hash: Pow.Ecto.Schema.Password.pbkdf2_hash("erga123!")
 })
 
-Erga.Repo.insert!(%Person{
+p1 = Erga.Repo.insert!(%Person{
   firstname: "Theodor",
   lastname: "Wiegand",
   title: "Prof. Dr."
 })
 
-Erga.Repo.insert!(%Person{
+p2 = Erga.Repo.insert!(%Person{
   firstname: "Hansi",
   lastname: "Flick",
   title: "Cand. phil"
 })
 
-Erga.Repo.insert!(%TranslatedContent{
+project =
+  Erga.Repo.insert! %Project{
+
+    project_code: "SPP2143",
+    starts_at: ~D[2019-01-10],
+    ends_at: ~D[2023-10-10],
+
+    stakeholders: [
+      %Stakeholder{
+        role: "chef role",
+        external_id: "DOI:123XABC123",
+        person_id: p1.id
+    },
+      %Stakeholder{
+        role: "intern",
+        external_id: "PERSID:34578",
+        person_id: p2.id
+      }],
+    linked_resources: [
+      %LinkedResource{
+        label: "Rom",
+        description: "Der Ort über den geschrieben wird.",
+        linked_id: "2078206",
+        linked_system: "Gazetteer"
+      }
+    ]
+}
+
+Erga.Research.create_image(
+  %{
+    "label" => "Test",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archive_spanish_codices.jpg",
+      url: "https://idai.world/assets/images/content/what/archives/idai_archive_spanish_codices.jpg"
+    }
+  }
+)
+
+content = Erga.Repo.insert!(%TranslatedContent{
   language_code: "DE",
   content: "Eine sehr informative Projektbeschreibung."
 })
 
-Erga.Repo.insert!(%TranslatedContent{
+Erga.Repo.insert!(%ProjectTranslation{
+  project_id: project.id,
+  translated_content_id: content.id,
+  col_name: "descr"
+})
+
+content = Erga.Repo.insert!(%TranslatedContent{
   language_code: "EN",
   content: "This is a very informativ project description."
 })
 
-Erga.Repo.insert!(%TranslatedContent{
+Erga.Repo.insert!(%ProjectTranslation{
+  project_id: project.id,
+  translated_content_id: content.id,
+  col_name: "descr"
+})
+
+content = Erga.Repo.insert!(%TranslatedContent{
   language_code: "DE",
   content: "Großartiges Ausgrabungsprojekt"
 })
 
-Erga.Repo.insert!(%TranslatedContent{
+
+Erga.Repo.insert!(%ProjectTranslation{
+  project_id: project.id,
+  translated_content_id: content.id,
+  col_name: "title"
+})
+
+content = Erga.Repo.insert!(%TranslatedContent{
   language_code: "EN",
   content: "Great digging project"
 })
 
-Erga.Repo.insert! %Project{
-
-  project_code: "SPP2143",
-  starts_at: ~D[2019-01-10],
-  ends_at: ~D[2023-10-10],
-
-  stakeholders: [
-    %Stakeholder{
-      role: "chef role",
-      external_id: "DOI:123XABC123",
-      person_id: 1
-  },
-    %Stakeholder{
-      role: "intern",
-      external_id: "PERSID:34578",
-      person_id: 2
-    }],
-  linked_resources: [
-    %LinkedResource{
-      label: "Rom",
-      description: "Der Ort über den geschrieben wird.",
-      linked_id: "2078206",
-      linked_system: "Gazetteer"
-    }
-  ]
-}
-
 Erga.Repo.insert!(%ProjectTranslation{
-  project_id: 1,
-  translated_content_id: 1,
-  col_name: "descr"
-})
-
-Erga.Repo.insert!(%ProjectTranslation{
-  project_id: 1,
-  translated_content_id: 2,
-  col_name: "descr"
-})
-
-Erga.Repo.insert!(%ProjectTranslation{
-  project_id: 1,
-  translated_content_id: 3,
-  col_name: "title"
-})
-
-Erga.Repo.insert!(%ProjectTranslation{
-  project_id: 1,
-  translated_content_id: 4,
+  project_id: project.id,
+  translated_content_id: content.id,
   col_name: "title"
 })
