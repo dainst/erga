@@ -72,7 +72,7 @@ defmodule ErgaWeb.Router do
     resources("/external_links", ExternalLinkController)
     resources("/translated_contents", TranslatedContentController)
 
-    get("/", PageController, :index)
+    get("/", ProjectController, :index)
   end
 
   # Other scopes may use custom stacks.

@@ -20,7 +20,6 @@
             <span><%= link "Sign in", to: Routes.pow_session_path(@conn, :new) %></span>
             <% end %>
 
-            <a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
             <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
               <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
             <% end %>
