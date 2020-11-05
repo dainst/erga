@@ -56,19 +56,30 @@ defmodule Erga.Research.Image do
         "File #{upload.filename} already exists in #{project_directory}."
       )
     else
-      case File.cp(
+      case String.starts_with?(upload.path, "http") do
+        false ->
+          case File.cp(
              upload.path,
              target_file
            ) do
-        {:error, reason} ->
-          add_error(
-            changeset,
-            :path,
-            "Unable to copy file #{upload.filename}, reason: #{reason}."
-          )
-
-        :ok ->
-          :ok
+          {:error, reason} ->
+            add_error(
+              changeset,
+              :path,
+              "Unable to copy file #{upload.filename}, reason: #{reason}."
+            )
+        end
+        true ->
+          case HTTPoison.get(upload.path) do
+            {:ok, %HTTPoison.Response{body: body}} ->
+              File.write!(target_file, body)
+            {:error, reason} ->
+              add_error(
+                changeset,
+                :path,
+                "Unable to download file #{upload.filename} from #{upload.path}, reason: #{reason}."
+              )
+          end
       end
 
       put_change(changeset, :path, "#{project_directory}/#{upload.filename}")
