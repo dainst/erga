@@ -127,17 +127,30 @@
   </div>
   <div class="box">
     <h2>Images</h2>
-    <div>
-      <%= for image <- @project.images do %>
-      <div>
-          <%= image.label %>, primary: <%= image.primary %>
-          <%= img_tag("/media/#{image.path}", class: "image") %>
-          <%= link "edit", to: Routes.image_path(@conn, :edit, image.id) %> |
-          <%= link "remove", to: Routes.image_path(@conn, :delete, image, @project.id), method: :delete, data: [confirm: "Are you sure?"]  %>
+    <div class="container">
+      <%= for image <- primary_images(@project.images) do %>
+      <div class="row">
+          <div class="column"><%= img_tag("/media/#{image.path}") %></div>
+          <div class="column">
+            <b><%= image.label %></b> <br/>
+            <%= link "edit", to: Routes.image_path(@conn, :edit, image.id) %> |
+            <%= link "remove", to: Routes.image_path(@conn, :delete, image, @project.id), method: :delete, data: [confirm: "Are you sure?"]  %>
           </div>
+      </div>
       <% end %>
+
+      <%= for image <- other_images(@project.images) do %>
+      <div class="row">
+          <div class="column"><%= img_tag("/media/#{image.path}") %></div>
+          <div class="column">
+            <b><%= image.label %></b> <br/>
+            <%= link "edit", to: Routes.image_path(@conn, :edit, image.id) %> |
+            <%= link "remove", to: Routes.image_path(@conn, :delete, image, @project.id), method: :delete, data: [confirm: "Are you sure?"]  %>
+          </div>
+      </div>
+      <% end %>
+      </div>
       <%= link "Add image", to: Routes.image_path(@conn, :new, @project.id) %>
-    </div>
     </div>
   <div>
     <%= submit "Save" %>
