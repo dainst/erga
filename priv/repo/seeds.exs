@@ -75,10 +75,9 @@ Erga.Research.create_image(
     "primary" => "true",
     "project_code" => project.project_code,
     "project_id" => project.id,
-    "upload" => %Plug.Upload{
-      content_type: "image/jpeg",
+    "upload" => %{
       filename: "idai_archive_spanish_codices.jpg",
-      path: "https://idai.world/assets/images/content/what/archives/idai_archive_spanish_codices.jpg"
+      url: "https://idai.world/assets/images/content/what/archives/idai_archive_spanish_codices.jpg"
     }
   }
 )

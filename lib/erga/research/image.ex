@@ -18,13 +18,13 @@ defmodule Erga.Research.Image do
   def changeset(image, attrs) do
     image
     |> cast(attrs, [:label, :path, :primary])
-    |> copy_file(attrs)
+    |> handle_upload(attrs)
     |> validate_required([:label, :path, :primary])
     |> evaluate_path(attrs)
     |> cast_assoc(:project)
   end
 
-  def copy_file(changeset, %{"upload" => upload} = attrs) do
+  def handle_upload(changeset, %{"upload" => upload} = attrs) do
     project_directory =
       attrs["project_code"]
       |> Zarex.sanitize()
@@ -56,38 +56,44 @@ defmodule Erga.Research.Image do
         "File #{upload.filename} already exists in #{project_directory}."
       )
     else
-      case String.starts_with?(upload.path, "http") do
-        false ->
-          case File.cp(
-             upload.path,
-             target_file
-           ) do
-          {:error, reason} ->
-            add_error(
-              changeset,
-              :path,
-              "Unable to copy file #{upload.filename}, reason: #{reason}."
-            )
-        end
-        true ->
-          case HTTPoison.get(upload.path) do
-            {:ok, %HTTPoison.Response{body: body}} ->
-              File.write!(target_file, body)
-            {:error, reason} ->
-              add_error(
-                changeset,
-                :path,
-                "Unable to download file #{upload.filename} from #{upload.path}, reason: #{reason}."
-              )
-          end
-      end
+      changeset = copy_file(changeset, target_file, upload)
 
       put_change(changeset, :path, "#{project_directory}/#{upload.filename}")
     end
   end
 
-  def copy_file(changeset, _) do
+  def handle_upload(changeset, _) do
     changeset
+  end
+
+  defp copy_file(changeset, target_file, %{:url => url}) do
+    case HTTPoison.get(url) do
+      {:ok, %HTTPoison.Response{body: body}} ->
+        File.write!(target_file, body)
+        changeset
+      {:error, reason} ->
+        add_error(
+          changeset,
+          :path,
+          "Unable to download file from #{url}, reason: #{reason}."
+        )
+    end
+  end
+
+  defp copy_file(changeset, target_file, %{:path => path}) do
+    IO.inspect path
+    case File.cp(
+      path,
+      target_file
+    ) do
+      {:error, reason} ->
+        add_error(
+          changeset,
+          :path,
+          "Unable to copy file #{target_file}, reason: #{reason}."
+      )
+      :ok -> changeset
+    end
   end
 
   def evaluate_path(changeset, %{"path" => path}) do
