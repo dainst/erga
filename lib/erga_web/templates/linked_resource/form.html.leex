@@ -18,9 +18,11 @@
     <div class="row">
       <div class="column">
         <%= label f, :search_string %>
-        <%= text_input f, :search_string, value: @search_string, phx_debounce: 2000, placeholder: "Search" %>
+        <%= text_input f, :search_string, value: @search_string, phx_debounce: 500, placeholder: "Search" %>
         <%= error_tag f, :search_string %>
       </div>
+    </div>
+    <div class="row">
       <div class="column">
         <%= unless @search_result == [] do %>
         <table>
