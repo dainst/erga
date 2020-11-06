@@ -2,11 +2,9 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
   use ErgaWeb, :live_view
   require Logger
 
-
   alias ErgaWeb.LinkedResourceLive
   alias ErgaWeb.Router.Helpers, as: Routes
   alias Erga.Research
-  alias Erga.Research.LinkedResource
 
   def mount(_params, _session, socket) do
 
@@ -25,6 +23,7 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
       |> assign(:linked_system, linked_resource.linked_system)
       |> assign(:label, linked_resource.label)
       |> assign(:linked_id, linked_resource.linked_id)
+      |> assign(:search_string, "")
       |> assign(:search_filter, "populated-place")
 
     {:noreply, socket}
@@ -33,35 +32,12 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
 
   def render(assigns), do: Phoenix.View.render(ErgaWeb.LinkedResourceView, "edit.html", assigns)
 
-  def handle_event("form_change", linked_resource_params, socket) do
-    socket = EventHandler.change(linked_resource_params, socket)
-    {:noreply, socket}
+  def handle_event("form_change", params, socket) do
+    {:noreply, EventHandler.form_change(params, socket)}
   end
 
-  def handle_event("choose_resource", %{"id" => id, "name" => name}, socket) do
-    socket =
-      socket
-      |> assign(:label, name)
-      |> assign(:linked_id, id)
-
-    {:noreply, socket}
-  end
-
-  def handle_event("search_resource", %{"value" => val}, socket) do
-
-    service = ServiceHelpers.get_system_service(socket.assigns.linked_system)
-    filter = socket.assigns.search_filter
-    # permit users to use wildcard on thier own
-    val = String.replace_trailing(val, "*", "")
-    # perform a search or return empty list
-    if String.length(val) > 1 do
-      case service.get_list(val, filter) do
-        {:ok, list} -> {:noreply, update(socket, :search_result, fn _old_val -> list end)}
-        {:error, reason} -> {:noreply, assign(socket, :search_error, reason)}
-      end
-    else
-      {:noreply, update(socket, :search_result, fn _l -> [] end)}
-    end
+  def handle_event("choose_resource", params, socket) do
+    {:noreply, EventHandler.choose_resource(params, socket)}
   end
 
   def handle_event("save", %{"linked_resource" => linked_resource_params}, socket) do

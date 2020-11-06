@@ -1,29 +1,53 @@
 <%= f = form_for @changeset, "#", [phx_change: :form_change, phx_submit: :save]%>
-  <div class="container-fluid">
+  <div class="container">
     <div class="row">
-      <div class="column column-20">
+      <div class="column">
         <%= hidden_input f, :project_id %>
 
         <%= label f, :linked_system %>
-        <%= select f, :linked_system, [Gazetteer: "gazetteer", Chrontology: "chrontology", Thesaurus: "thesaurus", Arachne: "arachne",] %>
+        <%= select f, :linked_system, [ Gazetteer: "gazetteer", Chrontology: "chrontology", Thesaurus: "thesaurus", Arachne: "arachne",] %>
         <%= error_tag f, :linked_system %>
       </div>
-      <div class="column column-20">
+      <div class="column">
         <%= if @linked_system == "gazetteer" do %>
           <%= label f, :search_filter %>
           <%= select f, :search_filter, [Ort: "populated-place", Institut: "building-institution", Ausgrabungsstätte: "archaeological-site",] %>
         <% end %>
       </div>
-      <div class="column column-35">
-        <%= label f, :search_resource %>
-        <%= text_input f, :search_resource, phx_keyup: "search_resource" %>
-        <%= error_tag f, :search_resource %>
+    </div>
+    <div class="row">
+      <div class="column">
+        <%= label f, :search_string %>
+        <%= text_input f, :search_string, value: @search_string, phx_debounce: 2000, placeholder: "Search" %>
+        <%= error_tag f, :search_string %>
       </div>
-      <div class="column column-20">
-        <%= label f, :id %>
-        <%= text_input f, :linked_id, value: @linked_id, readonly: true %>
+      <div class="column">
+        <%= unless @search_result == [] do %>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Search result:</th>
+            </tr>
+          </thead>
+          <small>
+            <tbody>
+              <%= for res <- @search_result do %>
+              <tr>
+                <td><%= link "Select", to: "#", phx_click: "choose_resource", phx_value_id: res.resId, phx_value_name: res.name, class: "btn btn-primary" %></td>
+                <td><%= res.name %> | <%= res.resId %> </td>
+              </tr>
+              <% end %>
+            </tbody>
+          </small>
+        </table>
+        <% end %>
+        <%= if assigns[:search_error] do %>
+        <p><%= @search_error %></p>
+        <% end %>
       </div>
     </div>
+
     <div class="row">
       <div class="column">
         <%= label f, :label %>
@@ -38,6 +62,16 @@
         <%= error_tag f, :description %>
       </div>
     </div>
+    <%= if @linked_id != "" do %>
+    <div class="row">
+      <div class="column">
+        <%= hidden_input f, :linked_id, value: @linked_id %>
+        <label>ID and system</label>
+        <%= @linked_id %> | <%= @linked_system %>
+      </div>
+    </div>
+    <% end %>
+    <p>
     <div class="row">
       <div class="column">
         <%= submit "Save", disabled: !@changeset.valid? %>
@@ -46,13 +80,3 @@
   </div>
 
 </form>
-<%= unless @search_result == [] do %>
-<p>
-  <%= for res <- @search_result do %>
-    <div><%= link res.name, to: "#", phx_click: "choose_resource", phx_value_id: res.resId, phx_value_name: res.name, class: "btn btn-primary" %></div>
-  <% end %>
-</p>
-<% end %>
-<%= if assigns[:search_error] do %>
-  <p><%= @search_error %></p>
-<% end %>
