@@ -76,9 +76,11 @@
     <p>
     <div class="row">
       <div class="column">
+        <%= link "Back", to: Routes.project_path(ErgaWeb.Endpoint, :edit, assigns.project_id), class: "button button-outline" %>
         <%= submit "Save", disabled: !@changeset.valid? %>
       </div>
     </div>
+
   </div>
 
 </form>

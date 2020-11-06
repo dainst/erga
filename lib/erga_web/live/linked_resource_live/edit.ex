@@ -18,6 +18,7 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
 
     socket =
       socket
+      |> assign(project_id: linked_resource.project_id)
       |> assign(linked_resource: linked_resource)
       |> assign(changeset: changeset)
       |> assign(:linked_system, linked_resource.linked_system)
@@ -46,7 +47,7 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
         {:noreply,
         socket
         |> put_flash(:info, "Linked resource updated successfully.")
-        |> redirect(to: Routes.live_path(socket, LinkedResourceLive.Show, linked_resource))}
+        |> redirect(to: Routes.project_path(ErgaWeb.Endpoint, :edit, linked_resource.project_id))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}

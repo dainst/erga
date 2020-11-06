@@ -13,6 +13,7 @@ defmodule ErgaWeb.LinkedResourceLive.New do
 
     socket =
       socket
+      |> assign(project_id: project_id)
       |> assign(changeset: changeset)
       |> assign(:linked_system, "gazetteer")
       |> assign(:label, "")
@@ -39,7 +40,7 @@ defmodule ErgaWeb.LinkedResourceLive.New do
         {:noreply,
          socket
          |> put_flash(:info, "Linked resource created successfully.")
-         |> redirect(to: Routes.live_path(socket, ErgaWeb.LinkedResourceLive.Show, linked_resource))}
+         |> redirect(to: Routes.project_path(ErgaWeb.Endpoint, :edit, linked_resource.project_id))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
