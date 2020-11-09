@@ -48,13 +48,14 @@ defmodule ErgaWeb.Router do
     live "/linked_resources", LinkedResourceLive.Index
     live "/linked_resources/:id", LinkedResourceLive.Show
     live "/linked_resources/:id/edit", LinkedResourceLive.Edit
+    live "/linked_resources/:id/delete", LinkedResourceLive.Index, :delete
 
 
     get("/external_links/new/:project_id", ExternalLinkController, :new)
     delete("/external_links/:id/:project_id", ExternalLinkController, :delete)
 
 
-                                         live "/persons", PersonLive.Index, :index
+    live "/persons", PersonLive.Index, :index
     live "/persons/new", PersonLive.Index, :new
     live "/persons/:id/edit", PersonLive.Index, :edit
 
