@@ -33,7 +33,7 @@ defmodule ErgaWeb.ProjectController do
   def show(conn, %{"id" => id, "lang" => lang}) do
       try do
         project = Research.get_project!(id)
-        render(conn, "show.json", project: project, lang: lang)
+        render(conn, "show.html", project: project, lang: lang)
       rescue
         _e in ArgumentError ->
           conn
