@@ -45,7 +45,21 @@ defmodule Erga.Research do
       ** (Ecto.NoResultsError)
 
   """
-  def get_project!(code) do
+  def get_project!(id) do
+    try do
+      Repo.get!(Project, id)
+      |> Repo.preload(stakeholders: :person)
+      |> Repo.preload(:linked_resources)
+      |> Repo.preload(:external_links)
+      |> Repo.preload(:images)
+      |> Repo.preload(:title)
+      |> Repo.preload(:description)
+    rescue
+      _e in Ecto.NoResultsError -> raise ArgumentError
+    end
+  end
+
+  def get_project_by_code!(code) do
     try do
       Repo.one!(from(p in Project, where: p.project_code == ^code))
       |> Repo.preload(stakeholders: :person)
