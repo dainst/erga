@@ -5,7 +5,7 @@ defmodule EventHandler do
 
   def form_change(%{"_target" => targets,  "linked_resource" => params}, socket) do
       cond do
-        "linked_system" in targets -> assign(socket, :linked_id, '') |> assign(:search_result, [])
+        "linked_system" in targets -> assign(socket, :linked_id, "") |> assign(:search_result, [])
         "search_filter" in targets -> assign(socket, :search_filter, params["search_filter"])
         "search_string" in targets -> search(socket, params["search_string"])
         true -> validate(params, socket)
@@ -31,6 +31,8 @@ defmodule EventHandler do
   end
 
   defp search(socket, search_string) do
+    IO.inspect(socket.assigns)
+    IO.inspect(search_string)
     service = ServiceHelpers.get_system_service(socket.assigns.linked_system)
     filter = socket.assigns.search_filter
     # permit users to use wildcard on thier own
