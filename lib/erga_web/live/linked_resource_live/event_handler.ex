@@ -34,8 +34,6 @@ defmodule EventHandler do
   end
 
   defp search(socket, search_string) do
-    IO.inspect(socket.assigns)
-    IO.inspect(search_string)
     service = ServiceHelpers.get_system_service(socket.assigns.linked_system)
     filter = socket.assigns.search_filter
     # permit users to use wildcard on thier own
