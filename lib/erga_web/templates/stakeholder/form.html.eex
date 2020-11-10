@@ -17,10 +17,6 @@
   <%= text_input f, :role, required: true %>
   <%= error_tag f, :role %>
 
-  <%= label f, :type %>
-  <%= text_input f, :type, required: true %>
-  <%= error_tag f, :type %>
-
   <%= label f, :external_id, "Identifier" %>
   <%= text_input f, :external_id, required: true %>
   <%= error_tag f, :external_id %>
