@@ -18,7 +18,4 @@ defmodule ErgaWeb.LinkedResourceLive.Search do
       |> assign(:linked_resource, "none")
     {:ok, socket}
   end
-
-
-
 end

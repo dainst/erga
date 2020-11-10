@@ -5,13 +5,13 @@
         <%= hidden_input f, :project_id %>
 
         <%= label f, :linked_system %>
-        <%= select f, :linked_system, [ Gazetteer: "gazetteer", Chrontology: "chrontology", Thesaurus: "thesaurus", Arachne: "arachne",] %>
+        <%= select f, :linked_system, [ Gazetteer: "gazetteer", Chrontology: "chrontology", Thesaurus: "thesaurus", Arachne: "arachne"], value: @linked_system %>
         <%= error_tag f, :linked_system %>
       </div>
       <div class="column">
         <%= if @linked_system == "gazetteer" do %>
           <%= label f, :search_filter %>
-          <%= select f, :search_filter, [Ort: "populated-place", Institut: "building-institution", Ausgrabungsstätte: "archaeological-site",] %>
+          <%= select f, :search_filter, [Ort: "populated-place", Institut: "building-institution", Ausgrabungsstätte: "archaeological-site"], value: @search_filter%>
         <% end %>
       </div>
     </div>
@@ -69,7 +69,7 @@
       <div class="column">
         <%= hidden_input f, :linked_id, value: @linked_id %>
         <label>ID and system</label>
-        <%= @linked_id %> | <%= @linked_system %>
+        <strong>ID</strong>: <%= @linked_id %> | <%= @linked_system %>
       </div>
     </div>
     <% end %>

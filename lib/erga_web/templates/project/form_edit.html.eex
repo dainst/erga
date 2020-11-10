@@ -9,8 +9,6 @@
   <%= text_input f, :project_code %>
   <%= error_tag f, :project_code %>
 
-
-
   <div class="box">
   <h2>Titles</h2>
    <table>
@@ -27,7 +25,7 @@
             <td><%= title.language_code %></td>
             <td><%= title.content %></td>
             <td><%= link "edit", to: Routes.translated_content_path(@conn, :edit, title.id) %> |
-            <%= link "remove", to: Routes.translated_content_path(@conn, :delete, title.id, project_id: @project.id), method: :delete, data: [confirm: "Are you sure?"] %></td>
+            <%= link "remove", to: Routes.translated_content_path(@conn, :delete, title.id), method: :delete, data: [confirm: "Are you sure?"] %></td>
           </tr>
         <% end %>
         </tbody>
@@ -52,7 +50,7 @@
       <td><%= descr.language_code %></td>
       <td><%= descr.content%></td>
       <td><%= link "edit", to: Routes.translated_content_path(@conn, :edit, descr.id) %> |
-        <%= link "remove", to: Routes.translated_content_path(@conn, :delete, descr.id, project_id: @project.id), method: :delete, data: [confirm: "Are you sure?"] %></td>
+        <%= link "remove", to: Routes.translated_content_path(@conn, :delete, descr.id), method: :delete, data: [confirm: "Are you sure?"] %></td>
     </tr>
     <% end %>
 
@@ -83,7 +81,7 @@
           <td><%= stakeholder.role %></td>
           <td><%= stakeholder.external_id %></td>
           <td><%= link "edit", to: Routes.stakeholder_path(@conn, :edit, stakeholder.id) %> |
-          <%= link "remove", to: Routes.stakeholder_path(@conn, :delete, stakeholder, @project.id), method: :delete, data: [confirm: "Are you sure?"] %></td>
+          <%= link "remove", to: Routes.stakeholder_path(@conn, :delete, stakeholder), method: :delete, data: [confirm: "Are you sure?"] %></td>
         </tr>
       <% end %>
       </tbody>
@@ -104,8 +102,10 @@
           <td><%= resource.description %></td>
           <td><%= resource.linked_system %></td>
           <td><%= resource.linked_id %></td>
-          <td> <%= link "edit", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Edit, resource.id) %> |
-          <%= #link "remove", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Index, resource), phx_click: "delete_resource", phx_value_id: resource.id, data: [confirm: "Are you sure?"] %></td>
+          <td>
+            <%= link "edit", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Edit, resource.id) %>
+            <!-- | <%= # link "remove", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Index, resource.id), method: :delete, data: [confirm: "Are you sure?"] %> -->
+          </td>
       </tr>
       <% end %>
      </tbody>
@@ -119,7 +119,7 @@
         <div>
           <%= link.label %>, <%= link.url %> |
           <%= link "edit", to: Routes.external_link_path(@conn, :edit, link.id) %> |
-          <%= link "remove", to: Routes.external_link_path(@conn, :delete, link, @project.id), method: :delete, data: [confirm: "Are you sure?"]  %>
+          <%= link "remove", to: Routes.external_link_path(@conn, :delete, link), method: :delete, data: [confirm: "Are you sure?"]  %>
         </div>
       <% end %>
       <%= link "Add external link", to: Routes.external_link_path(@conn, :new, @project.id) %>
@@ -134,7 +134,7 @@
           <div class="column">
             <b><%= image.label %></b> <br/>
             <%= link "edit", to: Routes.image_path(@conn, :edit, image.id) %> |
-            <%= link "remove", to: Routes.image_path(@conn, :delete, image, @project.id), method: :delete, data: [confirm: "Are you sure?"]  %>
+            <%= link "remove", to: Routes.image_path(@conn, :delete, image), method: :delete, data: [confirm: "Are you sure?"]  %>
           </div>
       </div>
       <% end %>
@@ -145,7 +145,7 @@
           <div class="column">
             <b><%= image.label %></b> <br/>
             <%= link "edit", to: Routes.image_path(@conn, :edit, image.id) %> |
-            <%= link "remove", to: Routes.image_path(@conn, :delete, image, @project.id), method: :delete, data: [confirm: "Are you sure?"]  %>
+            <%= link "remove", to: Routes.image_path(@conn, :delete, image), method: :delete, data: [confirm: "Are you sure?"]  %>
           </div>
       </div>
       <% end %>
