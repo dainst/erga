@@ -33,17 +33,10 @@ defmodule ErgaWeb.Router do
 
     get("/", ProjectController, :index)
     resources("/projects", ProjectController)
-
-    resources("stakeholders", StakeholderController, only: [:create, :delete, :edit, :update])
-    get("/stakeholders/new/:project_id", StakeholderController, :new)
-
-    resources("external_links", ExternalLinkController, only: [:create, :delete, :edit, :update])
-    get("/external_links/new/:project_id", ExternalLinkController, :new)
-
-    resources("images", ImageController, only: [:create, :delete, :edit, :update])
-    get("/images/new/:project_id", ImageController, :new)
-
-    resources("translated_contents", TranslatedContentController, only: [:create, :delete, :edit, :new, :update])
+    resources("/stakeholders", StakeholderController, only: [:create, :delete, :edit,  :new, :update])
+    resources("/external_links", ExternalLinkController, only: [:create, :delete, :edit, :new, :update])
+    resources("/images", ImageController, only: [:create, :delete, :edit, :new, :update])
+    resources("/translated_contents", TranslatedContentController, only: [:create, :delete, :edit, :new, :update])
 
     live "/linked_resources/new/:project_id", LinkedResourceLive.New
     live "/linked_resources/:id", LinkedResourceLive.Show
