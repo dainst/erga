@@ -6,7 +6,6 @@ defmodule Erga.Research do
 
   import Ecto.Query, warn: false
   alias Erga.Repo
-  alias Ecto.NoResultsError
 
   alias Erga.Research.{Project, LinkedResource, ExternalLink, Image, Stakeholder, TranslatedContent, ProjectTranslation}
 
