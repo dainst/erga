@@ -55,6 +55,42 @@ defmodule Erga.Research do
   end
 
   @doc """
+  Gets a single project based on its project code.
+
+  Raises `Ecto.NoResultsError` if the Project does not exist.
+
+  ## Examples
+
+      iex> get_project!("PROJECT-123")
+      %Project{}
+
+      iex> get_project!("Project-321")
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_project_by_code!(code) do
+    Repo.one!(from(p in Project, where: p.project_code == ^code))
+    |> Repo.preload(stakeholders: :person)
+    |> Repo.preload(:linked_resources)
+    |> Repo.preload(:external_links)
+    |> Repo.preload(:images)
+    |> Repo.preload(:title)
+    |> Repo.preload(:description)
+  end
+
+  @spec get_project_code(any) :: {:error, <<_::104>>} | {:ok, any}
+  def get_project_code(id) do
+    try do
+      case Repo.one(from(p in Project, select: %{code: p.project_code}, where: p.id == ^id)) do
+        %{ code: code } -> {:ok, code}
+        nil -> {:error, "nothing found"}
+      end
+    rescue
+      _e in Ecto.Query.CastError -> {:error, "nothing found"}
+    end
+  end
+
+  @doc """
   returns a list of all projects that where updated x days ago
   """
   def get_projects_updated_days_ago(number_of_days) do

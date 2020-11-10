@@ -5,7 +5,7 @@ defmodule Erga.Staff.Person do
   schema "persons" do
     field :firstname, :string
     field :lastname, :string
-    field :title, :string
+    field :title, :string, default: ""
 
     has_many(:stakeholders, Erga.Research.Stakeholder)
 

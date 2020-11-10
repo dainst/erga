@@ -2,4 +2,4 @@
 
 <%= render "form.html", Map.put(assigns, :action, Routes.translated_content_path(@conn, :create)) %>
 
-<span><%= link "Back", to: Routes.translated_content_path(@conn, :index) %></span>
+<span><%= link "Back", to: Routes.project_path(@conn, :edit, assigns.project_id) %></span>

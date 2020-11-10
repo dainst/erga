@@ -4,17 +4,12 @@ defmodule ErgaWeb.ImageController do
   alias Erga.Research
   alias Erga.Research.Image
 
-  def index(conn, _params) do
-    images = Research.list_images()
-    render(conn, "index.html", images: images)
-  end
-
   def new(conn, %{"project_id" => project_id}) do
     changeset =
       Research.change_image(%Image{})
       |> Ecto.Changeset.put_change(:project_id, project_id)
 
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, project_id: project_id)
   end
 
   def create(conn, %{"image" => image_params}) do
@@ -32,12 +27,6 @@ defmodule ErgaWeb.ImageController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    image = Research.get_image!(id)
-    project = Research.get_project!(image.project_id)
-    render(conn, "show.html", image: image, project: project)
-  end
-
   def edit(conn, %{"id" => id}) do
     image = Research.get_image!(id)
     changeset = Research.change_image(image)
@@ -51,7 +40,7 @@ defmodule ErgaWeb.ImageController do
       {:ok, image} ->
         conn
         |> put_flash(:info, "Image updated successfully.")
-        |> redirect(to: Routes.image_path(conn, :show, image))
+        |> redirect(to: Routes.project_path(conn, :edit, image.project_id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", image: image, changeset: changeset)

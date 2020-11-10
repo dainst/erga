@@ -13,7 +13,7 @@ defmodule ErgaWeb.Api.ProjectController do
       {:ok, date} ->
         projects = Research.get_projects_updated_since(date)
         render(conn, "list.json", projects: projects)
-      {:error, error} ->
+      {:error, _error} ->
         send_resp(conn, 400, "Malformed date: '#{date_string}'.")
     end
   end
@@ -23,9 +23,14 @@ defmodule ErgaWeb.Api.ProjectController do
     render(conn, "list.json", projects: projects)
   end
 
-  def show(conn, %{"id" => id}) do
-    project = Research.get_project!(id)
-    render(conn, "show.json", project: project)
+  def show(conn, %{"id" => code}) do
+    try do
+      project = Research.get_project_by_code!(code)
+      render(conn, "show.json", project: project)
+    rescue
+      _e in Ecto.NoResultsError ->
+          render(conn, "error.json", %{:name => "ArgumentError", :msg => "no project found for given code", :code => 404})
+    end
   end
 
   defp parse_date(date_string) do
