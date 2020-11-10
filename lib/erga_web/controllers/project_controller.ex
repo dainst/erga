@@ -35,7 +35,7 @@ defmodule ErgaWeb.ProjectController do
         project = Research.get_project!(id)
         render(conn, "show.html", project: project, lang: lang)
       rescue
-        _e in ArgumentError ->
+        _e in Ecto.NoResultsError ->
           conn
           |> put_flash(:error, "Project ID not found.")
           |> redirect(to: Routes.project_path(conn, :index))

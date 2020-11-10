@@ -46,31 +46,37 @@ defmodule Erga.Research do
 
   """
   def get_project!(id) do
-    try do
-      Repo.get!(Project, id)
-      |> Repo.preload(stakeholders: :person)
-      |> Repo.preload(:linked_resources)
-      |> Repo.preload(:external_links)
-      |> Repo.preload(:images)
-      |> Repo.preload(:title)
-      |> Repo.preload(:description)
-    rescue
-      _e in Ecto.NoResultsError -> raise ArgumentError
-    end
+    Repo.get!(Project, id)
+    |> Repo.preload(stakeholders: :person)
+    |> Repo.preload(:linked_resources)
+    |> Repo.preload(:external_links)
+    |> Repo.preload(:images)
+    |> Repo.preload(:title)
+    |> Repo.preload(:description)
   end
 
+  @doc """
+  Gets a single project based on its project code.
+
+  Raises `Ecto.NoResultsError` if the Project does not exist.
+
+  ## Examples
+
+      iex> get_project!("PROJECT-123")
+      %Project{}
+
+      iex> get_project!("Project-321")
+      ** (Ecto.NoResultsError)
+
+  """
   def get_project_by_code!(code) do
-    try do
-      Repo.one!(from(p in Project, where: p.project_code == ^code))
-      |> Repo.preload(stakeholders: :person)
-      |> Repo.preload(:linked_resources)
-      |> Repo.preload(:external_links)
-      |> Repo.preload(:images)
-      |> Repo.preload(:title)
-      |> Repo.preload(:description)
-    rescue
-      _e in Ecto.NoResultsError -> raise ArgumentError
-    end
+    Repo.one!(from(p in Project, where: p.project_code == ^code))
+    |> Repo.preload(stakeholders: :person)
+    |> Repo.preload(:linked_resources)
+    |> Repo.preload(:external_links)
+    |> Repo.preload(:images)
+    |> Repo.preload(:title)
+    |> Repo.preload(:description)
   end
 
   @spec get_project_code(any) :: {:error, <<_::104>>} | {:ok, any}
