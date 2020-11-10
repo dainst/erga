@@ -39,4 +39,13 @@ defmodule ErgaWeb.Api.ProjectView do
       image_count: Enum.count(project.images)
     }
   end
+
+  def render("error.json", err) do
+    %{
+      error: err.name,
+      msg: err.msg,
+      code: err.code
+     }
+  end
+
 end

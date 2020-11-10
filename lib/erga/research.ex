@@ -6,6 +6,7 @@ defmodule Erga.Research do
 
   import Ecto.Query, warn: false
   alias Erga.Repo
+  alias Ecto.NoResultsError
 
   alias Erga.Research.{Project, LinkedResource, ExternalLink, Image, Stakeholder, TranslatedContent, ProjectTranslation}
 
@@ -45,13 +46,43 @@ defmodule Erga.Research do
 
   """
   def get_project!(id) do
-    Repo.get!(Project, id)
-    |> Repo.preload(stakeholders: :person)
-    |> Repo.preload(:linked_resources)
-    |> Repo.preload(:external_links)
-    |> Repo.preload(:images)
-    |> Repo.preload(:title)
-    |> Repo.preload(:description)
+    try do
+      Repo.get!(Project, id)
+      |> Repo.preload(stakeholders: :person)
+      |> Repo.preload(:linked_resources)
+      |> Repo.preload(:external_links)
+      |> Repo.preload(:images)
+      |> Repo.preload(:title)
+      |> Repo.preload(:description)
+    rescue
+      _e in Ecto.NoResultsError -> raise ArgumentError
+    end
+  end
+
+  def get_project_by_code!(code) do
+    try do
+      Repo.one!(from(p in Project, where: p.project_code == ^code))
+      |> Repo.preload(stakeholders: :person)
+      |> Repo.preload(:linked_resources)
+      |> Repo.preload(:external_links)
+      |> Repo.preload(:images)
+      |> Repo.preload(:title)
+      |> Repo.preload(:description)
+    rescue
+      _e in Ecto.NoResultsError -> raise ArgumentError
+    end
+  end
+
+  @spec get_project_code(any) :: {:error, <<_::104>>} | {:ok, any}
+  def get_project_code(id) do
+    try do
+      case Repo.one(from(p in Project, select: %{code: p.project_code}, where: p.id == ^id)) do
+        %{ code: code } -> {:ok, code}
+        nil -> {:error, "nothing found"}
+      end
+    rescue
+      _e in Ecto.Query.CastError -> {:error, "nothing found"}
+    end
   end
 
   @doc """

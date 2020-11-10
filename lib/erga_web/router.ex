@@ -41,6 +41,7 @@ defmodule ErgaWeb.Router do
     live "/linked_resources/new/:project_id", LinkedResourceLive.New
     live "/linked_resources/:id", LinkedResourceLive.Show
     live "/linked_resources/:id/edit", LinkedResourceLive.Edit
+    live "/linked_resources/:id/delete", LinkedResourceLive.Index, :delete
 
     live "/persons", PersonLive.Index, :index
     live "/persons/new", PersonLive.Index, :new
