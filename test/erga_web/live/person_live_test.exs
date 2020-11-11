@@ -5,8 +5,8 @@ defmodule ErgaWeb.PersonLiveTest do
 
   alias Erga.Staff
 
-  @create_attrs %{firstname: "some firstname", lastname: "some lastname", title: "some title"}
-  @update_attrs %{firstname: "some updated firstname", lastname: "some updated lastname", title: "some updated title"}
+  @create_attrs %{firstname: "Santa", lastname: "Claus", title: "Weihni"}
+  @update_attrs %{firstname: "Joe", lastname: "Biden", title: "Präs."}
   @invalid_attrs %{firstname: nil, lastname: nil, title: nil}
 
   defp fixture(:person) do
@@ -22,18 +22,21 @@ defmodule ErgaWeb.PersonLiveTest do
   describe "Index" do
     setup [:create_person]
 
+
+
     test "lists all persons", %{conn: conn, person: person} do
+
       {:ok, _index_live, html} = live(conn, Routes.person_index_path(conn, :index))
 
       assert html =~ "Listing Persons"
-      assert html =~ person.first_name
+      assert html =~ person.firstname
     end
 
-    test "saves new person", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, Routes.person_index_path(conn, :index))
+     test "saves new person", %{conn: conn} do
+       {:ok, index_live, _html} = live(conn, Routes.person_index_path(conn, :index))
 
-      assert index_live |> element("a", "New Person") |> render_click() =~
-               "New Person"
+       assert index_live |> element("a", "New Person") |> render_click() =~
+                "New Person"
 
       assert_patch(index_live, Routes.person_index_path(conn, :new))
 
@@ -48,7 +51,7 @@ defmodule ErgaWeb.PersonLiveTest do
         |> follow_redirect(conn, Routes.person_index_path(conn, :index))
 
       assert html =~ "Person created successfully"
-      assert html =~ "some first_name"
+      assert html =~ "Santa"
     end
 
     test "updates person in listing", %{conn: conn, person: person} do
@@ -70,7 +73,7 @@ defmodule ErgaWeb.PersonLiveTest do
         |> follow_redirect(conn, Routes.person_index_path(conn, :index))
 
       assert html =~ "Person updated successfully"
-      assert html =~ "some updated first_name"
+      assert html =~ "Joe"
     end
 
     test "deletes person in listing", %{conn: conn, person: person} do
@@ -88,7 +91,7 @@ defmodule ErgaWeb.PersonLiveTest do
       {:ok, _show_live, html} = live(conn, Routes.person_show_path(conn, :show, person))
 
       assert html =~ "Show Person"
-      assert html =~ person.first_name
+      assert html =~ person.firstname
     end
 
     test "updates person within modal", %{conn: conn, person: person} do
@@ -110,7 +113,7 @@ defmodule ErgaWeb.PersonLiveTest do
         |> follow_redirect(conn, Routes.person_show_path(conn, :show, person))
 
       assert html =~ "Person updated successfully"
-      assert html =~ "some updated first_name"
+      assert html =~ "Joe"
     end
-  end
+   end
 end
