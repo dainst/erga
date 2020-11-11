@@ -1,12 +1,21 @@
 defmodule ErgaWeb.ProjectView do
   use ErgaWeb, :view
 
-  def get_title(project, lang) do
-    Enum.find(project.title, List.first(project.title), fn map -> map.language_code == lang end)
+  defp get_translated_content([]) do
+    ""
   end
 
-  def get_description(project, lang) do
-    Enum.find(project.description, List.first(project.description), fn map -> map.language_code == lang end)
+  defp get_translated_content(translations) do
+    translation =
+      translations
+      |> Enum.filter(fn t -> t.language_code == Gettext.get_locale end)
+
+    case translation do
+      [] ->
+        List.first(translations).content
+      [val] ->
+        val.content
+      end
   end
 
   def primary_images(images) do

@@ -83,7 +83,7 @@ Erga.Research.create_image(
 )
 
 content = Erga.Repo.insert!(%TranslatedContent{
-  language_code: "DE",
+  language_code: "de",
   content: "Eine sehr informative Projektbeschreibung."
 })
 
@@ -94,7 +94,7 @@ Erga.Repo.insert!(%ProjectTranslation{
 })
 
 content = Erga.Repo.insert!(%TranslatedContent{
-  language_code: "EN",
+  language_code: "en",
   content: "This is a very informativ project description."
 })
 

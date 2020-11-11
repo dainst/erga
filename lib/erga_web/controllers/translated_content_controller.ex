@@ -4,7 +4,7 @@ defmodule ErgaWeb.TranslatedContentController do
   alias Erga.Research
   alias Erga.Research.TranslatedContent
 
-  @lang_codes [de: "DE", en: "EN", fr: "FR", it: "IT", es: "ES", ru: "RU"]
+  @lang_codes Application.get_env(:gettext, :locales)
 
   def new(conn, %{"project_id" => pid, "col_name" => cname }) do
     changeset = Research.change_translated_content(%TranslatedContent{})

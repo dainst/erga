@@ -1,8 +1,8 @@
 <div><%= link "Back", to: Routes.project_path(@conn, :index) %> | <%= link "Edit", to: Routes.project_path(@conn, :edit, @project) %> </div>
 
-<h1><%= get_title(@project, @lang).content %></h1>
+<h1><%=get_translated_content(@project.title) %></h1>
 
-<div class="box"><strong><%= @project.project_code %></strong>: <%= get_description(@project, @lang).content %></div>
+<div class="box"><strong><%= @project.project_code %></strong>: <%= get_translated_content(@project.description) %></div>
 <div  class="box"><strong>Duration:</strong> <%= @project.starts_at %> to <%= @project.ends_at %></div>
 <hr>
 <div class="box">

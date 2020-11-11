@@ -10,7 +10,8 @@ defmodule ErgaWeb.Router do
     plug :fetch_live_flash
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
-    plug :put_root_layout, {ErgaWeb.LayoutView, :root}
+    plug(:put_root_layout, {ErgaWeb.LayoutView, :root})
+    plug(ErgaWeb.Gettext)
   end
 
   pipeline :api do
@@ -18,8 +19,7 @@ defmodule ErgaWeb.Router do
   end
 
   pipeline :protected do
-    plug Pow.Plug.RequireAuthenticated,
-         error_handler: Pow.Phoenix.PlugErrorHandler
+    plug(Pow.Plug.RequireAuthenticated, error_handler: Pow.Phoenix.PlugErrorHandler)
   end
 
   scope "/" do
