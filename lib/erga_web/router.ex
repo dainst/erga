@@ -11,7 +11,7 @@ defmodule ErgaWeb.Router do
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
     plug(:put_root_layout, {ErgaWeb.LayoutView, :root})
-    plug(ErgaWeb.Gettext)
+    plug(ErgaWeb.Gettext.Plug)
   end
 
   pipeline :api do
