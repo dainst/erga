@@ -9,7 +9,6 @@ defmodule ErgaWeb.ProjectView do
 
     translation =
       translations
-      |> IO.inspect
       |> Enum.filter(fn t -> t.translated_content.language_code == Gettext.get_locale end)
 
     case translation do
