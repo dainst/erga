@@ -26,8 +26,8 @@ defmodule Erga.Research do
     |> Repo.preload(:linked_resources)
     |> Repo.preload(:external_links)
     |> Repo.preload(:images)
-    |> Repo.preload(:title)
-    |> Repo.preload(:description)
+    |> Repo.preload([titles: [:translated_content]])
+    |> Repo.preload([descriptions: [:translated_content]])
   end
 
   @doc """
@@ -50,8 +50,8 @@ defmodule Erga.Research do
     |> Repo.preload(:linked_resources)
     |> Repo.preload(:external_links)
     |> Repo.preload(:images)
-    |> Repo.preload(:title)
-    |> Repo.preload(:description)
+    |> Repo.preload(:titles)
+    |> Repo.preload(:descriptions)
   end
 
   @doc """
@@ -74,8 +74,8 @@ defmodule Erga.Research do
     |> Repo.preload(:linked_resources)
     |> Repo.preload(:external_links)
     |> Repo.preload(:images)
-    |> Repo.preload(:title)
-    |> Repo.preload(:description)
+    |> Repo.preload(:titles)
+    |> Repo.preload(:descriptions)
   end
 
   @spec get_project_code(any) :: {:error, <<_::104>>} | {:ok, any}
@@ -97,7 +97,7 @@ defmodule Erga.Research do
     d = String.to_integer(number_of_days)
     Repo.all(from(p in Project, where: p.updated_at >= ago(^d, "day")))
     |> Repo.preload(:images)
-    |> Repo.preload(:title)
+    |> Repo.preload(:titles)
     |> Repo.preload(:stakeholders)
   end
 
@@ -110,7 +110,7 @@ defmodule Erga.Research do
     |> Repo.all
     |> Repo.preload(:stakeholders)
     |> Repo.preload(:images)
-    |> Repo.preload(:title)
+    |> Repo.preload(:titles)
   end
 
 

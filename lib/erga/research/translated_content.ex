@@ -3,16 +3,16 @@ defmodule Erga.Research.TranslatedContent do
   import Ecto.Changeset
 
   schema "translated_contents" do
-    field :content, :string
+    field :text, :string
     field :language_code, :string
-    has_one :project_assoc, Erga.Research.ProjectTranslation
+    has_one :target_assoc, Erga.Research.TranslationToTarget
     timestamps()
   end
 
   @doc false
   def changeset(translated_content, attrs) do
     translated_content
-    |> cast(attrs, [:language_code, :content])
-    |> validate_required([:language_code, :content])
+    |> cast(attrs, [:language_code, :text])
+    |> validate_required([:language_code, :text])
   end
 end
