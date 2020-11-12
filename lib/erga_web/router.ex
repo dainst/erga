@@ -38,6 +38,8 @@ defmodule ErgaWeb.Router do
     resources("/images", ImageController, only: [:create, :delete, :edit, :new, :update])
     resources("/translated_contents", TranslatedContentController, only: [:create, :delete, :edit, :new, :update])
 
+    put("/locale", LocaleController, :set)
+
     live "/linked_resources/new/:project_id", LinkedResourceLive.New
     live "/linked_resources/:id", LinkedResourceLive.Show
     live "/linked_resources/:id/edit", LinkedResourceLive.Edit

@@ -19,7 +19,12 @@
             <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
               <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
             <% end %>
-            Locale: <%= Gettext.get_locale() %>
+            <li>
+              <%= f = form_for @conn, Routes.locale_path(@conn, :set), [method: :put] %>
+                <%= hidden_input f, :redirect, value: @conn.request_path %>
+                <%= select f, :locale, get_locale_select_values(), onchange: "this.form.submit()", selected: get_locale_selected(@conn) %>
+              </form>
+            </li>
           </ul>
         </nav>
         <a href="https://phoenixframework.org/" class="phx-logo">
