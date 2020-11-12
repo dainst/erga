@@ -50,7 +50,6 @@ defmodule ErgaWeb.TranslatedContentController do
     case Research.update_translated_content(translated_content, translated_content_params) do
       {:ok, translated_content} ->
 
-        IO.inspect translated_content
         conn
         |> put_flash(:info, "Translated content updated successfully.")
         |> redirect(to: Routes.project_path(conn, :edit, translated_content.project_assoc.project_id))

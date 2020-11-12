@@ -10,7 +10,6 @@ defmodule ErgaWeb.Api.ProjectView do
   end
 
   def render("project.json", %{project: project}) do
-    IO.inspect(project)
     %{
       id: project.id,
       project_key: project.project_code,

@@ -81,7 +81,6 @@ defmodule Erga.Research.Image do
   end
 
   defp copy_file(changeset, target_file, %{:path => path}) do
-    IO.inspect path
     case File.cp(
       path,
       target_file
