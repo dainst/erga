@@ -14,6 +14,8 @@ defmodule Erga.Repo.Migrations.TranslatedContentToTargetMapping do
       add(:target_id, :integer)
     end
 
+    drop table(:project_translations)
+
     create index(:translated_contents, [:target_id])
   end
 end
