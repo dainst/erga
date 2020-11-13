@@ -5,6 +5,7 @@
     </div>
   <% end %>
   <%= hidden_input f, :target_table, value: @params["target_table"] %>
+  <%= hidden_input f, :target_table_primary_key, value: @params["target_table_primary_key"] %>
   <%= hidden_input f, :target_id, value: @params["target_id"] %>
   <%= hidden_input f, :target_field, value: @params["target_field"] %>
   <%= hidden_input f, :redirect, value: @params["redirect"] %>

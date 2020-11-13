@@ -42,6 +42,7 @@
         @conn,
         :new,
         target_table: @project.__meta__.source,
+        target_table_primary_key: @project.id,
         target_id: @project.title_id,
         target_field: :title_id,
         redirect: @conn.request_path
@@ -84,6 +85,7 @@
         @conn,
         :new,
         target_table: @project.__meta__.source,
+        target_table_primary_key: @project.id,
         target_id: @project.description_id,
         target_field: :description_id,
         redirect: @conn.request_path

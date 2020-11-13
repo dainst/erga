@@ -13,6 +13,6 @@ defmodule Erga.Research.TranslatedContent do
   def changeset(translated_content, attrs) do
     translated_content
     |> cast(attrs, [:language_code, :text, :target_id])
-    |> validate_required([:language_code, :text, :target_id])
+    |> validate_required([:language_code, :text])
   end
 end
