@@ -20,19 +20,17 @@
           </tr>
         </thead>
         <tbody>
-        <%= for translated_content <- @project.titles do %>
+        <%= for title <- @project.titles do %>
           <tr>
-            <td><%= translated_content.language_code %></td>
-            <td><%= translated_content.text %></td>
+            <td><%= title.language_code %></td>
+            <td><%= title.text %></td>
             <td>
-              <%= link "edit", to: Routes.translated_content_path(
-                    @conn, :edit,
-                    translated_content.id,
-                    target_table: @project.__meta__.source,
-                    target_id: @project.title_id,
-                    target_field: :title_id,
-                    redirect: @conn.request_path
-                  ) %> | <%= link "remove", to: Routes.translated_content_path(@conn, :delete, translated_content.id, redirect: @conn.request_path), method: :delete, data: [confirm: "Are you sure?"] %>
+              <%=
+                link "edit", to:
+                  Routes.translated_content_path(@conn, :edit, title.id, redirect: @conn.request_path)
+              %> | <%=
+                link "remove", to:
+                  Routes.translated_content_path(@conn, :delete, title.id, redirect: @conn.request_path), method: :delete, data: [confirm: "Are you sure?"] %>
               </td>
           </tr>
         <% end %>
@@ -61,20 +59,17 @@
     </tr>
     </thead>
     <tbody>
-    <%= for translated_content <- @project.descriptions do %>
+    <%= for description <- @project.descriptions do %>
     <tr>
-      <td><%= translated_content.language_code %></td>
-      <td><%= translated_content.text %></td>
+      <td><%= description.language_code %></td>
+      <td><%= description.text %></td>
       <td>
-        <%= link "edit", to: Routes.translated_content_path(
-          @conn,
-          :edit,
-          translated_content.id,
-          target_table: @project.__meta__.source,
-          target_id: @project.description_id,
-          target_field: :description_id,
-          redirect: @conn.request_path
-        ) %> | <%= link "remove", to: Routes.translated_content_path(@conn, :delete, translated_content.id, redirect: @conn.request_path), method: :delete, data: [confirm: "Are you sure?"] %>
+        <%=
+          link "edit", to:
+            Routes.translated_content_path(@conn, :edit, description.id, redirect: @conn.request_path)
+        %> | <%=
+          link "remove", to:
+            Routes.translated_content_path(@conn, :delete, description.id, redirect: @conn.request_path), method: :delete, data: [confirm: "Are you sure?"] %>
       </td>
     </tr>
     <% end %>

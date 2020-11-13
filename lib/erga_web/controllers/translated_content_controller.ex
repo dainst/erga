@@ -37,7 +37,7 @@ defmodule ErgaWeb.TranslatedContentController do
       translated_content: translated_content,
       changeset: changeset,
       lang_codes: @lang_codes,
-      params: params
+      params: Map.merge(%{"target_id" => translated_content.target_id}, params)
     )
   end
 
