@@ -26,8 +26,8 @@ defmodule Erga.Research do
     |> Repo.preload(:linked_resources)
     |> Repo.preload(:external_links)
     |> Repo.preload(:images)
-    |> Repo.preload([titles: [:translated_content]])
-    |> Repo.preload([descriptions: [:translated_content]])
+    |> Repo.preload(:titles)
+    |> Repo.preload(:descriptions)
   end
 
   @doc """
@@ -108,9 +108,9 @@ defmodule Erga.Research do
   def get_projects_updated_since(date) do
     from(p in Project, where: p.updated_at > ^date)
     |> Repo.all
-    |> Repo.preload(:stakeholders)
     |> Repo.preload(:images)
     |> Repo.preload(:titles)
+    |> Repo.preload(:stakeholders)
   end
 
 
@@ -625,7 +625,7 @@ defmodule Erga.Research do
       ** (Ecto.NoResultsError)
 
   """
-  def get_translated_content!(id), do: Repo.get!(TranslatedContent, id) |> Repo.preload(:project_assoc)
+  def get_translated_content!(id), do: Repo.get!(TranslatedContent, id)
 
   @doc """
   Creates a translated_content.

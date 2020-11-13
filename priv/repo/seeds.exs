@@ -17,7 +17,6 @@ alias Erga.Staff.Person
 alias Erga.Research.Project
 alias Erga.Accounts.User
 alias Erga.Research.TranslatedContent
-alias Erga.Research.TranslationToTarget
 
 Erga.Repo.delete_all Project
 Erga.Repo.delete_all Stakeholder
@@ -85,42 +84,25 @@ Erga.Research.create_image(
 )
 
 content = Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_id,
   language_code: "de",
   text: "Eine sehr informative Projektbeschreibung."
 })
 
-Erga.Repo.insert!(%TranslationToTarget{
-  target_id: project.description_id,
-  translated_content_id: content.id
-})
-
 content = Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_id,
   language_code: "en",
   text: "This is a very informativ project description."
 })
 
-Erga.Repo.insert!(%TranslationToTarget{
-  target_id: project.description_id,
-  translated_content_id: content.id
-})
-
-
 content = Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_id,
   language_code: "de",
   text: "Großartiges Ausgrabungsprojekt"
 })
 
-Erga.Repo.insert!(%TranslationToTarget{
-  target_id: project.title_id,
-  translated_content_id: content.id
-})
-
 content = Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_id,
   language_code: "en",
   text: "Great digging project"
-})
-
-Erga.Repo.insert!(%TranslationToTarget{
-  target_id: project.title_id,
-  translated_content_id: content.id
 })

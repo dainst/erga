@@ -33,9 +33,13 @@ defmodule ErgaWeb.Router do
 
     get("/", ProjectController, :index)
     resources("/projects", ProjectController)
+
     resources("/stakeholders", StakeholderController, only: [:create, :delete, :edit,  :new, :update])
+
     resources("/external_links", ExternalLinkController, only: [:create, :delete, :edit, :new, :update])
+
     resources("/images", ImageController, only: [:create, :delete, :edit, :new, :update])
+
     resources("/translated_contents", TranslatedContentController, only: [:create, :delete, :edit, :new, :update])
 
     put("/locale", LocaleController, :set)

@@ -20,17 +20,32 @@
           </tr>
         </thead>
         <tbody>
-        <%= for title <- @project.title do %>
+        <%= for translated_content <- @project.titles do %>
           <tr>
-            <td><%= title.language_code %></td>
-            <td><%= title.content %></td>
-            <td><%= link "edit", to: Routes.translated_content_path(@conn, :edit, title.id) %> |
-            <%= link "remove", to: Routes.translated_content_path(@conn, :delete, title.id), method: :delete, data: [confirm: "Are you sure?"] %></td>
+            <td><%= translated_content.language_code %></td>
+            <td><%= translated_content.text %></td>
+            <td>
+              <%= link "edit", to: Routes.translated_content_path(
+                    @conn, :edit,
+                    translated_content.id,
+                    target_table: @project.__meta__.source,
+                    target_id: @project.title_id,
+                    target_field: :title_id,
+                    redirect: @conn.request_path
+                  ) %> | <%= link "remove", to: Routes.translated_content_path(@conn, :delete, translated_content.id, redirect: @conn.request_path), method: :delete, data: [confirm: "Are you sure?"] %>
+              </td>
           </tr>
         <% end %>
         </tbody>
     </table>
-  <%= link "Add Title", to: Routes.translated_content_path(@conn, :new, project_id: @project.id, col_name: "title") %>
+  <%= link "Add Title", to: Routes.translated_content_path(
+        @conn,
+        :new,
+        target_table: @project.__meta__.source,
+        target_id: @project.title_id,
+        target_field: :title_id,
+        redirect: @conn.request_path
+      ) %>
   </div>
 
 <div class="box">
@@ -45,18 +60,34 @@
     </tr>
     </thead>
     <tbody>
-    <%= for descr <- @project.description do %>
+    <%= for translated_content <- @project.descriptions do %>
     <tr>
-      <td><%= descr.language_code %></td>
-      <td><%= descr.content%></td>
-      <td><%= link "edit", to: Routes.translated_content_path(@conn, :edit, descr.id) %> |
-        <%= link "remove", to: Routes.translated_content_path(@conn, :delete, descr.id), method: :delete, data: [confirm: "Are you sure?"] %></td>
+      <td><%= translated_content.language_code %></td>
+      <td><%= translated_content.text %></td>
+      <td>
+        <%= link "edit", to: Routes.translated_content_path(
+          @conn,
+          :edit,
+          translated_content.id,
+          target_table: @project.__meta__.source,
+          target_id: @project.description_id,
+          target_field: :description_id,
+          redirect: @conn.request_path
+        ) %> | <%= link "remove", to: Routes.translated_content_path(@conn, :delete, translated_content.id, redirect: @conn.request_path), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
     </tr>
     <% end %>
 
     </tbody>
   </table>
-  <%= link "Add Description", to: Routes.translated_content_path(@conn, :new, project_id: @project.id, col_name: "descr") %>
+  <%= link "Add Description", to: Routes.translated_content_path(
+        @conn,
+        :new,
+        target_table: @project.__meta__.source,
+        target_id: @project.description_id,
+        target_field: :description_id,
+        redirect: @conn.request_path
+      ) %>
 </div>
 <div class="box">
   <h2>Duration</h2>

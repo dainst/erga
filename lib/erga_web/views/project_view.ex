@@ -9,13 +9,13 @@ defmodule ErgaWeb.ProjectView do
 
     translation =
       translations
-      |> Enum.filter(fn t -> t.translated_content.language_code == Gettext.get_locale end)
+      |> Enum.filter(fn t -> t.language_code == Gettext.get_locale end)
 
     case translation do
       [] ->
-        List.first(translations).translated_content.text
+        List.first(translations).text
       [val] ->
-        val.translated_content.text
+        val.text
       end
   end
 
