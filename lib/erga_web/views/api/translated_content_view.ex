@@ -4,7 +4,7 @@ defmodule ErgaWeb.Api.TranslatedContentView do
   def render("translated_content.json", %{translated_content: tc}) do
     %{
       language_code: tc.language_code,
-      content: tc.content
+      content: tc.text
     }
   end
 end
