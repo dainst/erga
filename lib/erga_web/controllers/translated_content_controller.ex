@@ -14,11 +14,6 @@ defmodule ErgaWeb.TranslatedContentController do
   def create(conn, %{"translated_content" => translated_content_params}) do
     case Research.create_translated_content(translated_content_params) do
       {:ok, _translated_content} ->
-        # assoc =
-        #   translated_content_params
-        #   |> Map.put("translated_content_id", translated_content.id)
-        #   |> Research.assoc_translated_content
-
         conn
         |> put_flash(:info, "Translated content created successfully.")
         |> redirect(to: translated_content_params["redirect"])
