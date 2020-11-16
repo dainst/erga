@@ -53,11 +53,6 @@ defmodule ErgaWeb.LinkedResourceLive.Index do
     end
   end
 
-  defp delete_resource(id) do
-    resource = Research.get_linked_resource!(id)
-    Research.delete_linked_resource(resource)
-  end
-
   def handle_event("load_resources", %{"foo" => params}, socket) do
     pid = String.to_integer(params["project"])
     socket = if pid > 0 do
@@ -73,6 +68,11 @@ defmodule ErgaWeb.LinkedResourceLive.Index do
     end
 
     {:noreply, socket}
+  end
+
+  defp delete_resource(id) do
+    resource = Research.get_linked_resource!(id)
+    Research.delete_linked_resource(resource)
   end
 
 end
