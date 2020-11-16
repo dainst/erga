@@ -83,25 +83,25 @@ Erga.Research.create_image(
   }
 )
 
-content = Erga.Repo.insert!(%TranslatedContent{
+Erga.Repo.insert!(%TranslatedContent{
   target_id: project.description_translation_target_id,
   language_code: "de",
   text: "Eine sehr informative Projektbeschreibung."
 })
 
-content = Erga.Repo.insert!(%TranslatedContent{
+Erga.Repo.insert!(%TranslatedContent{
   target_id: project.description_translation_target_id,
   language_code: "en",
   text: "This is a very informativ project description."
 })
 
-content = Erga.Repo.insert!(%TranslatedContent{
+Erga.Repo.insert!(%TranslatedContent{
   target_id: project.title_translation_target_id,
   language_code: "de",
   text: "Großartiges Ausgrabungsprojekt"
 })
 
-content = Erga.Repo.insert!(%TranslatedContent{
+Erga.Repo.insert!(%TranslatedContent{
   target_id: project.title_translation_target_id,
   language_code: "en",
   text: "Great digging project"
