@@ -320,6 +320,7 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Teheran Branch"
 })
+
 #athenDigital
 project =
   Erga.Repo.insert! %Project{
@@ -353,4 +354,109 @@ Erga.Repo.insert!(%TranslatedContent{
   target_id: project.title_translation_target_id,
   language_code: "en",
   text: "Athens Department"
+})
+
+#spacodices
+project =
+  Erga.Repo.insert! %Project{
+
+    project_code: "spacodices",
+    external_links: [
+      %ExternalLink{
+        label: "Spanish Codices",
+        url: "https://arachne.dainst.org/project/spacodices"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archive_spanish_codices.jpg",
+      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/archives/idai_archive_spanish_codices.jpg?raw=true"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The digital catalog of illuminated manuscripts of medieval Spain is based on an inventory of about 4,500 colored small image slides, located in the Madrid Department of the German Archaeological Institute (DAI)."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Spanish Codices"
+})
+
+#handzeichnungen
+project =
+  Erga.Repo.insert! %Project{
+
+    project_code: "handzeichnungen",
+    external_links: [
+      %ExternalLink{
+        label: "Rome Department: Historical drawings",
+        url: "https://arachne.dainst.org/project/handzeichnungen"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archive_dai_1_antike_Zeichnung.jpg",
+      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/archives/idai_archive_dai_1_antike_Zeichnung.jpg?raw=true"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Antiquity in drawings, maps and architectural surveys: primary documentary materials of the 19th and 20th century in the German Archaeological Institute at Rome."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Rome Department: Historical drawings"
+})
+
+#gelehrtenbriefe
+project =
+  Erga.Repo.insert! %Project{
+
+    project_code: "gelehrtenbriefe",
+    external_links: [
+      %ExternalLink{
+        label: "Rome Department: Correspondences",
+        url: "https://arachne.dainst.org/project/gelehrtenbriefe"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archive_dai_2_gelehrten.jpg",
+      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/archives/idai_archive_dai_2_gelehrten.jpg?raw=true"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The drawings, aquarelles, maps, cross-sections, etc. of the two collections show ancient buildings and objects that document sites and finds that have been changed or destroyed in the course of the last years."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Rome Department: Correspondences"
 })
