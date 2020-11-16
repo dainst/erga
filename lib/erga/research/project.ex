@@ -11,10 +11,10 @@ defmodule Erga.Research.Project do
     has_many(:external_links, Erga.Research.ExternalLink)
     has_many(:images, Erga.Research.Image)
 
-    field(:title_id, :integer)
-    field(:description_id, :integer)
-    has_many(:titles, Erga.Research.TranslatedContent, foreign_key: :target_id, references: :title_id)
-    has_many(:descriptions, Erga.Research.TranslatedContent, foreign_key: :target_id, references: :description_id)
+    field(:title_translation_target_id, :integer)
+    field(:description_translation_target_id, :integer)
+    has_many(:titles, Erga.Research.TranslatedContent, foreign_key: :target_id, references: :title_translation_target_id)
+    has_many(:descriptions, Erga.Research.TranslatedContent, foreign_key: :target_id, references: :description_translation_target_id)
 
     timestamps()
   end

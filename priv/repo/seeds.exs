@@ -46,8 +46,8 @@ project =
     project_code: "SPP2143",
     starts_at: ~D[2019-01-10],
     ends_at: ~D[2023-10-10],
-    title_id: 1,
-    description_id: 2,
+    title_translation_target_id: 1,
+    description_translation_target_id: 2,
 
     stakeholders: [
       %Stakeholder{
@@ -84,25 +84,25 @@ Erga.Research.create_image(
 )
 
 content = Erga.Repo.insert!(%TranslatedContent{
-  target_id: project.description_id,
+  target_id: project.description_translation_target_id,
   language_code: "de",
   text: "Eine sehr informative Projektbeschreibung."
 })
 
 content = Erga.Repo.insert!(%TranslatedContent{
-  target_id: project.description_id,
+  target_id: project.description_translation_target_id,
   language_code: "en",
   text: "This is a very informativ project description."
 })
 
 content = Erga.Repo.insert!(%TranslatedContent{
-  target_id: project.title_id,
+  target_id: project.title_translation_target_id,
   language_code: "de",
   text: "Großartiges Ausgrabungsprojekt"
 })
 
 content = Erga.Repo.insert!(%TranslatedContent{
-  target_id: project.title_id,
+  target_id: project.title_translation_target_id,
   language_code: "en",
   text: "Great digging project"
 })

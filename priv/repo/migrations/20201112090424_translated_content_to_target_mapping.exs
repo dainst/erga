@@ -4,8 +4,8 @@ defmodule Erga.Repo.Migrations.TranslatedContentToTargetMapping do
   def change do
 
     alter table(:projects) do
-      add(:title_id, :integer)
-      add(:description_id, :integer)
+      add(:title_translation_target_id, :integer)
+      add(:description_translation_target_id, :integer)
     end
 
     alter table(:translated_contents) do

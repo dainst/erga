@@ -41,8 +41,8 @@
         :new,
         target_table: @project.__meta__.source,
         target_table_primary_key: @project.id,
-        target_id: @project.title_id,
-        target_field: :title_id,
+        target_id: @project.title_translation_target_id,
+        target_field: :title_translation_target_id,
         redirect: @conn.request_path
       ) %>
   </div>
@@ -81,8 +81,8 @@
         :new,
         target_table: @project.__meta__.source,
         target_table_primary_key: @project.id,
-        target_id: @project.description_id,
-        target_field: :description_id,
+        target_id: @project.description_translation_target_id,
+        target_field: :description_translation_target_id,
         redirect: @conn.request_path
       ) %>
 </div>
