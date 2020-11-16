@@ -125,6 +125,8 @@ defmodule Erga.Research do
     %Project{}
     |> Project.changeset(attrs)
     |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:title, with: &TranslatedContent.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:description, with: &TranslatedContent.changeset/2)
     |> Ecto.Changeset.cast_assoc(:linked_resources, with: &LinkedResource.changeset/2)
     |> Ecto.Changeset.cast_assoc(:external_links, with: &ExternalLink.changeset/2)
     |> Ecto.Changeset.cast_assoc(:images, with: &Image.changeset/2)
