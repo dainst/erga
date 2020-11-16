@@ -3,23 +3,23 @@ defmodule ArachneService do
 
   @base_url "https://arachne.dainst.org/data/search"
 
-
   def get_list(val, _filter) do
-    HTTPoison.start
-    case HTTPoison.get(@base_url <> "?q=" <> val <> "*" ) do
-      {:ok, response} -> list = response.body
-                        |> Poison.decode!
-                        |> Map.get("entities")
-                        |> get_result_list
-                        {:ok, list}
-      {:error, reason} -> {:error, "Error during search: " <> Atom.to_string(reason.reason)}
+    case HTTPoison.get("#{@base_url}?q=#{val}*") do
+      {:ok, response} ->
+        list =
+          response.body
+          |> Poison.decode!
+          |> Map.get("entities")
+          |> get_result_list
+        {:ok, list}
+      {:error, reason} ->
+        {:error, "Error during search: #{reason.reason}"}
     end
   end
 
   def get_by_id(id) do
-    HTTPoison.start
     res =
-      HTTPoison.get!(@base_url <> id).body
+      HTTPoison.get!("#{@base_url}#{id}").body
       |> Poison.decode!
 
     get_result_list([res])

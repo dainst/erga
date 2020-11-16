@@ -1,7 +1,7 @@
 defmodule ChrontologyService do
   use StandardServiceBehaivour
 
-  @base_url  "https://chronontology.dainst.org/data/period/"
+  @base_url "https://chronontology.dainst.org/data/period/"
 
   def get_list(val, _filter) do
     url = @base_url <> "?q=" <> val <> "*"
@@ -9,15 +9,17 @@ defmodule ChrontologyService do
   end
 
   def get_by_id(id) do
-    HTTPoison.start
-    case HTTPoison.get(@base_url <> id) do
-      {:ok, response} -> item = response.body
-                        |> Poison.decode!
-                        |> List.wrap
-                        |> get_result_list
-                        |> List.first
-                        {:ok, item}
-      {:error, reason} -> {:error, "There was an error during the request: " <> Atom.to_string(reason.reason)}
+    case HTTPoison.get("#{@base_url}#{id}") do
+      {:ok, response} ->
+        item =
+          response.body
+          |> Poison.decode!
+          |> List.wrap
+          |> get_result_list
+          |> List.first
+        {:ok, item}
+      {:error, reason} ->
+        {:error, "There was an error during the request: #{reason.reason}"}
     end
 
   end

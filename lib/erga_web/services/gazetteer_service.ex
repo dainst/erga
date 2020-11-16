@@ -15,21 +15,23 @@ defmodule GazetteerService do
   end
 
   def get_by_id(id) do
-    if String.to_integer(id) |> is_number do
-      HTTPoison.start
+    try do
+      id = String.to_integer(id)
+      case HTTPoison.get("#{@base_url}#{id}") do
+        {:ok, response} ->
+          item =
+            response.body
+            |> Poison.decode!
+            |> Map.get("result")
+            |> get_result_list
+            |> List.first
 
-      case HTTPoison.get(@base_url <> id) do
-        {:ok, response} -> item = response.body
-                                  |> Poison.decode!
-                                  |> Map.get("result")
-                                  |> get_result_list
-                                  |> List.first
-                                  {:ok, item}
-        {:error, reason} -> {:error, "There was an error during the request: " <> Atom.to_string(reason.reason)}
+          {:ok, item}
+        {:error, reason} ->
+          {:error, "There was an error during the request: #{reason.reason}"}
       end
-
-    else
-      raise(ArgumentError, message: "id not a number: " <> to_string(id))
+    rescue
+      ArgumentError -> {:error, "Id not a number: #{id}"}
     end
 
   end
