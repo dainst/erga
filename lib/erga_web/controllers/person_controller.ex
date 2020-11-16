@@ -4,6 +4,11 @@ defmodule ErgaWeb.PersonController do
   alias Erga.Staff
   alias Erga.Staff.Person
 
+  def index(conn,  %{"redirect" => redirect}) do
+    persons = Staff.list_persons()
+    render(conn, "index.html", persons: persons, redirect: redirect)
+  end
+
   def new(conn, %{"redirect" => redirect}) do
     changeset = Staff.change_person(%Person{})
     render(conn, "new.html", changeset: changeset, redirect: redirect)
@@ -34,19 +39,19 @@ defmodule ErgaWeb.PersonController do
       {:ok, _person} ->
         conn
         |> put_flash(:info, "Person updated successfully.")
-        |> redirect(to: redirect)
+        |> redirect(to: Routes.person_path(conn, :index, redirect: redirect))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", person: person, changeset: changeset)
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => id, "redirect" => redirect}) do
     person = Staff.get_person!(id)
     {:ok, _person} = Staff.delete_person(person)
 
     conn
     |> put_flash(:info, "Person deleted successfully.")
-    |> redirect(to: Routes.person_path(conn, :index))
+    |> redirect(to: Routes.person_path(conn, :index, redirect: redirect))
   end
 end
