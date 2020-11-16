@@ -6,9 +6,8 @@ defmodule Erga.Research do
 
   import Ecto.Query, warn: false
   alias Erga.Repo
-  alias Ecto.NoResultsError
 
-  alias Erga.Research.{Project, LinkedResource, ExternalLink, Image, Stakeholder, TranslatedContent, ProjectTranslation}
+  alias Erga.Research.{Project, LinkedResource, ExternalLink, Image, Stakeholder, TranslatedContent}
 
   @upload_directory Application.get_env(:erga, :uploads_directory)
   @doc """
@@ -27,8 +26,8 @@ defmodule Erga.Research do
     |> Repo.preload(:linked_resources)
     |> Repo.preload(:external_links)
     |> Repo.preload(:images)
-    |> Repo.preload(:title)
-    |> Repo.preload(:description)
+    |> Repo.preload(:titles)
+    |> Repo.preload(:descriptions)
   end
 
   @doc """
@@ -46,31 +45,37 @@ defmodule Erga.Research do
 
   """
   def get_project!(id) do
-    try do
-      Repo.get!(Project, id)
-      |> Repo.preload(stakeholders: :person)
-      |> Repo.preload(:linked_resources)
-      |> Repo.preload(:external_links)
-      |> Repo.preload(:images)
-      |> Repo.preload(:title)
-      |> Repo.preload(:description)
-    rescue
-      _e in Ecto.NoResultsError -> raise ArgumentError
-    end
+    Repo.get!(Project, id)
+    |> Repo.preload(stakeholders: :person)
+    |> Repo.preload(:linked_resources)
+    |> Repo.preload(:external_links)
+    |> Repo.preload(:images)
+    |> Repo.preload(:titles)
+    |> Repo.preload(:descriptions)
   end
 
+  @doc """
+  Gets a single project based on its project code.
+
+  Raises `Ecto.NoResultsError` if the Project does not exist.
+
+  ## Examples
+
+      iex> get_project!("PROJECT-123")
+      %Project{}
+
+      iex> get_project!("Project-321")
+      ** (Ecto.NoResultsError)
+
+  """
   def get_project_by_code!(code) do
-    try do
-      Repo.one!(from(p in Project, where: p.project_code == ^code))
-      |> Repo.preload(stakeholders: :person)
-      |> Repo.preload(:linked_resources)
-      |> Repo.preload(:external_links)
-      |> Repo.preload(:images)
-      |> Repo.preload(:title)
-      |> Repo.preload(:description)
-    rescue
-      _e in Ecto.NoResultsError -> raise ArgumentError
-    end
+    Repo.one!(from(p in Project, where: p.project_code == ^code))
+    |> Repo.preload(stakeholders: :person)
+    |> Repo.preload(:linked_resources)
+    |> Repo.preload(:external_links)
+    |> Repo.preload(:images)
+    |> Repo.preload(:titles)
+    |> Repo.preload(:descriptions)
   end
 
   @spec get_project_code(any) :: {:error, <<_::104>>} | {:ok, any}
@@ -92,7 +97,7 @@ defmodule Erga.Research do
     d = String.to_integer(number_of_days)
     Repo.all(from(p in Project, where: p.updated_at >= ago(^d, "day")))
     |> Repo.preload(:images)
-    |> Repo.preload(:title)
+    |> Repo.preload(:titles)
     |> Repo.preload(:stakeholders)
   end
 
@@ -103,9 +108,9 @@ defmodule Erga.Research do
   def get_projects_updated_since(date) do
     from(p in Project, where: p.updated_at > ^date)
     |> Repo.all
-    |> Repo.preload(:stakeholders)
     |> Repo.preload(:images)
-    |> Repo.preload(:title)
+    |> Repo.preload(:titles)
+    |> Repo.preload(:stakeholders)
   end
 
 
@@ -622,7 +627,7 @@ defmodule Erga.Research do
       ** (Ecto.NoResultsError)
 
   """
-  def get_translated_content!(id), do: Repo.get!(TranslatedContent, id) |> Repo.preload(:project_assoc)
+  def get_translated_content!(id), do: Repo.get!(TranslatedContent, id)
 
   @doc """
   Creates a translated_content.
@@ -639,7 +644,55 @@ defmodule Erga.Research do
   def create_translated_content(attrs \\ %{}) do
     %TranslatedContent{}
     |> TranslatedContent.changeset(attrs)
+    |> set_translation_target_id()
     |> Repo.insert()
+    |> update_translation_target(attrs)
+  end
+
+  defp set_translation_target_id(%{changes: %{target_id: _target_id}} = translated_content) do
+    translated_content
+  end
+
+  defp set_translation_target_id(translated_content) do
+    %{target_id: highest_target_id } =
+      from(q in TranslatedContent, order_by: [desc: q.target_id],  limit: 1)
+      |> Repo.all()
+      |> List.first
+
+    translated_content
+    |> Ecto.Changeset.put_change(:target_id, highest_target_id + 1)
+    |> Ecto.Changeset.unique_constraint(:target_id)
+  end
+
+  defp update_translation_target({:ok, translated_content}, attrs) do
+    # Get target schema based on requested database table name
+    target_schema =
+      Application.spec(:erga, :modules)
+      |> Enum.find(fn module ->
+        function_exported?(module, :__schema__, 1) && module.__schema__(:source) == attrs["target_table"]
+      end)
+
+    target = Repo.get!(target_schema, attrs["target_table_primary_key"])
+
+    # Do not cast Atom type based on request parameter without first checking if the Atom type is really
+    # used in the requested schema.
+    known_target_field =
+      Map.keys(target)
+      |> Enum.map(&Atom.to_string(&1))
+      |> Enum.filter(fn key -> key == attrs["target_field"] end)
+      |> length()
+
+    if known_target_field == 1 do
+      target_field = String.to_atom(attrs["target_field"])
+
+      # Set target_id in target table
+      target
+      |> target_schema.changeset(%{})
+      |> Ecto.Changeset.put_change(target_field, translated_content.target_id)
+      |> Repo.update()
+
+      {:ok, translated_content }
+    end
   end
 
   @doc """
@@ -688,10 +741,4 @@ defmodule Erga.Research do
   def change_translated_content(%TranslatedContent{} = translated_content, attrs \\ %{}) do
     TranslatedContent.changeset(translated_content, attrs)
   end
-
-  def assoc_translated_content(attrs) do
-    ProjectTranslation.changeset(%ProjectTranslation{}, attrs)
-    |> Repo.insert!
-  end
-
 end

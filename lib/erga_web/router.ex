@@ -10,7 +10,8 @@ defmodule ErgaWeb.Router do
     plug :fetch_live_flash
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
-    plug :put_root_layout, {ErgaWeb.LayoutView, :root}
+    plug(:put_root_layout, {ErgaWeb.LayoutView, :root})
+    plug(ErgaWeb.Gettext.Plug)
   end
 
   pipeline :api do
@@ -18,8 +19,7 @@ defmodule ErgaWeb.Router do
   end
 
   pipeline :protected do
-    plug Pow.Plug.RequireAuthenticated,
-         error_handler: Pow.Phoenix.PlugErrorHandler
+    plug(Pow.Plug.RequireAuthenticated, error_handler: Pow.Phoenix.PlugErrorHandler)
   end
 
   scope "/" do
@@ -31,49 +31,29 @@ defmodule ErgaWeb.Router do
   scope "/", ErgaWeb do
     pipe_through [:browser, :protected]
 
+    get("/", ProjectController, :index)
     resources("/projects", ProjectController)
 
-    # TODO: Nötig? Man könnte den reroute auch darüber lösen dass man die id vorm löschen ausliest.
-    delete("/stakeholders/:id/:project_id", StakeholderController, :delete)
-    get("/stakeholders/new/:project_id", StakeholderController, :new)
+    resources("/stakeholders", StakeholderController, only: [:create, :delete, :edit,  :new, :update])
 
-    delete("/images/:id/:project_id", ImageController, :delete)
-    get("/images/new/:project_id", ImageController, :new)
+    resources("/external_links", ExternalLinkController, only: [:create, :delete, :edit, :new, :update])
 
-    # TODO: Nötig? Man könnte den reroute auch darüber lösen dass man die id vorm löschen ausliest.
-    #delete("/linked_resources/:id/:project_id", LinkedResourceController, :delete)
-    #get("/linked_resources/new/:project_id", LinkedResourceController, :new)
+    resources("/images", ImageController, only: [:create, :delete, :edit, :new, :update])
+
+    resources("/translated_contents", TranslatedContentController, only: [:create, :delete, :edit, :new, :update])
+
+    put("/locale", LocaleController, :set)
 
     live "/linked_resources/new/:project_id", LinkedResourceLive.New
-    live "/linked_resources", LinkedResourceLive.Index
     live "/linked_resources/:id", LinkedResourceLive.Show
     live "/linked_resources/:id/edit", LinkedResourceLive.Edit
     live "/linked_resources/:id/delete", LinkedResourceLive.Index, :delete
 
-
-    get("/external_links/new/:project_id", ExternalLinkController, :new)
-    delete("/external_links/:id/:project_id", ExternalLinkController, :delete)
-
-
     live "/persons", PersonLive.Index, :index
     live "/persons/new", PersonLive.Index, :new
+    live "/persons/:id", PersonLive.Show, :show
     live "/persons/:id/edit", PersonLive.Index, :edit
 
-    live "/persons/:id", PersonLive.Show, :show
-    live "/persons/:id/show/edit", PersonLive.Show, :edit
-
-    post "/linked_resources/new/:project_id", LinkedResourceController, :create
-
-    post "/external_links/new/:project_id", ExternalLinkController, :create
-    put "/external_links/:id/edit", ExternalLinkController, :update
-
-    resources("/stakeholders", StakeholderController)
-    #resources("/linked_resources", LinkedResourceController)
-    resources("/images", ImageController)
-    resources("/external_links", ExternalLinkController)
-    resources("/translated_contents", TranslatedContentController)
-
-    get("/", PageController, :index)
   end
 
   # Other scopes may use custom stacks.

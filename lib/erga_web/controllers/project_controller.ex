@@ -4,13 +4,9 @@ defmodule ErgaWeb.ProjectController do
   alias Erga.Research
   alias Erga.Research.Project
 
-  def index(conn, %{"lang" => lang}) do
+  def index(conn, _params) do
     projects = Research.list_projects()
-    render(conn, "index.html", projects: projects, lang: lang)
-  end
-
-  def index(conn, _) do
-    redirect(conn, to: Routes.project_path(conn, :index, lang: "DE"))
+    render(conn, "index.html", projects: projects)
   end
 
   def new(conn, _params) do
@@ -30,20 +26,16 @@ defmodule ErgaWeb.ProjectController do
     end
   end
 
-  def show(conn, %{"id" => id, "lang" => lang}) do
+  def show(conn, %{"id" => id}) do
       try do
         project = Research.get_project!(id)
-        render(conn, "show.html", project: project, lang: lang)
+        render(conn, "show.html", project: project)
       rescue
-        _e in ArgumentError ->
+        _e in Ecto.NoResultsError ->
           conn
           |> put_flash(:error, "Project ID not found.")
           |> redirect(to: Routes.project_path(conn, :index))
       end
-  end
-
-  def show(conn, %{"id" => id}) do
-    redirect(conn, to: Routes.project_path(conn, :show, id, lang: "DE"))
   end
 
   def edit(conn, %{"id" => id}) do

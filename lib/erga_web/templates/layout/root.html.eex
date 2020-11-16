@@ -2,10 +2,36 @@
 <html lang="en">
   <head>
     <%= csrf_meta_tag() %>
-    <%= live_title_tag assigns[:page_title] || "MyApp" %>
+    <%= live_title_tag assigns[:page_title] || "Erga · Projektverzeichnis" %>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
+    <header>
+      <section class="container">
+        <nav role="navigation">
+          <ul><li>
+            <%= if Pow.Plug.current_user(@conn) do %>
+            <span><%= link "Sign out", to: Routes.pow_session_path(@conn, :delete), method: :delete %></span>
+            <% else %>
+            <span><%= link "Sign in", to: Routes.pow_session_path(@conn, :new) %></span>
+            <% end %>
+            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
+              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
+            <% end %>
+            <li>
+              <%= f = form_for @conn, Routes.locale_path(@conn, :set), [method: :put] %>
+                <%= hidden_input f, :redirect, value: @conn.request_path %>
+                <%= select f, :locale, get_locale_select_values(), onchange: "this.form.submit()", selected: get_locale_selected(@conn) %>
+              </form>
+            </li>
+          </ul>
+        </nav>
+        <a href="https://phoenixframework.org/" class="phx-logo">
+          <img src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
+        </a>
+      </section>
+    </header>
     <%= @inner_content %>
   </body>
 </html>

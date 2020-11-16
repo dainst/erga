@@ -1,32 +1,71 @@
 <div><%= link "Back", to: Routes.project_path(@conn, :index) %> | <%= link "Edit", to: Routes.project_path(@conn, :edit, @project) %> </div>
 
-<h1><%= get_title(@project, @lang).content %></h1>
+<h1><%= get_translated_content(@project.titles) %></h1>
 
-<div><strong><%= @project.project_code %></strong>: <%= get_description(@project, @lang).content %></div>
-
-<h2>Stakeholders</h2>
-<%= for stakeholder <- @project.stakeholders do %>
-  <div><%= stakeholder.person.title <> " " <> stakeholder.person.firstname <> " " <> stakeholder.person.lastname %></div>
-  <div><small><%= stakeholder.role %> | <%= stakeholder.external_id %></small></div>
-<% end %>
-
-<h2>Linked resources:</h2>
-<%= for resource <- @project.linked_resources do %>
-  <div><%= resource.label %></div>
-  <div><small><%= resource.description %>: <%= resource.linked_id %> | <%= resource.linked_system %></small></div>
-<% end %>
-
-<h2>External links:</h2>
-<%= for link <- @project.external_links do %>
-<div><%= link.label %> <small><%= link.url %></small></div>
-<% end %>
-
-<h2>Images:</h2>
-<%= for image <- @project.images do %>
-<div>
-  <%= image.label %> <%= if image.primary do "(Primary)" end %>
-  <%= img_tag("/media/#{image.path}", class: "image") %>
+<div class="box"><strong><%= @project.project_code %></strong>: <%= get_translated_content(@project.descriptions) %></div>
+<div class="box"><strong>Duration:</strong> <%= @project.starts_at %> to <%= @project.ends_at %></div>
+<hr>
+<div class="box">
+  <h2>Stakeholders</h2>
+  <table>
+    <thead>
+      <th>Name</th>
+      <th>Role</th>
+    </thead>
+    <tbody>
+    <%= for stakeholder <- @project.stakeholders do %>
+      <tr>
+        <td><%= stakeholder.person.title <> " " <> stakeholder.person.firstname <> " " <> stakeholder.person.lastname %></td>
+        <td><%= stakeholder.role %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
 </div>
-<% end %>
+<div class="box">
+  <h2>Linked iDAI.world resources:</h2>
+  <table>
+    <thead>
+      <th>Resource</th>
+      <th>Description</th>
+      <th>Linked system</th>
+    </thead>
+    <tbody>
+    <%= for resource <- @project.linked_resources do %>
+      <tr>
+        <td><%= resource.label %></td>
+        <td><%= resource.description %></td>
+        <td><%= resource.linked_system %>: <%= resource.linked_id %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+<div class="box">
+  <h2>External links:</h2>
+  <ul>
+    <%= for external_link <- @project.external_links do %>
+    <li><%= link external_link.url, to: external_link.url %> (<%= external_link.label %>)</li>
+    <% end %>
+  </ul>
+</div>
+<div class="box">
+  <h2>Images:</h2>
+  <div class="container">
+    <%= for image <- primary_images(@project.images) do %>
+    <div class="row">
+        <div class="column"><%= img_tag("/media/#{image.path}") %></div>
+        <div class="column"><b><%= image.label %></b></div>
+    </div>
+    <% end %>
 
+    <%= for image <- other_images(@project.images) do %>
+    <div class="row">
+        <div class="column"><%= img_tag("/media/#{image.path}") %></div>
+        <div class="column"><%= image.label %></div>
+    </div>
+    <% end %>
+    </div>
+  </div>
+</div>
 <div><%= link "Back", to: Routes.project_path(@conn, :index) %> | <%= link "Edit", to: Routes.project_path(@conn, :edit, @project) %> </div>

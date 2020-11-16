@@ -17,7 +17,6 @@ alias Erga.Staff.Person
 alias Erga.Research.Project
 alias Erga.Accounts.User
 alias Erga.Research.TranslatedContent
-alias Erga.Research.ProjectTranslation
 
 Erga.Repo.delete_all Project
 Erga.Repo.delete_all Stakeholder
@@ -29,81 +28,81 @@ Erga.Repo.insert!(%User{
   password_hash: Pow.Ecto.Schema.Password.pbkdf2_hash("erga123!")
 })
 
-Erga.Repo.insert!(%Person{
+p1 = Erga.Repo.insert!(%Person{
   firstname: "Theodor",
   lastname: "Wiegand",
   title: "Prof. Dr."
 })
 
-Erga.Repo.insert!(%Person{
+p2 = Erga.Repo.insert!(%Person{
   firstname: "Hansi",
   lastname: "Flick",
   title: "Cand. phil"
 })
 
-Erga.Repo.insert!(%TranslatedContent{
-  language_code: "DE",
-  content: "Eine sehr informative Projektbeschreibung."
-})
+project =
+  Erga.Repo.insert! %Project{
 
-Erga.Repo.insert!(%TranslatedContent{
-  language_code: "EN",
-  content: "This is a very informativ project description."
-})
+    project_code: "SPP2143",
+    starts_at: ~D[2019-01-10],
+    ends_at: ~D[2023-10-10],
+    title_translation_target_id: 1,
+    description_translation_target_id: 2,
 
-Erga.Repo.insert!(%TranslatedContent{
-  language_code: "DE",
-  content: "Großartiges Ausgrabungsprojekt"
-})
-
-Erga.Repo.insert!(%TranslatedContent{
-  language_code: "EN",
-  content: "Great digging project"
-})
-
-Erga.Repo.insert! %Project{
-  project_code: "SPP2143",
-  stakeholders: [
-    %Stakeholder{
-      role: "chef role",
-      external_id: "DOI:123XABC123",
-      person_id: 1
-  },
-    %Stakeholder{
-      role: "intern",
-      external_id: "PERSID:34578",
-      person_id: 2
-    }],
-  linked_resources: [
-    %LinkedResource{
-      label: "Rom",
-      description: "Der Ort über den geschrieben wird.",
-      linked_id: "2078206",
-      linked_system: "Gazetteer"
-    }
-  ]
+    stakeholders: [
+      %Stakeholder{
+        role: "chef role",
+        external_id: "DOI:123XABC123",
+        person_id: p1.id
+    },
+      %Stakeholder{
+        role: "intern",
+        external_id: "PERSID:34578",
+        person_id: p2.id
+      }],
+    linked_resources: [
+      %LinkedResource{
+        label: "Rom",
+        description: "Der Ort über den geschrieben wird.",
+        linked_id: "2078206",
+        linked_system: "Gazetteer"
+      }
+    ]
 }
 
-Erga.Repo.insert!(%ProjectTranslation{
-  project_id: 1,
-  translated_content_id: 1,
-  col_name: "descr"
+Erga.Research.create_image(
+  %{
+    "label" => "Test",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archive_spanish_codices.jpg",
+      url: "https://idai.world/assets/images/content/what/archives/idai_archive_spanish_codices.jpg"
+    }
+  }
+)
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "de",
+  text: "Eine sehr informative Projektbeschreibung."
 })
 
-Erga.Repo.insert!(%ProjectTranslation{
-  project_id: 1,
-  translated_content_id: 2,
-  col_name: "descr"
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "This is a very informativ project description."
 })
 
-Erga.Repo.insert!(%ProjectTranslation{
-  project_id: 1,
-  translated_content_id: 3,
-  col_name: "title"
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "de",
+  text: "Großartiges Ausgrabungsprojekt"
 })
 
-Erga.Repo.insert!(%ProjectTranslation{
-  project_id: 1,
-  translated_content_id: 4,
-  col_name: "title"
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Great digging project"
 })

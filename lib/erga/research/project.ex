@@ -4,13 +4,17 @@ defmodule Erga.Research.Project do
 
   schema "projects" do
     field(:project_code, :string)
-
+    field(:starts_at, :date)
+    field(:ends_at, :date)
     has_many(:stakeholders, Erga.Research.Stakeholder)
     has_many(:linked_resources, Erga.Research.LinkedResource)
     has_many(:external_links, Erga.Research.ExternalLink)
     has_many(:images, Erga.Research.Image)
-    many_to_many(:title, Erga.Research.TranslatedContent, join_through: Erga.Research.ProjectTranslation, join_where: [col_name: "title"])
-    many_to_many(:description, Erga.Research.TranslatedContent, join_through: Erga.Research.ProjectTranslation, join_where: [col_name: "descr"])
+
+    field(:title_translation_target_id, :integer)
+    field(:description_translation_target_id, :integer)
+    has_many(:titles, Erga.Research.TranslatedContent, foreign_key: :target_id, references: :title_translation_target_id)
+    has_many(:descriptions, Erga.Research.TranslatedContent, foreign_key: :target_id, references: :description_translation_target_id)
 
     timestamps()
   end
@@ -18,7 +22,7 @@ defmodule Erga.Research.Project do
   @doc false
   def changeset(project, attrs) do
     project
-    |> cast(attrs, [:project_code])
+    |> cast(attrs, [:project_code, :starts_at, :ends_at])
     |> unique_constraint(:project_code)
     |> validate_required([:project_code])
     |> cast_assoc(:stakeholders)

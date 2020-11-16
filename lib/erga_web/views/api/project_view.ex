@@ -10,12 +10,13 @@ defmodule ErgaWeb.Api.ProjectView do
   end
 
   def render("project.json", %{project: project}) do
-    IO.inspect(project)
     %{
       id: project.id,
       project_key: project.project_code,
-      title: render_many(project.title, ErgaWeb.Api.TranslatedContentView, "translated_content.json"),
-      description: render_many(project.description, ErgaWeb.Api.TranslatedContentView, "translated_content.json"),
+      starts_at: project.starts_at,
+      ends_at: project.ends_at,
+      titles: render_many(project.titles, ErgaWeb.Api.TranslatedContentView, "translated_content.json"),
+      descriptions: render_many(project.descriptions, ErgaWeb.Api.TranslatedContentView, "translated_content.json"),
       inserted_at: project.inserted_at,
       updated_at: project.updated_at,
       stakeholders: render_many(project.stakeholders, ErgaWeb.Api.StakeholderView, "stakeholder.json"),
@@ -28,7 +29,9 @@ defmodule ErgaWeb.Api.ProjectView do
     %{
       id: project.id,
       project_key: project.project_code,
-      title: render_many(project.title, ErgaWeb.Api.TranslatedContentView, "translated_content.json"),
+      starts_at: project.starts_at,
+      ends_at: project.ends_at,
+      titles: render_many(project.titles, ErgaWeb.Api.TranslatedContentView, "translated_content.json"),
       inserted_at: project.inserted_at,
       updated_at: project.updated_at,
       stakeholder_count: Enum.count(project.stakeholders),

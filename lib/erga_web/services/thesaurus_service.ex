@@ -30,26 +30,32 @@ defmodule ThesaurusService do
   """
 
   def get_list(val, _filter) do
-    HTTPoison.start()
-    case HTTPoison.get(@base_search_url <> val) do
-      {:ok, response} -> list = response.body
-                          |> RDF.Turtle.read_string!
-                          |> SPARQL.execute_query(@query)
-                          |> get_result_list
-                          {:ok, list}
-      {:error, reason} -> {:error, "Error during search: " <> Atom.to_string(reason.reason)}
+    case HTTPoison.get("#{@base_search_url}#{val}") do
+      {:ok, response} ->
+        list =
+          response.body
+          |> RDF.Turtle.read_string!
+          |> SPARQL.execute_query(@query)
+          |> get_result_list
+        {:ok, list}
+      {:error, reason} ->
+        {:error, "Error during search: #{reason.reason}"}
     end
   end
 
   def get_by_id(id) do
-    HTTPoison.start
-    case HTTPoison.get(@base_single_value <> id <> ".ttl") do
-      {:ok, response} -> items = response.body
-                        |> RDF.Turtle.read_string!
-                        |> SPARQL.execute_query(@query_label)
-                        item = List.first(for n <- items, do: %{name: RDF.Literal.value(n["label"]), resId: id})
-                        {:ok, item}
-      {:error, reason} -> {:error, "Error during request " <> Atom.to_string(reason.reason)}
+    case HTTPoison.get("#{@base_single_value}#{id}.ttl") do
+      {:ok, response} ->
+        items =
+          response.body
+          |> RDF.Turtle.read_string!
+          |> SPARQL.execute_query(@query_label)
+
+        item = List.first(for n <- items, do: %{name: RDF.Literal.value(n["label"]), resId: id})
+
+        {:ok, item}
+      {:error, reason} ->
+        {:error, "Error during request " <> Atom.to_string(reason.reason)}
     end
   end
 
