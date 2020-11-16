@@ -235,3 +235,122 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Madrid department"
 })
+
+#fotorom
+project =
+  Erga.Repo.insert! %Project{
+
+    project_code: "fotorom",
+    external_links: [
+      %ExternalLink{
+        label: "Rome Department",
+        url: "https://arachne.dainst.org/project/fotorom"
+      },
+      %ExternalLink{
+        label: "Sculpture Negatives of the DAI Rome",
+        url: "https://arachne.dainst.org/project/skulpturnegdairom"
+      },
+      %ExternalLink{
+        label: "Microfiches of the Rome Deparment",
+        url: "https://arachne.dainst.org/project/fotoromcategories"
+      },
+      %ExternalLink{
+        label: "Scholarly Bequest of Josef Röder",
+        url: "https://arachne.dainst.org/project/nachlassroeder"
+      },
+      %ExternalLink{
+        label: "Inventory Registers",
+        url: "https://arachne.dainst.org/project/invbuecherrom"
+      },
+      %ExternalLink{
+        label: "Image Grid",
+        url: "https://arachne.dainst.org/project/imagegrid"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_images_photothek_rome.jpg",
+      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/images/idai_images_photothek_rome.jpg?raw=true"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Rome department"
+})
+
+#teheran_digital
+project =
+  Erga.Repo.insert! %Project{
+
+    project_code: "teheran_digital",
+    external_links: [
+      %ExternalLink{
+        label: "Teheran Branch",
+        url: "https://arachne.dainst.org/project/teheran_digital"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_images_photothek_teheran.jpg",
+      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/images/idai_images_photothek_teheran.jpg?raw=true"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The photo archive houses a large collection of photographs on Iranian archaeology and art history as well as documentation of excavation of the department in Bisutun, Bastam, Takht-i Suleiman, Zendan-i Suleiman and Firuzabad."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Teheran Branch"
+})
+#athenDigital
+project =
+  Erga.Repo.insert! %Project{
+
+    project_code: "athenDigital",
+    external_links: [
+      %ExternalLink{
+        label: "Athens Department",
+        url: "https://arachne.dainst.org/project/athenDigital"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archive_athen_department.jpg",
+      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/archives/idai_archive_athen_department.jpg?raw=true"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Studies on the history of archaeology as well as on the history of academic institutions, such as the DAI, have demonstrated the importance of archival research and investigation of primary source material."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Athens Department"
+})
