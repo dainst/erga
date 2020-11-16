@@ -1,8 +1,6 @@
 defmodule ErgaWeb.PersonLive.FormComponent do
   use ErgaWeb, :live_component
   use Phoenix.HTML
-  import ErgaWeb.ErrorHelpers
-  alias ErgaWeb.Router.Helpers, as: Routes
 
   alias Erga.Staff
 

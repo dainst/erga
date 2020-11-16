@@ -1,9 +1,5 @@
 defmodule ErgaWeb.PersonLive.Index do
   use ErgaWeb, :live_view
-  import Phoenix.HTML.Link
-  import ErgaWeb.LiveHelpers
-
-  alias ErgaWeb.Router.Helpers, as: Routes
   alias Erga.Staff
   alias Erga.Staff.Person
 
