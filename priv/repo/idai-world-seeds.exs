@@ -13,11 +13,8 @@
 alias Erga.Research.ExternalLink
 alias Erga.Research.LinkedResource
 alias Erga.Research.Stakeholder
-alias Erga.Staff.Person
 alias Erga.Research.Project
-alias Erga.Accounts.User
 alias Erga.Research.TranslatedContent
-alias Erga.Research.ProjectTranslation
 
 Erga.Repo.delete_all Project
 Erga.Repo.delete_all Stakeholder
