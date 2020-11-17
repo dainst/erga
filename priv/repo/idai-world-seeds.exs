@@ -600,3 +600,38 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Friedrich Hinkel Archive of Sudan"
 })
+
+#kossack
+project =
+  Erga.Repo.insert! %Project{
+
+    project_code: "kossack",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to Scientific Legacy of Georg Kossack",
+        url: "https://arachne.dainst.org/project/kossack"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archive_cooperation_partner_kossack.jpg",
+      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/archives/idai_archive_cooperation_partner_kossack.jpg?raw=true"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The integration of the archaeological material collection from the Kossack archive into existing datasets within the Arachne system allows a bidirectional connection between Kossack and the already existing data in Arachne."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Scientific Legacy of Georg Kossack"
+})
