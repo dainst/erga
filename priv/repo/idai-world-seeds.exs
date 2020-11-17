@@ -20,10 +20,14 @@ Erga.Repo.delete_all Project
 Erga.Repo.delete_all Stakeholder
 Erga.Repo.delete_all ExternalLink
 Erga.Repo.delete_all LinkedResource
+Erga.Repo.delete_all TranslatedContent
 
+id = 1
 #fotoarchivdaiberlin
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "fotoarchivdaiberlin",
     external_links: [
@@ -55,11 +59,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Berlin Head Office"
 })
-
+id=id+2
 
 #daiorient
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "daiorient",
     external_links: [
@@ -91,10 +97,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Berlin Orient Department"
 })
+id=id+2
 
 #fotokairo
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "fotokairo",
     external_links: [
@@ -126,11 +135,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Cairo Department"
 })
-
+id=id+2
 
 #damascusbranch
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "damascusbranch",
     external_links: [
@@ -162,10 +173,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Damascus Branch"
 })
+id=id+2
 
 #fotoistanbul
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "fotoistanbul",
     external_links: [
@@ -197,10 +211,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Istanbul department"
 })
+id=id+2
 
 #fotomadrid
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "fotomadrid",
     external_links: [
@@ -232,10 +249,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Madrid department"
 })
+id=id+2
 
 #fotorom
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "fotorom",
     external_links: [
@@ -282,10 +302,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Rome department"
 })
+id=id+2
 
 #teheran_digital
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "teheran_digital",
     external_links: [
@@ -317,10 +340,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Teheran Branch"
 })
+id=id+2
 
 #athenDigital
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "athenDigital",
     external_links: [
@@ -352,10 +378,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Athens Department"
 })
+id=id+2
 
 #spacodices
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "spacodices",
     external_links: [
@@ -387,10 +416,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Spanish Codices"
 })
+id=id+2
 
 #handzeichnungen
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "handzeichnungen",
     external_links: [
@@ -422,10 +454,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Rome Department: Historical drawings"
 })
+id=id+2
 
 #gelehrtenbriefe
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "gelehrtenbriefe",
     external_links: [
@@ -457,10 +492,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Rome Department: Correspondences"
 })
+id=id+2
 
 #gelehrtenbriefe_quarantaene
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "gelehrtenbriefe_quarantaene",
     external_links: [
@@ -492,10 +530,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Rome Department: Correspondences-Quarantine"
 })
+id=id+2
 
 #emagines
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "emagines",
     external_links: [
@@ -527,10 +568,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Glass negatives within the framework of Emagines"
 })
+id=id+2
 
 #rakob
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "rakob",
     external_links: [
@@ -562,10 +606,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Bequest of Friedrich Rakob"
 })
+id=id+2
 
 #hinkel
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "hinkel",
     external_links: [
@@ -597,10 +644,13 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Friedrich Hinkel Archive of Sudan"
 })
+id=id+2
 
 #kossack
 project =
   Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
 
     project_code: "kossack",
     external_links: [
@@ -632,3 +682,4 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Scientific Legacy of Georg Kossack"
 })
+id=id+2
