@@ -10,18 +10,7 @@ defmodule ErgaWeb.LinkedResourceLive.Index do
 
 
   def mount(_params, _session, socket) do
-    linked_resources = Research.list_linked_resources()
-    projects = Research.list_projects()
-    IO.inspect(projects)
-    project_list = ["All": 0] ++ for pro <- projects, do: {List.first(pro.title).content, pro.id}
-
-    socket =
-      socket
-      |> assign(:linked_resources, linked_resources)
-      |> assign(:project, "0")
-      |> assign(:project_list, project_list)
-
-
+    # there is no index view
     {:ok, socket}
   end
 
@@ -36,6 +25,10 @@ defmodule ErgaWeb.LinkedResourceLive.Index do
         socket
         |> put_flash(:info, "Linked Resource deleted successfully.")
         |> redirect(to: Routes.project_path(socket, :edit, pid))
+      {:error, _e} ->
+        socket
+        |> put_flash(:error, "Deletion went wrong")
+
     end
   end
 

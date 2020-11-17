@@ -26,8 +26,6 @@ defmodule Erga.Research.Project do
     |> unique_constraint(:project_code)
     |> validate_required([:project_code])
     |> cast_assoc(:stakeholders)
-    |> cast_assoc(:title)
-    |> cast_assoc(:description)
     |> cast_assoc(:linked_resources)
     |> cast_assoc(:external_links)
     |> cast_assoc(:images)

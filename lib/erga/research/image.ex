@@ -69,7 +69,7 @@ defmodule Erga.Research.Image do
   defp copy_file(changeset, target_file, %{:url => url}) do
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{body: body}} ->
-        File.write!(target_file, body)
+        File.write(target_file, body)
         changeset
       {:error, reason} ->
         add_error(

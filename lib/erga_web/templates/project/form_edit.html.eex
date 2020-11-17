@@ -125,14 +125,17 @@
       </thead>
       <tbody>
       <%= for resource <- @project.linked_resources do %>
-      <tr>
+      <tr id="<%= "resource_id-#{resource.id}" %>">
           <td><%= resource.label %></td>
           <td><%= resource.description %></td>
           <td><%= resource.linked_system %></td>
           <td><%= resource.linked_id %></td>
 
           <td> <%= link "edit", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Edit, resource.id) %> |
-          <%= link "remove", to: Routes.linked_resource_index_path( @conn, :delete, resource.id, project_id: @project.id ), data: [confirm: "Are you sure?"] %></td>
+          <%= link "remove",
+            to: Routes.linked_resource_index_path( @conn, :delete, resource.id, project_id: @project.id ),
+            data: [confirm: "Are you sure?"] %>
+          </td>
       </tr>
       <% end %>
      </tbody>
