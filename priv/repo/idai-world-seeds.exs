@@ -44,7 +44,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_images_photothek_berlin.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/images/idai_images_photothek_berlin.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/images/idai_images_photothek_berlin.jpg"
     }
   }
 )
@@ -80,7 +80,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_images_photothek_orient_department.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/images/idai_images_photothek_orient_department.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/images/idai_images_photothek_orient_department.jpg"
     }
   }
 )
@@ -115,7 +115,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_images_photothek_cairo.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/images/idai_images_photothek_cairo.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/images/idai_images_photothek_cairo.jpg"
     }
   }
 )
@@ -151,7 +151,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_images_photothek_damascus.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/images/idai_images_photothek_damascus.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/images/idai_images_photothek_damascus.jpg"
     }
   }
 )
@@ -186,7 +186,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_images_photothek_istanbul.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/images/idai_images_photothek_istanbul.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/images/idai_images_photothek_istanbul.jpg"
     }
   }
 )
@@ -221,7 +221,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_images_photothek_madrid.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/images/idai_images_photothek_madrid.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/images/idai_images_photothek_madrid.jpg"
     }
   }
 )
@@ -276,7 +276,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_images_photothek_rome.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/images/idai_images_photothek_rome.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/images/idai_images_photothek_rome.jpg"
     }
   }
 )
@@ -306,7 +306,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_images_photothek_teheran.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/images/idai_images_photothek_teheran.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/images/idai_images_photothek_teheran.jpg"
     }
   }
 )
@@ -341,7 +341,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_archive_athen_department.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/archives/idai_archive_athen_department.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/archives/idai_archive_athen_department.jpg"
     }
   }
 )
@@ -376,7 +376,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_archive_spanish_codices.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/archives/idai_archive_spanish_codices.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/archives/idai_archive_spanish_codices.jpg"
     }
   }
 )
@@ -411,7 +411,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_archive_dai_1_antike_Zeichnung.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/archives/idai_archive_dai_1_antike_Zeichnung.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/archives/idai_archive_dai_1_antike_Zeichnung.jpg"
     }
   }
 )
@@ -446,7 +446,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_archive_dai_2_gelehrten.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/archives/idai_archive_dai_2_gelehrten.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/archives/idai_archive_dai_2_gelehrten.jpg"
     }
   }
 )
@@ -481,7 +481,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_archive_dai_quarantine.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/projects/idai_archive_dai_quarantine.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/projects/idai_archive_dai_quarantine.jpg"
     }
   }
 )
@@ -516,7 +516,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_digitization_imagines.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/how/idai_digitization_imagines.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/how/idai_digitization_imagines.jpg"
     }
   }
 )
@@ -551,7 +551,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_archive_rakob.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/archives/idai_archive_rakob.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/archives/Idai_archive_rakob.jpg"
     }
   }
 )
@@ -586,7 +586,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_archive_cooperation_partner_hinkel.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/archives/idai_archive_cooperation_partner_hinkel.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/archives/idai_archive_cooperation_partner_hinkel.jpg"
     }
   }
 )
@@ -621,7 +621,7 @@ Erga.Research.create_image(
     "project_id" => project.id,
     "upload" => %{
       filename: "idai_archive_cooperation_partner_kossack.jpg",
-      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/archives/idai_archive_cooperation_partner_kossack.jpg?raw=true"
+      path: "priv/repo/idai_world_assets/images/content/what/archives/idai_archive_cooperation_partner_kossack.jpg"
     }
   }
 )
