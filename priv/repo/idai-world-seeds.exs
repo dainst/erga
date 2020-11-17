@@ -460,3 +460,143 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Rome Department: Correspondences"
 })
+
+#gelehrtenbriefe_quarantaene
+project =
+  Erga.Repo.insert! %Project{
+
+    project_code: "gelehrtenbriefe_quarantaene",
+    external_links: [
+      %ExternalLink{
+        label: "Rome Department: Correspondences-Quarantine",
+        url: "https://arachne.dainst.org/project/gelehrtenbriefe_quarantaene"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archive_dai_quarantine.jpg",
+      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/projects/idai_archive_dai_quarantine.jpg?raw=true"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Correspondence of Emil Braun and Eduard Gerhard during a cholera outbreak in 1836-1837"
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Rome Department: Correspondences-Quarantine"
+})
+
+#emagines
+project =
+  Erga.Repo.insert! %Project{
+
+    project_code: "emagines",
+    external_links: [
+      %ExternalLink{
+        label: "Link to Glass negatives within the framework of Emagines",
+        url: "https://arachne.dainst.org/project/emagines"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_digitization_imagines.jpg",
+      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/how/idai_digitization_imagines.jpg?raw=true"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Within the project titled Emagines, glass negatives are being digitized with a long-term strategy and made accessible worldwide via the web-based database Arachne that is operated by the German Archaeological Institute and the CoDArchLab."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Glass negatives within the framework of Emagines"
+})
+
+#rakob
+project =
+  Erga.Repo.insert! %Project{
+
+    project_code: "rakob",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to Bequest of Friedrich Rakob",
+        url: "https://arachne.dainst.org/project/rakob"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archive_rakob.jpg",
+      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/archives/idai_archive_rakob.jpg?raw=true"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Friedrich Rakob (1931-2007) was an architectural historian specialized in the architectural history of towns and cities in Northern Tunisia. Friedrich Rakob’s bequest includes a total of more than 63,000 photographic negatives, slides and contact prints as well as around 190 crates and folders."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Bequest of Friedrich Rakob"
+})
+
+#hinkel
+project =
+  Erga.Repo.insert! %Project{
+
+    project_code: "hinkel",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to Hinkel Archive of Sudan",
+        url: "https://arachne.dainst.org/project/hinkel"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archive_cooperation_partner_hinkel.jpg",
+      url: "https://github.com/dainst/idai-world/blob/master/src/assets/images/content/what/archives/idai_archive_cooperation_partner_hinkel.jpg?raw=true"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The archive of Friedrich W. Hinkel represents one of the largest collections of research material concerning the archaeology of ancient Sudan."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Friedrich Hinkel Archive of Sudan"
+})
