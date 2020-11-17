@@ -683,3 +683,80 @@ Erga.Repo.insert!(%TranslatedContent{
   text: "Scientific Legacy of Georg Kossack"
 })
 id=id+2
+
+#steindorff
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "steindorff",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to Scientific Legacy of Georg Steindorff",
+        url: "https://arachne.dainst.org/project/steindorff"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archive_cooperation_partner_steinhoff.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/archives/idai_archive_cooperation_partner_steinhoff.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Steindorff’s diaries and letters always deal with the political processes in Germany, besides scientific questions."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Scientific Legacy of Georg Steindorff"
+})
+id=id+2
+
+
+#syrher
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "syrher",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to Syrian Heritage Archive Project",
+        url: "https://arachne.dainst.org/project/syrher"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archive_dai_4_syrian.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/archives/idai_archive_dai_4_syrian.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Implementation of a digital cultural heritage register for Syria in order to conserve cultural heritage in Syria, which is currently threatened by war."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Syrian Heritage Archive Project"
+})
+id=id+2
