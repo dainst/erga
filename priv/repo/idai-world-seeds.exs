@@ -760,3 +760,156 @@ Erga.Repo.insert!(%TranslatedContent{
   text: "Syrian Heritage Archive Project"
 })
 id=id+2
+
+#nara
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "nara",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to North African Heritage Archive",
+        url: "https://arachne.dainst.org/project/nara"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archives_NAHA.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/archives/idai_archives_NAHA.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The aim of the ‘North African Research Archive’ (NARA) is to provide a platform for archaeological cultural heritage from North Africa, in particular the Maghreb states of Tunisia, Algeria, Libya and Morocco."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "North African Heritage Archive"
+})
+id=id+2
+
+#afrarchcologne
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "afrarchcologne",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to African Archaeological Archive Cologne",
+        url: "https://arachne.dainst.org/project/afrarchcologne"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archive_hosted_partners_1_aaa.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/archives/idai_archive_hosted_partners_1_aaa.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The African Archaeology Archive Cologne (AAArC) has made it a priority to digitize the present archieve documents and to make them accessible through the object database ARACHNE."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "African Archaeological Archive Cologne"
+})
+id=id+2
+
+
+#rwwa
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "rwwa",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to Archive of Rhine-Westphalian Economy",
+        url: "https://arachne.dainst.org/project/rwwa"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archive_hosted_partners_2_rww.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/archives/idai_archive_hosted_partners_2_rww.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The negatives of the archive are depicting people in their working environments, productions techniques, machines and products, as well as industrial architecture or factories."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Archive of Rhine-Westphalian Economy"
+})
+id=id+2
+
+#oppenheim
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "oppenheim",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to the Collection of Max von Oppenheim",
+        url: "https://arachne.dainst.org/project/oppenheim"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_archive_cooperation_partner_oppenheim.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/archives/idai_archive_cooperation_partner_oppenheim.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Max Freiherr von Oppenheim (1860-1946) was always accompanied by professional photographers when on his travels.The result was a collection of 13,000 photos that captured the life and culture of a world gone by."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "The Photographic Collection of Max von Oppenheim"
+})
+id=id+2
