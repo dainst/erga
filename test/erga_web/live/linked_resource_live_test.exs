@@ -65,8 +65,6 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
   describe "Index" do
     setup [:create_lr]
 
-
-
     test "create new ressource", %{conn: conn, project: project} do
       # load the create page
       {:ok, new_live, html} = live(conn, Routes.live_path(conn, LinkedResourceLive.New, project.id))
@@ -118,6 +116,6 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
       assert html =~ "Berlin, Zentrale, DAI"
     end
 
-    
+
   end
 end

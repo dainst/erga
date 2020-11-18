@@ -3,6 +3,16 @@ defmodule Erga.ResearchTest do
 
   alias Erga.Research
 
+  defp create_project(_) do
+    {:ok, proj} = Research.create_project(%{
+      project_code: "Test001",
+      starts_at: ~D[2019-01-10],
+      ends_at: ~D[2023-10-10],
+      title_translation_target_id: 1,
+    })
+    %{project: proj}
+  end
+
   describe "projects" do
     alias Erga.Research.Project
 
@@ -151,11 +161,13 @@ defmodule Erga.ResearchTest do
   end
 
   describe "stakeholders" do
+    setup [:create_project]
+
     alias Erga.Research.Stakeholder
 
-    @valid_attrs %{person_id: 1, project_id: 42, role: "some role", stakeholder_id: "some stakeholder_id", type: "some type"}
-    @update_attrs %{person_id: 2, project_id: 43, role: "some updated role", stakeholder_id: "some updated stakeholder_id", type: "some updated type"}
-    @invalid_attrs %{person_id: nil, project_id: nil, role: nil, stakeholder_id: nil, type: nil}
+    @valid_attrs %{"person_id" => 1,  "role" => "some role", "external_id" => "some stakeholder_id"}
+    @update_attrs %{"person_id" =>  2,  "role" => "some updated role", "external_id" => "some updated stakeholder_id"}
+    @invalid_attrs %{"person_id" => nil, "project_id" => nil, "role" => nil, "external_id" => nil}
 
     def stakeholder_fixture(attrs \\ %{}) do
       {:ok, stakeholder} =
@@ -166,23 +178,25 @@ defmodule Erga.ResearchTest do
       stakeholder
     end
 
-    test "list_stakeholders/0 returns all stakeholders" do
-      stakeholder = stakeholder_fixture()
+    test "list_stakeholders/0 returns all stakeholders", %{project: proj} do
+      stakeholder = stakeholder_fixture(%{"project_id" => proj.id})
       assert Research.list_stakeholders() == [stakeholder]
     end
 
-    test "get_stakeholder!/1 returns the stakeholder with given id" do
-      stakeholder = stakeholder_fixture()
+    test "get_stakeholder!/1 returns the stakeholder with given id", %{project: proj} do
+      stakeholder = stakeholder_fixture(%{"project_id" => proj.id})
       assert Research.get_stakeholder!(stakeholder.id) == stakeholder
     end
 
-    test "create_stakeholder/1 with valid data creates a stakeholder" do
-      assert {:ok, %Stakeholder{} = stakeholder} = Research.create_stakeholder(@valid_attrs)
+    test "create_stakeholder/1 with valid data creates a stakeholder", %{project: proj} do
+      assert {:ok, %Stakeholder{} = stakeholder} =
+        %{"project_id" => proj.id}
+        |> Enum.into(@valid_attrs)
+        |> Research.create_stakeholder()
       assert stakeholder.person_id == 1
-      assert stakeholder.project_id == 42
+      assert stakeholder.project_id == proj.id
       assert stakeholder.role == "some role"
       assert stakeholder.stakeholder_id == "some stakeholder_id"
-      assert stakeholder.type == "some type"
     end
 
     test "create_stakeholder/1 with invalid data returns error changeset" do
@@ -340,4 +354,5 @@ defmodule Erga.ResearchTest do
       assert %Ecto.Changeset{} = Research.change_translated_content(translated_content)
     end
   end
+
 end
