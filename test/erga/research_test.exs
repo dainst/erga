@@ -69,22 +69,39 @@ defmodule Erga.ResearchTest do
   describe "linked_resources" do
     alias Erga.Research.LinkedResource
 
-    @valid_attrs %{context: 42, label: 42, linked_id: "some linked_id", linked_system: "some linked_system", project_id: 42}
-    @update_attrs %{context: 43, label: 43, linked_id: "some updated linked_id", linked_system: "some updated linked_system", project_id: 43}
-    @invalid_attrs %{context: nil, label: nil, linked_id: nil, linked_system: nil, project_id: nil}
+    @proj_attrs %{
+      project_code: "Test001",
+      starts_at: ~D[2019-01-10],
+      ends_at: ~D[2023-10-10],
+      title_translation_target_id: 1,
+    }
+    @valid_attrs %{
+      "label" => "Berlin, DAI",
+      "description" => "Der Ort, an dem geschrieben wird.",
+      "linked_system" => "gazetteer" }
+    @update_attrs %{
+      "label" => "Berlin, Zentrale, DAI",
+      "description" => "Der Ort, an dem geforscht wird.",
+      "linked_system" => "gazetteer"
+    }
+    @invalid_attrs %{
+      "label" => nil,
+      "description" => "",
+      "linked_system" => "gazetteer"}
 
-    def linked_resource_fixture(attrs \\ %{}) do
+    def linked_resource_fixture(_attrs \\ %{}) do
+      {:ok, proj} = Research.create_project(@proj_attrs)
       {:ok, linked_resource} =
-        attrs
+        %{"project_id" => proj.id}
         |> Enum.into(@valid_attrs)
         |> Research.create_linked_resource()
 
-      linked_resource
+      Research.get_linked_resource!(linked_resource.id)
     end
 
     test "list_linked_resources/0 returns all linked_resources" do
       linked_resource = linked_resource_fixture()
-      assert Research.list_linked_resources() == [linked_resource]
+      assert linked_resource in Research.list_linked_resources()
     end
 
     test "get_linked_resource!/1 returns the linked_resource with given id" do
@@ -93,12 +110,14 @@ defmodule Erga.ResearchTest do
     end
 
     test "create_linked_resource/1 with valid data creates a linked_resource" do
-      assert {:ok, %LinkedResource{} = linked_resource} = Research.create_linked_resource(@valid_attrs)
-      assert linked_resource.context == 42
-      assert linked_resource.label == 42
-      assert linked_resource.linked_id == "some linked_id"
-      assert linked_resource.linked_system == "some linked_system"
-      assert linked_resource.project_id == 42
+      {:ok, proj} = Research.create_project(@proj_attrs)
+      assert {:ok, %LinkedResource{} = linked_resource} =
+        %{"project_id" => proj.id}
+        |> Enum.into(@valid_attrs)
+        |> Research.create_linked_resource()
+      assert linked_resource.description == "Der Ort, an dem geschrieben wird."
+      assert linked_resource.label == "Berlin, DAI"
+      assert linked_resource.linked_system == "gazetteer"
     end
 
     test "create_linked_resource/1 with invalid data returns error changeset" do
@@ -108,11 +127,9 @@ defmodule Erga.ResearchTest do
     test "update_linked_resource/2 with valid data updates the linked_resource" do
       linked_resource = linked_resource_fixture()
       assert {:ok, %LinkedResource{} = linked_resource} = Research.update_linked_resource(linked_resource, @update_attrs)
-      assert linked_resource.context == 43
-      assert linked_resource.label == 43
-      assert linked_resource.linked_id == "some updated linked_id"
-      assert linked_resource.linked_system == "some updated linked_system"
-      assert linked_resource.project_id == 43
+      assert linked_resource.description == "Der Ort, an dem geforscht wird."
+      assert linked_resource.label == "Berlin, Zentrale, DAI"
+      assert linked_resource.linked_system == "gazetteer"
     end
 
     test "update_linked_resource/2 with invalid data returns error changeset" do
