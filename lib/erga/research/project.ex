@@ -24,7 +24,7 @@ defmodule Erga.Research.Project do
     project
     |> cast(attrs, [:project_code, :starts_at, :ends_at])
     |> unique_constraint(:project_code)
-    |> validate_required([:project_code])
+    |> validate_required(:project_code)
     |> cast_assoc(:stakeholders)
     |> cast_assoc(:linked_resources)
     |> cast_assoc(:external_links)
