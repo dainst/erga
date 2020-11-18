@@ -214,7 +214,10 @@ defmodule Erga.Research do
       ** (Ecto.NoResultsError)
 
   """
-  def get_linked_resource!(id), do: Repo.get!(LinkedResource, id)
+  def get_linked_resource!(id) do
+    Repo.get!(LinkedResource, id)
+    |> Repo.preload(:project)
+  end
 
   @doc """
   Creates a linked_resource.

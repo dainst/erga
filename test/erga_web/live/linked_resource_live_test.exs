@@ -118,42 +118,6 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
       assert html =~ "Berlin, Zentrale, DAI"
     end
 
-    test "deletes resource", %{conn: conn, project: project, lr: lr} do
-      conn = get(conn, Routes.linked_resource_index_path(conn, :delete, lr.id, project_id: project.id ))
-      assert redirected_to(conn) =~ "/projects/#{project.id}/edit"
-    end
-  # end
-
-  # describe "Show" do
-  #   setup [:create_person]
-
-  #   test "displays person", %{conn: conn, person: person} do
-  #     {:ok, _show_live, html} = live(conn, Routes.person_show_path(conn, :show, person))
-
-  #     assert html =~ "Show Person"
-  #     assert html =~ person.firstname
-  #   end
-
-  #   test "updates person within modal", %{conn: conn, person: person} do
-  #     {:ok, show_live, _html} = live(conn, Routes.person_show_path(conn, :show, person))
-
-  #     assert show_live |> element("a", "Edit") |> render_click() =~
-  #              "Edit Person"
-
-  #     assert_patch(show_live, Routes.person_show_path(conn, :edit, person))
-
-  #     assert show_live
-  #            |> form("#person-form", person: @invalid_attrs)
-  #            |> render_change() =~ "can&apos;t be blank"
-
-  #     {:ok, _, html} =
-  #       show_live
-  #       |> form("#person-form", person: @update_attrs)
-  #       |> render_submit()
-  #       |> follow_redirect(conn, Routes.person_show_path(conn, :show, person))
-
-  #     assert html =~ "Person updated successfully"
-  #     assert html =~ "Joe"
-  #   end
-   end
+    
+  end
 end

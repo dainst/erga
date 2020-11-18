@@ -42,12 +42,13 @@ defmodule ErgaWeb.Router do
 
     resources("/translated_contents", TranslatedContentController, only: [:create, :delete, :edit, :new, :update])
 
+    resources("/linked_resource", LinkedResourceController, only: [ :delete ])
+
     put("/locale", LocaleController, :set)
 
     live "/linked_resources/new/:project_id", LinkedResourceLive.New
-    live "/linked_resources/:id", LinkedResourceLive.Show
     live "/linked_resources/:id/edit", LinkedResourceLive.Edit
-    live "/linked_resources/:id/delete", LinkedResourceLive.Index, :delete
+    #live "/linked_resources/:id/delete", LinkedResourceLive.Index, :delete
 
     live "/persons", PersonLive.Index, :index
     live "/persons/new", PersonLive.Index, :new
