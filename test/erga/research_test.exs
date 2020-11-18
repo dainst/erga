@@ -88,11 +88,13 @@ defmodule Erga.ResearchTest do
     @valid_attrs %{
       "label" => "Berlin, DAI",
       "description" => "Der Ort, an dem geschrieben wird.",
-      "linked_system" => "gazetteer" }
+      "linked_system" => "gazetteer",
+      "linked_id" => "12345" }
     @update_attrs %{
       "label" => "Berlin, Zentrale, DAI",
       "description" => "Der Ort, an dem geforscht wird.",
-      "linked_system" => "gazetteer"
+      "linked_system" => "gazetteer",
+      "linked_id" => "54321"
     }
     @invalid_attrs %{
       "label" => nil,
@@ -131,7 +133,11 @@ defmodule Erga.ResearchTest do
     end
 
     test "create_linked_resource/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Research.create_linked_resource(@invalid_attrs)
+      {:ok, proj} = Research.create_project(@proj_attrs)
+      assert {:error, %Ecto.Changeset{}} =
+        %{"project_id" => proj.id}
+        |> Enum.into(@invalid_attrs)
+        |> Research.create_linked_resource()
     end
 
     test "update_linked_resource/2 with valid data updates the linked_resource" do
@@ -175,7 +181,7 @@ defmodule Erga.ResearchTest do
         |> Enum.into(@valid_attrs)
         |> Research.create_stakeholder()
 
-      stakeholder
+      Research.get_stakeholder!(stakeholder.id)
     end
 
     test "list_stakeholders/0 returns all stakeholders", %{project: proj} do
@@ -210,7 +216,6 @@ defmodule Erga.ResearchTest do
       assert stakeholder.project_id == 43
       assert stakeholder.role == "some updated role"
       assert stakeholder.stakeholder_id == "some updated stakeholder_id"
-      assert stakeholder.type == "some updated type"
     end
 
     test "update_stakeholder/2 with invalid data returns error changeset" do

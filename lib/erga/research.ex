@@ -198,6 +198,7 @@ defmodule Erga.Research do
   """
   def list_linked_resources do
     Repo.all(LinkedResource)
+    |> Repo.preload(:project)
   end
 
   @doc """
