@@ -2785,3 +2785,411 @@ Erga.Repo.insert!(%TranslatedContent{
   text: "Palilia"
 })
 id=id+2
+
+#pergamenischeforschungen17
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "pergamenischeforschungen17",
+    external_links: [
+      %ExternalLink{
+        label: "No. 17: Terracottas from Pergamon",
+        url: "https://arachne.dainst.org/project/pergamenischeforschungen17?lang=de"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_pergamenische_forschungen.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_pergamenische_forschungen.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Pergamenische Forschungen"
+})
+id=id+2
+
+#rm121
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "rm121",
+    external_links: [
+      %ExternalLink{
+        label: "No.121: Brick Stamps Palatine Hill",
+        url: "https://arachne.dainst.org/project/rm121"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_roemische_mitteilungen.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_roemische_mitteilungen.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Römische Mitteilungen"
+})
+id=id+2
+
+#roseterra
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "roseterra",
+    external_links: [
+      %ExternalLink{
+        label: "Roman Terracotta Masks",
+        url: "https://arachne.dainst.org/project/roseterra"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_roman_terrakotte_masks.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_roman_terrakotte_masks.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The project “Terracotta Masks” is based on a dissertation about Roman Terracotta masks in the northwestern provinces conducted at the University of Cologne."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Roman Terracotta Masks"
+})
+id=id+2
+
+#schulzmeer
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "schulzmeer",
+    external_links: [
+      %ExternalLink{
+        label: "Sea Creatures on Roman Sarcophagi",
+        url: "https://arachne.dainst.org/project/schulzmeer?lang=de"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_meerwesen.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_meerwesen.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Publication on a work on the depiction of sea creatures on Roman sarcophagi with an online catalog showing new relevant pieces. The aim of the publication is to objectively re-evaluate previous assumptions."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Sea Creatures on Roman Sarcophagi"
+})
+id=id+2
+
+#centurions
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "centurions",
+    external_links: [
+      %ExternalLink{
+        label: "Dressed to Drill. Roman Centurions' Equipment",
+        url: "https://arachne.dainst.org/project/centurions"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_dressed_to_kill.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_dressed_to_kill.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The publication compiles tombstones erected for centurions also depicting military equipment."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Dressed to Drill. Roman Centurions' Equipment"
+})
+id=id+2
+
+#spornsiegel
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "spornsiegel",
+    external_links: [
+      %ExternalLink{
+        label: "Suermondt-Ludwig-Museum Aachen",
+        url: "https://arachne.dainst.org/project/spornsiegel"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_sl_museum_aachen.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_sl_museum_aachen.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The antiquities collection of the Suermondt-Ludwig-Museum in Aachen."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Suermondt-Ludwig-Museum Aachen"
+})
+id=id+2
+
+#ariadne
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "ariadne",
+    external_links: [
+      %ExternalLink{
+        label: "ARIADNE",
+        url: "https://arachne.dainst.org/project/ariadne"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_partners_ariadne.jpg",
+      path: "priv/repo/idai_world_assets/images/content/why/partners/idai_partners_ariadne.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The goal was the integration of European archaeological repositories, which created a searchable catalog of datasets including unpublished reports, images, maps, databases and other kinds of archaeological information accessible online."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "ARIADNE"
+})
+id=id+2
+
+#carare
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "carare",
+    external_links: [
+      %ExternalLink{
+        label: "CARARE",
+        url: "https://arachne.dainst.org/project/carare"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_partners_carare.jpg",
+      path: "priv/repo/idai_world_assets/images/content/why/partners/idai_partners_carare.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "CARARE aims to advance professional practice and foster appreciation of digital archaeological and architectural heritage through the promotion for public benefit of digitization, connection. enhancement, and use of digital content."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "CARARE"
+})
+id=id+2
+
+#ceramegypt
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "ceramegypt",
+    external_links: [
+      %ExternalLink{
+        label: "CeramEgypt",
+        url: "https://arachne.dainst.org/project/ceramegypt"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_partners_ceramegypt.jpg",
+      path: "priv/repo/idai_world_assets/images/content/why/partners/idai_partners_ceramegypt.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Pottery production and consumption in Ptolemaic-Roman Egypt based on pottery finds from surveys."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "CeramEgypt"
+})
+id=id+2
+
+#chronoi
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "chronoi",
+    external_links: [
+      %ExternalLink{
+        label: "EC-Chronoi: Multilingualism of Time",
+        url: "https://arachne.dainst.org/project/chronoi"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_space_time_chronoi.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/space-and-time/idai_space_time_chronoi.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The project developed a tool that is able to normalize and detect time expressions in archaeological literature of varying source languages."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "EC-Chronoi: Multilingualism of Time"
+})
+id=id+2
+
+#databasepausanias
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "databasepausanias",
+    external_links: [
+      %ExternalLink{
+        label: "Images in Pausanias",
+        url: "https://arachne.dainst.org/project/databasepausanias"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_partners_images_in_pausanias.jpg",
+      path: "priv/repo/idai_world_assets/images/content/why/partners/idai_partners_images_in_pausanias.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The purpose of the database “Images in Pausanias” is to systematically register all figurative works of art found in Pausanias and make them accessible for combined online research."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Images in Pausanias"
+})
+id=id+2
