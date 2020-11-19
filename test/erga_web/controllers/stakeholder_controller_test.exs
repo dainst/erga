@@ -12,13 +12,6 @@ defmodule ErgaWeb.StakeholderControllerTest do
     stakeholder
   end
 
-  describe "index" do
-    test "lists all stakeholders", %{conn: conn} do
-      conn = get(conn, Routes.stakeholder_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Stakeholders"
-    end
-  end
-
   describe "new stakeholder" do
     test "renders form", %{conn: conn} do
       conn = get(conn, Routes.stakeholder_path(conn, :new))

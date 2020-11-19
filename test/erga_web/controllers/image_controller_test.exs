@@ -12,13 +12,6 @@ defmodule ErgaWeb.ImageControllerTest do
     image
   end
 
-  describe "index" do
-    test "lists all images", %{conn: conn} do
-      conn = get(conn, Routes.image_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Images"
-    end
-  end
-
   describe "new image" do
     test "renders form", %{conn: conn} do
       conn = get(conn, Routes.image_path(conn, :new))

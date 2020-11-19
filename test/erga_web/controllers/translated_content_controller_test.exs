@@ -12,13 +12,6 @@ defmodule ErgaWeb.TranslatedContentControllerTest do
     translated_content
   end
 
-  describe "index" do
-    test "lists all translated_contents", %{conn: conn} do
-      conn = get(conn, Routes.translated_content_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Translated contents"
-    end
-  end
-
   describe "new translated_content" do
     test "renders form", %{conn: conn} do
       conn = get(conn, Routes.translated_content_path(conn, :new))
