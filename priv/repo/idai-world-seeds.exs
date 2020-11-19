@@ -1219,3 +1219,346 @@ Erga.Repo.insert!(%TranslatedContent{
   text: "Palmyra-GIS"
 })
 id=id+2
+
+#geo-maps-4935
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "geo-maps-4935",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to Palmyra Digital Atlas",
+        url: "https://geoserver.dainst.org/maps/4935"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_space_time_palmyra_digital_atlas.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/space-and-time/idai_space_time_palmyra_digital_atlas.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Geoserver of Palmyra showing known structures and topography. Compilation of the antique polygon and line features from the Mapset Topographia Palmyrena."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Palmyra Digital Atlas"
+})
+id=id+2
+
+#geo-maps-980
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "geo-maps-980",
+    external_links: [
+      %ExternalLink{
+        label: "Triphylia - Map of a Greek landscape",
+        url: "https://geoserver.dainst.org/maps/980"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_space_time_triphylia.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/space-and-time/idai_space_time_triphylia.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Geoserver of the Greek landscape of Triphylia that shows soils, terrain, settlements, rivers, etc."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Triphylia - Map of a Greek landscape"
+})
+id=id+2
+
+#oadict
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "oadict",
+    external_links: [
+      %ExternalLink{
+        label: "Open Access Dictionary",
+        url: "http://archwort.dainst.org/de/vocab/"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_libraries_vocab.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/libraries/idai_libraries_vocab.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A comprehensive dictionary for archaeological terms that offers translations into the common languages in the field of archaeology."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Open Access Dictionary"
+})
+id=id+2
+
+#roman_chronology
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "roman_chronology",
+    external_links: [
+      %ExternalLink{
+        label: "Roman Chronology",
+        url: "https://chronontology.dainst.org/search?q=*&fq=tags:%27roman_chronology%27"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_space_time_roman_chronology.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/space-and-time/idai_space_time_roman_chronology.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A web service that connects period terms to dating and all kinds of material objects, geodata and textual data."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Roman Chronology"
+})
+id=id+2
+
+#ancient_egypt
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "ancient_egypt",
+    external_links: [
+      %ExternalLink{
+        label: "Ancient Egyptian Chronology",
+        url: "http://chronontology.dainst.org/search?q=*&fq=tags:%27ancient_egypt%27"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_space_time_ancient_egypt_chronology.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/space-and-time/idai_space_time_ancient_egypt_chronology.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A web service connecting ancient Egyptian period terms to actual dating."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Ancient Egyptian Chronology"
+})
+id=id+2
+
+#bronze_age_europe
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "bronze_age_europe",
+    external_links: [
+      %ExternalLink{
+        label: "European bronze age chronology",
+        url: "http://chronontology.dainst.org/search?q=*&fq=tags:%27bronze_age_europe%27"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_space_time_europ_bronzeage_chronology.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/space-and-time/idai_space_time_europ_bronzeage_chronology.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A web service connecting period terms of the European Bronze Age to actual dating."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "European bronze age chronology"
+})
+id=id+2
+
+#geological_time_scale
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "geological_time_scale",
+    external_links: [
+      %ExternalLink{
+        label: "Geological time scale",
+        url: "http://chronontology.dainst.org/search?q=*&fq=tags:%27geological_time_scale%27"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_space_time_geological_timescale.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/space-and-time/idai_space_time_geological_timescale.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A web service connecting the geological time terms to actual dating."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Geological time scale"
+})
+id=id+2
+
+
+#preussdenk
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "preussdenk",
+    external_links: [
+      %ExternalLink{
+        label: "Arachne Link to PreussDenk",
+        url: "https://arachne.dainst.org/project/preussdenk"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_preussdenk.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/projects/idai_preussdenk.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A DFG-project that aimed at documenting all built heritage sites in Brandenburg/Berlin between 1860/70 and 1918."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Prussian Monuments in the Province of Brandenburg/Berlin"
+})
+id=id+2
+
+#claracstart
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "claracstart",
+    external_links: [
+      %ExternalLink{
+        label: "Arachne Link to Musée Clarac",
+        url: "https://arachne.dainst.org/project/claracstart"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_clarac.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_clarac.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "he exploration of ancient sculpture before the middle of the 19th century as portrayed in Clarac’s 'Musée de sculpture antique et moderne'."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Clarac, Musée du Sculpture"
+})
+id=id+2
