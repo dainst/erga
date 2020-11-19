@@ -1554,11 +1554,278 @@ Erga.Research.create_image(
 Erga.Repo.insert!(%TranslatedContent{
   target_id: project.description_translation_target_id,
   language_code: "en",
-  text: "he exploration of ancient sculpture before the middle of the 19th century as portrayed in Clarac’s 'Musée de sculpture antique et moderne'."
+  text: "The exploration of ancient sculpture before the middle of the 19th century as portrayed in Clarac’s 'Musée de sculpture antique et moderne'."
 })
 Erga.Repo.insert!(%TranslatedContent{
   target_id: project.title_translation_target_id,
   language_code: "en",
   text: "Clarac, Musée du Sculpture"
+})
+id=id+2
+
+#idai_thesauri_emil_braun
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "idai_thesauri_emil_braun",
+    external_links: [
+      %ExternalLink{
+        label: "1836 - Emil Braun and the first library catalog",
+        url: "http://arachne.uni-koeln.de/item/buch/5376"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_thesauri_emil_braun.jpg",
+      path: "priv/repo/idai_world_assets/images/content/how/idai_thesauri_emil_braun.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A digitized viewer of Emil Braun’s first library catalog from 1836 that is available through Arachne."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "1836 - Emil Braun and the first library catalog"
+})
+id=id+2
+
+#idai_objects_ocre
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "idai_objects_ocre",
+    external_links: [
+      %ExternalLink{
+        label: "Online Coins of the Roman Empire (contains AFE)",
+        url: "http://numismatics.org/ocre/"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_ocre.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_ocre.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A tool designed to help in the identification, cataloging, and research of the rich and varied coinage of the Roman Empire. The project records every published type of Roman Imperial coinage from Augustus in 31 BC, until the death of Zeno in AD 491."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Online Coins of the Roman Empire (contains AFE)"
+})
+id=id+2
+
+#idai_objects_afe
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "idai_objects_afe",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to 'AFE (a part of OCRE)'",
+        url: "http://afe.dainst.org/"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_afe.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_afe.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A joint project of Databases and Information Systems (DBIS) and the Römisch-Germanische Kommission (RGK) is investigating the logical integration of different coin find databases using ontologies."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "AFE (a part of OCRE)"
+})
+id=id+2
+
+#rezeptionantike
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "rezeptionantike",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to reception of antiquity in a semantic network",
+        url: "https://arachne.dainst.org/project/rezeptionantike"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_libraries_reception_of_antiquities.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/libraries/idai_libraries_reception_of_antiquities.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A reconstruction and online publication of about 1700 prints, which appeared between 1500 and 1900."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "reception of antiquity in a semantic network"
+})
+id=id+2
+
+
+#berlinsamml
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "berlinsamml",
+    external_links: [
+      %ExternalLink{
+        label: "Plaster casts after greco-roman sculptures in Berlin",
+        url: "https://arachne.dainst.org/project/berlinsamml"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_plaster_casts_berlin.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_plaster_casts_berlin.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Every plaster cast in Berlin (from Freie Universität, Humboldt-Universität, and the Antikensammlung/State Museums of Berlin) representing an ancient object was systematically recorded and entered into ARACHNE."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Plaster Casts in Berlin"
+})
+id=id+2
+
+#idai_libraries_historical_books
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "idai_libraries_historical_books",
+    external_links: [
+      %ExternalLink{
+        label: "Digital Facsimiles of Historical Books",
+        url: "https://arachne.dainst.org/search?q=catalogPaths:107"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_libraries_historical_books.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/libraries/idai_libraries_historical_books.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The database compiles digital reproductions of historic illuminations in books and their cover pages in order to make them accessible to research."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Digital Facsimiles of Historical Books"
+})
+id=id+2
+
+#antiksammlberlin
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "antiksammlberlin",
+    external_links: [
+      %ExternalLink{
+        label: "Sculptures in the Antikensammlung, Berlin",
+        url: "https://arachne.dainst.org/project/antiksammlberlin"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_plaster_casts_antikensammlung.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_plaster_casts_antikensammlung.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The complete catalog of sculptures in the Antikensammlung der Staatlichen Museen zu Berlin contains approximately 2,600 Greek, Cypriot, Etruscan, and Roman sculptures in stone, as well as several large bronzes."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Sculptures in the Antikensammlung, Berlin"
 })
 id=id+2
