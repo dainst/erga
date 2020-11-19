@@ -32,14 +32,13 @@ defmodule ErgaWeb.Router do
     pipe_through [:browser, :protected]
 
     get("/", ProjectController, :index)
-    resources("/projects", ProjectController)
 
+    resources("/projects", ProjectController)
     resources("/person", PersonController,                          only: [:create, :delete, :edit, :new, :update, :index])
     resources("/stakeholders", StakeholderController,               only: [:create, :delete, :edit, :new, :update])
     resources("/external_links", ExternalLinkController,            only: [:create, :delete, :edit, :new, :update])
     resources("/images", ImageController,                           only: [:create, :delete, :edit, :new, :update])
     resources("/translated_contents", TranslatedContentController,  only: [:create, :delete, :edit, :new, :update])
-
 
     put("/locale", LocaleController, :set)
 
