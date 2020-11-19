@@ -35,3 +35,6 @@ npm-debug.log
 
 # Ignore uploads directory (see devs.exs)
 /uploads
+
+# Ignore test uploads directory (see test.exs)
+/test_uploads

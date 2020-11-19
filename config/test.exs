@@ -20,3 +20,7 @@ config :erga, ErgaWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+
+config :erga,
+  uploads_directory: "test_uploads"
