@@ -3193,3 +3193,78 @@ Erga.Repo.insert!(%TranslatedContent{
   text: "Images in Pausanias"
 })
 id=id+2
+
+#jtfourplace
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "jtfourplace",
+    external_links: [
+      %ExternalLink{
+        label: "Our Place: Our Place in the World",
+        url: "https://arachne.dainst.org/project/jtfourplace"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_partners_our_place.jpg",
+      path: "priv/repo/idai_world_assets/images/content/why/partners/idai_partners_our_place.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The purpose of the research of Neolithic sites in southwestern Asia has been to identify innovative theoretical approaches to investigate how these first large, permanently co-resident communities functioned, and how and why they networked with each other."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Our Place: Our Place in the World"
+})
+id=id+2
+
+#hellespont
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "hellespont",
+    external_links: [
+      %ExternalLink{
+        label: "The Hellespont Project",
+        url: "http://hellespont.dainst.org/startpage/"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_partners_perseus.jpg",
+      path: "priv/repo/idai_world_assets/images/content/why/partners/idai_partners_perseus.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The Hellespont Project combines the digital collections of Greek and Roman antiquities of the Perseus Digital Library and the German Archaeological Institute with text using the metadata format CIDOC."})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "The Hellespont Project"
+})
+id=id+2
