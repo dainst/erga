@@ -4,20 +4,24 @@
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
-  <%= hidden_input f, :project_id, value: @project_id %>
-  <%= hidden_input f, :col_name, value: @col_name %>
-    <div class="row">
-      <div class="column column-25">
-        <%= label f, :language_code %>
-        <%= select f, :language_code, @lang_codes %>
-        <%= error_tag f, :language_code %>
-      </div>
-      <div class="column">
-        <%= label f, :content %>
-        <%= textarea f, :content %>
-        <%= error_tag f, :content %>
-      </div>
+  <%= hidden_input f, :target_table, value: @params["target_table"] %>
+  <%= hidden_input f, :target_table_primary_key, value: @params["target_table_primary_key"] %>
+  <%= hidden_input f, :target_id, value: @params["target_id"] %>
+  <%= hidden_input f, :target_field, value: @params["target_field"] %>
+  <%= hidden_input f, :redirect, value: @params["redirect"] %>
+
+  <div class="row">
+    <div class="column column-25">
+      <%= label f, :language_code %>
+      <%= select f, :language_code, @lang_codes %>
+      <%= error_tag f, :language_code %>
     </div>
+    <div class="column">
+      <%= label f, :text %>
+      <%= textarea f, :text %>
+      <%= error_tag f, :text %>
+    </div>
+  </div>
   <div>
     <%= submit "Save" %>
   </div>

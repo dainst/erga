@@ -7,7 +7,7 @@ use Mix.Config
 # Run `mix help test` for more information.
 config :erga, Erga.Repo,
   username: "postgres",
-  password: "postgres",
+  password: System.get_env("MIX_ERGA_TEST_DB_PASSWORD", "postgres"),
   database: "erga_test#{System.get_env("MIX_TEST_PARTITION")}",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
@@ -20,3 +20,6 @@ config :erga, ErgaWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :erga,
+  uploads_directory: "uploads"

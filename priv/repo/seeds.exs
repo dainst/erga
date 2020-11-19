@@ -17,7 +17,6 @@ alias Erga.Staff.Person
 alias Erga.Research.Project
 alias Erga.Accounts.User
 alias Erga.Research.TranslatedContent
-alias Erga.Research.ProjectTranslation
 
 Erga.Repo.delete_all Project
 Erga.Repo.delete_all Stakeholder
@@ -47,6 +46,8 @@ project =
     project_code: "SPP2143",
     starts_at: ~D[2019-01-10],
     ends_at: ~D[2023-10-10],
+    title_translation_target_id: 1,
+    description_translation_target_id: 2,
 
     stakeholders: [
       %Stakeholder{
@@ -82,47 +83,26 @@ Erga.Research.create_image(
   }
 )
 
-content = Erga.Repo.insert!(%TranslatedContent{
-  language_code: "DE",
-  content: "Eine sehr informative Projektbeschreibung."
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "de",
+  text: "Eine sehr informative Projektbeschreibung."
 })
 
-Erga.Repo.insert!(%ProjectTranslation{
-  project_id: project.id,
-  translated_content_id: content.id,
-  col_name: "descr"
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "This is a very informativ project description."
 })
 
-content = Erga.Repo.insert!(%TranslatedContent{
-  language_code: "EN",
-  content: "This is a very informativ project description."
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "de",
+  text: "Großartiges Ausgrabungsprojekt"
 })
 
-Erga.Repo.insert!(%ProjectTranslation{
-  project_id: project.id,
-  translated_content_id: content.id,
-  col_name: "descr"
-})
-
-content = Erga.Repo.insert!(%TranslatedContent{
-  language_code: "DE",
-  content: "Großartiges Ausgrabungsprojekt"
-})
-
-
-Erga.Repo.insert!(%ProjectTranslation{
-  project_id: project.id,
-  translated_content_id: content.id,
-  col_name: "title"
-})
-
-content = Erga.Repo.insert!(%TranslatedContent{
-  language_code: "EN",
-  content: "Great digging project"
-})
-
-Erga.Repo.insert!(%ProjectTranslation{
-  project_id: project.id,
-  translated_content_id: content.id,
-  col_name: "title"
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Great digging project"
 })

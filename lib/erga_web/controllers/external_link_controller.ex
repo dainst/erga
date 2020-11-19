@@ -33,7 +33,7 @@ defmodule ErgaWeb.ExternalLinkController do
   def update(conn, %{"id" => id, "external_link" => external_link_params}) do
     external_link = Research.get_external_link!(id)
 
-    case Research.update_external_link(external_link, external_link_params) |> IO.inspect do
+    case Research.update_external_link(external_link, external_link_params) do
       {:ok, external_link} ->
         conn
         |> put_flash(:info, "External link updated successfully.")
