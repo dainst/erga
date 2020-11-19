@@ -2056,3 +2056,732 @@ Erga.Repo.insert!(%TranslatedContent{
   text: "Villa Wolkonsky, antiquities collection, Rome"
 })
 id=id+2
+
+#sammlsaarbr
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "sammlsaarbr",
+    external_links: [
+      %ExternalLink{
+        label: "Plaster cast collection, University Saarbrücken",
+        url: "https://arachne.dainst.org/project/sammlsaarbr"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_plaster_casts_saarbruecken.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_plaster_casts_saarbruecken.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The Institute of Classical Archaeology of the University of the Saarland possesses a small teaching collection containing originals of antiquities as well as plaster casts of ancient sculpture."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Plaster cast collection, University Saarbrücken"
+})
+id=id+2
+
+#stendal
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "stendal",
+    external_links: [
+      %ExternalLink{
+        label: "Collection of Winckelmann-Society and Museum, Stendal",
+        url: "https://arachne.dainst.org/project/stendal"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_plaster_casts_winckelmann.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_plaster_casts_winckelmann.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The inventory holds drawings, paintings, sculpture, antiques, coins and portrait medals as well as autographs and sketches. The integration of the collection into the online database ARACHNE is still ongoing."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Winckelmann-Society and Museum, Stendal"
+})
+id=id+2
+
+#katalogskulpthess
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "katalogskulpthess",
+    external_links: [
+      %ExternalLink{
+        label: "Archaeological Museum, Thessaloniki",
+        url: "https://arachne.dainst.org/project/katalogskulpthess"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_plaster_casts_thessaloniki.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_plaster_casts_thessaloniki.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The Archaeological Museum of Thessaloniki keeps sculptures dating from the Archaic to the late Imperial period and found mainly in the area from various regions of Macedonia and Thrace."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Archaeological Museum, Thessaloniki"
+})
+id=id+2
+
+#corpusantsark
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "corpusantsark",
+    external_links: [
+      %ExternalLink{
+        label: "Corpus of Ancient Sarcophagi",
+        url: "https://arachne.dainst.org/project/corpusantsark"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_sarcopharg.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_sarcopharg.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The re-conception of the Corpus of Ancient Sarcophagi and from an IT point of view, assuming responsibility for backing up an online-presence of the material, which is to be as coherent as possible."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Corpus of Ancient Sarcophagi"
+})
+id=id+2
+
+#cilopac
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "cilopac",
+    external_links: [
+      %ExternalLink{
+        label: "Corpus Inscriptionum Latinarum (CIL)",
+        url: "https://arachne.dainst.org/project/cilopac"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_libraries_cil.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/libraries/idai_libraries_cil.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The Corpus Inscriptionum Latinarum (CIL) is a comprehensive collection of ancient Latin inscriptions from all corners of the Roman Empire."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Corpus Inscriptionum Latinarum (CIL)"
+})
+id=id+2
+
+#corpusminmyk
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "corpusminmyk",
+    external_links: [
+      %ExternalLink{
+        label: "Corpus of Minoan and Mycenaean Seals",
+        url: "https://arachne.dainst.org/project/corpusminmyk"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_minoan_seals.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_minoan_seals.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The project’s aim is the scholarly publication of every preserved seal and clay cast from the Aegean Bronze Age. Most of the Corpus should be digitized, updated and available on the Internet for free before the project ends in 2011."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Corpus of Minoan and Mycenaean Seals"
+})
+id=id+2
+
+#idai_objects_creb
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "idai_objects_creb",
+    external_links: [
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_creb.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_creb.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "In preparation"
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Corpus of Roman Finds in the European Babaricum (CRFB)"
+})
+id=id+2
+
+#faak16
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "faak16",
+    external_links: [
+      %ExternalLink{
+        label: "FAAK 16: Paracas Archaeological Materials",
+        url: "https://arachne.dainst.org/project/faak16"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_faak16.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_faak16.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The catalog provides data and images of archaeological finds and contexts which have been excavated since 1996 by the Nasca-Palpa Project."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "FAAK 16: Paracas Archaeological Materials"
+})
+id=id+2
+
+#siracusa_citta_e_mura
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "siracusa_citta_e_mura",
+    external_links: [
+      %ExternalLink{
+        label: "Siracusa - La città e le sue mura",
+        url: "https://arachne.dainst.org/project/siracusa_citta_e_mura"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_siracusa.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_siracusa.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Studies on the Sicilian city of Syracuse"
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Siracusa - La città e le sue mura"
+})
+id=id+2
+
+#inden1
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "inden1",
+    external_links: [
+      %ExternalLink{
+        label: "Inden",
+        url: "https://arachne.dainst.org/project/inden1"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "inden.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/inden.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A digital documentation of an excavation of the 1960s"
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Inden"
+})
+id=id+2
+
+#inden1
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "inden1",
+    external_links: [
+      %ExternalLink{
+        label: "Inden",
+        url: "https://arachne.dainst.org/project/inden1"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "inden.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/inden.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A digital documentation of an excavation of the 1960s"
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Inden"
+})
+id=id+2
+
+#antikeplastik
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "antikeplastik",
+    external_links: [
+      %ExternalLink{
+        label: "Antike Plastik 5.0.://",
+        url: "https://arachne.dainst.org/project/antikeplastik?lang=de"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_antike_plastik_5.0.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_antike_plastik_5.0.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Media of documentation in archaeology"
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Antike Plastik 5.0.://"
+})
+id=id+2
+
+#hafen
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "hafen",
+    external_links: [
+      %ExternalLink{
+        label: "Images and Imaginations of Roman Harbors",
+        url: "https://arachne.dainst.org/project/hafen?lang=de"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_roemische_hafenanlagen.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_roemische_hafenanlagen.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A publication regarding the documentation and contextualized analysis of depictions of Roman harbors using Arachne."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Images and Imaginations of Roman Harbors"
+})
+id=id+2
+
+#basilaemil
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "basilaemil",
+    external_links: [
+      %ExternalLink{
+        label: "The Basilica Aemilia on the Forum Romanum",
+        url: "https://arachne.dainst.org/project/basilaemil"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_basilika_aemilia.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_basilika_aemilia.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A publication on the Basilica Aemilia on the Forum Romanum as a focus of public life. A study of its remains, functions, and roles in Rome."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "The Basilica Aemilia on the Forum Romanum"
+})
+id=id+2
+
+#wohnkulturOstia
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "wohnkulturOstia",
+    external_links: [
+      %ExternalLink{
+        label: "Domestic Culture in Late Antique Ostia",
+        url: "https://arachne.dainst.org/project/wohnkulturOstia"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_ostia.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_ostia.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A publication on the well-preserved remains of residential houses in the port city of Ostia that allow insights into the relationship of continuity and transformation between Imperial times and Late Antiquity."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Domestic Culture in Late Antique Ostia"
+})
+id=id+2
+
+#kanatha
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "kanatha",
+    external_links: [
+      %ExternalLink{
+        label: "Sanctuaries in Kanatha",
+        url: "https://arachne.dainst.org/project/kanatha"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_kanathan.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_kanathan.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A publication on the Syrian city of Kanatha and its specific forms of sanctuaries in Hellenistic and Roman times and the coexistence of indigenous religions and the Roman state religion."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Sanctuaries in Kanatha"
+})
+id=id+2
+
+#kanatha
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "kanatha",
+    external_links: [
+      %ExternalLink{
+        label: "Sanctuaries in Kanatha",
+        url: "https://arachne.dainst.org/project/kanatha"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_kanathan.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_kanathan.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A publication on the Syrian city of Kanatha and its specific forms of sanctuaries in Hellenistic and Roman times and the coexistence of indigenous religions and the Roman state religion."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Sanctuaries in Kanatha"
+})
+id=id+2
+
+#langwiss
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "langwiss",
+    external_links: [
+      %ExternalLink{
+        label: "Figurative Reception of Greek Poets and Philosophers",
+        url: "https://arachne.dainst.org/project/langwiss"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_mit_wissen_geschmueckt.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_mit_wissen_geschmueckt.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "A publication on a project that is researching the depictions of the discourse of Greek education by using different classes of material such as gems, cameos, lamps, reliefs."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Figurative Reception of Greek Poets and Philosophers"
+})
+id=id+2
+
+#palilia
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "palilia",
+    external_links: [
+      %ExternalLink{
+        label: "Palilia",
+        url: "https://publications.dainst.org/books/index.php/dai/catalog/series/palilia"
+      },
+      %ExternalLink{
+        label: "No. 26: Wall Paintings Campania",
+        url: "https://arachne.dainst.org/project/palilia26"
+      },
+      %ExternalLink{
+        label: "No. 25: Republican otium-villas Tivoli",
+        url: "https://arachne.dainst.org/project/palilia25"
+      },
+      %ExternalLink{
+        label: "No. 24: Basilica Aemilia",
+        url: "https://arachne.dainst.org/project/lippsbasilica"
+      },
+      %ExternalLink{
+        label: "No. 20: Military in Rome",
+        url: "https://arachne.dainst.org/project/palilia20"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "Kacheln_Publications_data_publications_palilia.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/publications/Kacheln_Publications_data_publications_palilia.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Palilia"
+})
+id=id+2
