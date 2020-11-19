@@ -913,3 +913,309 @@ Erga.Repo.insert!(%TranslatedContent{
   text: "The Photographic Collection of Max von Oppenheim"
 })
 id=id+2
+
+#fotothekmuenchen
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "fotothekmuenchen",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to Munich Photo Library of the LMU",
+        url: "https://arachne.dainst.org/project/fotothekmuenchen"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_images_munich_lmu.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/images/idai_images_munich_lmu.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The Institute of Classical Archaeology in Munich is home to a vast collection of photographs. Starting in 2016, digitization of this collection has been underway, with the results made open to the public via the Arachne database."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Munich Photo Library of the LMU"
+})
+id=id+2
+
+
+#pergaltarbrowser
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "fotothekmuenchen",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to Pergamon Altar browser: Pergamon Museum Berlin",
+        url: "https://arachne.dainst.org/project/pergaltarbrowser"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_pergamon_altar_browser.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_pergamon_altar_browser.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The image browser of the Pergamon Altar combines photographic recording of the frieze with the implementation into the online database ARACHNE."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Pergamon Altar browser: Pergamon Museum Berlin"
+})
+id=id+2
+
+
+#idaibookbrowser
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "idaibookbrowser",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to iDAI.objects/Arachne",
+        url: "https://arachne.dainst.org/project/idaibookbrowser"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_idaiworldarchitecture_bookbrowser.jpg",
+      path: "priv/repo/idai_world_assets/images/content/how/idai_idaiworldarchitecture_bookbrowser.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "As a part of ARACHNE, iDAI.books offers digital versions of books on classical studies published between the 16th and 19th century. Next to making the single book pages available to research in a broader sense as digital scans, they are also characterized and contextualized as well as digitally preserved."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "iDAI.objects/bookbrowser"
+})
+id=id+2
+
+#traianssaeule
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "traianssaeule",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to Trajans Column browser",
+        url: "https://arachne.dainst.org/project/traianssaeule"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_trajans_column.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_trajans_column.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "By using a dedicated image browser, the Column of Trajan can now be researched in detail. Trajan’s Column is also contextualized to the entire contents of the Arachne."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Trajans Column browser"
+})
+id=id+2
+
+#arapacis
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "arapacis",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to Ara Pacis Browser",
+        url: "https://arachne.dainst.org/project/arapacis"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_ara_pacis.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_ara_pacis.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The Ara Pacis Browser gives the opportunity to browse all relief panels of the monument."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Ara Pacis Browser"
+})
+id=id+2
+
+#geo-maps-984
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "geo-maps-984",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to Al Idrisi - Archaeological Atlas of Algeria and Tunisia",
+        url: "https://geoserver.dainst.org/maps/984"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_space_time_al_idrisi.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/space-and-time/idai_space_time_al_idrisi.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Geoserver of Algeria and Tunisia that has been mapped within the project Al Idrisi as a combination of the Atlas archéologique de l'Algérie and the Atlas archéologique de la Tunesie."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Al Idrisi - Archaeological Atlas of Algeria and Tunisia"
+})
+id=id+2
+
+#geo-maps-981
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "geo-maps-981",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to Lead Ingots from Shipwrecks (Bizerte)",
+        url: "https://geoserver.dainst.org/maps/981"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_space_time_lead_ingots.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/space-and-time/idai_space_time_lead_ingots.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Geoserver showing lead ingots that come from shipwrecks from the western Mediterranean."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Lead Ingots from Shipwrecks (Bizerte)"
+})
+id=id+2
+
+#palmyra-gis
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "palmyra-gis",
+    external_links: [
+      %ExternalLink{
+        label: "External Link to Palmyra-GIS",
+        url: "https://arachne.dainst.org/project/palmyra-gis"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_space_time_palmyra_gis_video.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/space-and-time/idai_space_time_palmyra_gis_video.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "With the application Palmyra-GIS and the corresponding 3D print of the terrain model of the ancient Syrian city of ruins Palmyra, researchers want to contribute to the protection of the world heritage from the war in Syria."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Palmyra-GIS"
+})
+id=id+2
