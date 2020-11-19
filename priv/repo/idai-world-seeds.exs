@@ -1829,3 +1829,230 @@ Erga.Repo.insert!(%TranslatedContent{
   text: "Sculptures in the Antikensammlung, Berlin"
 })
 id=id+2
+
+#sammlakakunst
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "sammlakakunst",
+    external_links: [
+      %ExternalLink{
+        label: "Plaster Cast Collection, University Bonn",
+        url: "https://arachne.dainst.org/project/sammlakakunst"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_plaster_casts_bonn.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_plaster_casts_bonn.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The collection has been photographically documented and transferred into Arachne since 1998. That way the technical emphasis of the Archaeological Institutes of Cologne and Bonn can be brought closer together."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Plaster Cast Collection, University Bonn"
+})
+id=id+2
+
+#museomaff
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "museomaff",
+    external_links: [
+      %ExternalLink{
+        label: "Museo Maffeiano online-edition",
+        url: "https://arachne.dainst.org/project/museomaff"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_museo_maffeiano.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_museo_maffeiano.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Maffei published a book illustrating and describing various monuments in his collection, which is well suited for database-supported online-facsimile-edition. This online- aims to reflect a scientifically based preparation of the state of research."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Museo Maffeiano online-edition"
+})
+id=id+2
+
+#schlossfulda
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "schlossfulda",
+    external_links: [
+      %ExternalLink{
+        label: "Schloss Fasanerie (Adolphseck) near Fulda",
+        url: "https://arachne.dainst.org/project/schlossfulda"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_plaster_casts_fulda.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_plaster_casts_fulda.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "Among furniture, porcelain and paintings, Fasanerie Castle (Adolphseck) in Eichenzell near Fulda also features a collection of Greco-Roman sculpture, which was assembled by Landgrave Philipp of Hesse (1896-1980)."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Schloss Fasanerie (Adolphseck) near Fulda"
+})
+id=id+2
+
+#gipsleipzigsamml
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "gipsleipzigsamml",
+    external_links: [
+      %ExternalLink{
+        label: "Museum and Plaster Cast Collection, Leipzig",
+        url: "https://arachne.dainst.org/project/gipsleipzigsamml"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_plaster_casts_leipzig.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_plaster_casts_leipzig.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The Museum of Antiquities of the Leipzig University is an archaeological teaching collection that contains plaster casts and originals of ancient art from the Mediterranean area."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Museum and Plaster Cast Collection, Leipzig"
+})
+id=id+2
+
+#abguesseMuenchen
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "abguesseMuenchen",
+    external_links: [
+      %ExternalLink{
+        label: "Plaster cast collection, Munich, LMU",
+        url: "https://arachne.dainst.org/project/abguesseMuenchen"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_plaster_casts_munich.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_plaster_casts_munich.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The collection consists of more than 2000 casts and reproductions of sculptures, reliefs and small objects from Greek and Roman antiquity from the 7th century BC to the 5th century AD. The focus lies on Hellenistic sculpture and Roman portraits."
+})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Plaster cast collection, Munich, LMU"
+})
+id=id+2
+
+#villaWolkonsky
+project =
+  Erga.Repo.insert! %Project{
+    title_translation_target_id: id,
+    description_translation_target_id: (id+1),
+
+    project_code: "villaWolkonsky",
+    external_links: [
+      %ExternalLink{
+        label: "Villa Wolkonsky, antiquities collection, Rome",
+        url: "https://arachne.dainst.org/project/villaWolkonsky"
+      }
+    ]
+  }
+Erga.Research.create_image(
+  %{
+    "label" => "1",
+    "primary" => "true",
+    "project_code" => project.project_code,
+    "project_id" => project.id,
+    "upload" => %{
+      filename: "idai_objects_plaster_casts_villa_wolkonsky.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/objects/idai_objects_plaster_casts_villa_wolkonsky.jpg"
+    }
+  }
+)
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.description_translation_target_id,
+  language_code: "en",
+  text: "The Villa Wolkonsky houses about 430 Roman antiquities collected from the beginning of the 19th-century. The Arachne collection contains the photographic documentation that was produced during the restoration project, some photographs from the historic collection."})
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project.title_translation_target_id,
+  language_code: "en",
+  text: "Villa Wolkonsky, antiquities collection, Rome"
+})
+id=id+2
