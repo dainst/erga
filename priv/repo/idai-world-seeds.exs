@@ -1,6 +1,6 @@
 # Script for populating the database. You can run it as:
 #
-#     mix run priv/repo/seeds.exs
+#     mix run priv/repo/idai-world-seeds.exs
 #
 # Inside the script, you can read and write to any of your
 # repositories directly:
@@ -17,7 +17,6 @@ alias Erga.Staff.Person
 alias Erga.Research.Project
 alias Erga.Research.Stakeholder
 alias Erga.Research.TranslatedContent
-alias Erga.Accounts.User
 
 Erga.Repo.delete_all ExternalLink
 Erga.Repo.delete_all Image
@@ -26,7 +25,6 @@ Erga.Repo.delete_all Person
 Erga.Repo.delete_all Project
 Erga.Repo.delete_all Stakeholder
 Erga.Repo.delete_all TranslatedContent
-Erga.Repo.delete_all User
 
 title_id = 1
 description_id = title_id + 1
@@ -66,6 +64,7 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Berlin Head Office"
 })
+
 title_id=title_id+2
 description_id = title_id + 1
 
