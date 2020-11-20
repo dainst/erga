@@ -3,7 +3,9 @@
 <h1><%= get_translated_content(@project.titles) %></h1>
 
 <div class="box"><strong><%= @project.project_code %></strong>: <%= get_translated_content(@project.descriptions) %></div>
+<%= if @project.starts_at != nil and @project.ends_at != nil do %>
 <div class="box"><strong>Duration:</strong> <%= @project.starts_at %> to <%= @project.ends_at %></div>
+<% end %>
 <hr>
 <div class="box">
   <h2>Stakeholders</h2>
