@@ -11,16 +11,22 @@
 # and so on) as they will fail if something goes wrong.
 
 alias Erga.Research.ExternalLink
+alias Erga.Research.Image
 alias Erga.Research.LinkedResource
-alias Erga.Research.Stakeholder
+alias Erga.Staff.Person
 alias Erga.Research.Project
+alias Erga.Research.Stakeholder
 alias Erga.Research.TranslatedContent
+alias Erga.Accounts.User
 
+Erga.Repo.delete_all ExternalLink
+Erga.Repo.delete_all Image
+Erga.Repo.delete_all LinkedResource
+Erga.Repo.delete_all Person
 Erga.Repo.delete_all Project
 Erga.Repo.delete_all Stakeholder
-Erga.Repo.delete_all ExternalLink
-Erga.Repo.delete_all LinkedResource
 Erga.Repo.delete_all TranslatedContent
+Erga.Repo.delete_all User
 
 title_id = 1
 description_id = title_id + 1
