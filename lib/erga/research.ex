@@ -642,24 +642,12 @@ defmodule Erga.Research do
   def create_translated_content(attrs \\ %{}) do
     %TranslatedContent{}
     |> TranslatedContent.changeset(attrs)
-    |> set_translation_target_id()
     |> Repo.insert()
     |> update_translation_target(attrs)
   end
 
-  defp set_translation_target_id(%{changes: %{target_id: _target_id}} = translated_content) do
-    translated_content
-  end
-
-  defp set_translation_target_id(translated_content) do
-    %{target_id: highest_target_id } =
-      from(q in TranslatedContent, order_by: [desc: q.target_id],  limit: 1)
-      |> Repo.all()
-      |> List.first
-
-    translated_content
-    |> Ecto.Changeset.put_change(:target_id, highest_target_id + 1)
-    |> Ecto.Changeset.unique_constraint(:target_id)
+  defp update_translation_target({:error, changeset}, _attrs) do
+    {:error, changeset}
   end
 
   defp update_translation_target({:ok, translated_content}, attrs) do
@@ -690,6 +678,18 @@ defmodule Erga.Research do
       |> Repo.update()
 
       {:ok, translated_content }
+    else
+      translated_content
+      |> Repo.delete
+
+      changeset =
+        TranslatedContent.changeset(translated_content, %{})
+        |> Ecto.Changeset.add_error(
+            :target_field_not_found,
+            "Failed to set #{ attrs["target_field"]} in #{attrs["target_table"]}."
+          )
+
+      {:error, changeset}
     end
   end
 

@@ -15,6 +15,7 @@
       <%= label f, :language_code %>
       <%= select f, :language_code, @lang_codes %>
       <%= error_tag f, :language_code %>
+      <%= error_tag f, :only_one_translation_for_language %>
     </div>
     <div class="column">
       <%= label f, :text %>
