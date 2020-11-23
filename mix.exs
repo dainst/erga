@@ -20,7 +20,12 @@ defmodule Erga.MixProject do
   def application do
     [
       mod: {Erga.Application, []},
-      extra_applications: [:logger, :runtime_tools, :httpoison]
+      extra_applications: [
+        :logger,
+        :runtime_tools,
+        :httpoison,
+        :os_mon
+      ]
     ]
   end
 
