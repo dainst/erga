@@ -26,6 +26,7 @@ defmodule ErgaWeb.TranslatedContentController do
   def edit(conn, %{ "id" => id } = params) do
     translated_content = Research.get_translated_content!(id)
     changeset = Research.change_translated_content(translated_content)
+
     render(
       conn,
       "edit.html",
