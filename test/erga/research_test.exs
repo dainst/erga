@@ -347,14 +347,12 @@ defmodule Erga.ResearchTest do
       assert translated_content.language_code == "DE"
     end
 
-    # see SD-869
-    #
-    # test "create_translated_content/1 with invalid data returns error changeset", %{project: proj}  do
-    #   assert {:error, %Ecto.Changeset{}} =
-    #     %{"target_table_primary_key" => proj.id, "target_field" => "title_translation_target_id", "target_table" => "projects"}
-    #     |> Enum.into(@invalid_attrs)
-    #     |> Research.create_translated_content
-    # end
+    test "create_translated_content/1 with invalid data returns error changeset", %{project: proj}  do
+      assert {:error, %Ecto.Changeset{}} =
+        %{"target_table_primary_key" => proj.id, "target_field" => "title_translation_target_id", "target_table" => "projects"}
+        |> Enum.into(@invalid_attrs)
+        |> Research.create_translated_content
+    end
 
     test "update_translated_content/2 with valid data updates the translated_content", %{project: proj}  do
       translated_content = translated_content_fixture(%{"target_table_primary_key" => proj.id, "target_field" => "title_translation_target_id", "target_table" => "projects"})
