@@ -57,6 +57,7 @@ defmodule Erga.MixProject do
       {:sparql_client, "~> 0.2.1"},
       {:hackney, "~> 1.6"},
       {:zarex, "~> 1.0"},
+      {:ecto_psql_extras, "~> 0.2"},
       {:pow, "~> 1.0.21"}
     ]
   end

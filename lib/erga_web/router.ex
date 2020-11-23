@@ -75,7 +75,11 @@ defmodule ErgaWeb.Router do
 
     scope "/" do
       pipe_through(:browser)
-      live_dashboard("/dashboard", metrics: ErgaWeb.Telemetry)
+      live_dashboard(
+        "/dashboard",
+        metrics: ErgaWeb.Telemetry,
+        ecto_repos: [Erga.Repo]
+      )
     end
   end
 end
