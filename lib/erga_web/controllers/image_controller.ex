@@ -23,7 +23,7 @@ defmodule ErgaWeb.ImageController do
         |> redirect(to: Routes.project_path(conn, :edit, image.project_id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, project_id: project.id)
     end
   end
 

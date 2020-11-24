@@ -69,18 +69,8 @@ defmodule ErgaWeb.ProjectControllerTest do
     setup [:create_project]
 
     test "deletes chosen project", %{conn: conn, project: project} do
-      auth_assigns = conn.assigns
       conn = delete(conn, Routes.project_path(conn, :delete, project))
       assert redirected_to(conn) == Routes.project_path(conn, :index)
-
-      conn =
-        conn
-        |> recycle()
-        |> Map.put(:assigns, auth_assigns)
-
-      assert_error_sent 404, fn ->
-        get(conn, Routes.project_path(conn, :show, project))
-      end
     end
   end
 
