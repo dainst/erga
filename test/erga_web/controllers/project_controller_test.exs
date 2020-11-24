@@ -3,9 +3,9 @@ defmodule ErgaWeb.ProjectControllerTest do
 
   alias Erga.Research
 
-  @create_attrs %{description: "some description", project_id: "some project_id", title: "some title"}
-  @update_attrs %{description: "some updated description", project_id: "some updated project_id", title: "some updated title"}
-  @invalid_attrs %{description: nil, project_id: nil, title: nil}
+  @create_attrs %{"project_code" => "some project_id"}
+  @update_attrs %{"project_code" => "some updated project_id"}
+  @invalid_attrs %{"project_code" => nil}
 
   def fixture(:project) do
     {:ok, project} = Research.create_project(@create_attrs)
@@ -31,10 +31,8 @@ defmodule ErgaWeb.ProjectControllerTest do
       conn = post(conn, Routes.project_path(conn, :create), project: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.project_path(conn, :show, id)
+      assert redirected_to(conn) == Routes.project_path(conn, :edit, id)
 
-      conn = get(conn, Routes.project_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Project"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -59,8 +57,6 @@ defmodule ErgaWeb.ProjectControllerTest do
       conn = put(conn, Routes.project_path(conn, :update, project), project: @update_attrs)
       assert redirected_to(conn) == Routes.project_path(conn, :show, project)
 
-      conn = get(conn, Routes.project_path(conn, :show, project))
-      assert html_response(conn, 200) =~ "some updated description"
     end
 
     test "renders errors when data is invalid", %{conn: conn, project: project} do
@@ -73,8 +69,15 @@ defmodule ErgaWeb.ProjectControllerTest do
     setup [:create_project]
 
     test "deletes chosen project", %{conn: conn, project: project} do
+      auth_assigns = conn.assigns
       conn = delete(conn, Routes.project_path(conn, :delete, project))
       assert redirected_to(conn) == Routes.project_path(conn, :index)
+
+      conn =
+        conn
+        |> recycle()
+        |> Map.put(:assigns, auth_assigns)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.project_path(conn, :show, project))
       end
