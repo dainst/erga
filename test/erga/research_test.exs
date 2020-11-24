@@ -2,6 +2,7 @@ defmodule Erga.ResearchTest do
   use Erga.DataCase
 
   alias Erga.Research
+  alias Erga.Staff
 
   defp create_project(_) do
     {:ok, proj} = Research.create_project(%{
@@ -11,6 +12,15 @@ defmodule Erga.ResearchTest do
       title_translation_target_id: 1,
     })
     %{project: proj}
+  end
+
+  defp create_person(_) do
+    {:ok, pers} = Staff.create_person( %{
+      firstname: "some firstname",
+      lastname: "some lastname",
+      title: "some title"
+    })
+    %{person: pers}
   end
 
   describe "projects" do
@@ -165,12 +175,12 @@ defmodule Erga.ResearchTest do
   end
 
   describe "stakeholders" do
-    setup [:create_project]
+    setup [:create_project, :create_person]
 
     alias Erga.Research.Stakeholder
 
-    @valid_attrs %{"person_id" => 1,  "role" => "some role", "external_id" => "some stakeholder_id"}
-    @update_attrs %{"person_id" =>  2,  "role" => "some updated role", "external_id" => "some updated stakeholder_id"}
+    @valid_attrs %{ "role" => "some role", "external_id" => "some stakeholder_id"}
+    @update_attrs %{  "role" => "some updated role", "external_id" => "some updated stakeholder_id"}
     @invalid_attrs %{"person_id" => nil, "project_id" => nil, "role" => nil, "external_id" => nil}
 
     def stakeholder_fixture(attrs \\ %{}) do
@@ -188,52 +198,52 @@ defmodule Erga.ResearchTest do
     #   assert Research.list_stakeholders() == [stakeholder]
     # end
 
-    test "get_stakeholder!/1 returns the stakeholder with given id", %{project: proj} do
-      stakeholder = stakeholder_fixture(%{"project_id" => proj.id})
+    test "get_stakeholder!/1 returns the stakeholder with given id", %{project: proj, person: pers} do
+      stakeholder = stakeholder_fixture(%{"project_id" => proj.id, "person_id" => pers.id})
       assert Research.get_stakeholder!(stakeholder.id) == stakeholder
     end
 
-    test "create_stakeholder/1 with valid data creates a stakeholder", %{project: proj} do
+    test "create_stakeholder/1 with valid data creates a stakeholder", %{project: proj, person: pers} do
       assert {:ok, %Stakeholder{} = stakeholder} =
-        %{"project_id" => proj.id}
+        %{"project_id" => proj.id, "person_id" => pers.id}
         |> Enum.into(@valid_attrs)
         |> Research.create_stakeholder()
-      assert stakeholder.person_id == 1
+      assert stakeholder.person_id == pers.id
       assert stakeholder.project_id == proj.id
       assert stakeholder.role == "some role"
       assert stakeholder.external_id == "some stakeholder_id"
     end
 
-    test "create_stakeholder/1 with invalid data returns error changeset", %{project: proj}  do
+    test "create_stakeholder/1 with invalid data returns error changeset", %{project: proj, person: pers}  do
       assert {:error, %Ecto.Changeset{}} =
-        %{"project_id" => proj.id}
+        %{"project_id" => proj.id, "person_id" => pers.id}
         |> Enum.into(@invalid_attrs)
         |> Research.create_stakeholder()
     end
 
-    test "update_stakeholder/2 with valid data updates the stakeholder", %{project: proj} do
-      stakeholder = stakeholder_fixture(%{"project_id" => proj.id})
+    test "update_stakeholder/2 with valid data updates the stakeholder", %{project: proj, person: pers} do
+      stakeholder = stakeholder_fixture(%{"project_id" => proj.id, "person_id" => pers.id})
       assert {:ok, %Stakeholder{} = stakeholder} = Research.update_stakeholder(stakeholder, @update_attrs)
-      assert stakeholder.person_id == 2
+      assert stakeholder.person_id == pers.id
       assert stakeholder.project_id == proj.id
       assert stakeholder.role == "some updated role"
       assert stakeholder.external_id == "some updated stakeholder_id"
     end
 
-    test "update_stakeholder/2 with invalid data returns error changeset", %{project: proj} do
-      stakeholder = stakeholder_fixture(%{"project_id" => proj.id})
+    test "update_stakeholder/2 with invalid data returns error changeset", %{project: proj, person: pers} do
+      stakeholder = stakeholder_fixture(%{"project_id" => proj.id, "person_id" => pers.id})
       assert {:error, %Ecto.Changeset{}} = Research.update_stakeholder(stakeholder, @invalid_attrs)
       assert stakeholder == Research.get_stakeholder!(stakeholder.id)
     end
 
-    test "delete_stakeholder/1 deletes the stakeholder", %{project: proj} do
-      stakeholder = stakeholder_fixture(%{"project_id" => proj.id})
+    test "delete_stakeholder/1 deletes the stakeholder", %{project: proj, person: pers} do
+      stakeholder = stakeholder_fixture(%{"project_id" => proj.id, "person_id" => pers.id})
       assert {:ok, %Stakeholder{}} = Research.delete_stakeholder(stakeholder)
       assert_raise Ecto.NoResultsError, fn -> Research.get_stakeholder!(stakeholder.id) end
     end
 
-    test "change_stakeholder/1 returns a stakeholder changeset", %{project: proj} do
-      stakeholder = stakeholder_fixture(%{"project_id" => proj.id})
+    test "change_stakeholder/1 returns a stakeholder changeset", %{project: proj, person: pers} do
+      stakeholder = stakeholder_fixture(%{"project_id" => proj.id, "person_id" => pers.id})
       assert %Ecto.Changeset{} = Research.change_stakeholder(stakeholder)
     end
   end
