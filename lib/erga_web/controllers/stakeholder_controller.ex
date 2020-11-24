@@ -14,6 +14,7 @@ defmodule ErgaWeb.StakeholderController do
     render(conn, "new.html", changeset: changeset, persons: persons, project_id: project_id)
   end
 
+  @spec create(Plug.Conn.t(), map) :: Plug.Conn.t()
   def create(conn, %{"stakeholder" => stakeholder_params}) do
     case Research.create_stakeholder(stakeholder_params) do
       {:ok, stakeholder} ->
@@ -22,7 +23,8 @@ defmodule ErgaWeb.StakeholderController do
         |> redirect(to: Routes.project_path(conn, :edit, stakeholder.project_id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        persons = Staff.list_persons()
+        render(conn, "new.html", changeset: changeset, persons: persons, project_id: stakeholder_params["project_id"])
     end
   end
 
@@ -43,7 +45,8 @@ defmodule ErgaWeb.StakeholderController do
         |> redirect(to: Routes.project_path(conn, :edit, stakeholder.project_id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", stakeholder: stakeholder, changeset: changeset)
+        persons = Staff.list_persons()
+        render(conn, "edit.html", stakeholder: stakeholder, changeset: changeset, persons: persons)
     end
   end
 
