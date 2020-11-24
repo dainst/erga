@@ -192,11 +192,10 @@ defmodule Erga.ResearchTest do
       Research.get_stakeholder!(stakeholder.id)
     end
 
-    # test "list_stakeholders/0 returns all stakeholders", %{project: proj} do
-    #   stakeholder = stakeholder_fixture(%{"project_id" => proj.id})
-    #
-    #   assert Research.list_stakeholders() == [stakeholder]
-    # end
+    test "list_stakeholders/0 returns all stakeholders", %{project: proj} do
+      stakeholder = stakeholder_fixture(%{"project_id" => proj.id})
+      assert Research.list_stakeholders() == [stakeholder]
+    end
 
     test "get_stakeholder!/1 returns the stakeholder with given id", %{project: proj, person: pers} do
       stakeholder = stakeholder_fixture(%{"project_id" => proj.id, "person_id" => pers.id})
