@@ -1,4 +1,4 @@
-defmodule ErgaWeb.ErrorViewTest do
+defmodule ErgaWeb.ProjectViewTest do
   use ErgaWeb.ConnCase, async: true
 
   alias ErgaWeb.ProjectView
