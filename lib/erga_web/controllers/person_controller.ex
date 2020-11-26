@@ -22,7 +22,7 @@ defmodule ErgaWeb.PersonController do
         |> redirect(to: redirect)
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, redirect: redirect)
     end
   end
 
@@ -39,10 +39,10 @@ defmodule ErgaWeb.PersonController do
       {:ok, _person} ->
         conn
         |> put_flash(:info, "Person updated successfully.")
-        |> redirect(to: Routes.person_path(conn, :index, redirect: redirect))
+        |> redirect(to: redirect)
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", person: person, changeset: changeset)
+        render(conn, "edit.html", person: person, changeset: changeset, redirect: redirect)
     end
   end
 
@@ -52,6 +52,6 @@ defmodule ErgaWeb.PersonController do
 
     conn
     |> put_flash(:info, "Person deleted successfully.")
-    |> redirect(to: Routes.person_path(conn, :index, redirect: redirect))
+    |> redirect(to: redirect)
   end
 end
