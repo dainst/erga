@@ -3,9 +3,9 @@ defmodule ErgaWeb.LinkedResourceControllerTest do
 
   alias Erga.Research
 
-  @create_attrs %{context: 42, label: 42, linked_id: "some linked_id", linked_system: "some linked_system", project_id: 42}
-  @update_attrs %{context: 43, label: 43, linked_id: "some updated linked_id", linked_system: "some updated linked_system", project_id: 43}
-  @invalid_attrs %{context: nil, label: nil, linked_id: nil, linked_system: nil, project_id: nil}
+  @create_attrs %{context: 42, label: 42, uri: "some uri", linked_system: "some linked_system", project_id: 42}
+  @update_attrs %{context: 43, label: 43, uri: "some updated uri", linked_system: "some updated linked_system", project_id: 43}
+  @invalid_attrs %{context: nil, label: nil, uri: nil, linked_system: nil, project_id: nil}
 
   def fixture(:linked_resource) do
     {:ok, linked_resource} = Research.create_linked_resource(@create_attrs)
@@ -60,7 +60,7 @@ defmodule ErgaWeb.LinkedResourceControllerTest do
       assert redirected_to(conn) == Routes.linked_resource_path(conn, :show, linked_resource)
 
       conn = get(conn, Routes.linked_resource_path(conn, :show, linked_resource))
-      assert html_response(conn, 200) =~ "some updated linked_id"
+      assert html_response(conn, 200) =~ "some updated uri"
     end
 
     test "renders errors when data is invalid", %{conn: conn, linked_resource: linked_resource} do

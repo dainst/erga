@@ -4,7 +4,7 @@ defmodule ErgaWeb.Api.LinkedResourceView do
   def render("linked_resource.json", %{linked_resource: lr}) do
     %{
       linked_system: lr.linked_system,
-      linked_id: lr.linked_id,
+      uri: lr.uri,
       label: lr.label,
       description: lr.description
     }

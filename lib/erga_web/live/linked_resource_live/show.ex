@@ -27,9 +27,9 @@ defmodule ErgaWeb.LinkedResourceLive.Show do
 
   end
 
-  def get_resource_name(%{resId: resId, system_name: system_name}) do
+  def get_resource_name(%{res_id: res_id, system_name: system_name}) do
     system_service = ServiceHelpers.get_system_service(system_name)
-    case system_service.get_by_id(resId) do
+    case system_service.get_by_id(res_id) do
       {:ok, item} -> item.name
       {:error, reason} -> reason
     end

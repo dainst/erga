@@ -51,7 +51,10 @@ defmodule ThesaurusService do
           |> RDF.Turtle.read_string!
           |> SPARQL.execute_query(@query_label)
 
-        item = List.first(for n <- items, do: %{name: RDF.Literal.value(n["label"]), resId: id})
+        item = List.first(
+          for n <- items do
+            %{name: RDF.Literal.value(n["label"]), res_id: id, uri: id}
+          end)
 
         {:ok, item}
       {:error, reason} ->
@@ -65,10 +68,17 @@ defmodule ThesaurusService do
   end
 
   defp get_values(n) do
+    IO.inspect n
     name = RDF.Literal.value(n["label"])
-    link = RDF.IRI.parse(n["link"])
-          |> URI.parse
-    %{name: name , resId: link.path }
+    link =
+      RDF.IRI.parse(n["link"])
+      |> URI.parse
+
+    %{
+      name: name ,
+      res_id: link.path,
+      uri: RDF.IRI.to_string(n["link"])
+     }
   end
 
 

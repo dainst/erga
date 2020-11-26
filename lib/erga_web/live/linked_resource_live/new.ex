@@ -17,7 +17,7 @@ defmodule ErgaWeb.LinkedResourceLive.New do
       |> assign(changeset: changeset)
       |> assign(:linked_system, "gazetteer")
       |> assign(:label, "")
-      |> assign(:linked_id, "")
+      |> assign(:uri, "")
       |> assign(:search_result, [])
       |> assign(:search_string, "")
       |> assign(:search_filter, "populated-place")

@@ -22,7 +22,7 @@ defmodule ErgaWeb.LinkedResourceLive.Edit do
       |> assign(changeset: changeset)
       |> assign(:linked_system, linked_resource.linked_system)
       |> assign(:label, linked_resource.label)
-      |> assign(:linked_id, linked_resource.linked_id)
+      |> assign(:uri, linked_resource.uri)
       |> assign(:search_string, "")
       |> assign(:search_filter, "populated-place")
 

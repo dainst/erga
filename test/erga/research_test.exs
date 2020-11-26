@@ -69,9 +69,9 @@ defmodule Erga.ResearchTest do
   describe "linked_resources" do
     alias Erga.Research.LinkedResource
 
-    @valid_attrs %{context: 42, label: 42, linked_id: "some linked_id", linked_system: "some linked_system", project_id: 42}
-    @update_attrs %{context: 43, label: 43, linked_id: "some updated linked_id", linked_system: "some updated linked_system", project_id: 43}
-    @invalid_attrs %{context: nil, label: nil, linked_id: nil, linked_system: nil, project_id: nil}
+    @valid_attrs %{context: 42, label: 42, uri: "some uri", linked_system: "some linked_system", project_id: 42}
+    @update_attrs %{context: 43, label: 43, uri: "some updated uri", linked_system: "some updated linked_system", project_id: 43}
+    @invalid_attrs %{context: nil, label: nil, uri: nil, linked_system: nil, project_id: nil}
 
     def linked_resource_fixture(attrs \\ %{}) do
       {:ok, linked_resource} =
@@ -96,7 +96,7 @@ defmodule Erga.ResearchTest do
       assert {:ok, %LinkedResource{} = linked_resource} = Research.create_linked_resource(@valid_attrs)
       assert linked_resource.context == 42
       assert linked_resource.label == 42
-      assert linked_resource.linked_id == "some linked_id"
+      assert linked_resource.uri == "some uri"
       assert linked_resource.linked_system == "some linked_system"
       assert linked_resource.project_id == 42
     end
@@ -110,7 +110,7 @@ defmodule Erga.ResearchTest do
       assert {:ok, %LinkedResource{} = linked_resource} = Research.update_linked_resource(linked_resource, @update_attrs)
       assert linked_resource.context == 43
       assert linked_resource.label == 43
-      assert linked_resource.linked_id == "some updated linked_id"
+      assert linked_resource.uri == "some updated uri"
       assert linked_resource.linked_system == "some updated linked_system"
       assert linked_resource.project_id == 43
     end

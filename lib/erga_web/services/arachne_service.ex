@@ -29,8 +29,12 @@ defmodule ArachneService do
   def get_result_list(res) do
     if is_list(res) do
       for  n <- res do
-        name =  n["type"] <> ": " <> n["title"]
-        %{name: name, resId: n["entityId"]}
+        name =  "#{n["type"]}: #{n["title"]}"
+        %{
+          name: name,
+          res_id: n["entityId"],
+          uri: n["@id"]
+        }
       end
     else
       []
