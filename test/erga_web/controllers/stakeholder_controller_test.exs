@@ -3,42 +3,46 @@ defmodule ErgaWeb.StakeholderControllerTest do
 
   alias Erga.Research
 
-  @create_attrs %{label: "some label", project_id: 42, role: "some role", stakeholder_id: "some stakeholder_id", type: "some type"}
-  @update_attrs %{label: "some updated label", project_id: 43, role: "some updated role", stakeholder_id: "some updated stakeholder_id", type: "some updated type"}
-  @invalid_attrs %{label: nil, project_id: nil, role: nil, stakeholder_id: nil, type: nil}
+  @create_attrs %{"role" =>"some role", "external_id" => "some stakeholder_id"}
+  @update_attrs %{"role" => "some updated role", "external_id" => "some updated stakeholder_id"}
+  @invalid_attrs %{"role" => nil, "external_id" => nil }
 
-  def fixture(:stakeholder) do
-    {:ok, stakeholder} = Research.create_stakeholder(@create_attrs)
-    stakeholder
+  def make_params( attrs ) do
+    {:ok, proj} = create_project()
+    attrs = attrs
+      |> Enum.into(%{"project_id" => proj.id})
+    %{"stakeholder" => attrs}
   end
 
-  describe "index" do
-    test "lists all stakeholders", %{conn: conn} do
-      conn = get(conn, Routes.stakeholder_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Stakeholders"
-    end
+  def fixture(:stakeholder, proj) do
+    attrs =
+      @create_attrs
+      |> Enum.into(%{"project_id" => proj.id})
+    {:ok, stakeholder} = Research.create_stakeholder(attrs)
+    stakeholder
   end
 
   describe "new stakeholder" do
     test "renders form", %{conn: conn} do
-      conn = get(conn, Routes.stakeholder_path(conn, :new))
+      {:ok, proj} = create_project()
+      conn = get(conn, Routes.stakeholder_path(conn, :new, %{"project_id" => proj.id}))
       assert html_response(conn, 200) =~ "New Stakeholder"
     end
   end
 
   describe "create stakeholder" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.stakeholder_path(conn, :create), stakeholder: @create_attrs)
+      params = make_params(@create_attrs)
+      conn = post(conn, Routes.stakeholder_path(conn, :create), params)
 
       assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.stakeholder_path(conn, :show, id)
+      assert redirected_to(conn) == Routes.project_path(conn, :edit, params["stakeholder"]["project_id"])
 
-      conn = get(conn, Routes.stakeholder_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Stakeholder"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.stakeholder_path(conn, :create), stakeholder: @invalid_attrs)
+      params = make_params(@invalid_attrs)
+      conn = post(conn, Routes.stakeholder_path(conn, :create), params)
       assert html_response(conn, 200) =~ "New Stakeholder"
     end
   end
@@ -57,14 +61,13 @@ defmodule ErgaWeb.StakeholderControllerTest do
 
     test "redirects when data is valid", %{conn: conn, stakeholder: stakeholder} do
       conn = put(conn, Routes.stakeholder_path(conn, :update, stakeholder), stakeholder: @update_attrs)
-      assert redirected_to(conn) == Routes.stakeholder_path(conn, :show, stakeholder)
+      assert redirected_to(conn) == Routes.project_path(conn, :edit, stakeholder.project_id)
 
-      conn = get(conn, Routes.stakeholder_path(conn, :show, stakeholder))
-      assert html_response(conn, 200) =~ "some updated label"
     end
 
     test "renders errors when data is invalid", %{conn: conn, stakeholder: stakeholder} do
-      conn = put(conn, Routes.stakeholder_path(conn, :update, stakeholder), stakeholder: @invalid_attrs)
+      params = make_params(@invalid_attrs)
+      conn = put(conn, Routes.stakeholder_path(conn, :update, stakeholder), params)
       assert html_response(conn, 200) =~ "Edit Stakeholder"
     end
   end
@@ -74,15 +77,30 @@ defmodule ErgaWeb.StakeholderControllerTest do
 
     test "deletes chosen stakeholder", %{conn: conn, stakeholder: stakeholder} do
       conn = delete(conn, Routes.stakeholder_path(conn, :delete, stakeholder))
-      assert redirected_to(conn) == Routes.stakeholder_path(conn, :index)
-      assert_error_sent 404, fn ->
-        get(conn, Routes.stakeholder_path(conn, :show, stakeholder))
-      end
+      assert redirected_to(conn) == Routes.project_path(conn, :edit, stakeholder.project_id)
     end
   end
 
   defp create_stakeholder(_) do
-    stakeholder = fixture(:stakeholder)
+    {:ok, proj} = create_project()
+    stakeholder = fixture(:stakeholder, proj)
     %{stakeholder: stakeholder}
+  end
+
+  defp create_project() do
+    proj =
+      try do
+        Research.get_project_by_code!("Test001")
+      rescue
+        Ecto.NoResultsError ->
+          {:ok, proj} = Research.create_project(%{
+            project_code: "Test001",
+            starts_at: ~D[2019-01-10],
+            ends_at: ~D[2023-10-10],
+            title_translation_target_id: 1,
+          })
+          proj
+      end
+    {:ok, proj}
   end
 end

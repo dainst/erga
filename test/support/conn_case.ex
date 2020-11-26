@@ -1,4 +1,5 @@
 defmodule ErgaWeb.ConnCase do
+  alias Erga.Accounts.User
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -31,13 +32,28 @@ defmodule ErgaWeb.ConnCase do
     end
   end
 
+  @doc """
+  Authentify the test user for tests
+
+  Necessary addition for preventing the login to interfere with the tests
+  """
+  defp auth_user(conn) do
+    user = %User{
+      email: "admin",
+      password_hash: Pow.Ecto.Schema.Password.pbkdf2_hash("erga123!")
+    }
+    conn = Pow.Plug.assign_current_user(conn, user, otp_app: :my_app)
+    %{conn: conn}
+  end
+
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Erga.Repo)
 
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(Erga.Repo, {:shared, self()})
     end
+    conn = Phoenix.ConnTest.build_conn()
 
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    {:ok, auth_user(conn) }
   end
 end

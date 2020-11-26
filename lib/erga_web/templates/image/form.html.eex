@@ -15,9 +15,11 @@
   <%= checkbox(f, :primary) %>
   <%= error_tag f, :primary %>
 
-
   <%= if assigns[:image] && @image.path do %>
+  <div>
+    <label>Image</label>
     <%= img_tag("/media/#{@image.path}", class: "image") %>
+    </div>
   <% else %>
   <div class="form-group">
     <label>Upload</label>

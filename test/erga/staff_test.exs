@@ -43,7 +43,6 @@ defmodule Erga.StaffTest do
       person_loaded =
         Staff.get_person!(person.id)
         |> without_associations
-
       assert person == person_loaded
     end
 

@@ -78,6 +78,16 @@ defmodule Erga.Research do
     |> Repo.preload(:descriptions)
   end
 
+  def get_project_by_code(code) do
+    Repo.one(from(p in Project, where: p.project_code == ^code))
+    |> Repo.preload(stakeholders: :person)
+    |> Repo.preload(:linked_resources)
+    |> Repo.preload(:external_links)
+    |> Repo.preload(:images)
+    |> Repo.preload(:titles)
+    |> Repo.preload(:descriptions)
+  end
+
   @spec get_project_code(any) :: {:error, <<_::104>>} | {:ok, any}
   def get_project_code(id) do
     try do
@@ -198,6 +208,7 @@ defmodule Erga.Research do
   """
   def list_linked_resources do
     Repo.all(LinkedResource)
+    |> Repo.preload(:project)
   end
 
   @doc """
@@ -214,7 +225,10 @@ defmodule Erga.Research do
       ** (Ecto.NoResultsError)
 
   """
-  def get_linked_resource!(id), do: Repo.get!(LinkedResource, id)
+  def get_linked_resource!(id) do
+    Repo.get!(LinkedResource, id)
+    |> Repo.preload(:project)
+  end
 
   @doc """
   Creates a linked_resource.
@@ -642,24 +656,12 @@ defmodule Erga.Research do
   def create_translated_content(attrs \\ %{}) do
     %TranslatedContent{}
     |> TranslatedContent.changeset(attrs)
-    |> set_translation_target_id()
     |> Repo.insert()
     |> update_translation_target(attrs)
   end
 
-  defp set_translation_target_id(%{changes: %{target_id: _target_id}} = translated_content) do
-    translated_content
-  end
-
-  defp set_translation_target_id(translated_content) do
-    %{target_id: highest_target_id } =
-      from(q in TranslatedContent, order_by: [desc: q.target_id],  limit: 1)
-      |> Repo.all()
-      |> List.first
-
-    translated_content
-    |> Ecto.Changeset.put_change(:target_id, highest_target_id + 1)
-    |> Ecto.Changeset.unique_constraint(:target_id)
+  defp update_translation_target({:error, changeset}, _attrs) do
+    {:error, changeset}
   end
 
   defp update_translation_target({:ok, translated_content}, attrs) do
@@ -690,6 +692,18 @@ defmodule Erga.Research do
       |> Repo.update()
 
       {:ok, translated_content }
+    else
+      translated_content
+      |> Repo.delete
+
+      changeset =
+        TranslatedContent.changeset(translated_content, %{})
+        |> Ecto.Changeset.add_error(
+            :target_field_not_found,
+            "Failed to set #{ attrs["target_field"]} in #{attrs["target_table"]}."
+          )
+
+      {:error, changeset}
     end
   end
 
