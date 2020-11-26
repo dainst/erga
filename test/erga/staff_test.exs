@@ -6,9 +6,13 @@ defmodule Erga.StaffTest do
   describe "persons" do
     alias Erga.Staff.Person
 
-    @valid_attrs %{firstname: "some first_name", lastname: "some lastname", title: "some title"}
-    @update_attrs %{firstname: "some updated first_name", lastname: "some updated lastname", title: "some updated title"}
+    @valid_attrs %{firstname: "some firstname", lastname: "some lastname", title: "some title"}
+    @update_attrs %{firstname: "some updated firstname", lastname: "some updated lastname", title: "some updated title"}
     @invalid_attrs %{firstname: nil, lastname: nil, title: nil}
+
+    defp without_associations(person) do
+      Map.delete(person, :stakeholders)
+    end
 
     def person_fixture(attrs \\ %{}) do
       {:ok, person} =
@@ -20,13 +24,27 @@ defmodule Erga.StaffTest do
     end
 
     test "list_persons/0 returns all persons" do
-      person = person_fixture()
-      assert Staff.list_persons() == [person]
+      person =
+        person_fixture()
+        |> without_associations
+
+      person_list =
+        Staff.list_persons()
+        |> Enum.map(&without_associations/1)
+
+      assert person_list == [person]
     end
 
     test "get_person!/1 returns the person with given id" do
-      person = person_fixture()
-      assert Staff.get_person!(person.id) == person
+      person =
+        person_fixture()
+        |> without_associations
+
+      person_loaded =
+        Staff.get_person!(person.id)
+        |> without_associations
+
+      assert person == person_loaded
     end
 
     test "create_person/1 with valid data creates a person" do
@@ -49,9 +67,17 @@ defmodule Erga.StaffTest do
     end
 
     test "update_person/2 with invalid data returns error changeset" do
-      person = person_fixture()
+      person =
+        person_fixture()
+        |> without_associations
+
       assert {:error, %Ecto.Changeset{}} = Staff.update_person(person, @invalid_attrs)
-      assert person == Staff.get_person!(person.id)
+
+      person_loaded =
+        Staff.get_person!(person.id)
+        |> without_associations
+
+      assert person == person_loaded
     end
 
     test "delete_person/1 deletes the person" do
