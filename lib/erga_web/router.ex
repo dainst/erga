@@ -32,15 +32,13 @@ defmodule ErgaWeb.Router do
     pipe_through [:browser, :protected]
 
     get("/", ProjectController, :index)
+
     resources("/projects", ProjectController)
-
-    resources("/stakeholders", StakeholderController, only: [:create, :delete, :edit,  :new, :update])
-
-    resources("/external_links", ExternalLinkController, only: [:create, :delete, :edit, :new, :update])
-
-    resources("/images", ImageController, only: [:create, :delete, :edit, :new, :update])
-
-    resources("/translated_contents", TranslatedContentController, only: [:create, :delete, :edit, :new, :update])
+    resources("/person", PersonController,                          only: [:create, :delete, :edit, :new, :update, :index])
+    resources("/stakeholders", StakeholderController,               only: [:create, :delete, :edit, :new, :update])
+    resources("/external_links", ExternalLinkController,            only: [:create, :delete, :edit, :new, :update])
+    resources("/images", ImageController,                           only: [:create, :delete, :edit, :new, :update])
+    resources("/translated_contents", TranslatedContentController,  only: [:create, :delete, :edit, :new, :update])
 
     resources("/linked_resource", LinkedResourceController, only: [ :delete ])
 
@@ -49,11 +47,6 @@ defmodule ErgaWeb.Router do
     live "/linked_resources/new/:project_id", LinkedResourceLive.New
     live "/linked_resources/:id/edit", LinkedResourceLive.Edit
     #live "/linked_resources/:id/delete", LinkedResourceLive.Index, :delete
-
-    live "/persons", PersonLive.Index, :index
-    live "/persons/new", PersonLive.Index, :new
-    live "/persons/:id", PersonLive.Show, :show
-    live "/persons/:id/edit", PersonLive.Index, :edit
 
   end
 

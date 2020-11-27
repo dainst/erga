@@ -32,7 +32,7 @@ defmodule ErgaWeb.StakeholderController do
     stakeholder = Research.get_stakeholder!(id)
     changeset = Research.change_stakeholder(stakeholder)
     persons = Staff.list_persons()
-    render(conn, "edit.html", stakeholder: stakeholder, changeset: changeset, persons: persons)
+    render(conn, "edit.html", stakeholder: stakeholder, changeset: changeset, persons: persons, project_id: stakeholder.project_id)
   end
 
   def update(conn, %{"id" => id, "stakeholder" => stakeholder_params}) do

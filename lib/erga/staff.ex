@@ -20,7 +20,7 @@ defmodule Erga.Staff do
   """
   def list_persons do
     Repo.all(Person)
-    |> Repo.preload(:stakeholders)
+    |> Repo.preload(stakeholders: [:project])
   end
 
   @doc """
