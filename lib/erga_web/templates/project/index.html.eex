@@ -15,7 +15,7 @@
     <tr>
       <td><%= project.project_code %></td>
       <td><%= get_translated_content(project.titles) %></td>
-      <td><%= get_translated_content(project.titles) %></td>
+      <td><%= get_translated_content(project.descriptions) %></td>
 
       <td>
         <span><%= link "Show", to: Routes.project_path(@conn, :show, project) %></span>

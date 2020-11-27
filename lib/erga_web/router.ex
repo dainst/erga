@@ -61,6 +61,7 @@ defmodule ErgaWeb.Router do
   scope "/api", ErgaWeb.Api, as: :api do
     pipe_through(:api)
 
+    get("projects/code/:code", ProjectController, :show)
     resources("/projects", ProjectController, only: [:show, :index])
   end
 
@@ -76,7 +77,11 @@ defmodule ErgaWeb.Router do
 
     scope "/" do
       pipe_through(:browser)
-      live_dashboard("/dashboard", metrics: ErgaWeb.Telemetry)
+      live_dashboard(
+        "/dashboard",
+        metrics: ErgaWeb.Telemetry,
+        ecto_repos: [Erga.Repo]
+      )
     end
   end
 end

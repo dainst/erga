@@ -20,7 +20,12 @@ defmodule Erga.MixProject do
   def application do
     [
       mod: {Erga.Application, []},
-      extra_applications: [:logger, :runtime_tools, :httpoison]
+      extra_applications: [
+        :logger,
+        :runtime_tools,
+        :httpoison,
+        :os_mon
+      ]
     ]
   end
 
@@ -52,6 +57,7 @@ defmodule Erga.MixProject do
       {:sparql_client, "~> 0.2.1"},
       {:hackney, "~> 1.6"},
       {:zarex, "~> 1.0"},
+      {:ecto_psql_extras, "~> 0.2"},
       {:pow, "~> 1.0.21"}
     ]
   end
@@ -65,7 +71,7 @@ defmodule Erga.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/delete_uploads.exs", "run priv/repo/seeds.exs"],
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/delete_uploads.exs", "run priv/repo/seeds.exs", "run priv/repo/idai-world-seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]
