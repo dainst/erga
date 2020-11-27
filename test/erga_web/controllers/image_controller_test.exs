@@ -33,11 +33,11 @@ defmodule ErgaWeb.ImageControllerTest do
   end
 
   describe "create image" do
-    test "redirects to show when data is valid", %{conn: conn} do
+    test "redirects to project when data is valid", %{conn: conn} do
       params = make_params(@create_attrs)
       conn = post(conn, Routes.image_path(conn, :create), params)
 
-      assert %{id: id} = redirected_params(conn)
+      assert %{id: _id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.project_path(conn, :edit, params["image"]["project_id"])
 
       auth_assigns = conn.assigns

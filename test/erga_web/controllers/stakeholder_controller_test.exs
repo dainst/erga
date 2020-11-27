@@ -31,11 +31,11 @@ defmodule ErgaWeb.StakeholderControllerTest do
   end
 
   describe "create stakeholder" do
-    test "redirects to show when data is valid", %{conn: conn} do
+    test "redirects to project when data is valid", %{conn: conn} do
       params = make_params(@create_attrs)
       conn = post(conn, Routes.stakeholder_path(conn, :create), params)
 
-      assert %{id: id} = redirected_params(conn)
+      assert %{id: _id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.project_path(conn, :edit, params["stakeholder"]["project_id"])
 
     end

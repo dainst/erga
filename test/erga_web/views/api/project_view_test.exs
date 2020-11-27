@@ -96,13 +96,13 @@ defmodule ErgaWeb.Api.ProjectViewTest do
     test "render a plain project", %{project: _} = param do
       respons = ProjectView.render("project.json", param)
       # test if it can be paresd as json
-      assert {:ok, parsed_json} = Jason.encode(respons)
+      assert {:ok, _parsed_json} = Jason.encode(respons)
     end
 
     test "render a short project", %{project: _} = param do
       respons = ProjectView.render("project_short.json", param)
       # test if it can be paresd as json
-      assert {:ok, parsed_json} = Jason.encode(respons)
+      assert {:ok, _parsed_json} = Jason.encode(respons)
     end
 
   end
