@@ -46,7 +46,7 @@ defmodule ErgaWeb.StakeholderController do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         persons = Staff.list_persons()
-        render(conn, "edit.html", stakeholder: stakeholder, changeset: changeset, persons: persons)
+        render(conn, "edit.html", stakeholder: stakeholder, changeset: changeset, persons: persons, project_id: stakeholder.project_id)
     end
   end
 

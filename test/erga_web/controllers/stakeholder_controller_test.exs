@@ -66,8 +66,7 @@ defmodule ErgaWeb.StakeholderControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, stakeholder: stakeholder} do
-      params = make_params(@invalid_attrs)
-      conn = put(conn, Routes.stakeholder_path(conn, :update, stakeholder), params)
+      conn = put(conn, Routes.stakeholder_path(conn, :update, stakeholder), stakeholder: @invalid_attrs)
       assert html_response(conn, 200) =~ "Edit Stakeholder"
     end
   end
