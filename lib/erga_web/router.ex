@@ -60,7 +60,7 @@ defmodule ErgaWeb.Router do
   scope "/api", ErgaWeb.Api, as: :api do
     pipe_through(:api)
 
-    get("projects/code/:code", ProjectController, :show)
+    get("/projects/code/:code", ProjectController, :show)
     resources("/projects", ProjectController, only: [:show, :index])
   end
 
