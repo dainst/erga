@@ -121,7 +121,7 @@
     <h2>Linked resources</h2>
     <table>
       <thead>
-        <tr><th>Label</th><th>Description</th><th>System</th><th>System ID</th><th></th></tr>
+        <tr><th>Label</th><th>Description</th><th>System</th><th>URI</th><th></th></tr>
       </thead>
       <tbody>
       <%= for resource <- @project.linked_resources do %>
@@ -129,7 +129,7 @@
           <td><%= resource.label %></td>
           <td><%= resource.description %></td>
           <td><%= resource.linked_system %></td>
-          <td><%= resource.linked_id %></td>
+          <td><a href="<%= resource.uri %>" target="_blank"><%= resource.uri %></a></td>
 
           <td> <%= link "edit", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Edit, resource.id) %> |
           <%= link "remove",

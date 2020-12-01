@@ -5,7 +5,7 @@ defmodule Erga.Research.LinkedResource do
   schema "linked_resources" do
     field(:description, :string)
     field(:label, :string)
-    field(:linked_id, :string)
+    field(:uri, :string)
     field(:linked_system, :string)
 
     belongs_to(:project, Erga.Research.Project)
@@ -16,7 +16,7 @@ defmodule Erga.Research.LinkedResource do
   @doc false
   def changeset(linked_resource, attrs) do
     linked_resource
-    |> cast(attrs, [:linked_system, :linked_id, :label, :description])
+    |> cast(attrs, [:linked_system, :uri, :label, :description])
     |> validate_required([:linked_system, :label])
     |> cast_assoc(:project)
   end

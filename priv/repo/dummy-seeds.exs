@@ -63,7 +63,7 @@ project =
       %LinkedResource{
         label: "Rom",
         description: "Der Ort über den geschrieben wird.",
-        linked_id: "2078206",
+        uri: "2078206",
         linked_system: "Gazetteer"
       }
     ]

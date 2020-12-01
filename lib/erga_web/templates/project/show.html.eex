@@ -37,7 +37,7 @@
       <tr>
         <td><%= resource.label %></td>
         <td><%= resource.description %></td>
-        <td><%= resource.linked_system %>: <%= resource.linked_id %></td>
+        <td><a href="<%= resource.uri %>" target="_blank"><%= resource.uri %></a></td>
       </tr>
     <% end %>
     </tbody>
