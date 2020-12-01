@@ -4,7 +4,15 @@ defmodule ErgaWeb.Api.ProjectController do
   alias Erga.Research
 
   def index(conn, %{"updated_days_ago" => days_ago}) do
-    projects = Research.get_projects_updated_days_ago(days_ago)
+
+    days =
+      String.to_integer(days_ago)
+
+    date =
+      NaiveDateTime.utc_now()
+      |> NaiveDateTime.add(-60 * 60 * 24 * days)
+
+    projects = Research.get_projects_updated_since(date)
     render(conn, "list.json", projects: projects)
   end
 

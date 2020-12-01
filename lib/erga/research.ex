@@ -91,22 +91,30 @@ defmodule Erga.Research do
   end
 
   @doc """
-  returns a list of all projects that where updated x days ago
-  """
-  def get_projects_updated_days_ago(number_of_days) do
-    d = String.to_integer(number_of_days)
-    Repo.all(from(p in Project, where: p.updated_at >= ago(^d, "day")))
-    |> Repo.preload(:images)
-    |> Repo.preload(:titles)
-    |> Repo.preload(:stakeholders)
-  end
-
-  @doc """
   returns a list of all projects that where updated since a given ISO Date
   """
 
-  def get_projects_updated_since(date) do
-    from(p in Project, where: p.updated_at > ^date)
+  def get_projects_updated_since(%NaiveDateTime{} = date) do
+    Project
+    |> join(:left, [p], t in assoc(p, :titles))
+    |> join(:left, [p], d in assoc(p, :descriptions))
+    |> join(:left, [p], s in assoc(p, :stakeholders))
+    |> join(:left, [p, t, d, s], pe in assoc(s, :person))
+    |> join(:left, [p], l in assoc(p, :linked_resources))
+    |> join(:left, [p], e in assoc(p, :external_links))
+    |> join(:left, [p], i in assoc(p, :images))
+    |> where(
+      [p, t, d, s, pe, l, e, i],
+      p.updated_at >= ^date
+      or t.updated_at >= ^date
+      or d.updated_at >= ^date
+      or s.updated_at >= ^date
+      or pe.updated_at >= ^date
+      or l.updated_at >= ^date
+      or e.updated_at >= ^date
+      or i.updated_at >= ^date
+    )
+    |> select([p], p)
     |> Repo.all
     |> Repo.preload(:images)
     |> Repo.preload(:titles)
@@ -136,32 +144,6 @@ defmodule Erga.Research do
     |> Repo.insert()
   end
 
-  defp get_all_updated_at(list) do
-    list
-    |> Enum.map(fn(item) -> item.updated_at end)
-  end
-
-  defp set_project_updated_at(project) do
-    last_update =
-      [
-        get_all_updated_at(project.titles),
-        get_all_updated_at(project.descriptions),
-        get_all_updated_at(project.linked_resources),
-        get_all_updated_at(project.external_links),
-        get_all_updated_at(project.images),
-        project.stakeholders
-        |> Enum.map(fn(stakeholder) -> [ stakeholder.updated_at, stakeholder.person.updated_at] end)
-      ]
-      |> List.flatten
-      |> Enum.max
-
-    if last_update > project.updated_at do
-      Project
-      |> where([a], a.id == ^project.id)
-      |> Repo.update_all([set: [updated_at: last_update]])
-    end
-  end
-
   @doc """
   Updates a project.
 
@@ -175,21 +157,13 @@ defmodule Erga.Research do
 
   """
   def update_project(%Project{} = project, attrs) do
-    update =
-      project
-      |> Project.changeset(attrs)
-      |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
-      |> Ecto.Changeset.cast_assoc(:linked_resources, with: &LinkedResource.changeset/2)
-      |> Ecto.Changeset.cast_assoc(:external_links, with: &ExternalLink.changeset/2)
-      |> Ecto.Changeset.cast_assoc(:images, with: &Image.changeset/2)
-      |> Repo.update()
-
-    case update do
-      {:ok, project} -> set_project_updated_at(project)
-      _ -> nil
-    end
-
-    update
+    project
+    |> Project.changeset(attrs)
+    |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:linked_resources, with: &LinkedResource.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:external_links, with: &ExternalLink.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:images, with: &Image.changeset/2)
+    |> Repo.update()
   end
 
   @doc """
