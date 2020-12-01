@@ -68,7 +68,6 @@ defmodule ThesaurusService do
   end
 
   defp get_values(n) do
-    IO.inspect n
     name = RDF.Literal.value(n["label"])
     link =
       RDF.IRI.parse(n["link"])

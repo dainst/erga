@@ -43,7 +43,7 @@ defmodule EventHandler do
     # perform a search or return empty list
     if String.length(search_string) > 1 do
       case service.get_list(search_string, filter) do
-        {:ok, list} -> update(socket, :search_result, fn _old_search_string -> list |> IO.inspect end)
+        {:ok, list} -> update(socket, :search_result, fn _old_search_string -> list end)
         {:error, reason} -> assign(socket, :search_error, reason)
       end
     else
