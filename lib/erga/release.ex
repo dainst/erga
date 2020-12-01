@@ -1,4 +1,5 @@
 defmodule Erga.Release do
+  require Logger
   @app :erga
 
   def migrate do
@@ -22,6 +23,19 @@ defmodule Erga.Release do
       email: email,
       password_hash: Pow.Ecto.Schema.Password.pbkdf2_hash(password)
     })
+  end
+
+  def reset_projects(seeds_file) do
+    start_repo()
+    full_path = Path.absname(seeds_file)
+
+    dir = "#{Application.get_env(:erga, :uploads_directory)}/*"
+
+    Logger.info("Deleting upload directory '#{dir}':")
+    File.rm_rf!(dir)
+    |> Enum.each(fn item -> Logger.info(item) end)
+
+    Code.eval_file(full_path)
   end
 
   defp repos do
