@@ -6,7 +6,7 @@ defmodule EventHandler do
   def form_change(%{"_target" => targets,  "linked_resource" => params}, socket) do
     cond do
       "linked_system" in targets ->
-        assign(socket, :linked_id, "")
+        assign(socket, :uri, "")
         |> assign(:search_result, [])
         |> assign(:linked_system, params["linked_system"])
       "search_filter" in targets -> assign(socket, :search_filter, params["search_filter"])
@@ -15,10 +15,11 @@ defmodule EventHandler do
     end
   end
 
-  def choose_resource( %{"id" => id, "name" => name}, socket) do
+  def choose_resource( %{"id" => id, "name" => name, "uri" => uri}, socket) do
     socket
       |> assign(:label, name)
       |> assign(:linked_id, id)
+      |> assign(:uri, uri)
       |> assign(:search_string, "")
       |> assign(:search_result, [])
   end
@@ -42,7 +43,7 @@ defmodule EventHandler do
     # perform a search or return empty list
     if String.length(search_string) > 1 do
       case service.get_list(search_string, filter) do
-        {:ok, list} -> update(socket, :search_result, fn _old_search_string -> list end)
+        {:ok, list} -> update(socket, :search_result, fn _old_search_string -> list |> IO.inspect end)
         {:error, reason} -> assign(socket, :search_error, reason)
       end
     else

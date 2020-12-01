@@ -52,7 +52,6 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs which loads secrets
 # and configuration from environment variables.
-import_config "prod.secret.exs"
 
 config :erga,
-  uploads_directory: System.get_env("ERGA_UPLOADS_DIRECTORY") || "/media"
+  uploads_directory: System.get_env("ERGA_UPLOADS_DIRECTORY") || "/uploads"

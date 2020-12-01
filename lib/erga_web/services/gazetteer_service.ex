@@ -40,9 +40,17 @@ defmodule GazetteerService do
     if is_list(res) do
       for n <- res do
         if List.first(n["parents"]) do
-          %{name: n["prefName"]["title"] <> " - " <> List.first(n["parents"])["prefName"]["title"], resId: n["gazId"]}
+          %{
+            name: "#{n["prefName"]["title"]} - #{List.first(n["parents"])["prefName"]["title"]}",
+            res_id: n["gazId"],
+            uri: n["@id"]
+          }
         else
-          %{name: n["prefName"]["title"], resId: n["gazId"]}
+          %{
+            name: n["prefName"]["title"],
+            res_id: n["gazId"],
+            uri: n["@id"]
+          }
         end
       end
     else

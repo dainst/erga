@@ -1,15 +1,17 @@
 defmodule ChrontologyService do
   use StandardServiceBehaivour
 
-  @base_url "https://chronontology.dainst.org/data/period/"
+  @base_url "https://chronontology.dainst.org"
+  @data_base_url "#{@base_url}/data/period/"
+  @uri_base_url "#{@base_url}/period/"
 
   def get_list(val, _filter) do
-    url = @base_url <> "?q=" <> val <> "*"
+    url = "#{@data_base_url}?q=#{val}*"
     get_list_request(url, "results")
   end
 
   def get_by_id(id) do
-    case HTTPoison.get("#{@base_url}#{id}") do
+    case HTTPoison.get("#{@data_base_url}#{id}") do
       {:ok, response} ->
         item =
           response.body
@@ -28,7 +30,11 @@ defmodule ChrontologyService do
     if is_list(res) do
       for  n <- res do
         names = if n["resource"]["names"]["de"], do: Enum.join( n["resource"]["names"]["de"], ", "), else: ""
-        %{name: names, resId: n["resource"]["id"]}
+        %{
+          name: names,
+          res_id: n["resource"]["id"],
+          uri: "#{@uri_base_url}#{n["resource"]["id"]}"
+        }
       end
     else
       []

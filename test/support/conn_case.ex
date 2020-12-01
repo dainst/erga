@@ -39,7 +39,7 @@ defmodule ErgaWeb.ConnCase do
   """
   defp auth_user(conn) do
     user = %User{
-      email: "admin",
+      email: "dev@example.com",
       password_hash: Pow.Ecto.Schema.Password.pbkdf2_hash("erga123!")
     }
     conn = Pow.Plug.assign_current_user(conn, user, otp_app: :my_app)

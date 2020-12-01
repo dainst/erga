@@ -6,18 +6,27 @@ defmodule Erga.Application do
   use Application
 
   def start(_type, _args) do
-    children = [
-      # Start the Ecto repository
-      Erga.Repo,
-      # Start the Telemetry supervisor
-      ErgaWeb.Telemetry,
-      # Start the PubSub system
-      {Phoenix.PubSub, name: Erga.PubSub},
-      # Start the Endpoint (http/https)
-      ErgaWeb.Endpoint
-      # Start a worker by calling: Erga.Worker.start_link(arg)
-      # {Erga.Worker, arg}
-    ]
+
+    children =
+      if Application.get_env(:erga, :only_repo) do
+        [
+          # Start the Ecto repository
+          Erga.Repo
+        ]
+      else
+        [
+          # Start the Ecto repository
+          Erga.Repo,
+          # Start the Telemetry supervisor
+          ErgaWeb.Telemetry,
+          # Start the PubSub system
+          {Phoenix.PubSub, name: Erga.PubSub},
+          # Start the Endpoint (http/https)
+          ErgaWeb.Endpoint
+          # Start a worker by calling: Erga.Worker.start_link(arg)
+          # {Erga.Worker, arg}
+        ]
+      end
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

@@ -40,8 +40,11 @@
             <tbody>
               <%= for res <- @search_result do %>
               <tr>
-                <td><%= link "Select", to: "#", phx_click: "choose_resource", phx_value_id: res.resId, phx_value_name: res.name, class: "btn btn-primary" %></td>
-                <td><%= res.name %> | <%= res.resId %> </td>
+                <td>
+                  <%= link "Select", to: "#", phx_click: "choose_resource", class: "btn btn-primary",
+                    phx_value_id: res.res_id, phx_value_name: res.name, phx_value_uri: res.uri %>
+                  </td>
+                <td><%= res.name %> | <%= res.uri %> </td>
               </tr>
               <% end %>
             </tbody>
@@ -68,12 +71,12 @@
         <%= error_tag f, :description %>
       </div>
     </div>
-    <%= if @linked_id != "" do %>
+    <%= if @uri != "" do %>
     <div class="row">
       <div class="column">
-        <%= hidden_input f, :linked_id, value: @linked_id %>
-        <label>ID and system</label>
-        <strong>ID</strong>: <%= @linked_id %> | <%= @linked_system %>
+        <%= hidden_input f, :uri, value: @uri %>
+        <label>URI and system</label>
+        <strong>URI</strong>: <%= @uri %> | <%= @linked_system %>
       </div>
     </div>
     <% end %>
