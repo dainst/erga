@@ -15,6 +15,6 @@ alias Erga.Accounts.User
 Erga.Repo.delete_all User
 
 Erga.Repo.insert!(%User{
-  email: "admin",
+  email: "dev@example.com",
   password_hash: Pow.Ecto.Schema.Password.pbkdf2_hash("erga123!")
 })
