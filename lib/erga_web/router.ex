@@ -44,8 +44,8 @@ defmodule ErgaWeb.Router do
 
     put("/locale", LocaleController, :set)
 
-    live "/linked_resources/new/:project_id", LinkedResourceLive.New
-    live "/linked_resources/:id/edit", LinkedResourceLive.Edit
+    live "/linked_resources/new/:project_id", LinkedResourceLive, :new
+    live "/linked_resources/:id/edit", LinkedResourceLive, :edit
     #live "/linked_resources/:id/delete", LinkedResourceLive.Index, :delete
 
   end

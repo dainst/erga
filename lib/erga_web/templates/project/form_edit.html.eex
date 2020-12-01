@@ -131,7 +131,7 @@
           <td><%= resource.linked_system %></td>
           <td><%= resource.linked_id %></td>
 
-          <td> <%= link "edit", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.Edit, resource.id) %> |
+          <td> <%= link "edit", to: Routes.linked_resource_path(@conn, :edit, resource.id) %> |
           <%= link "remove",
             to: Routes.linked_resource_path( @conn, :delete, resource ),
             method: :delete,
@@ -141,7 +141,7 @@
       <% end %>
      </tbody>
     </table>
-    <%= link "Add linked resource", to: Routes.live_path(@conn, ErgaWeb.LinkedResourceLive.New, @project.id) %>
+    <%= link "Add linked resource", to: Routes.linked_resource_path(@conn, :new, @project.id) %>
   </div>
   <div class="box">
     <h2>External links</h2>

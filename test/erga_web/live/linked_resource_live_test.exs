@@ -67,10 +67,10 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
 
     test "create new ressource", %{conn: conn, project: project} do
       # load the create page
-      {:ok, new_live, html} = live(conn, Routes.live_path(conn, LinkedResourceLive.New, project.id))
+      {:ok, new_live, html} = live(conn, Routes.linked_resource_path(conn, :new, project.id))
 
       # check if the returning html contains the title
-      assert html =~ "New Linked resource"
+      assert html =~ "New Linked Resource"
 
       # try to create a invalid resource, check if "can't be blank" shows up
       assert new_live
@@ -93,10 +93,10 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
 
     test "updates resource", %{conn: conn, project: project, lr: lr} do
        # load the create page
-       {:ok, edit_live, html} = live(conn, Routes.live_path(conn, LinkedResourceLive.Edit, lr.id))
+       {:ok, edit_live, html} = live(conn, Routes.linked_resource_path(conn, :edit, lr.id))
 
       # check if the titel is within the html
-      assert html =~ "Edit Linked resource"
+      assert html =~ "Edit Linked Resource"
 
       # check if the current resource label is within the html
       assert html =~ "Berlin, DAI"
