@@ -23,13 +23,21 @@ defmodule ErgaWeb.Api.ProjectController do
     render(conn, "list.json", projects: projects)
   end
 
-  def show(conn, %{"id" => code}) do
+  def show(conn, %{"id"=> id}) do
     try do
-      project = Research.get_project_by_code!(code)
-      render(conn, "show.json", project: project)
+      render(conn, "show.json", project: Research.get_project!(id))
     rescue
       _e in Ecto.NoResultsError ->
-          render(conn, "error.json", %{:name => "ArgumentError", :msg => "no project found for given code", :code => 404})
+        render(conn, "error.json", %{name: "ArgumentError", msg: "No project found for id", code: 404})
+    end
+  end
+
+  def show(conn, %{"code"=> code}) do
+    try do
+      render(conn, "show.json", project: Research.get_project_by_code!(code))
+    rescue
+      _e in Ecto.NoResultsError ->
+        render(conn, "error.json", %{name: "ArgumentError", msg: "No project found for code", code: 404})
     end
   end
 

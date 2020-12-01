@@ -32,27 +32,21 @@ defmodule ErgaWeb.Router do
     pipe_through [:browser, :protected]
 
     get("/", ProjectController, :index)
+
     resources("/projects", ProjectController)
+    resources("/person", PersonController,                          only: [:create, :delete, :edit, :new, :update, :index])
+    resources("/stakeholders", StakeholderController,               only: [:create, :delete, :edit, :new, :update])
+    resources("/external_links", ExternalLinkController,            only: [:create, :delete, :edit, :new, :update])
+    resources("/images", ImageController,                           only: [:create, :delete, :edit, :new, :update])
+    resources("/translated_contents", TranslatedContentController,  only: [:create, :delete, :edit, :new, :update])
 
-    resources("/stakeholders", StakeholderController, only: [:create, :delete, :edit,  :new, :update])
-
-    resources("/external_links", ExternalLinkController, only: [:create, :delete, :edit, :new, :update])
-
-    resources("/images", ImageController, only: [:create, :delete, :edit, :new, :update])
-
-    resources("/translated_contents", TranslatedContentController, only: [:create, :delete, :edit, :new, :update])
+    resources("/linked_resource", LinkedResourceController, only: [ :delete ])
 
     put("/locale", LocaleController, :set)
 
     live "/linked_resources/new/:project_id", LinkedResourceLive.New
-    live "/linked_resources/:id", LinkedResourceLive.Show
     live "/linked_resources/:id/edit", LinkedResourceLive.Edit
-    live "/linked_resources/:id/delete", LinkedResourceLive.Index, :delete
-
-    live "/persons", PersonLive.Index, :index
-    live "/persons/new", PersonLive.Index, :new
-    live "/persons/:id", PersonLive.Show, :show
-    live "/persons/:id/edit", PersonLive.Index, :edit
+    #live "/linked_resources/:id/delete", LinkedResourceLive.Index, :delete
 
   end
 
@@ -60,6 +54,7 @@ defmodule ErgaWeb.Router do
   scope "/api", ErgaWeb.Api, as: :api do
     pipe_through(:api)
 
+    get("/projects/code/:code", ProjectController, :show)
     resources("/projects", ProjectController, only: [:show, :index])
   end
 

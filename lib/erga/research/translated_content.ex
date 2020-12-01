@@ -26,16 +26,19 @@ defmodule Erga.Research.TranslatedContent do
       )
   end
 
-  defp generate_translation_target_id(%{data: %{target_id: _target_id}} = translated_content) do
+  defp generate_translation_target_id(%{data: %{target_id: target_id}} = translated_content) when target_id != nil  do
     translated_content
   end
 
   defp generate_translation_target_id(translated_content) do
     translated_content.data
     highest_target_id =
-      from(q in "translated_contents", select: q.target_id, order_by: [desc: q.target_id],  limit: 1)
+      case from(q in "translated_contents", select: q.target_id, order_by: [desc: q.target_id],  limit: 1)
       |> Repo.all()
-      |> List.first
+      |> List.first do
+        nil -> 0
+        id -> id
+      end
 
     translated_content
     |> Ecto.Changeset.put_change(:target_id, highest_target_id + 1)

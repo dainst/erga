@@ -1,4 +1,8 @@
-<%= f = form_for @changeset, "#", [phx_change: :form_change, phx_submit: :save]%>
+<%= f = form_for @changeset, "#",
+      id: "linked-resource-form",
+      phx_change: "form_change",
+      phx_submit: "save"
+  %>
   <div class="container">
     <div class="row">
       <div class="column">

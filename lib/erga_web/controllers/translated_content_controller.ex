@@ -26,7 +26,6 @@ defmodule ErgaWeb.TranslatedContentController do
   def edit(conn, %{ "id" => id } = params) do
     translated_content = Research.get_translated_content!(id)
     changeset = Research.change_translated_content(translated_content)
-
     render(
       conn,
       "edit.html",
@@ -47,7 +46,14 @@ defmodule ErgaWeb.TranslatedContentController do
         |> redirect(to: translated_content_params["redirect"])
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", translated_content: translated_content, changeset: changeset)
+        render(
+          conn,
+          "edit.html",
+          translated_content: translated_content,
+          changeset: changeset,
+          lang_codes: @lang_codes,
+          params: translated_content_params
+        )
     end
   end
 

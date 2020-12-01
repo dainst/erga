@@ -35,3 +35,16 @@ npm-debug.log
 
 # Ignore uploads directory (see devs.exs)
 /uploads
+
+# Ignore test uploads directory (see test.exs)
+/test_uploads
+
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

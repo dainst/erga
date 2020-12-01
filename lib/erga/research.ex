@@ -78,6 +78,16 @@ defmodule Erga.Research do
     |> Repo.preload(:descriptions)
   end
 
+  def get_project_by_code(code) do
+    Repo.one(from(p in Project, where: p.project_code == ^code))
+    |> Repo.preload(stakeholders: :person)
+    |> Repo.preload(:linked_resources)
+    |> Repo.preload(:external_links)
+    |> Repo.preload(:images)
+    |> Repo.preload(:titles)
+    |> Repo.preload(:descriptions)
+  end
+
   @spec get_project_code(any) :: {:error, <<_::104>>} | {:ok, any}
   def get_project_code(id) do
     try do
@@ -198,6 +208,7 @@ defmodule Erga.Research do
   """
   def list_linked_resources do
     Repo.all(LinkedResource)
+    |> Repo.preload(:project)
   end
 
   @doc """
@@ -214,7 +225,10 @@ defmodule Erga.Research do
       ** (Ecto.NoResultsError)
 
   """
-  def get_linked_resource!(id), do: Repo.get!(LinkedResource, id)
+  def get_linked_resource!(id) do
+    Repo.get!(LinkedResource, id)
+    |> Repo.preload(:project)
+  end
 
   @doc """
   Creates a linked_resource.
