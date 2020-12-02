@@ -71,7 +71,14 @@ defmodule Erga.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/delete_uploads.exs", "run priv/repo/seeds.exs", "run priv/repo/idai-world-seeds.exs"],
+      "ecto.setup": [
+        "ecto.create",
+        "ecto.migrate",
+        "run priv/delete_uploads.exs",
+        "run priv/repo/seeds.exs",
+        "run priv/repo/dummy-projects-seeds.exs",
+        # "run priv/repo/idai-world-projects-seeds.exs"
+      ],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]
