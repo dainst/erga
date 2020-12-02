@@ -25,6 +25,7 @@ defmodule Erga.Release do
     })
   end
 
+  # Run `_build/prod/rel/erga/bin/erga eval 'Erga.Release.reset_projects("<seeds file>")'` from the command line.
   def reset_projects(seeds_file) do
     start_repo()
     full_path = Path.absname(seeds_file)
