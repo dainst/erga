@@ -29,10 +29,11 @@ defmodule Erga.Release do
     start_repo()
     full_path = Path.absname(seeds_file)
 
-    dir = "#{Application.get_env(:erga, :uploads_directory)}/*"
+    dir = "#{Application.get_env(:erga, :uploads_directory)}/**"
 
-    Logger.info("Deleting upload directory '#{dir}':")
-    File.rm_rf!(dir)
+    Logger.info("Deleting contents of upload directory '#{dir}':")
+    Path.wildcard(dir)
+    |> Enum.map(fn item -> File.rm_rf!(item) end)
     |> Enum.each(fn item -> Logger.info(item) end)
 
     Code.eval_file(full_path)
