@@ -23,13 +23,18 @@ secret_key_base =
     You can generate one by calling: mix phx.gen.secret
     """
 
+port = String.to_integer(System.get_env("PORT", "4000"))
+
 config :erga, ErgaWeb.Endpoint,
   http: [
-    port: String.to_integer(System.get_env("PORT") || "4000"),
+    port: port,
     transport_options: [socket_opts: [:inet6]]
   ],
-  secret_key_base: secret_key_base
-
+  secret_key_base: secret_key_base,
+  url: [
+    host: System.get_env("HOST", "localhost"),
+    port: port,
+  ]
 # ## Using releases (Elixir v1.9+)
 #
 # If you are doing OTP releases, you need to instruct Phoenix
