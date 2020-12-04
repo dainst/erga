@@ -57,9 +57,10 @@ defmodule ErgaWeb.TranslatedContentController do
     end
   end
 
-  def delete(conn, %{"id" => id, "redirect" => redirect}) do
+  def delete(conn, %{"id" => id, "redirect" => redirect} = params ) do
     translated_content = Research.get_translated_content!(id)
-    {:ok, _translated_content} = Research.delete_translated_content(translated_content)
+    {:ok, _translated_content} =
+      Research.delete_translated_content(translated_content, params)
 
     conn
     |> put_flash(:info, "Translated content deleted successfully.")

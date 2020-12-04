@@ -620,6 +620,32 @@ defmodule Erga.Research do
     Image.changeset(image, attrs)
   end
 
+
+  defp get_schema_based_on_table_name(name) do
+    Application.spec(:erga, :modules)
+    |> Enum.find(fn module ->
+      function_exported?(module, :__schema__, 1) && module.__schema__(:source) == name
+    end)
+  end
+
+  defp validate_schema_field(target_schema, target_field_name) do
+    # Do not cast Atom type based on request parameter without first checking if the Atom type is really
+    # used in the requested schema.
+    known_target_field =
+      target_schema
+      |> Map.from_struct
+      |> Map.keys
+      |> Enum.map(&Atom.to_string(&1))
+      |> Enum.filter(fn key -> key == target_field_name end)
+      |> length()
+
+    if known_target_field == 1 do
+      {:ok, String.to_atom(target_field_name)}
+    else
+      {:error, "Unknown field #{target_field_name} for schema #{target_schema}"}
+    end
+  end
+
   @doc """
   Returns the list of translated_contents.
 
@@ -673,46 +699,35 @@ defmodule Erga.Research do
   end
 
   defp update_translation_target({:ok, translated_content}, attrs) do
-    # Get target schema based on requested database table name
-    target_schema =
-      Application.spec(:erga, :modules)
-      |> Enum.find(fn module ->
-        function_exported?(module, :__schema__, 1) && module.__schema__(:source) == attrs["target_table"]
-      end)
-
+    target_schema = get_schema_based_on_table_name(attrs["target_table"])
     target = Repo.get!(target_schema, attrs["target_table_primary_key"])
 
     # Do not cast Atom type based on request parameter without first checking if the Atom type is really
     # used in the requested schema.
-    known_target_field =
-      Map.keys(target)
-      |> Enum.map(&Atom.to_string(&1))
-      |> Enum.filter(fn key -> key == attrs["target_field"] end)
-      |> length()
 
-    if known_target_field == 1 do
-      target_field = String.to_atom(attrs["target_field"])
+    case validate_schema_field(target_schema, attrs["target_field"]) do
+      {:ok, target_field} ->
+        # Set target_id in target table
+        target
+        |> target_schema.changeset(%{})
+        |> Ecto.Changeset.put_change(target_field, translated_content.target_id)
+        |> Repo.update()
 
-      # Set target_id in target table
-      target
-      |> target_schema.changeset(%{})
-      |> Ecto.Changeset.put_change(target_field, translated_content.target_id)
-      |> Repo.update()
+        {:ok, translated_content }
+      {:error, _message} ->
+        translated_content
+        |> Repo.delete
 
-      {:ok, translated_content }
-    else
-      translated_content
-      |> Repo.delete
+        changeset =
+          TranslatedContent.changeset(translated_content, %{})
+          |> Ecto.Changeset.add_error(
+              :target_field_not_found,
+              "Failed to set #{ attrs["target_field"]} in #{attrs["target_table"]}."
+            )
 
-      changeset =
-        TranslatedContent.changeset(translated_content, %{})
-        |> Ecto.Changeset.add_error(
-            :target_field_not_found,
-            "Failed to set #{ attrs["target_field"]} in #{attrs["target_table"]}."
-          )
-
-      {:error, changeset}
+        {:error, changeset}
     end
+
   end
 
   @doc """
@@ -745,8 +760,31 @@ defmodule Erga.Research do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_translated_content(%TranslatedContent{} = translated_content) do
-    Repo.delete(translated_content)
+  def delete_translated_content(
+    %TranslatedContent{} = translated_content,
+    %{
+      "target_table" => target_table,
+      "target_field" => target_field
+    }) do
+
+    result = Repo.delete(translated_content)
+
+    translations_remaining_with_target_id =
+      from(q in "translated_contents", select: q.target_id, where: q.target_id == ^translated_content.target_id)
+      |> Repo.all()
+      |> Enum.count
+
+    if translations_remaining_with_target_id == 0 do
+      target_schema = get_schema_based_on_table_name(target_table)
+      {:ok, target_field} = validate_schema_field(target_schema, target_field)
+
+      Repo.update_all(
+        from(q in target_schema,
+        where: ^[{target_field, translated_content.target_id}]
+      ), set: [{target_field, nil}])
+
+    end
+    result
   end
 
   @doc """

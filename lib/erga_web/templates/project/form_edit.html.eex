@@ -29,9 +29,15 @@
                 link "edit", to:
                   Routes.translated_content_path(@conn, :edit, title.id, redirect: @conn.request_path)
               %> | <%=
-                link "remove", to:
-                  Routes.translated_content_path(@conn, :delete, title.id, redirect: @conn.request_path), method: :delete, data: [confirm: "Are you sure?"] %>
-              </td>
+                link "remove", to: Routes.translated_content_path(
+                  @conn,
+                  :delete,
+                  title.id,
+                  target_table: @project.__meta__.source,
+                  target_field: :title_translation_target_id,
+                  redirect: @conn.request_path
+                ), method: :delete, data: [confirm: "Are you sure?"] %>
+          </td>
           </tr>
         <% end %>
         </tbody>
@@ -68,8 +74,14 @@
           link "edit", to:
             Routes.translated_content_path(@conn, :edit, description.id, redirect: @conn.request_path)
         %> | <%=
-          link "remove", to:
-            Routes.translated_content_path(@conn, :delete, description.id, redirect: @conn.request_path), method: :delete, data: [confirm: "Are you sure?"] %>
+          link "remove", to: Routes.translated_content_path(
+            @conn,
+            :delete,
+            description.id,
+            target_table: @project.__meta__.source,
+            target_field: :description_translation_target_id,
+            redirect: @conn.request_path
+          ), method: :delete, data: [confirm: "Are you sure?"] %>
       </td>
     </tr>
     <% end %>
