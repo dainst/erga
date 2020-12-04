@@ -30,6 +30,10 @@ defmodule Erga.Research.TranslatedContent do
     translated_content
   end
 
+  defp generate_translation_target_id(%{changes: %{target_id: target_id}} = translated_content) when target_id != nil  do
+    translated_content
+  end
+
   defp generate_translation_target_id(translated_content) do
     translated_content.data
     highest_target_id =
