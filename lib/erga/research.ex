@@ -48,6 +48,7 @@ defmodule Erga.Research do
     Repo.get!(Project, id)
     |> Repo.preload(stakeholders: :person)
     |> Repo.preload(:linked_resources)
+    |> Repo.preload(linked_resources: :descriptions)
     |> Repo.preload(:external_links)
     |> Repo.preload(:images)
     |> Repo.preload(:titles)
@@ -236,6 +237,7 @@ defmodule Erga.Research do
   def get_linked_resource!(id) do
     Repo.get!(LinkedResource, id)
     |> Repo.preload(:project)
+    |> Repo.preload(:descriptions)
   end
 
   @doc """

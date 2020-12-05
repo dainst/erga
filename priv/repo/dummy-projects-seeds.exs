@@ -62,7 +62,7 @@ project =
     linked_resources: [
       %LinkedResource{
         label: "Rom",
-        description: "Der Ort über den geschrieben wird.",
+        description_translation_target_id: 3,
         uri: "2078206",
         linked_system: "Gazetteer"
       }
@@ -81,6 +81,12 @@ Erga.Research.create_image(
     }
   }
 )
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: 3,
+  language_code: "de",
+  text: "Der Ort über den geschrieben wird."
+})
 
 Erga.Repo.insert!(%TranslatedContent{
   target_id: project.description_translation_target_id,

@@ -44,7 +44,13 @@ defmodule ErgaWeb.LinkedResourceLive do
     {:ok, socket}
   end
 
-  def render(assigns), do: Phoenix.View.render(ErgaWeb.LinkedResourceView, "edit.html", assigns)
+  def render(assigns) do
+    case assigns.live_action do
+       :new -> Phoenix.View.render(ErgaWeb.LinkedResourceView, "new.html", assigns)
+       :edit -> Phoenix.View.render(ErgaWeb.LinkedResourceView, "edit.html", assigns)
+    end
+
+  end
 
   @spec handle_event(<<_::32, _::_*8>>, map, Phoenix.LiveView.Socket.t()) :: {:noreply, any}
   def handle_event("form_change", params, socket) do

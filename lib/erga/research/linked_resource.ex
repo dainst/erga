@@ -3,12 +3,14 @@ defmodule Erga.Research.LinkedResource do
   import Ecto.Changeset
 
   schema "linked_resources" do
-    field(:description, :string)
     field(:label, :string)
     field(:uri, :string)
     field(:linked_system, :string)
 
     belongs_to(:project, Erga.Research.Project)
+
+    field(:description_translation_target_id, :integer)
+    has_many(:descriptions, Erga.Research.TranslatedContent, foreign_key: :target_id, references: :description_translation_target_id)
 
     timestamps()
   end
@@ -16,7 +18,7 @@ defmodule Erga.Research.LinkedResource do
   @doc false
   def changeset(linked_resource, attrs) do
     linked_resource
-    |> cast(attrs, [:linked_system, :uri, :label, :description])
+    |> cast(attrs, [:linked_system, :uri, :label])
     |> validate_required([:linked_system, :label])
     |> cast_assoc(:project)
   end
