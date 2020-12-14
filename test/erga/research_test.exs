@@ -378,7 +378,7 @@ defmodule Erga.ResearchTest do
 
     test "delete_translated_content/1 deletes the translated_content", %{project: proj}  do
       translated_content = translated_content_fixture(%{"target_table_primary_key" => proj.id, "target_field" => "title_translation_target_id", "target_table" => "projects"})
-      assert {:ok, %TranslatedContent{}} = Research.delete_translated_content(translated_content)
+      assert {:ok, %TranslatedContent{}} = Research.delete_translated_content(translated_content, %{"target_field" => "title_translation_target_id", "target_table" => "projects"})
       assert_raise Ecto.NoResultsError, fn -> Research.get_translated_content!(translated_content.id) end
     end
 
