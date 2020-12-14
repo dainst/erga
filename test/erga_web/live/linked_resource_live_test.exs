@@ -4,7 +4,6 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
   import Phoenix.LiveViewTest
 
   alias Erga.Research
-  alias ErgaWeb.LinkedResourceLive
 
   @proj_attrs %{
     project_code: "Test001",
