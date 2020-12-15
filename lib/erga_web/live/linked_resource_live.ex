@@ -46,7 +46,6 @@ defmodule ErgaWeb.LinkedResourceLive do
 
   def render(assigns), do: Phoenix.View.render(ErgaWeb.LinkedResourceView, "edit.html", assigns)
 
-  @spec handle_event(<<_::32, _::_*8>>, map, Phoenix.LiveView.Socket.t()) :: {:noreply, any}
   def handle_event("form_change", params, socket) do
     {:noreply, EventHandler.form_change(params, socket)}
   end
