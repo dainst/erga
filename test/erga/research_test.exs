@@ -97,17 +97,18 @@ defmodule Erga.ResearchTest do
       "label" => "Berlin, DAI",
       "description" => "Der Ort, an dem geschrieben wird.",
       "linked_system" => "gazetteer",
-      "linked_id" => "12345" }
+      "uri" => "https://gazetteer.dainst.org/place/2282601" }
     @update_attrs %{
       "label" => "Berlin, Zentrale, DAI",
       "description" => "Der Ort, an dem geforscht wird.",
       "linked_system" => "gazetteer",
-      "linked_id" => "54321"
+      "uri" => "https://gazetteer.dainst.org/place/2282601"
     }
     @invalid_attrs %{
       "label" => nil,
       "description" => "",
-      "linked_system" => "gazetteer"}
+      "linked_system" => "gazetteer"
+    }
 
     def linked_resource_fixture(_attrs \\ %{}) do
       {:ok, proj} = Research.create_project(@proj_attrs)

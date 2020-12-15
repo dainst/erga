@@ -8,51 +8,42 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
   @proj_attrs %{
     project_code: "Test001",
     starts_at: ~D[2019-01-10],
-    ends_at: ~D[2023-10-10],
-    title_translation_target_id: 1,
+    ends_at: ~D[2023-10-10]
   }
 
-  # @title_trans %{
-  #   "target_id" => 1,
-  #   "language_code" =>  "DE",
-  #   "text" => "Projekttitel"
-  # }
+  @gazetteer_uri  "https://gazetteer.dainst.org/2078206"
 
-  @create_attrs %{
-    "label" => "la citta eterna",
-    "description" => "Der Ort, über den geschrieben wird.",
-    #"linked_id" => "2078206",
-    "linked_system" => "gazetteer"
-  }
 
   @fixture_attrs %{
     "label" => "Berlin, DAI",
     "description" => "Der Ort, an dem geschrieben wird.",
-    #"linked_id" => "2078206",
+    "uri" => "https://gazetteer.dainst.org/2078206",
+    "linked_system" => "gazetteer"
+  }
+
+  @create_attrs %{
+    "label" => "la citta eterna",
+    "description" => "Der Ort, über den geschrieben wird.",
     "linked_system" => "gazetteer"
   }
 
   @update_attrs %{
-    "label" => "Berlin, Zentrale, DAI",
-    "description" => "Der Ort, an dem geforscht wird.",
-    #"linked_id" => "2078206",
-    "linked_system" => "gazetteer"
+    "label" => "Berlin, Zentrale, DAI"
   }
 
   @invalid_attr %{
-    "label" => nil,
-    "description" => "",
-    "linked_system" => "gazetteer"
+    "label" => nil
   }
 
 
   defp fixture(:lr) do
+    {:ok, proj} =
+      Research.create_project(@proj_attrs)
 
-    {:ok, proj} = Research.create_project(@proj_attrs)
-
-     {:ok, lr} = %{"project_id" => proj.id}
-                 |> Enum.into(@fixture_attrs)
-                 |> Research.create_linked_resource
+    {:ok, lr} =
+      %{"project_id" => proj.id}
+      |> Enum.into(@fixture_attrs)
+      |> Research.create_linked_resource
     %{project: proj, lr: lr}
   end
 
@@ -80,7 +71,8 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
       {:ok, conn} =
         new_live
         |> form("#linked-resource-form", linked_resource: @create_attrs)
-        |> render_submit()
+        # Hidden form fields have to be passed with render_submit
+        |> render_submit(%{linked_resource: %{"project_id" => project.id, "uri" => @gazetteer_uri}})
         |> follow_redirect(conn, Routes.project_path(ErgaWeb.Endpoint, :edit, project.id))
 
 
@@ -91,8 +83,8 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
     end
 
     test "updates resource", %{conn: conn, project: project, lr: lr} do
-       # load the create page
-       {:ok, edit_live, html} = live(conn, Routes.linked_resource_path(conn, :edit, lr.id))
+      # load the create page
+      {:ok, edit_live, html} = live(conn, Routes.linked_resource_path(conn, :edit, lr.id))
 
       # check if the titel is within the html
       assert html =~ "Edit Linked Resource"
