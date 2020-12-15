@@ -23,8 +23,7 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
 
   @create_attrs %{
     "label" => "la citta eterna",
-    "description" => "Der Ort, über den geschrieben wird.",
-    "linked_system" => "gazetteer"
+    "description" => "Der Ort, über den geschrieben wird."
   }
 
   @update_attrs %{
@@ -96,7 +95,7 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
       {:ok, conn} =
         edit_live
         |> form("#linked-resource-form", linked_resource: @update_attrs)
-        |> render_submit()
+        |> render_submit(%{linked_resource: %{"uri" => "https://gazetteer.dainst.org/place/2323293"}})
         |> follow_redirect(conn, Routes.project_path(ErgaWeb.Endpoint, :edit, project.id))
 
       # check if success message is prompted
