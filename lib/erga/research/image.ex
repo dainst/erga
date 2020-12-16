@@ -95,12 +95,12 @@ defmodule Erga.Research.Image do
     end
   end
 
-  def evaluate_path(changeset, %{"path" => path}) do
+  def evaluate_path(%{changes: %{path: path}} = changeset, _attrs) do
     if !File.exists?("#{@upload_directory}/#{path}") do
       add_error(changeset, :path, "File #{path} does not exists!")
+    else
+      changeset
     end
-
-    changeset
   end
 
   def evaluate_path(changeset, _attrs) do
