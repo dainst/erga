@@ -62,9 +62,12 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
       assert html =~ "New Linked Resource"
 
       # try to create a invalid resource, check if "can't be blank" shows up
-      assert new_live
-             |> form("#linked-resource-form", linked_resource: @invalid_attr)
-             |> render_change(%{"_target" => ["test"]}) =~ "can&apos;t be blank"
+      form_with_error =
+        new_live
+        |> form("#linked-resource-form", linked_resource: @invalid_attr)
+        |> render_change(%{"_target" => ["test"]})
+
+      assert form_with_error =~ "can&apos;t be blank"
 
       # try to create the valid resource
       {:ok, conn} =
@@ -73,7 +76,6 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
         # Hidden form fields have to be passed with render_submit
         |> render_submit(%{linked_resource: %{"project_id" => project.id, "uri" => @gazetteer_uri}})
         |> follow_redirect(conn, Routes.project_path(ErgaWeb.Endpoint, :edit, project.id))
-
 
       html = assert response(conn, 200)
       # check if the response_body contains the success msg and the label
