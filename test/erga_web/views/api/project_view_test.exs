@@ -28,7 +28,6 @@ defmodule ErgaWeb.Api.ProjectViewTest do
 
     project =
       %Project{
-        id: 42,
         project_code: "SPP2143",
         starts_at: ~D[2019-01-10],
         ends_at: ~D[2023-10-10],
@@ -81,7 +80,7 @@ defmodule ErgaWeb.Api.ProjectViewTest do
           %Image{
             label: "Test",
             primary: "true",
-            project_id: 42,
+            path: "non-existing-image.jpg"
           }
         ]
     }
@@ -93,16 +92,22 @@ defmodule ErgaWeb.Api.ProjectViewTest do
   describe "render projects"  do
     setup [:create_project]
 
-    test "render a plain project", %{project: _} = param do
-      respons = ProjectView.render("project.json", param)
-      # test if it can be paresd as json
-      assert {:ok, _parsed_json} = Jason.encode(respons)
+    test "render a project", params do
+      response = ProjectView.render("project.json", params)
+      # test if it can be parsed as json
+      assert {:ok, _parsed_json} = Jason.encode(response)
     end
 
-    test "render a short project", %{project: _} = param do
-      respons = ProjectView.render("project_short.json", param)
-      # test if it can be paresd as json
-      assert {:ok, _parsed_json} = Jason.encode(respons)
+    test "render a project, short version", param do
+      response = ProjectView.render("project_short.json", param)
+      # test if it can be parsed as json
+      assert {:ok, _parsed_json} = Jason.encode(response)
+    end
+
+    test "render list of projects", %{project: project} do
+      response = ProjectView.render("list.json", %{projects: [project]})
+      # test if it can be parsed as json
+      assert {:ok, _parsed_json} = Jason.encode(response)
     end
 
   end

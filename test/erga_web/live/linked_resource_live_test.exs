@@ -34,27 +34,24 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
     "label" => nil
   }
 
-
-  defp fixture(:lr) do
-    {:ok, proj} =
-      Research.create_project(@proj_attrs)
-
-    {:ok, lr} =
-      %{"project_id" => proj.id}
+  defp create_linked_resource(context) do
+    %{project: project} = create_project(context)
+    {:ok, linked_resource} =
+      %{"project_id" => project.id}
       |> Enum.into(@fixture_attrs)
       |> Research.create_linked_resource
-    %{project: proj, lr: lr}
+    %{project: project, linked_resource: linked_resource}
   end
 
-  defp create_lr(_) do
-    lr = fixture(:lr)
-    lr
+  defp create_project(_context) do
+    {:ok, project} = Research.create_project(@proj_attrs)
+    %{project: project}
   end
 
-  describe "Index" do
-    setup [:create_lr]
+  describe "new linked resource" do
+    setup [:create_project]
 
-    test "create new ressource", %{conn: conn, project: project} do
+    test "redirects to project when data is valid", %{conn: conn, project: project} do
       # load the create page
       {:ok, new_live, html} = live(conn, Routes.linked_resource_path(conn, :new, project.id))
 
@@ -62,9 +59,12 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
       assert html =~ "New Linked Resource"
 
       # try to create a invalid resource, check if "can't be blank" shows up
-      assert new_live
-             |> form("#linked-resource-form", linked_resource: @invalid_attr)
-             |> render_change(%{"_target" => ["test"]}) =~ "can&apos;t be blank"
+      form_with_error =
+        new_live
+        |> form("#linked-resource-form", linked_resource: @invalid_attr)
+        |> render_change(%{"_target" => ["test"]})
+
+      assert form_with_error =~ "can&apos;t be blank"
 
       # try to create the valid resource
       {:ok, conn} =
@@ -74,16 +74,19 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
         |> render_submit(%{linked_resource: %{"project_id" => project.id, "uri" => @gazetteer_uri}})
         |> follow_redirect(conn, Routes.project_path(ErgaWeb.Endpoint, :edit, project.id))
 
-
       html = assert response(conn, 200)
       # check if the response_body contains the success msg and the label
       assert html =~ "Linked resource created successfully."
       assert html =~ "la citta eterna"
     end
+  end
 
-    test "updates resource", %{conn: conn, project: project, lr: lr} do
+  describe "edit linked resource" do
+    setup [:create_linked_resource]
+    test "redirects when data is valid", %{conn: conn, project: project, linked_resource: linked_resource} do
+
       # load the create page
-      {:ok, edit_live, html} = live(conn, Routes.linked_resource_path(conn, :edit, lr.id))
+      {:ok, edit_live, html} = live(conn, Routes.linked_resource_path(conn, :edit, linked_resource.id))
 
       # check if the titel is within the html
       assert html =~ "Edit Linked Resource"
@@ -105,7 +108,115 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
       # check if the new label is within the html
       assert html =~ "Berlin, Zentrale, DAI"
     end
+  end
+
+  describe "searching external service" do
+    setup [:create_project]
+
+    test "gazetteer should filter for populated places by default", %{conn: conn, project: project} do
+      # load the create page
+      {:ok, view, html} = live(conn, Routes.linked_resource_path(conn, :new, project.id))
+
+      # check if the returning html contains the title
+      assert html =~ "New Linked Resource"
+
+      html =
+        view
+        |> render_change("form_change", %{"_target" => ["search_string"], "linked_resource" => %{"search_string" => "Berlin"}})
+
+      assert html =~ "https://gazetteer.dainst.org/place/2282601"
+      assert !(html =~ "https://gazetteer.dainst.org/place/2289420")
+      assert !(html =~ "https://gazetteer.dainst.org/place/2048441")
+    end
+
+    test "gazetteer should filter for 'building institution'", %{conn: conn, project: project} do
+      # load the create page
+      {:ok, view, html} = live(conn, Routes.linked_resource_path(conn, :new, project.id))
+
+      # check if the returning html contains the title
+      assert html =~ "New Linked Resource"
+
+      # switch to chronontology searching
+      render_change(view, "form_change", %{"_target" => ["search_filter"], "linked_resource" => %{"search_filter" => "building-institution"}})
+
+      html =
+        view
+        |> render_change("form_change", %{"_target" => ["search_string"], "linked_resource" => %{"search_string" => "Berlin"}})
 
 
+      assert !(html =~ "https://gazetteer.dainst.org/place/2282601")
+      assert html =~ "https://gazetteer.dainst.org/place/2289420"
+      assert !(html =~ "https://gazetteer.dainst.org/place/2048441")
+    end
+
+    test "gazetteer should filter for 'archaeological site'", %{conn: conn, project: project} do
+      # load the create page
+      {:ok, view, html} = live(conn, Routes.linked_resource_path(conn, :new, project.id))
+
+      # check if the returning html contains the title
+      assert html =~ "New Linked Resource"
+
+      # switch to chronontology searching
+      render_change(view, "form_change", %{"_target" => ["search_filter"], "linked_resource" => %{"search_filter" => "archaeological-site"}})
+
+      html =
+        view
+        |> render_change("form_change", %{"_target" => ["search_string"], "linked_resource" => %{"search_string" => "Berlin"}})
+
+      assert !(html =~ "https://gazetteer.dainst.org/place/2282601")
+      assert !(html =~ "https://gazetteer.dainst.org/place/2289420")
+      assert html =~ "https://gazetteer.dainst.org/place/2048441"
+    end
+
+    test "chronontology", %{conn: conn, project: project} do
+      # load the create page
+      {:ok, view, html} = live(conn, Routes.linked_resource_path(conn, :new, project.id))
+
+      # check if the returning html contains the title
+      assert html =~ "New Linked Resource"
+
+      # switch to chronontology searching
+      render_change(view, "form_change", %{"_target" => ["linked_system"], "linked_resource" => %{"linked_system" => "chronontology"}})
+      # run search
+      html =
+        view
+        |> render_change("form_change", %{"_target" => ["search_string"], "linked_resource" => %{"search_string" => "Bronzezeit"}})
+
+      assert html =~ "https://chronontology.dainst.org/period/rYh7ggsMyaSj"
+    end
+
+    test "thesauri", %{conn: conn, project: project} do
+      # load the create page
+      {:ok, view, html} = live(conn, Routes.linked_resource_path(conn, :new, project.id))
+
+      # check if the returning html contains the title
+      assert html =~ "New Linked Resource"
+
+      # switch to thesauri searching
+      render_change(view, "form_change", %{"_target" => ["linked_system"], "linked_resource" => %{"linked_system" => "thesaurus"}})
+      # run search
+      html =
+        view
+        |> render_change("form_change", %{"_target" => ["search_string"], "linked_resource" => %{"search_string" => "Kirsch"}})
+
+      assert html =~ "http://thesauri.dainst.org/_1cd2807d"
+    end
+
+    test "arachne", %{conn: conn, project: project} do
+      # load the create page
+      {:ok, view, html} = live(conn, Routes.linked_resource_path(conn, :new, project.id))
+
+      # check if the returning html contains the title
+      assert html =~ "New Linked Resource"
+
+      # switch to arachne searching
+      render_change(view, "form_change", %{"_target" => ["linked_system"], "linked_resource" => %{"linked_system" => "arachne"}})
+      # run search
+      html =
+        view
+        |> render_change("form_change", %{"_target" => ["search_string"], "linked_resource" => %{"search_string" => "laokoon"}})
+
+      assert html =~ "http://arachne.dainst.org/entity/1140385"
+    end
   end
 end
