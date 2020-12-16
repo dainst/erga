@@ -3,8 +3,10 @@ defmodule ErgaWeb.ImageControllerTest do
 
   alias Erga.Research
 
+  @uploads_directory Application.get_env(:erga, :uploads_directory)
+
   setup do
-    on_exit(fn -> File.rm_rf(Application.get_env(:erga, :uploads_directory)) end)
+    on_exit(fn -> File.rm_rf(@uploads_directory) end)
   end
 
   @create_attrs %{"label" => "bild", "primary" => true, "upload" => %Plug.Upload{path: "test/files/arch.jpg", filename: "arch.jpg"}}
@@ -87,7 +89,11 @@ defmodule ErgaWeb.ImageControllerTest do
     setup [:create_image]
 
     test "deletes chosen image", %{conn: conn, image: image} do
+      assert File.exists?("#{@uploads_directory}/#{image.path}")
+
       conn = delete(conn, Routes.image_path(conn, :delete, image))
+
+      assert !File.exists?("#{@uploads_directory}/#{image.path}")
       assert redirected_to(conn) == Routes.project_path(conn, :edit, image.project_id)
     end
   end
