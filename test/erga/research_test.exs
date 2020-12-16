@@ -47,7 +47,7 @@ defmodule Erga.ResearchTest do
     #
     test "list_projects/0 returns all projects" do
       project = project_fixture()
-      [head | tail] = Research.list_projects()
+      [head | _tail] = Research.list_projects()
       assert head.project_code == project.project_code
       assert head.starts_at == project.starts_at
       assert head.ends_at == project.ends_at
