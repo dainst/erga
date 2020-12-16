@@ -25,10 +25,7 @@ defmodule Erga.Research.Image do
   end
 
   def handle_upload(changeset, %{"upload" => upload} = attrs) do
-    project_directory =
-      attrs["project_code"]
-      |> Zarex.sanitize()
-
+    project_directory = "projects/#{attrs["project_id"]}"
     target_directory = "#{@upload_directory}/#{project_directory}"
 
     case File.mkdir_p(target_directory) do

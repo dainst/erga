@@ -15,7 +15,7 @@ defmodule ErgaWeb.ImageControllerTest do
     {:ok, proj} = create_project()
     attrs =
       attrs
-      |> Enum.into(%{"project_id" => proj.id, "project_code" => proj.project_code})
+      |> Enum.into(%{"project_id" => proj.id})
     %{"image" => attrs}
   end
 
@@ -23,7 +23,7 @@ defmodule ErgaWeb.ImageControllerTest do
     {:ok, proj} = create_project()
     attrs =
       @create_attrs
-      |> Enum.into(%{"project_id" => proj.id, "project_code" => proj.project_code})
+      |> Enum.into(%{"project_id" => proj.id})
     {:ok, image} = Research.create_image(attrs)
     image
   end
