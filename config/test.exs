@@ -22,4 +22,4 @@ config :erga, ErgaWeb.Endpoint,
 config :logger, level: :warn
 
 config :erga,
-  uploads_directory: "uploads"
+  uploads_directory: "test/uploads"

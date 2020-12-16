@@ -4,6 +4,10 @@ defmodule Erga.ResearchTest do
   alias Erga.Research
   alias Erga.Staff
 
+  setup do
+    on_exit(fn -> File.rm_rf(Application.get_env(:erga, :uploads_directory)) end)
+  end
+
   defp create_project(_) do
     {:ok, proj} = Research.create_project(%{
       project_code: "Test001",
@@ -252,9 +256,9 @@ defmodule Erga.ResearchTest do
     setup [:create_project]
     alias Erga.Research.Image
 
-    @valid_attrs %{"label" => "pic", "path" => "some path", "primary" => true}
-    @update_attrs %{"label" => "puc", "path" => "some updated path", "primary" => false}
-    @invalid_attrs %{"label" => nil, "path" => nil, }
+    @valid_attrs %{"label" => "pic", "primary" => true,  "upload" => %Plug.Upload{path: "test/files/arch.jpg", filename: "arch.jpg"}}
+    @update_attrs %{"label" => "puc", "primary" => false}
+    @invalid_attrs %{"label" => nil}
 
     def image_fixture(attrs \\ %{}) do
       {:ok, image} =
@@ -265,23 +269,13 @@ defmodule Erga.ResearchTest do
       image
     end
 
-    # test "list_images/0 returns all images", %{project: proj}  do
-    #   image = image_fixture(%{"project_id" => proj.id})
-    #   assert Research.list_images() == [image]
-    # end
-
-    # test "get_image!/1 returns the image with given id", %{project: proj} do
-    #   image = image_fixture(%{"project_id" => proj.id})
-    #   assert Research.get_image!(image.id) == image
-    # end
-
     test "create_image/1 with valid data creates a image", %{project: proj} do
-      assert {:ok, %Image{} = image} = %{"project_id" => proj.id}
+      assert {:ok, %Image{} = image} = %{"project_id" => proj.id, "project_code" => proj.project_code}
      |> Enum.into(@valid_attrs)
      |> Research.create_image()
 
       assert image.label == "pic"
-      assert image.path == "some path"
+      assert image.primary == true
     end
 
     test "create_image/1 with invalid data returns error changeset", %{project: proj} do
@@ -293,30 +287,38 @@ defmodule Erga.ResearchTest do
     end
 
     test "update_image/2 with valid data updates the image", %{project: proj} do
-      image = image_fixture(%{"project_id" => proj.id})
+      image = image_fixture(%{"project_id" => proj.id, "project_code" => proj.project_code})
 
      attrs = %{"project_id" => proj.id}
       |> Enum.into(@update_attrs)
 
       assert {:ok, %Image{} = image} = Research.update_image(image, attrs)
       assert image.label == "puc"
-      assert image.path == "some updated path"
+      assert image.primary == false
     end
 
     test "update_image/2 with invalid data returns error changeset", %{project: proj} do
-      image = image_fixture(%{"project_id" => proj.id})
+      image = image_fixture(%{"project_id" => proj.id, "project_code" => proj.project_code})
       assert {:error, %Ecto.Changeset{}} = Research.update_image(image, @invalid_attrs)
-      #assert image == Research.get_image!(image.id)
+
+      image_with_project_not_loaded =
+        Map.replace!(
+          image,
+          :project,
+          %Ecto.Association.NotLoaded{__cardinality__: :one, __field__: :project, __owner__: Erga.Research.Image}
+        )
+
+      assert image_with_project_not_loaded == Research.get_image!(image.id)
     end
 
     test "delete_image/1 deletes the image", %{project: proj} do
-      image = image_fixture(%{"project_id" => proj.id})
+      image = image_fixture(%{"project_id" => proj.id, "project_code" => proj.project_code})
       assert {:ok, %Image{}} = Research.delete_image(image)
       assert_raise Ecto.NoResultsError, fn -> Research.get_image!(image.id) end
     end
 
     test "change_image/1 returns a image changeset", %{project: proj} do
-      image = image_fixture(%{"project_id" => proj.id})
+      image = image_fixture(%{"project_id" => proj.id, "project_code" => proj.project_code})
       assert %Ecto.Changeset{} = Research.change_image(image)
     end
   end

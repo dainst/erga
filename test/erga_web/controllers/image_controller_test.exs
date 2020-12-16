@@ -3,15 +3,19 @@ defmodule ErgaWeb.ImageControllerTest do
 
   alias Erga.Research
 
-  @create_attrs %{"label" => "bild", "path" => "some path", "primary" => true }
-  @update_attrs %{"label" => "pic", "path" => "some updated path", "primary" => false}
-  @invalid_attrs %{"label" => nil, "path" => nil, "primary" => nil}
+  setup do
+    on_exit(fn -> File.rm_rf(Application.get_env(:erga, :uploads_directory)) end)
+  end
+
+  @create_attrs %{"label" => "bild", "primary" => true, "upload" => %Plug.Upload{path: "test/files/arch.jpg", filename: "arch.jpg"}}
+  @update_attrs %{"label" => "pic", "primary" => false}
+  @invalid_attrs %{"label" => nil, "primary" => nil}
 
   def make_params( attrs ) do
     {:ok, proj} = create_project()
     attrs =
       attrs
-      |> Enum.into(%{"project_id" => proj.id})
+      |> Enum.into(%{"project_id" => proj.id, "project_code" => proj.project_code})
     %{"image" => attrs}
   end
 
@@ -19,7 +23,7 @@ defmodule ErgaWeb.ImageControllerTest do
     {:ok, proj} = create_project()
     attrs =
       @create_attrs
-      |> Enum.into(%{"project_id" => proj.id})
+      |> Enum.into(%{"project_id" => proj.id, "project_code" => proj.project_code})
     {:ok, image} = Research.create_image(attrs)
     image
   end
