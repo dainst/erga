@@ -45,15 +45,23 @@ defmodule Erga.ResearchTest do
 
     # see SD-867
     #
-    # test "list_projects/0 returns all projects" do
-    #   project = project_fixture()
-    #   assert Research.list_projects() == [project]
-    # end
+    test "list_projects/0 returns all projects" do
+      project = project_fixture()
+      [head | tail] = Research.list_projects()
+      assert head.project_code == project.project_code
+      assert head.starts_at == project.starts_at
+      assert head.ends_at == project.ends_at
+      assert head.title_translation_target_id == project.title_translation_target_id
+    end
 
-    # test "get_project!/1 returns the project with given id" do
-    #   project = project_fixture()
-    #   assert Research.get_project!(project.id) == project
-    # end
+    test "get_project!/1 returns the project with given id" do
+      project = project_fixture()
+      head = Research.get_project!(project.id)
+      assert head.project_code == project.project_code
+      assert head.starts_at == project.starts_at
+      assert head.ends_at == project.ends_at
+      assert head.title_translation_target_id == project.title_translation_target_id
+    end
 
     test "create_project/1 with valid data creates a project" do
       assert {:ok, %Project{} = project} = Research.create_project(@valid_attrs)
@@ -340,10 +348,10 @@ defmodule Erga.ResearchTest do
       translated_content
     end
 
-    # test "list_translated_contents/0 returns all translated_contents", %{project: proj}  do
-    #   translated_content = translated_content_fixture(%{"target_table_primary_key" => proj.id, "target_field" => "title_translation_target_id", "target_table" => "projects"})
-    #   assert Research.list_translated_contents() == [translated_content]
-    # end
+    test "list_translated_contents/0 returns all translated_contents", %{project: proj}  do
+      translated_content = translated_content_fixture(%{"target_table_primary_key" => proj.id, "target_field" => "title_translation_target_id", "target_table" => "projects"})
+      assert Research.list_translated_contents() == [translated_content]
+    end
 
     test "get_translated_content!/1 returns the translated_content with given id",  %{project: proj}  do
       translated_content = translated_content_fixture(%{"target_table_primary_key" => proj.id, "target_field" => "title_translation_target_id", "target_table" => "projects"})
