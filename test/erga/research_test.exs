@@ -4,6 +4,10 @@ defmodule Erga.ResearchTest do
   alias Erga.Research
   alias Erga.Staff
 
+  setup do
+    on_exit(fn -> File.rm_rf(Application.get_env(:erga, :uploads_directory)) end)
+  end
+
   defp create_project(_) do
     {:ok, proj} = Research.create_project(%{
       project_code: "Test001",
@@ -41,15 +45,23 @@ defmodule Erga.ResearchTest do
 
     # see SD-867
     #
-    # test "list_projects/0 returns all projects" do
-    #   project = project_fixture()
-    #   assert Research.list_projects() == [project]
-    # end
+    test "list_projects/0 returns all projects" do
+      project = project_fixture()
+      [head | _tail] = Research.list_projects()
+      assert head.project_code == project.project_code
+      assert head.starts_at == project.starts_at
+      assert head.ends_at == project.ends_at
+      assert head.title_translation_target_id == project.title_translation_target_id
+    end
 
-    # test "get_project!/1 returns the project with given id" do
-    #   project = project_fixture()
-    #   assert Research.get_project!(project.id) == project
-    # end
+    test "get_project!/1 returns the project with given id" do
+      project = project_fixture()
+      head = Research.get_project!(project.id)
+      assert head.project_code == project.project_code
+      assert head.starts_at == project.starts_at
+      assert head.ends_at == project.ends_at
+      assert head.title_translation_target_id == project.title_translation_target_id
+    end
 
     test "create_project/1 with valid data creates a project" do
       assert {:ok, %Project{} = project} = Research.create_project(@valid_attrs)
@@ -97,17 +109,18 @@ defmodule Erga.ResearchTest do
       "label" => "Berlin, DAI",
       "description" => "Der Ort, an dem geschrieben wird.",
       "linked_system" => "gazetteer",
-      "linked_id" => "12345" }
+      "uri" => "https://gazetteer.dainst.org/place/2282601" }
     @update_attrs %{
       "label" => "Berlin, Zentrale, DAI",
       "description" => "Der Ort, an dem geforscht wird.",
       "linked_system" => "gazetteer",
-      "linked_id" => "54321"
+      "uri" => "https://gazetteer.dainst.org/place/2282601"
     }
     @invalid_attrs %{
       "label" => nil,
       "description" => "",
-      "linked_system" => "gazetteer"}
+      "linked_system" => "gazetteer"
+    }
 
     def linked_resource_fixture(_attrs \\ %{}) do
       {:ok, proj} = Research.create_project(@proj_attrs)
@@ -251,9 +264,9 @@ defmodule Erga.ResearchTest do
     setup [:create_project]
     alias Erga.Research.Image
 
-    @valid_attrs %{"label" => "pic", "path" => "some path", "primary" => true}
-    @update_attrs %{"label" => "puc", "path" => "some updated path", "primary" => false}
-    @invalid_attrs %{"label" => nil, "path" => nil, }
+    @valid_attrs %{"label" => "pic", "primary" => true,  "upload" => %Plug.Upload{path: "test/files/arch.jpg", filename: "arch.jpg"}}
+    @update_attrs %{"label" => "puc", "primary" => false}
+    @invalid_attrs %{"label" => nil}
 
     def image_fixture(attrs \\ %{}) do
       {:ok, image} =
@@ -264,23 +277,13 @@ defmodule Erga.ResearchTest do
       image
     end
 
-    # test "list_images/0 returns all images", %{project: proj}  do
-    #   image = image_fixture(%{"project_id" => proj.id})
-    #   assert Research.list_images() == [image]
-    # end
-
-    # test "get_image!/1 returns the image with given id", %{project: proj} do
-    #   image = image_fixture(%{"project_id" => proj.id})
-    #   assert Research.get_image!(image.id) == image
-    # end
-
     test "create_image/1 with valid data creates a image", %{project: proj} do
       assert {:ok, %Image{} = image} = %{"project_id" => proj.id}
      |> Enum.into(@valid_attrs)
      |> Research.create_image()
 
       assert image.label == "pic"
-      assert image.path == "some path"
+      assert image.primary == true
     end
 
     test "create_image/1 with invalid data returns error changeset", %{project: proj} do
@@ -299,13 +302,21 @@ defmodule Erga.ResearchTest do
 
       assert {:ok, %Image{} = image} = Research.update_image(image, attrs)
       assert image.label == "puc"
-      assert image.path == "some updated path"
+      assert image.primary == false
     end
 
     test "update_image/2 with invalid data returns error changeset", %{project: proj} do
       image = image_fixture(%{"project_id" => proj.id})
       assert {:error, %Ecto.Changeset{}} = Research.update_image(image, @invalid_attrs)
-      #assert image == Research.get_image!(image.id)
+
+      image_with_project_not_loaded =
+        Map.replace!(
+          image,
+          :project,
+          %Ecto.Association.NotLoaded{__cardinality__: :one, __field__: :project, __owner__: Erga.Research.Image}
+        )
+
+      assert image_with_project_not_loaded == Research.get_image!(image.id)
     end
 
     test "delete_image/1 deletes the image", %{project: proj} do
@@ -337,10 +348,10 @@ defmodule Erga.ResearchTest do
       translated_content
     end
 
-    # test "list_translated_contents/0 returns all translated_contents", %{project: proj}  do
-    #   translated_content = translated_content_fixture(%{"target_table_primary_key" => proj.id, "target_field" => "title_translation_target_id", "target_table" => "projects"})
-    #   assert Research.list_translated_contents() == [translated_content]
-    # end
+    test "list_translated_contents/0 returns all translated_contents", %{project: proj}  do
+      translated_content = translated_content_fixture(%{"target_table_primary_key" => proj.id, "target_field" => "title_translation_target_id", "target_table" => "projects"})
+      assert Research.list_translated_contents() == [translated_content]
+    end
 
     test "get_translated_content!/1 returns the translated_content with given id",  %{project: proj}  do
       translated_content = translated_content_fixture(%{"target_table_primary_key" => proj.id, "target_field" => "title_translation_target_id", "target_table" => "projects"})
@@ -378,7 +389,7 @@ defmodule Erga.ResearchTest do
 
     test "delete_translated_content/1 deletes the translated_content", %{project: proj}  do
       translated_content = translated_content_fixture(%{"target_table_primary_key" => proj.id, "target_field" => "title_translation_target_id", "target_table" => "projects"})
-      assert {:ok, %TranslatedContent{}} = Research.delete_translated_content(translated_content)
+      assert {:ok, %TranslatedContent{}} = Research.delete_translated_content(translated_content, %{"target_field" => "title_translation_target_id", "target_table" => "projects"})
       assert_raise Ecto.NoResultsError, fn -> Research.get_translated_content!(translated_content.id) end
     end
 

@@ -80,7 +80,7 @@ defmodule Erga.MixProject do
         # "run priv/repo/idai-world-projects-seeds.exs"
       ],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: [ "ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]
   end
 end

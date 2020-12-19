@@ -76,9 +76,8 @@ defmodule ErgaWeb.TranslatedContentControllerTest do
     setup [:create_translated_content]
 
     test "deletes chosen translated_content", %{conn: conn, translated_content: translated_content} do
-      conn = delete(conn, Routes.translated_content_path(conn, :delete, translated_content, %{ redirect: Routes.project_path(conn, :index) } ))
+      conn = delete(conn, Routes.translated_content_path(conn, :delete, translated_content.id, %{"target_field" => "title_translation_target_id", "target_table" => "projects", redirect: Routes.project_path(conn, :index) } ))
       assert redirected_to(conn) == Routes.project_path(conn, :index)
-
     end
   end
 

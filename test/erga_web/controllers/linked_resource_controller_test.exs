@@ -12,14 +12,17 @@ defmodule ErgaWeb.LinkedResourceControllerTest do
   @create_attrs %{
     "label" => "Berlin, DAI",
     "description" => "Der Ort, an dem geschrieben wird.",
-    "linked_system" => "gazetteer" }
+    "linked_system" => "gazetteer",
+    "uri" => "https://gazetteer.dainst.org/place/2282601"
+  }
 
   def fixture(:linked_resource) do
     {:ok, proj} = Research.create_project(@proj_attrs)
 
-     {:ok, lr} = %{"project_id" => proj.id}
-                 |> Enum.into(@create_attrs)
-                 |> Research.create_linked_resource
+    {:ok, lr} =
+      %{"project_id" => proj.id}
+      |> Enum.into(@create_attrs)
+      |> Research.create_linked_resource
 
     %{project: proj, lr: lr}
   end

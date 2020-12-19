@@ -1,4 +1,4 @@
-defmodule ChrontologyService do
+defmodule ChronontologyService do
   use StandardServiceBehaivour
 
   @base_url "https://chronontology.dainst.org"
