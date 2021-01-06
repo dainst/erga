@@ -46,7 +46,7 @@ defmodule ErgaWeb.LinkedResourceLive do
       |> apply_default_assigns()
       |> assign(linked_resource: linked_resource)
       |> assign(project_id: linked_resource.project_id)
-      |> assign(descriptions: Enum.map(linked_resource.descriptions, &Research.change_translated_content(&1)))
+      |> assign(descriptions: linked_resource.descriptions)
       |> assign(changeset: changeset)
       |> assign(:linked_system, linked_resource.linked_system)
       |> assign(:label, linked_resource.label)

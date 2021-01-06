@@ -90,7 +90,7 @@
             </thead>
 
             <tbody>
-            <%= for description <- Enum.map(@descriptions, &get_description_content(&1)) do %>
+            <%= for description <- @linked_resource.descriptions do %>
               <tr>
                 <td>
                   <%= description.language_code %>
