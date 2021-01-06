@@ -107,18 +107,17 @@ defmodule Erga.ResearchTest do
     }
     @valid_attrs %{
       "label" => "Berlin, DAI",
-      "description" => "Der Ort, an dem geschrieben wird.",
       "linked_system" => "gazetteer",
-      "uri" => "https://gazetteer.dainst.org/place/2282601" }
+      "uri" => "https://gazetteer.dainst.org/place/2282601",
+      "descriptions" => []
+    }
     @update_attrs %{
       "label" => "Berlin, Zentrale, DAI",
-      "description" => "Der Ort, an dem geforscht wird.",
       "linked_system" => "gazetteer",
       "uri" => "https://gazetteer.dainst.org/place/2282601"
     }
     @invalid_attrs %{
       "label" => nil,
-      "description" => "",
       "linked_system" => "gazetteer"
     }
 
@@ -132,11 +131,6 @@ defmodule Erga.ResearchTest do
       Research.get_linked_resource!(linked_resource.id)
     end
 
-    test "list_linked_resources/0 returns all linked_resources" do
-      linked_resource = linked_resource_fixture()
-      assert linked_resource in Research.list_linked_resources()
-    end
-
     test "get_linked_resource!/1 returns the linked_resource with given id" do
       linked_resource = linked_resource_fixture()
       assert Research.get_linked_resource!(linked_resource.id) == linked_resource
@@ -148,7 +142,6 @@ defmodule Erga.ResearchTest do
         %{"project_id" => proj.id}
         |> Enum.into(@valid_attrs)
         |> Research.create_linked_resource()
-      assert linked_resource.description == "Der Ort, an dem geschrieben wird."
       assert linked_resource.label == "Berlin, DAI"
       assert linked_resource.linked_system == "gazetteer"
     end
@@ -164,7 +157,6 @@ defmodule Erga.ResearchTest do
     test "update_linked_resource/2 with valid data updates the linked_resource" do
       linked_resource = linked_resource_fixture()
       assert {:ok, %LinkedResource{} = linked_resource} = Research.update_linked_resource(linked_resource, @update_attrs)
-      assert linked_resource.description == "Der Ort, an dem geforscht wird."
       assert linked_resource.label == "Berlin, Zentrale, DAI"
       assert linked_resource.linked_system == "gazetteer"
     end
@@ -203,11 +195,6 @@ defmodule Erga.ResearchTest do
         |> Research.create_stakeholder()
 
       Research.get_stakeholder!(stakeholder.id)
-    end
-
-    test "list_stakeholders/0 returns all stakeholders", %{project: proj} do
-      stakeholder = stakeholder_fixture(%{"project_id" => proj.id})
-      assert Research.list_stakeholders() == [stakeholder]
     end
 
     test "get_stakeholder!/1 returns the stakeholder with given id", %{project: proj, person: pers} do

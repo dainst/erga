@@ -66,6 +66,10 @@ defmodule ErgaWeb.LinkedResourceLive do
     {:noreply, EventHandler.form_change(target, params, socket)}
   end
 
+  def handle_event("form_change", %{"_target" => [target]} = params, socket) do
+    {:noreply, EventHandler.form_change(target, params, socket)}
+  end
+
   def handle_event("form_change", _params, socket) do
     {:noreply, socket}
   end

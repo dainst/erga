@@ -71,7 +71,13 @@ defmodule ErgaWeb.Api.ProjectViewTest do
         linked_resources: [
           %LinkedResource{
             label: "Rom",
-            description: "Der Ort über den geschrieben wird.",
+            descriptions: [
+              %TranslatedContent{
+                target_id: 2,
+                language_code: "en",
+                text: "Der Ort über den geschrieben wird."
+              }
+            ],
             uri: "https://gazetteer.dainst.org/doc/2078206",
             linked_system: "Gazetteer"
           }
