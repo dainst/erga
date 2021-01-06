@@ -4,17 +4,19 @@ defmodule ErgaWeb.LinkedResourceLive do
   alias Erga.Research
   alias Erga.Research.LinkedResource
 
-  defp apply_default_assigns(socket, session) do
+  def handle_params(_unsigned_params, uri, socket) do
+    {:noreply, assign(socket, request_path: URI.parse(uri).path)}
+  end
+
+  defp apply_default_assigns(socket) do
     socket
-    |> assign(description_input_text: "")
-    |> assign(description_input_language_code: session["locale"])
     |> assign(:search_result, [])
     |> assign(:search_string, "")
     |> assign(:linked_id, nil)
     |> assign(:search_filter, "populated-place")
   end
 
-  def mount(%{"project_id" => project_id}, session, socket) do
+  def mount(%{"project_id" => project_id}, _session, socket) do
     # new case
     changeset =
       Research.change_linked_resource(%LinkedResource{})
@@ -23,7 +25,7 @@ defmodule ErgaWeb.LinkedResourceLive do
     socket =
       socket
       |> assign(page_title: "New Linked Resource")
-      |> apply_default_assigns(session)
+      |> apply_default_assigns()
       |> assign(project_id: project_id)
       |> assign(descriptions: [])
       |> assign(changeset: changeset)
@@ -34,17 +36,17 @@ defmodule ErgaWeb.LinkedResourceLive do
     {:ok, socket}
   end
 
-  def mount(%{"id" => id}, session, socket) do
+  def mount(%{"id" => id}, _session, socket) do
     # edit case
     linked_resource = Research.get_linked_resource!(id)
     changeset = Research.change_linked_resource(linked_resource)
     socket =
       socket
       |> assign(page_title: "Edit Linked Resource")
-      |> apply_default_assigns(session)
+      |> apply_default_assigns()
       |> assign(linked_resource: linked_resource)
       |> assign(project_id: linked_resource.project_id)
-      |> assign(descriptions: linked_resource.descriptions)
+      |> assign(descriptions: Enum.map(linked_resource.descriptions, &Research.change_translated_content(&1)))
       |> assign(changeset: changeset)
       |> assign(:linked_system, linked_resource.linked_system)
       |> assign(:label, linked_resource.label)
@@ -72,10 +74,7 @@ defmodule ErgaWeb.LinkedResourceLive do
     {:noreply, EventHandler.choose_resource(params, socket)}
   end
 
-  def handle_event("add_description", params, socket) do
-    {:noreply, EventHandler.add_description(params, socket)}
-  end
-
+  # new case
   def handle_event(
     "save",
     %{"linked_resource" => linked_resource_params},
@@ -86,14 +85,15 @@ defmodule ErgaWeb.LinkedResourceLive do
         {
           :noreply,
           socket
-          |> put_flash(:info, "Linked resource created successfully.")
-          |> redirect(to: Routes.project_path(ErgaWeb.Endpoint, :edit, linked_resource.project_id))
+          |> put_flash(:info, "Linked resource created successfully. You may add descriptions.")
+          |> redirect(to: Routes.linked_resource_path(ErgaWeb.Endpoint, :edit, linked_resource.id))
         }
       {:error, changeset } ->
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
 
+  # edit case
   def handle_event(
     "save",
     %{"linked_resource" => linked_resource_params},

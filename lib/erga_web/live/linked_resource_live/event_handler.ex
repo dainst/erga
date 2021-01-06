@@ -1,8 +1,5 @@
 defmodule EventHandler do
   import Phoenix.LiveView, only: [assign: 3, update: 3]
-  alias Erga.Research.TranslatedContent
-
-
 
   def form_change(target, %{"linked_resource" => params}, socket) do
     case target do
@@ -24,17 +21,6 @@ defmodule EventHandler do
       |> update(:uri, fn _ -> uri end)
       |> update(:search_string, fn _ -> "" end)
       |> update(:search_result, fn _ -> [] end)
-  end
-
-  def add_description(%{"language-code" => language_code, "text" => text}, socket) do
-
-    new_description = %TranslatedContent{
-      language_code: language_code,
-      text: text
-    }
-
-    socket
-    |> update(:descriptions, fn existing_descriptions -> existing_descriptions ++ [new_description] end)
   end
 
   defp search(socket, search_string) do

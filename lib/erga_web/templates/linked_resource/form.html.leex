@@ -64,13 +64,23 @@
         <%= error_tag f, :label %>
       </div>
     </div>
+    <%= if assigns[:linked_resource] do %>
     <div class="row">
       <div class="column">
 
         <div class="box">
           <h2>Descriptions</h2>
-
+            <%= link "Add Description", to: Routes.translated_content_path(
+              ErgaWeb.Endpoint,
+              :new,
+              target_table: @linked_resource.__meta__.source,
+              target_table_primary_key: @linked_resource.id,
+              target_id: @linked_resource.description_translation_target_id,
+              target_field: :description_translation_target_id,
+              redirect: @request_path
+            ) %>
           <table>
+
             <thead>
             <tr>
               <th>Language</th>
@@ -78,33 +88,43 @@
               <th></th>
             </tr>
             </thead>
-            <tbody>
-            <%= for description <- @descriptions do %>
-              <tr>
-                <td><%= description.language_code %></td>
-                <td><%= description.text %></td>
-                <td>
 
+            <tbody>
+            <%= for description <- Enum.map(@descriptions, &get_description_content(&1)) do %>
+              <tr>
+                <td>
+                  <%= description.language_code %>
+                </td>
+                <td>
+                  <%= if Map.has_key?(description, :only_one_translation_for_language) do %>
+                    <div class="alert-danger"><%= description.only_one_translation_for_language %></div>
+                  <% end %>
+                  <%= description.text %>
+                </td>
+                <td>
+                  <%= if Map.has_key?(description, :id) do %>
+                    <%=
+                      link "edit", to:
+                        Routes.translated_content_path(ErgaWeb.Endpoint, :edit, description.id, redirect: @request_path)
+                    %> | <%=
+                      link "remove", to: Routes.translated_content_path(
+                        ErgaWeb.Endpoint,
+                        :delete,
+                        description.id,
+                        target_table: @linked_resource.__meta__.source,
+                        target_field: :description_translation_target_id,
+                        redirect: @request_path
+                      ), method: :delete, data: [confirm: "Are you sure?"] %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>
-            <tr>
-              <td>
-                <%= select f, :description_input_language_code, ErgaWeb.LayoutView.get_locale_select_values(), value: @description_input_language_code %>
-              </td>
-              <td>
-                <%= textarea f, :description_input_text, value: @description_input_text, placeholder: "Add description here..." %>
-              </td>
-              <td>
-                <%= link "Add", to: "#", phx_click: "add_description", class: "btn btn-primary",
-                  phx_value_language_code: @description_input_language_code,
-                  phx_value_text: @description_input_text %></td>
-            </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
+    <% end %>
     <%= hidden_input f, :uri, value: @uri %>
     <%= if @uri != "" do %>
     <div class="row">
@@ -118,7 +138,11 @@
     <div class="row">
       <div class="column">
         <%= link "Back", to: Routes.project_path(ErgaWeb.Endpoint, :edit, assigns.project_id), class: "button button-outline" %>
-        <%= submit "Save" %>
+        <%= if assigns[:linked_resource] do %>
+          <%= submit "Save" %>
+        <% else %>
+          <%= submit "Continue" %>
+        <% end %>
       </div>
     </div>
   </div>
