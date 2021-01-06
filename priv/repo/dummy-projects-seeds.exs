@@ -63,7 +63,7 @@ project =
       %LinkedResource{
         label: "Rom",
         description_translation_target_id: 3,
-        uri: "2078206",
+        uri: "https://gazetteer.dainst.org/place/2323295",
         linked_system: "Gazetteer"
       }
     ]
