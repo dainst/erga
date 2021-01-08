@@ -148,7 +148,7 @@
           <td><%= get_translated_content(resource.descriptions) %></td>
           <td><a href="<%= resource.uri %>" target="_blank"><%= resource.linked_system %></a></td>
           <td>
-            <%= link "edit", to: Routes.linked_resource_path(@conn, :edit, resource.id) %>
+            <%= link "edit", to: Routes.linked_resource_path(@conn, :edit, resource.id) %> |
             <%= link "remove",
               to: Routes.linked_resource_path( @conn, :delete, resource ),
               method: :delete,
