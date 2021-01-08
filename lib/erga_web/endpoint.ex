@@ -2,6 +2,7 @@ defmodule ErgaWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :erga
 
   @upload_directory Application.get_env(:erga, :uploads_directory)
+  @media_path Application.get_env(:erga, :media_path)
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
@@ -30,7 +31,7 @@ defmodule ErgaWeb.Endpoint do
     only: ~w(css fonts images js favicon.ico robots.txt)
   )
 
-  plug(Plug.Static, at: "/media", from: "#{@upload_directory}")
+  plug(Plug.Static, at: @media_path, from: @upload_directory)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

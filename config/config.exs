@@ -8,7 +8,9 @@
 use Mix.Config
 
 config :erga,
-  ecto_repos: [Erga.Repo]
+  ecto_repos: [Erga.Repo],
+  media_path: "/media"
+
 
 # Configures the endpoint
 config :erga, ErgaWeb.Endpoint,
