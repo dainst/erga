@@ -48,6 +48,7 @@ defmodule Erga.Research do
     Repo.get!(Project, id)
     |> Repo.preload(stakeholders: :person)
     |> Repo.preload(:linked_resources)
+    |> Repo.preload(linked_resources: :descriptions)
     |> Repo.preload(:external_links)
     |> Repo.preload(:images)
     |> Repo.preload(:titles)
@@ -206,20 +207,6 @@ defmodule Erga.Research do
   end
 
   @doc """
-  Returns the list of linked_resources.
-
-  ## Examples
-
-      iex> list_linked_resources()
-      [%LinkedResource{}, ...]
-
-  """
-  def list_linked_resources do
-    Repo.all(LinkedResource)
-    |> Repo.preload(:project)
-  end
-
-  @doc """
   Gets a single linked_resource.
 
   Raises `Ecto.NoResultsError` if the Linked resource does not exist.
@@ -236,6 +223,7 @@ defmodule Erga.Research do
   def get_linked_resource!(id) do
     Repo.get!(LinkedResource, id)
     |> Repo.preload(:project)
+    |> Repo.preload(:descriptions)
   end
 
   @doc """
@@ -304,19 +292,6 @@ defmodule Erga.Research do
   """
   def change_linked_resource(%LinkedResource{} = linked_resource, attrs \\ %{}) do
     LinkedResource.changeset(linked_resource, attrs)
-  end
-
-  @doc """
-  Returns the list of external_links.
-
-  ## Examples
-
-      iex> list_external_links()
-      [%ExternalLink{}, ...]
-
-  """
-  def list_external_links do
-    Repo.all(ExternalLink)
   end
 
   @doc """
@@ -403,21 +378,6 @@ defmodule Erga.Research do
   """
   def change_external_link(%ExternalLink{} = external_link, attrs \\ %{}) do
     ExternalLink.changeset(external_link, attrs)
-  end
-
-  @doc """
-  Returns the list of stakeholders.
-
-  ## Examples
-
-      iex> list_stakeholders()
-      [%Stakeholder{}, ...]
-
-  """
-  def list_stakeholders do
-    Repo.all(Stakeholder)
-    |> Repo.preload(:project)
-    |> Repo.preload(:person)
   end
 
   @doc """

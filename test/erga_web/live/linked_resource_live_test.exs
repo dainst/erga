@@ -16,14 +16,13 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
 
   @fixture_attrs %{
     "label" => "Berlin, DAI",
-    "description" => "Der Ort, an dem geschrieben wird.",
+    "descriptions" => [],
     "uri" => "https://gazetteer.dainst.org/2078206",
     "linked_system" => "gazetteer"
   }
 
   @create_attrs %{
-    "label" => "la citta eterna",
-    "description" => "Der Ort, über den geschrieben wird."
+    "label" => "la citta eterna"
   }
 
   @update_attrs %{
@@ -51,7 +50,7 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
   describe "new linked resource" do
     setup [:create_project]
 
-    test "redirects to project when data is valid", %{conn: conn, project: project} do
+    test "redirects to linked resource edit when data is valid", %{conn: conn, project: project} do
       # load the create page
       {:ok, new_live, html} = live(conn, Routes.linked_resource_path(conn, :new, project.id))
 
@@ -62,17 +61,30 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
       form_with_error =
         new_live
         |> form("#linked-resource-form", linked_resource: @invalid_attr)
-        |> render_change(%{"_target" => ["test"]})
+        |> render_submit()
 
       assert form_with_error =~ "can&apos;t be blank"
 
       # try to create the valid resource
-      {:ok, conn} =
+      result =
         new_live
         |> form("#linked-resource-form", linked_resource: @create_attrs)
         # Hidden form fields have to be passed with render_submit
         |> render_submit(%{linked_resource: %{"project_id" => project.id, "uri" => @gazetteer_uri}})
-        |> follow_redirect(conn, Routes.project_path(ErgaWeb.Endpoint, :edit, project.id))
+
+      {:error,
+        {:redirect,
+          %{
+            to: path
+          }
+        }
+      } = result
+
+      assert Regex.run(~r(/linked_resources/\d+/edit), path)
+
+      {:ok, conn} =
+        result
+        |> follow_redirect(conn)
 
       html = assert response(conn, 200)
       # check if the response_body contains the success msg and the label
@@ -211,6 +223,7 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
 
       # switch to arachne searching
       render_change(view, "form_change", %{"_target" => ["linked_system"], "linked_resource" => %{"linked_system" => "arachne"}})
+
       # run search
       html =
         view

@@ -36,7 +36,7 @@
     <%= for resource <- @project.linked_resources do %>
       <tr>
         <td><%= resource.label %></td>
-        <td><%= resource.description %></td>
+        <td><%= get_translated_content(resource.descriptions) %></td>
         <td><a href="<%= resource.uri %>" target="_blank"><%= resource.uri %></a></td>
       </tr>
     <% end %>

@@ -39,6 +39,14 @@ p2 = Erga.Repo.insert!(%Person{
   title: "Cand. phil"
 })
 
+linked_place =
+  %LinkedResource{
+    label: "Rom",
+    description_translation_target_id: 3,
+    uri: "https://gazetteer.dainst.org/place/2323295",
+    linked_system: "Gazetteer"
+  }
+
 project =
   Erga.Repo.insert! %Project{
 
@@ -60,12 +68,7 @@ project =
         person_id: p2.id
       }],
     linked_resources: [
-      %LinkedResource{
-        label: "Rom",
-        description: "Der Ort über den geschrieben wird.",
-        uri: "2078206",
-        linked_system: "Gazetteer"
-      }
+      linked_place
     ]
 }
 
@@ -81,6 +84,18 @@ Erga.Research.create_image(
     }
   }
 )
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: linked_place.description_translation_target_id,
+  language_code: "de",
+  text: "Der Ort über den geschrieben wird."
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: linked_place.description_translation_target_id,
+  language_code: "en",
+  text: "The place written about."
+})
 
 Erga.Repo.insert!(%TranslatedContent{
   target_id: project.description_translation_target_id,

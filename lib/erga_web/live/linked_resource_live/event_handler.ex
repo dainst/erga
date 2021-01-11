@@ -1,37 +1,26 @@
 defmodule EventHandler do
   import Phoenix.LiveView, only: [assign: 3, update: 3]
-  alias Erga.Research.LinkedResource
 
-
-  def form_change(%{"_target" => targets,  "linked_resource" => params}, socket) do
-    cond do
-      "linked_system" in targets ->
-        assign(socket, :uri, "")
-        |> assign(:search_result, [])
-        |> assign(:linked_system, params["linked_system"])
-      "search_filter" in targets -> assign(socket, :search_filter, params["search_filter"])
-      "search_string" in targets -> search(socket, params["search_string"])
-      true -> validate(params, socket)
+  def form_change(target, %{"linked_resource" => params}, socket) do
+    case target do
+      "linked_system" ->
+        update(socket, :uri, fn _ -> "" end)
+        |> update(:search_result, fn _ -> [] end)
+        |> update(:linked_system, fn _ -> params["linked_system"] end)
+      "search_string" ->
+        search(socket, params["search_string"])
+      target ->
+        update(socket, String.to_existing_atom(target), fn _ -> params[target] end)
     end
   end
 
   def choose_resource( %{"id" => id, "name" => name, "uri" => uri}, socket) do
     socket
-      |> assign(:label, name)
-      |> assign(:linked_id, id)
-      |> assign(:uri, uri)
-      |> assign(:search_string, "")
-      |> assign(:search_result, [])
-  end
-
-  defp validate(params, socket) do
-    changeset =
-      %LinkedResource{}
-      |> Erga.Research.change_linked_resource(params)
-      |> Map.put(:action, :insert)
-
-      assign(socket, :changeset, changeset)
-      |> assign(:linked_system, params["linked_system"])
+      |> update(:label, fn _ -> name end)
+      |> update(:linked_id, fn _ -> id end)
+      |> update(:uri, fn _ -> uri end)
+      |> update(:search_string, fn _ -> "" end)
+      |> update(:search_result, fn _ -> [] end)
   end
 
   defp search(socket, search_string) do
