@@ -22,7 +22,8 @@ defmodule Erga.ResearchTest do
     {:ok, pers} = Staff.create_person( %{
       firstname: "some firstname",
       lastname: "some lastname",
-      title: "some title"
+      title: "some title",
+      external_id: "some viaf id"
     })
     %{person: pers}
   end
@@ -184,9 +185,9 @@ defmodule Erga.ResearchTest do
 
     alias Erga.Research.Stakeholder
 
-    @valid_attrs %{ "role" => "some role", "external_id" => "some stakeholder_id"}
-    @update_attrs %{  "role" => "some updated role", "external_id" => "some updated stakeholder_id"}
-    @invalid_attrs %{"person_id" => nil, "project_id" => nil, "role" => nil, "external_id" => nil}
+    @valid_attrs %{"role" => "some role"}
+    @update_attrs %{"role" => "some updated role"}
+    @invalid_attrs %{"project_id" => nil}
 
     def stakeholder_fixture(attrs \\ %{}) do
       {:ok, stakeholder} =
@@ -210,13 +211,12 @@ defmodule Erga.ResearchTest do
       assert stakeholder.person_id == pers.id
       assert stakeholder.project_id == proj.id
       assert stakeholder.role == "some role"
-      assert stakeholder.external_id == "some stakeholder_id"
     end
 
     test "create_stakeholder/1 with invalid data returns error changeset", %{project: proj, person: pers}  do
       assert {:error, %Ecto.Changeset{}} =
         %{"project_id" => proj.id, "person_id" => pers.id}
-        |> Enum.into(@invalid_attrs)
+        |> Map.merge(@invalid_attrs)
         |> Research.create_stakeholder()
     end
 
@@ -226,7 +226,6 @@ defmodule Erga.ResearchTest do
       assert stakeholder.person_id == pers.id
       assert stakeholder.project_id == proj.id
       assert stakeholder.role == "some updated role"
-      assert stakeholder.external_id == "some updated stakeholder_id"
     end
 
     test "update_stakeholder/2 with invalid data returns error changeset", %{project: proj, person: pers} do

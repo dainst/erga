@@ -6,8 +6,8 @@ defmodule Erga.StaffTest do
   describe "persons" do
     alias Erga.Staff.Person
 
-    @valid_attrs %{firstname: "some firstname", lastname: "some lastname", title: "some title"}
-    @update_attrs %{firstname: "some updated firstname", lastname: "some updated lastname", title: "some updated title"}
+    @valid_attrs %{firstname: "some firstname", lastname: "some lastname", title: "some title", external_id: "some viaf id"}
+    @update_attrs %{firstname: "some updated firstname", lastname: "some updated lastname", title: "some updated title", external_id: "another viaf id"}
     @invalid_attrs %{firstname: nil, lastname: nil, title: nil}
 
     defp without_associations(person) do
@@ -51,6 +51,7 @@ defmodule Erga.StaffTest do
       assert person.firstname == "some firstname"
       assert person.lastname == "some lastname"
       assert person.title == "some title"
+      assert person.external_id == "some viaf id"
     end
 
     test "create_person/1 with invalid data returns error changeset" do
@@ -63,6 +64,7 @@ defmodule Erga.StaffTest do
       assert person.firstname == "some updated firstname"
       assert person.lastname == "some updated lastname"
       assert person.title == "some updated title"
+      assert person.external_id == "another viaf id"
     end
 
     test "update_person/2 with invalid data returns error changeset" do

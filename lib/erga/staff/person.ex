@@ -6,6 +6,7 @@ defmodule Erga.Staff.Person do
     field :firstname, :string
     field :lastname, :string
     field :title, :string, default: ""
+    field :external_id, :string
 
     has_many(:stakeholders, Erga.Research.Stakeholder)
 
@@ -15,7 +16,7 @@ defmodule Erga.Staff.Person do
   @doc false
   def changeset(person, attrs) do
     person
-    |> cast(attrs, [:firstname, :lastname, :title])
+    |> cast(attrs, [:firstname, :lastname, :title, :external_id])
     |> validate_required([:firstname, :lastname])
     |> cast_assoc(:stakeholders)
   end

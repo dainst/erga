@@ -30,13 +30,15 @@ Erga.Repo.delete_all TranslatedContent
 p1 = Erga.Repo.insert!(%Person{
   firstname: "Theodor",
   lastname: "Wiegand",
-  title: "Prof. Dr."
+  title: "Prof. Dr.",
+  external_id: "DOI:123XABC123"
 })
 
 p2 = Erga.Repo.insert!(%Person{
   firstname: "Hansi",
   lastname: "Flick",
-  title: "Cand. phil"
+  title: "Cand. phil",
+  external_id: "PERSID:34578"
 })
 
 linked_place =
@@ -59,12 +61,10 @@ project =
     stakeholders: [
       %Stakeholder{
         role: "chef role",
-        external_id: "DOI:123XABC123",
         person_id: p1.id
     },
       %Stakeholder{
         role: "intern",
-        external_id: "PERSID:34578",
         person_id: p2.id
       }],
     linked_resources: [

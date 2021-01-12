@@ -16,14 +16,16 @@ defmodule ErgaWeb.Api.ProjectViewTest do
       id: 1,
       firstname: "Theodor",
       lastname: "Wiegand",
-      title: "Prof. Dr."
+      title: "Prof. Dr.",
+      external_id: "DOI:123XABC123"
     }
 
     p2 = %Person{
       id: 2,
       firstname: "Hansi",
       lastname: "Flick",
-      title: "Cand. phil"
+      title: "Cand. phil",
+      external_id: "PERSID:34578"
     }
 
     project =
@@ -58,13 +60,11 @@ defmodule ErgaWeb.Api.ProjectViewTest do
         stakeholders: [
           %Stakeholder{
             role: "chef role",
-            external_id: "DOI:123XABC123",
             person_id: p1.id,
             person: p1
         },
           %Stakeholder{
             role: "intern",
-            external_id: "PERSID:34578",
             person_id: p2.id,
             person: p2
           }],

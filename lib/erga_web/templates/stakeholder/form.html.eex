@@ -15,12 +15,8 @@
   <%= link "Manage Persons", to: Routes.person_path(@conn, :index, redirect: get_person_redirect(@conn.request_path, @project_id)) %>
 
   <%= label f, :role %>
-  <%= text_input f, :role, required: true %>
+  <%= text_input f, :role %>
   <%= error_tag f, :role %>
-
-  <%= label f, :external_id, "Identifier" %>
-  <%= text_input f, :external_id, required: true %>
-  <%= error_tag f, :external_id %>
 
   <div>
     <%= submit "Save" %>

@@ -19,6 +19,10 @@
   <%= text_input f, :title %>
   <%= error_tag f, :title %>
 
+  <%= label f, :external_id, "Identifier" %>
+  <%= text_input f, :external_id %>
+  <%= error_tag f, :external_id %>
+
   <div>
     <%= submit "Save" %>
   </div>

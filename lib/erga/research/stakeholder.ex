@@ -4,7 +4,6 @@ defmodule Erga.Research.Stakeholder do
 
   schema "stakeholders" do
     field(:role, :string)
-    field(:external_id, :string)
 
     belongs_to(:project, Erga.Research.Project)
     belongs_to(:person, Erga.Staff.Person)
@@ -15,9 +14,11 @@ defmodule Erga.Research.Stakeholder do
   @doc false
   def changeset(stakeholder, attrs) do
     stakeholder
-    |> cast(attrs, [:external_id, :role, :person_id])
+    |> cast(attrs, [:role, :person_id, :project_id])
+    |> validate_required([:project_id])
     |> cast_assoc(:project)
     |> cast_assoc(:person)
-    |> validate_required([:external_id, :role ])
+    |> assoc_constraint(:project) # evaluated on insert, makes sure the data referred project exists
+    |> assoc_constraint(:person)
   end
 end

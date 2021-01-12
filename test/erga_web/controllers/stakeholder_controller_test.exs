@@ -3,9 +3,9 @@ defmodule ErgaWeb.StakeholderControllerTest do
 
   alias Erga.Research
 
-  @create_attrs %{"role" =>"some role", "external_id" => "some stakeholder_id"}
-  @update_attrs %{"role" => "some updated role", "external_id" => "some updated stakeholder_id"}
-  @invalid_attrs %{"role" => nil, "external_id" => nil }
+  @create_attrs %{"role" =>"some role"}
+  @update_attrs %{"role" => "some updated role"}
+  @invalid_attrs %{"project_id" => nil}
 
   def make_params( attrs ) do
     {:ok, proj} = create_project()
@@ -38,12 +38,6 @@ defmodule ErgaWeb.StakeholderControllerTest do
       assert %{id: _id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.project_path(conn, :edit, params["stakeholder"]["project_id"])
 
-    end
-
-    test "renders errors when data is invalid", %{conn: conn} do
-      params = make_params(@invalid_attrs)
-      conn = post(conn, Routes.stakeholder_path(conn, :create), params)
-      assert html_response(conn, 200) =~ "New Stakeholder"
     end
   end
 
