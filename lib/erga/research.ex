@@ -106,30 +106,28 @@ defmodule Erga.Research do
   """
 
   def get_projects_updated_since(%NaiveDateTime{} = date) do
-    Project
-    |> join(:left, [p], t in assoc(p, :titles))
-    |> join(:left, [p], d in assoc(p, :descriptions))
-    |> join(:left, [p], s in assoc(p, :stakeholders))
-    |> join(:left, [p, t, d, s], pe in assoc(s, :person))
-    |> join(:left, [p], l in assoc(p, :linked_resources))
-    |> join(:left, [p], e in assoc(p, :external_links))
-    |> join(:left, [p], i in assoc(p, :images))
-    |> where(
-      [p, t, d, s, pe, l, e, i],
-      p.updated_at >= ^date
-      or t.updated_at >= ^date
-      or d.updated_at >= ^date
-      or s.updated_at >= ^date
-      or pe.updated_at >= ^date
-      or l.updated_at >= ^date
-      or e.updated_at >= ^date
-      or i.updated_at >= ^date
-    )
-    |> select([p], p)
-    |> Repo.all
-    |> Repo.preload(:images)
-    |> Repo.preload(:titles)
-    |> Repo.preload(:stakeholders)
+
+    Repo.all from p in Project,
+          left_join: t in assoc(p, :titles),
+          left_join: d in assoc(p, :descriptions),
+          left_join: s in assoc(p, :stakeholders),
+          left_join: pe in assoc(s, :person),
+          left_join: l in assoc(p, :linked_resources),
+          left_join: d_l in assoc(l, :descriptions),
+          left_join: e in assoc(p, :external_links),
+          left_join: i in assoc(p, :images),
+          where: p.updated_at >= ^date
+            or t.updated_at >= ^date
+            or d.updated_at >= ^date
+            or s.updated_at >= ^date
+            or pe.updated_at >= ^date
+            or l.updated_at >= ^date
+            or d_l.updated_at >= ^date
+            or e.updated_at >= ^date
+            or i.updated_at >= ^date,
+          preload: [titles: t, descriptions: d, external_links: e, images: i],
+          preload: [stakeholders: {s, person: pe}],
+          preload: [linked_resources: {l, descriptions: d_l}]
   end
 
 
