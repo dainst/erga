@@ -181,6 +181,7 @@
     </div>
     <% end %>
     <%= hidden_input f, :uri, value: @uri %>
+    <%= error_tag f, :uri %>
     <%= if @uri != "" do %>
     <div class="row">
       <div class="column">
