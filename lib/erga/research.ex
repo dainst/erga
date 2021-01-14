@@ -47,10 +47,9 @@ defmodule Erga.Research do
   def get_project!(id) do
     Repo.get!(Project, id)
     |> Repo.preload(stakeholders: :person)
-    |> Repo.preload(:linked_resources)
-    |> Repo.preload(linked_resources: :descriptions)
-    |> Repo.preload(:external_links)
-    |> Repo.preload(:images)
+    |> Repo.preload(linked_resources: [:descriptions, :labels])
+    |> Repo.preload(external_links: :labels)
+    |> Repo.preload(images: :labels)
     |> Repo.preload(:titles)
     |> Repo.preload(:descriptions)
   end
@@ -223,6 +222,7 @@ defmodule Erga.Research do
   def get_linked_resource!(id) do
     Repo.get!(LinkedResource, id)
     |> Repo.preload(:project)
+    |> Repo.preload(:labels)
     |> Repo.preload(:descriptions)
   end
 
@@ -308,7 +308,10 @@ defmodule Erga.Research do
       ** (Ecto.NoResultsError)
 
   """
-  def get_external_link!(id), do: Repo.get!(ExternalLink, id)
+  def get_external_link!(id) do
+    Repo.get!(ExternalLink, id)
+    |> Repo.preload(:labels)
+  end
 
 
   @doc """
@@ -494,7 +497,10 @@ defmodule Erga.Research do
       ** (Ecto.NoResultsError)
 
   """
-  def get_image!(id), do: Repo.get!(Image, id)
+  def get_image!(id) do
+    Repo.get!(Image, id)
+    |> Repo.preload(:labels)
+  end
 
   @doc """
   Creates a image.

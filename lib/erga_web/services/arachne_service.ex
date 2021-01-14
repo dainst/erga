@@ -1,5 +1,5 @@
 defmodule ArachneService do
-  use StandardServiceBehaivour
+  use ErgaWeb.Services
 
   @base_url "https://arachne.dainst.org/data/search"
 
@@ -31,7 +31,8 @@ defmodule ArachneService do
       for  n <- res do
         name =  "#{n["type"]}: #{n["title"]}"
         %{
-          name: name,
+          label: name,
+          names: [name],
           res_id: n["entityId"],
           uri: n["@id"]
         }

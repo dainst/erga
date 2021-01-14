@@ -1,8 +1,7 @@
 defmodule GazetteerService do
-  use StandardServiceBehaivour
+  use ErgaWeb.Services
 
   @base_url  "https://gazetteer.dainst.org/search.json?add=parents&offset=0&limit=10&q="
-
 
   def get_list(val, filter) do
     case filter do

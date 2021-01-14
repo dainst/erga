@@ -5,11 +5,13 @@ defmodule Erga.Research.Image do
   @upload_directory Application.get_env(:erga, :uploads_directory)
 
   schema "images" do
-    field(:label, :string)
     field(:path, :string)
     field(:primary, :boolean)
 
     belongs_to(:project, Erga.Research.Project)
+
+    field(:label_translation_target_id, :integer)
+    has_many(:labels, Erga.Research.TranslatedContent, foreign_key: :target_id, references: :label_translation_target_id)
 
     timestamps()
   end
@@ -17,11 +19,12 @@ defmodule Erga.Research.Image do
   @doc false
   def changeset(image, attrs) do
     image
-    |> cast(attrs, [:label, :path, :primary])
+    |> cast(attrs, [:path, :primary])
     |> handle_upload(attrs)
-    |> validate_required([:label, :path, :primary])
+    |> validate_required([:path, :primary])
     |> evaluate_path(attrs)
     |> cast_assoc(:project)
+    |> cast_assoc(:labels)
   end
 
   def handle_upload(changeset, %{"upload" => upload} = attrs) do

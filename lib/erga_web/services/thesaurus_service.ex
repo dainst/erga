@@ -1,6 +1,5 @@
 defmodule ThesaurusService do
-  use HTTPoison.Base
-
+  use ErgaWeb.Services
 
   @base_search_url "http://thesauri.dainst.org/de/search.ttl?q="
 
@@ -62,7 +61,7 @@ defmodule ThesaurusService do
     end
   end
 
-  defp get_result_list(result) do
+  def get_result_list(result) do
     res = result.results
     for n <- res, do: get_values(n)
   end
@@ -79,6 +78,4 @@ defmodule ThesaurusService do
       uri: RDF.IRI.to_string(n["link"])
      }
   end
-
-
 end
