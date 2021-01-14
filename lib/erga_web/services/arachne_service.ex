@@ -31,8 +31,7 @@ defmodule ArachneService do
       for  n <- res do
         name =  "#{n["type"]}: #{n["title"]}"
         %{
-          label: name,
-          names: [name],
+          name: name,
           res_id: n["entityId"],
           uri: n["@id"]
         }
