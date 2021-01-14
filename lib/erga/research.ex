@@ -113,8 +113,11 @@ defmodule Erga.Research do
           left_join: pe in assoc(s, :person),
           left_join: l in assoc(p, :linked_resources),
           left_join: d_l in assoc(l, :descriptions),
+          left_join: l_l in assoc(l, :labels),
           left_join: e in assoc(p, :external_links),
+          left_join: l_e in assoc(e, :labels),
           left_join: i in assoc(p, :images),
+          left_join: l_i in assoc(i, :labels),
           where: p.updated_at >= ^date
             or t.updated_at >= ^date
             or d.updated_at >= ^date
@@ -122,8 +125,11 @@ defmodule Erga.Research do
             or pe.updated_at >= ^date
             or l.updated_at >= ^date
             or d_l.updated_at >= ^date
+            or l_l.updated_at >= ^date
             or e.updated_at >= ^date
-            or i.updated_at >= ^date,
+            or l_e.updated_at >= ^date
+            or i.updated_at >= ^date
+            or l_i.updated_at >= ^date,
           preload: [titles: t, descriptions: d, external_links: e, images: i],
           preload: [stakeholders: {s, person: pe}],
           preload: [linked_resources: {l, descriptions: d_l}]
