@@ -3,6 +3,7 @@ defmodule Erga.ResearchTest do
 
   alias Erga.Research
   alias Erga.Staff
+  alias NaiveDateTime
 
   setup do
     on_exit(fn -> File.rm_rf(Application.get_env(:erga, :uploads_directory)) end)
@@ -58,6 +59,16 @@ defmodule Erga.ResearchTest do
     test "get_project!/1 returns the project with given id" do
       project = project_fixture()
       head = Research.get_project!(project.id)
+      assert head.project_code == project.project_code
+      assert head.starts_at == project.starts_at
+      assert head.ends_at == project.ends_at
+      assert head.title_translation_target_id == project.title_translation_target_id
+    end
+
+    test "get_projects_updated_since!/1 returns all requested projects" do
+      date_since = NaiveDateTime.utc_now()
+      project = project_fixture()
+      [head | _tail] = Research.get_projects_updated_since(date_since)
       assert head.project_code == project.project_code
       assert head.starts_at == project.starts_at
       assert head.ends_at == project.ends_at
