@@ -22,7 +22,7 @@ defmodule Erga.Research do
   def list_projects do
     Project
     |> Repo.all()
-    |> Repo.preload(:stakeholders)
+    |> Repo.preload(stakeholders: :person)
     |> Repo.preload(linked_resources: [:labels, :descriptions])
     |> Repo.preload(external_links: :labels)
     |> Repo.preload(images: :labels)
