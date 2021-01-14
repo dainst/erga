@@ -9,9 +9,9 @@ defmodule ErgaWeb.ImageControllerTest do
     on_exit(fn -> File.rm_rf(@uploads_directory) end)
   end
 
-  @create_attrs %{"label" => "bild", "primary" => true, "upload" => %Plug.Upload{path: "test/files/arch.jpg", filename: "arch.jpg"}}
-  @update_attrs %{"label" => "pic", "primary" => false}
-  @invalid_attrs %{"label" => nil, "primary" => nil}
+  @create_attrs %{"primary" => true, "upload" => %Plug.Upload{path: "test/files/arch.jpg", filename: "arch.jpg"}}
+  @update_attrs %{"primary" => false}
+  @invalid_attrs %{"path" => "nonexistant.jpg"}
 
   describe "new image" do
     setup [:create_project]
@@ -30,8 +30,8 @@ defmodule ErgaWeb.ImageControllerTest do
 
       conn = post(conn, Routes.image_path(conn, :create), %{"image" => params})
 
-      assert %{id: _id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.project_path(conn, :edit, params["project_id"])
+      assert %{id: id} = redirected_params(conn)
+      assert redirected_to(conn) == Routes.image_path(conn, :edit, id)
 
       auth_assigns = conn.assigns
       conn =
@@ -41,7 +41,7 @@ defmodule ErgaWeb.ImageControllerTest do
 
 
       conn = get(conn,Routes.project_path(conn, :edit, params["project_id"]))
-      assert html_response(conn, 200) =~ "Image created successfully."
+      assert html_response(conn, 200) =~ "Image created successfully"
     end
 
     test "renders errors when data is invalid", %{conn: conn, project: project} do
