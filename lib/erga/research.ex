@@ -23,9 +23,9 @@ defmodule Erga.Research do
     Project
     |> Repo.all()
     |> Repo.preload(:stakeholders)
-    |> Repo.preload(:linked_resources)
-    |> Repo.preload(:external_links)
-    |> Repo.preload(:images)
+    |> Repo.preload(linked_resources: [:labels, :descriptions])
+    |> Repo.preload(external_links: :labels)
+    |> Repo.preload(images: :labels)
     |> Repo.preload(:titles)
     |> Repo.preload(:descriptions)
   end
@@ -47,7 +47,7 @@ defmodule Erga.Research do
   def get_project!(id) do
     Repo.get!(Project, id)
     |> Repo.preload(stakeholders: :person)
-    |> Repo.preload(linked_resources: [:descriptions, :labels])
+    |> Repo.preload(linked_resources: [:labels, :descriptions])
     |> Repo.preload(external_links: :labels)
     |> Repo.preload(images: :labels)
     |> Repo.preload(:titles)
@@ -71,9 +71,9 @@ defmodule Erga.Research do
   def get_project_by_code!(code) do
     Repo.one!(from(p in Project, where: p.project_code == ^code))
     |> Repo.preload(stakeholders: :person)
-    |> Repo.preload(:linked_resources)
-    |> Repo.preload(:external_links)
-    |> Repo.preload(:images)
+    |> Repo.preload(linked_resources: [:labels, :descriptions])
+    |> Repo.preload(external_links: :labels)
+    |> Repo.preload(images: :labels)
     |> Repo.preload(:titles)
     |> Repo.preload(:descriptions)
   end
@@ -81,9 +81,9 @@ defmodule Erga.Research do
   def get_project_by_code(code) do
     Repo.one(from(p in Project, where: p.project_code == ^code))
     |> Repo.preload(stakeholders: :person)
-    |> Repo.preload(:linked_resources)
-    |> Repo.preload(:external_links)
-    |> Repo.preload(:images)
+    |> Repo.preload(linked_resources: [:labels, :descriptions])
+    |> Repo.preload(external_links: :labels)
+    |> Repo.preload(images: :labels)
     |> Repo.preload(:titles)
     |> Repo.preload(:descriptions)
   end

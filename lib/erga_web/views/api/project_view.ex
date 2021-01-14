@@ -21,6 +21,7 @@ defmodule ErgaWeb.Api.ProjectView do
       updated_at: project.updated_at,
       stakeholders: render_many(project.stakeholders, ErgaWeb.Api.StakeholderView, "stakeholder.json"),
       linked_ressources: render_many(project.linked_resources, ErgaWeb.Api.LinkedResourceView, "linked_resource.json"),
+      external_links: render_many(project.external_links, ErgaWeb.Api.ExternalLinkView, "external_link.json"),
       images: render_many(project.images, ErgaWeb.Api.ImageView, "image.json")
     }
   end
