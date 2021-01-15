@@ -22,10 +22,10 @@ defmodule Erga.Research do
   def list_projects do
     Project
     |> Repo.all()
-    |> Repo.preload(:stakeholders)
-    |> Repo.preload(:linked_resources)
-    |> Repo.preload(:external_links)
-    |> Repo.preload(:images)
+    |> Repo.preload(stakeholders: :person)
+    |> Repo.preload(linked_resources: [:labels, :descriptions])
+    |> Repo.preload(external_links: :labels)
+    |> Repo.preload(images: :labels)
     |> Repo.preload(:titles)
     |> Repo.preload(:descriptions)
   end
@@ -47,10 +47,9 @@ defmodule Erga.Research do
   def get_project!(id) do
     Repo.get!(Project, id)
     |> Repo.preload(stakeholders: :person)
-    |> Repo.preload(:linked_resources)
-    |> Repo.preload(linked_resources: :descriptions)
-    |> Repo.preload(:external_links)
-    |> Repo.preload(:images)
+    |> Repo.preload(linked_resources: [:labels, :descriptions])
+    |> Repo.preload(external_links: :labels)
+    |> Repo.preload(images: :labels)
     |> Repo.preload(:titles)
     |> Repo.preload(:descriptions)
   end
@@ -72,9 +71,9 @@ defmodule Erga.Research do
   def get_project_by_code!(code) do
     Repo.one!(from(p in Project, where: p.project_code == ^code))
     |> Repo.preload(stakeholders: :person)
-    |> Repo.preload(:linked_resources)
-    |> Repo.preload(:external_links)
-    |> Repo.preload(:images)
+    |> Repo.preload(linked_resources: [:labels, :descriptions])
+    |> Repo.preload(external_links: :labels)
+    |> Repo.preload(images: :labels)
     |> Repo.preload(:titles)
     |> Repo.preload(:descriptions)
   end
@@ -82,9 +81,9 @@ defmodule Erga.Research do
   def get_project_by_code(code) do
     Repo.one(from(p in Project, where: p.project_code == ^code))
     |> Repo.preload(stakeholders: :person)
-    |> Repo.preload(:linked_resources)
-    |> Repo.preload(:external_links)
-    |> Repo.preload(:images)
+    |> Repo.preload(linked_resources: [:labels, :descriptions])
+    |> Repo.preload(external_links: :labels)
+    |> Repo.preload(images: :labels)
     |> Repo.preload(:titles)
     |> Repo.preload(:descriptions)
   end
@@ -114,8 +113,11 @@ defmodule Erga.Research do
           left_join: pe in assoc(s, :person),
           left_join: l in assoc(p, :linked_resources),
           left_join: d_l in assoc(l, :descriptions),
+          left_join: l_l in assoc(l, :labels),
           left_join: e in assoc(p, :external_links),
+          left_join: l_e in assoc(e, :labels),
           left_join: i in assoc(p, :images),
+          left_join: l_i in assoc(i, :labels),
           where: p.updated_at >= ^date
             or t.updated_at >= ^date
             or d.updated_at >= ^date
@@ -123,8 +125,11 @@ defmodule Erga.Research do
             or pe.updated_at >= ^date
             or l.updated_at >= ^date
             or d_l.updated_at >= ^date
+            or l_l.updated_at >= ^date
             or e.updated_at >= ^date
-            or i.updated_at >= ^date,
+            or l_e.updated_at >= ^date
+            or i.updated_at >= ^date
+            or l_i.updated_at >= ^date,
           preload: [titles: t, descriptions: d, external_links: e, images: i],
           preload: [stakeholders: {s, person: pe}],
           preload: [linked_resources: {l, descriptions: d_l}]
@@ -221,6 +226,7 @@ defmodule Erga.Research do
   def get_linked_resource!(id) do
     Repo.get!(LinkedResource, id)
     |> Repo.preload(:project)
+    |> Repo.preload(:labels)
     |> Repo.preload(:descriptions)
   end
 
@@ -276,6 +282,34 @@ defmodule Erga.Research do
 
   """
   def delete_linked_resource(%LinkedResource{} = linked_resource) do
+
+    linked_resource =
+      linked_resource
+      |> Repo.preload(:labels)
+      |> Repo.preload(:descriptions)
+
+    linked_resource.labels
+    |> Enum.each(
+      &delete_translated_content(
+        &1,
+        %{
+          "target_table" => linked_resource.__meta__.source,
+          "target_field" => :label_translation_target_id
+        }
+      )
+    )
+
+    linked_resource.descriptions
+    |> Enum.each(
+      &delete_translated_content(
+        &1,
+        %{
+          "target_table" => linked_resource.__meta__.source,
+          "target_field" => :description_translation_target_id
+        }
+      )
+    )
+
     Repo.delete(linked_resource)
   end
 
@@ -306,7 +340,10 @@ defmodule Erga.Research do
       ** (Ecto.NoResultsError)
 
   """
-  def get_external_link!(id), do: Repo.get!(ExternalLink, id)
+  def get_external_link!(id) do
+    Repo.get!(ExternalLink, id)
+    |> Repo.preload(:labels)
+  end
 
 
   @doc """
@@ -362,6 +399,22 @@ defmodule Erga.Research do
 
   """
   def delete_external_link(%ExternalLink{} = external_link) do
+
+    external_link =
+      external_link
+      |> Repo.preload(:labels)
+
+    external_link.labels
+    |> Enum.each(
+      &delete_translated_content(
+        &1,
+        %{
+          "target_table" => external_link.__meta__.source,
+          "target_field" => :label_translation_target_id
+        }
+      )
+    )
+
     Repo.delete(external_link)
   end
 
@@ -492,7 +545,10 @@ defmodule Erga.Research do
       ** (Ecto.NoResultsError)
 
   """
-  def get_image!(id), do: Repo.get!(Image, id)
+  def get_image!(id) do
+    Repo.get!(Image, id)
+    |> Repo.preload(:labels)
+  end
 
   @doc """
   Creates a image.
@@ -530,6 +586,7 @@ defmodule Erga.Research do
   def update_image(%Image{} = image, attrs) do
     image
     |> Image.changeset(attrs)
+    |> IO.inspect
     |> Repo.update()
   end
 
@@ -546,6 +603,22 @@ defmodule Erga.Research do
 
   """
   def delete_image(%Image{} = image) do
+
+    image =
+      image
+      |> Repo.preload(:labels)
+
+    image.labels
+    |> Enum.each(
+      &delete_translated_content(
+        &1,
+        %{
+          "target_table" => image.__meta__.source,
+          "target_field" => :label_translation_target_id
+        }
+      )
+    )
+
     case Repo.delete(image) do
       {:ok, _struct} = result ->
         case File.rm("#{@upload_directory}/#{image.path}") do
@@ -655,7 +728,10 @@ defmodule Erga.Research do
   end
 
   defp update_translation_target({:ok, translated_content}, attrs) do
-    target_schema = get_schema_based_on_table_name(attrs["target_table"])
+
+    IO.inspect attrs
+
+    target_schema = get_schema_based_on_table_name(attrs["target_table"]) |> IO.inspect
     target = Repo.get!(target_schema, attrs["target_table_primary_key"])
 
     # Do not cast Atom type based on request parameter without first checking if the Atom type is really

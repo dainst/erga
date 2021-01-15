@@ -1,5 +1,5 @@
 defmodule ArachneService do
-  use StandardServiceBehaivour
+  use ErgaWeb.Services
 
   @base_url "https://arachne.dainst.org/data/search"
 

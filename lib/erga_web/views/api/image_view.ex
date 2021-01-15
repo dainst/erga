@@ -5,7 +5,7 @@ defmodule ErgaWeb.Api.ImageView do
 
   def render("image.json", %{image: image}) do
     %{
-      label: image.label,
+      labels: render_many(image.labels, ErgaWeb.Api.TranslatedContentView, "translated_content.json"),
       primary: image.primary,
       path: "#{ErgaWeb.Endpoint.url()}#{@media_path}/#{image.path}"
     }

@@ -118,19 +118,16 @@ defmodule Erga.ResearchTest do
       title_translation_target_id: 1,
     }
     @valid_attrs %{
-      "label" => "Berlin, DAI",
       "linked_system" => "gazetteer",
       "uri" => "https://gazetteer.dainst.org/place/2282601",
       "descriptions" => []
     }
     @update_attrs %{
-      "label" => "Berlin, Zentrale, DAI",
       "linked_system" => "gazetteer",
-      "uri" => "https://gazetteer.dainst.org/place/2282601"
+      "uri" => "https://gazetteer.dainst.org/place/2282602"
     }
     @invalid_attrs %{
-      "label" => nil,
-      "linked_system" => "gazetteer"
+      "uri" => nil
     }
 
     def linked_resource_fixture(_attrs \\ %{}) do
@@ -154,8 +151,9 @@ defmodule Erga.ResearchTest do
         %{"project_id" => proj.id}
         |> Enum.into(@valid_attrs)
         |> Research.create_linked_resource()
-      assert linked_resource.label == "Berlin, DAI"
+
       assert linked_resource.linked_system == "gazetteer"
+      assert linked_resource.uri == "https://gazetteer.dainst.org/place/2282601"
     end
 
     test "create_linked_resource/1 with invalid data returns error changeset" do
@@ -169,8 +167,9 @@ defmodule Erga.ResearchTest do
     test "update_linked_resource/2 with valid data updates the linked_resource" do
       linked_resource = linked_resource_fixture()
       assert {:ok, %LinkedResource{} = linked_resource} = Research.update_linked_resource(linked_resource, @update_attrs)
-      assert linked_resource.label == "Berlin, Zentrale, DAI"
+
       assert linked_resource.linked_system == "gazetteer"
+      assert linked_resource.uri == "https://gazetteer.dainst.org/place/2282602"
     end
 
     test "update_linked_resource/2 with invalid data returns error changeset" do
@@ -261,9 +260,12 @@ defmodule Erga.ResearchTest do
     setup [:create_project]
     alias Erga.Research.Image
 
-    @valid_attrs %{"label" => "pic", "primary" => true,  "upload" => %Plug.Upload{path: "test/files/arch.jpg", filename: "arch.jpg"}}
-    @update_attrs %{"label" => "puc", "primary" => false}
-    @invalid_attrs %{"label" => nil}
+    @valid_attrs %{
+      "primary" => true,
+      "upload" => %Plug.Upload{path: "test/files/arch.jpg", filename: "arch.jpg"}
+    }
+    @update_attrs %{"primary" => false}
+    @invalid_attrs %{"path" => "nonexistant.jpg"}
 
     def image_fixture(attrs \\ %{}) do
       {:ok, image} =
@@ -272,6 +274,7 @@ defmodule Erga.ResearchTest do
         |> Research.create_image()
 
       image
+      |> Map.replace!(:labels, [])
     end
 
     test "create_image/1 with valid data creates a image", %{project: proj} do
@@ -279,8 +282,8 @@ defmodule Erga.ResearchTest do
      |> Enum.into(@valid_attrs)
      |> Research.create_image()
 
-      assert image.label == "pic"
       assert image.primary == true
+      assert image.path == "projects/#{proj.id}/arch.jpg"
     end
 
     test "create_image/1 with invalid data returns error changeset", %{project: proj} do
@@ -298,7 +301,6 @@ defmodule Erga.ResearchTest do
       |> Enum.into(@update_attrs)
 
       assert {:ok, %Image{} = image} = Research.update_image(image, attrs)
-      assert image.label == "puc"
       assert image.primary == false
     end
 
@@ -307,8 +309,8 @@ defmodule Erga.ResearchTest do
       assert {:error, %Ecto.Changeset{}} = Research.update_image(image, @invalid_attrs)
 
       image_with_project_not_loaded =
-        Map.replace!(
-          image,
+        image
+        |> Map.replace!(
           :project,
           %Ecto.Association.NotLoaded{__cardinality__: :one, __field__: :project, __owner__: Erga.Research.Image}
         )

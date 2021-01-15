@@ -1,5 +1,5 @@
 defmodule ChronontologyService do
-  use StandardServiceBehaivour
+  use ErgaWeb.Services
 
   @base_url "https://chronontology.dainst.org"
   @data_base_url "#{@base_url}/data/period/"
@@ -23,7 +23,6 @@ defmodule ChronontologyService do
       {:error, reason} ->
         {:error, "There was an error during the request: #{reason.reason}"}
     end
-
   end
 
   def get_result_list(res) do
@@ -39,8 +38,5 @@ defmodule ChronontologyService do
     else
       []
     end
-
   end
-
-
 end
