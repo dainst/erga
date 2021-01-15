@@ -282,6 +282,34 @@ defmodule Erga.Research do
 
   """
   def delete_linked_resource(%LinkedResource{} = linked_resource) do
+
+    linked_resource =
+      linked_resource
+      |> Repo.preload(:labels)
+      |> Repo.preload(:descriptions)
+
+    linked_resource.labels
+    |> Enum.each(
+      &delete_translated_content(
+        &1,
+        %{
+          "target_table" => linked_resource.__meta__.source,
+          "target_field" => :label_translation_target_id
+        }
+      )
+    )
+
+    linked_resource.descriptions
+    |> Enum.each(
+      &delete_translated_content(
+        &1,
+        %{
+          "target_table" => linked_resource.__meta__.source,
+          "target_field" => :description_translation_target_id
+        }
+      )
+    )
+
     Repo.delete(linked_resource)
   end
 
@@ -371,6 +399,22 @@ defmodule Erga.Research do
 
   """
   def delete_external_link(%ExternalLink{} = external_link) do
+
+    external_link =
+      external_link
+      |> Repo.preload(:labels)
+
+    external_link.labels
+    |> Enum.each(
+      &delete_translated_content(
+        &1,
+        %{
+          "target_table" => external_link.__meta__.source,
+          "target_field" => :label_translation_target_id
+        }
+      )
+    )
+
     Repo.delete(external_link)
   end
 
@@ -542,6 +586,7 @@ defmodule Erga.Research do
   def update_image(%Image{} = image, attrs) do
     image
     |> Image.changeset(attrs)
+    |> IO.inspect
     |> Repo.update()
   end
 
@@ -558,6 +603,22 @@ defmodule Erga.Research do
 
   """
   def delete_image(%Image{} = image) do
+
+    image =
+      image
+      |> Repo.preload(:labels)
+
+    image.labels
+    |> Enum.each(
+      &delete_translated_content(
+        &1,
+        %{
+          "target_table" => image.__meta__.source,
+          "target_field" => :label_translation_target_id
+        }
+      )
+    )
+
     case Repo.delete(image) do
       {:ok, _struct} = result ->
         case File.rm("#{@upload_directory}/#{image.path}") do
@@ -667,7 +728,10 @@ defmodule Erga.Research do
   end
 
   defp update_translation_target({:ok, translated_content}, attrs) do
-    target_schema = get_schema_based_on_table_name(attrs["target_table"])
+
+    IO.inspect attrs
+
+    target_schema = get_schema_based_on_table_name(attrs["target_table"]) |> IO.inspect
     target = Repo.get!(target_schema, attrs["target_table_primary_key"])
 
     # Do not cast Atom type based on request parameter without first checking if the Atom type is really
