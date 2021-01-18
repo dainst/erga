@@ -7,17 +7,77 @@
 
 <%= hidden_input f, :project_id %>
 
-<%= label f, :label %>
-<%= text_input f, :label %>
-<%= error_tag f, :label %>
-
 <%= label f, :url %>
 <%= text_input f, :url %>
 <%= error_tag f, :url %>
 
+<%= if assigns[:external_link] do %>
+  <div class="row">
+    <div class="column">
 
-<div>
-  <%= submit "Save" %>
-</div>
+      <div class="box">
+        <h2>Labels</h2>
+          <%= link "Add Label", to: Routes.translated_content_path(
+            ErgaWeb.Endpoint,
+            :new,
+            target_table: @external_link.__meta__.source,
+            target_table_primary_key: @external_link.id,
+            target_id: @external_link.label_translation_target_id,
+            target_field: :label_translation_target_id,
+            redirect: @conn.request_path
+          ) %>
+        <table>
 
+          <thead>
+          <tr>
+            <th>Language</th>
+            <th>Text</th>
+            <th></th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <%= for label <- @external_link.labels do %>
+            <tr>
+              <td>
+                <%= label.language_code %>
+              </td>
+              <td>
+                <%= if Map.has_key?(label, :only_one_translation_for_language) do %>
+                  <div class="alert-danger"><%= label.only_one_translation_for_language %></div>
+                <% end %>
+                <%= label.text %>
+              </td>
+              <td>
+                <%= if Map.has_key?(label, :id) do %>
+                  <%=
+                    link "edit", to:
+                      Routes.translated_content_path(ErgaWeb.Endpoint, :edit, label.id, redirect: @conn.request_path)
+                  %> | <%=
+                    link "remove", to: Routes.translated_content_path(
+                      ErgaWeb.Endpoint,
+                      :delete,
+                      label.id,
+                      target_table: @external_link.__meta__.source,
+                      target_field: :label_translation_target_id,
+                      redirect: @conn.request_path
+                    ), method: :delete, data: [confirm: "Are you sure?"] %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <%= submit "Save" %>
+  </div>
+<% else %>
+  <div>
+    <%= submit "Continue" %>
+  </div>
+<% end %>
 <% end %>

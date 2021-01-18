@@ -5,7 +5,7 @@ defmodule ErgaWeb.Api.LinkedResourceView do
     %{
       linked_system: lr.linked_system,
       uri: lr.uri,
-      label: lr.label,
+      labels: render_many(lr.labels, ErgaWeb.Api.TranslatedContentView, "translated_content.json"),
       descriptions: render_many(lr.descriptions, ErgaWeb.Api.TranslatedContentView, "translated_content.json")
     }
   end

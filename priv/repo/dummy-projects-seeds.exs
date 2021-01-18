@@ -31,20 +31,19 @@ p1 = Erga.Repo.insert!(%Person{
   firstname: "Theodor",
   lastname: "Wiegand",
   title: "Prof. Dr.",
-  external_id: "DOI:123XABC123"
+  external_id: "http://viaf.org/viaf/12347811"
 })
 
 p2 = Erga.Repo.insert!(%Person{
   firstname: "Hansi",
   lastname: "Flick",
-  title: "Cand. phil",
-  external_id: "PERSID:34578"
+  external_id: "http://viaf.org/viaf/6918159820920814000000"
 })
 
 linked_place =
   %LinkedResource{
-    label: "Rom",
     description_translation_target_id: 3,
+    label_translation_target_id: 4,
     uri: "https://gazetteer.dainst.org/place/2323295",
     linked_system: "Gazetteer"
   }
@@ -82,7 +81,6 @@ project =
 
 Erga.Research.create_image(
   %{
-    "label" => "Test",
     "primary" => "true",
     "project_code" => project.project_code,
     "project_id" => project.id,
@@ -139,4 +137,16 @@ Erga.Repo.insert!(%TranslatedContent{
   target_id: project.title_translation_target_id,
   language_code: "en",
   text: "Great digging project"
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: linked_place.label_translation_target_id,
+  language_code: "en",
+  text: "Rome"
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: linked_place.label_translation_target_id,
+  language_code: "de",
+  text: "Rom"
 })

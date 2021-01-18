@@ -16,8 +16,8 @@ defmodule ErgaWeb.ExternalLinkController do
     case Research.create_external_link(external_link_params) do
       {:ok, external_link} ->
         conn
-        |> put_flash(:info, "External link created successfully.")
-        |> redirect(to: Routes.project_path(conn, :edit, external_link.project_id))
+        |> put_flash(:info, "External link created successfully, you may add some labels.")
+        |> redirect(to: Routes.external_link_path(conn, :edit, external_link.id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)

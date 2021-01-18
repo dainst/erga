@@ -8,6 +8,7 @@ defmodule ErgaWeb.Api.ProjectViewTest do
   alias Erga.Research.Stakeholder
   alias Erga.Research.LinkedResource
   alias Erga.Research.Image
+  alias Erga.Research.ExternalLink
 
   alias ErgaWeb.Api.ProjectView
 
@@ -70,10 +71,16 @@ defmodule ErgaWeb.Api.ProjectViewTest do
           }],
         linked_resources: [
           %LinkedResource{
-            label: "Rom",
+            labels: [
+              %TranslatedContent{
+                target_id: 3,
+                language_code: "en",
+                text: "Rom"
+              }
+            ],
             descriptions: [
               %TranslatedContent{
-                target_id: 2,
+                target_id: 4,
                 language_code: "en",
                 text: "Der Ort über den geschrieben wird."
               }
@@ -84,11 +91,29 @@ defmodule ErgaWeb.Api.ProjectViewTest do
         ],
         images: [
           %Image{
-            label: "Test",
+            labels: [
+              %TranslatedContent{
+                target_id: 5,
+                language_code: "en",
+                text: "Test"
+              }
+            ],
             primary: "true",
             path: "non-existing-image.jpg"
           }
-        ]
+        ],
+        external_links: [
+          %ExternalLink{
+            labels: [
+              %TranslatedContent{
+                target_id: 6,
+                language_code: "de",
+                text: "Die Suchmaschine"
+              }
+            ],
+            url: "https://www.google.com",
+          }
+        ],
     }
 
     %{project: project}

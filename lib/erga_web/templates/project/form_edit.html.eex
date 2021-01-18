@@ -144,7 +144,7 @@
       <tbody>
       <%= for resource <- @project.linked_resources do %>
         <tr id="<%= "resource_id-#{resource.id}" %>">
-          <td><%= resource.label %></td>
+          <td><%= get_translated_content(resource.labels) %></td>
           <td><%= get_translated_content(resource.descriptions) %></td>
           <td><a href="<%= resource.uri %>" target="_blank"><%= resource.linked_system %></a></td>
           <td>
@@ -165,7 +165,8 @@
     <div>
       <%= for link <- @project.external_links do %>
         <div>
-          <%= link.label %>, <%= link.url %> |
+
+          <%= get_translated_content(link.labels) %>, <%= link.url %> |
           <%= link "edit", to: Routes.external_link_path(@conn, :edit, link.id) %> |
           <%= link "remove", to: Routes.external_link_path(@conn, :delete, link), method: :delete, data: [confirm: "Are you sure?"]  %>
         </div>
@@ -180,7 +181,9 @@
       <div class="row">
           <div class="column"><%= img_tag("/media/#{image.path}") %></div>
           <div class="column">
-            <b><%= image.label %></b> <br/>
+            <b>
+              <%= get_translated_content(image.labels) %>
+            </b> <br/>
             <%= link "edit", to: Routes.image_path(@conn, :edit, image.id) %> |
             <%= link "remove", to: Routes.image_path(@conn, :delete, image), method: :delete, data: [confirm: "Are you sure?"]  %>
           </div>
@@ -191,7 +194,9 @@
       <div class="row">
           <div class="column"><%= img_tag("/media/#{image.path}") %></div>
           <div class="column">
-            <b><%= image.label %></b> <br/>
+            <b>
+              <%= get_translated_content(image.labels) %>
+            </b> <br/>
             <%= link "edit", to: Routes.image_path(@conn, :edit, image.id) %> |
             <%= link "remove", to: Routes.image_path(@conn, :delete, image), method: :delete, data: [confirm: "Are you sure?"]  %>
           </div>

@@ -35,7 +35,7 @@
     <tbody>
     <%= for resource <- @project.linked_resources do %>
       <tr>
-        <td><%= resource.label %></td>
+        <td><%= get_translated_content(resource.labels) %></td>
         <td><%= get_translated_content(resource.descriptions) %></td>
         <td><a href="<%= resource.uri %>" target="_blank"><%= resource.uri %></a></td>
       </tr>
@@ -47,7 +47,7 @@
   <h2>External links:</h2>
   <ul>
     <%= for external_link <- @project.external_links do %>
-    <li><%= link external_link.url, to: external_link.url %> (<%= external_link.label %>)</li>
+    <li><%= link external_link.url, to: external_link.url %> (<%= get_translated_content(external_link.labels) %>)</li>
     <% end %>
   </ul>
 </div>
@@ -57,14 +57,14 @@
     <%= for image <- primary_images(@project.images) do %>
     <div class="row">
         <div class="column"><%= img_tag("/media/#{image.path}") %></div>
-        <div class="column"><b><%= image.label %></b></div>
+        <div class="column"><b><%= get_translated_content(image.labels) %></b></div>
     </div>
     <% end %>
 
     <%= for image <- other_images(@project.images) do %>
     <div class="row">
         <div class="column"><%= img_tag("/media/#{image.path}") %></div>
-        <div class="column"><%= image.label %></div>
+        <div class="column"><%= get_translated_content(image.labels) %></div>
     </div>
     <% end %>
     </div>

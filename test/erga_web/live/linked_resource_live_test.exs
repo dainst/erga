@@ -11,26 +11,24 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
     ends_at: ~D[2023-10-10]
   }
 
-  @gazetteer_uri  "https://gazetteer.dainst.org/2078206"
-
-
   @fixture_attrs %{
-    "label" => "Berlin, DAI",
+    "labels" => [],
     "descriptions" => [],
-    "uri" => "https://gazetteer.dainst.org/2078206",
+    "uri" => "https://gazetteer.dainst.org/place/2078206",
     "linked_system" => "gazetteer"
   }
 
   @create_attrs %{
-    "label" => "la citta eterna"
+    "uri" => "https://gazetteer.dainst.org/place/2078206",
+    "linked_system" => "gazetteer"
   }
 
   @update_attrs %{
-    "label" => "Berlin, Zentrale, DAI"
+    "uri" => "https://gazetteer.dainst.org/place/2323293",
   }
 
   @invalid_attr %{
-    "label" => nil
+    "uri" => nil
   }
 
   defp create_linked_resource(context) do
@@ -60,17 +58,22 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
       # try to create a invalid resource, check if "can't be blank" shows up
       form_with_error =
         new_live
-        |> form("#linked-resource-form", linked_resource: @invalid_attr)
-        |> render_submit()
+        |> form("#linked-resource-form")
+        # Hidden form fields have to be passed with render_submit
+        |> render_submit(%{linked_resource: %{"uri" => @invalid_attr["uri"]}})
 
       assert form_with_error =~ "can&apos;t be blank"
 
+      resource_name = "Berlin"
+
       # try to create the valid resource
+      new_live
+      |> render_change("choose_resource", %{"id" => "some_id", "name" => resource_name, "uri" => @update_attrs["uri"]})
+
       result =
         new_live
-        |> form("#linked-resource-form", linked_resource: @create_attrs)
-        # Hidden form fields have to be passed with render_submit
-        |> render_submit(%{linked_resource: %{"project_id" => project.id, "uri" => @gazetteer_uri}})
+        |> form("#linked-resource-form")
+        |> render_submit()
 
       {:error,
         {:redirect,
@@ -88,8 +91,9 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
 
       html = assert response(conn, 200)
       # check if the response_body contains the success msg and the label
-      assert html =~ "Linked resource created successfully."
-      assert html =~ "la citta eterna"
+      assert html =~ "Linked resource created successfully"
+      assert html =~  @update_attrs["uri"]
+      assert html =~ resource_name
     end
   end
 
@@ -103,14 +107,14 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
       # check if the titel is within the html
       assert html =~ "Edit Linked Resource"
 
-      # check if the current resource label is within the html
-      assert html =~ "Berlin, DAI"
+      # check if the current resource uri is being displayed
+      assert html =~ @fixture_attrs["uri"]
 
       # updated the current resource with update attrs.
       {:ok, conn} =
         edit_live
-        |> form("#linked-resource-form", linked_resource: @update_attrs)
-        |> render_submit(%{linked_resource: %{"uri" => "https://gazetteer.dainst.org/place/2323293"}})
+        |> form("#linked-resource-form", linked_resource: @create_attrs)
+        |> render_submit(%{linked_resource: @update_attrs})
         |> follow_redirect(conn, Routes.project_path(ErgaWeb.Endpoint, :edit, project.id))
 
       # check if success message is prompted
@@ -118,7 +122,7 @@ defmodule ErgaWeb.LinkedResourceLiveTest do
       assert html =~ "Linked resource updated successfully."
 
       # check if the new label is within the html
-      assert html =~ "Berlin, Zentrale, DAI"
+      assert html =~ @update_attrs["uri"]
     end
   end
 

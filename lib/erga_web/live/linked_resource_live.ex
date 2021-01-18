@@ -14,6 +14,7 @@ defmodule ErgaWeb.LinkedResourceLive do
     |> assign(:search_string, "")
     |> assign(:linked_id, nil)
     |> assign(:search_filter, "populated-place")
+    |> assign(:lang_codes, Application.get_env(:gettext, :locales))
   end
 
   def mount(%{"project_id" => project_id}, _session, socket) do
@@ -30,8 +31,8 @@ defmodule ErgaWeb.LinkedResourceLive do
       |> assign(descriptions: [])
       |> assign(changeset: changeset)
       |> assign(:linked_system, "gazetteer")
-      |> assign(:label, "")
       |> assign(:uri, "")
+      |> assign(:name, "")
 
     {:ok, socket}
   end
@@ -49,7 +50,7 @@ defmodule ErgaWeb.LinkedResourceLive do
       |> assign(descriptions: linked_resource.descriptions)
       |> assign(changeset: changeset)
       |> assign(:linked_system, linked_resource.linked_system)
-      |> assign(:label, linked_resource.label)
+      |> assign(:labels, linked_resource.labels)
       |> assign(:uri, linked_resource.uri)
 
     {:ok, socket}
@@ -58,11 +59,11 @@ defmodule ErgaWeb.LinkedResourceLive do
   def render(assigns), do: Phoenix.View.render(ErgaWeb.LinkedResourceView, "form.html", assigns)
 
   def handle_event("form_change", %{"_target" => ["linked_resource", target]} = params, socket) do
-    {:noreply, EventHandler.form_change(target, params, socket)}
+    {:noreply, form_change(target, params, socket)}
   end
 
   def handle_event("form_change", %{"_target" => [target]} = params, socket) do
-    {:noreply, EventHandler.form_change(target, params, socket)}
+    {:noreply, form_change(target, params, socket)}
   end
 
   def handle_event("form_change", _params, socket) do
@@ -70,7 +71,7 @@ defmodule ErgaWeb.LinkedResourceLive do
   end
 
   def handle_event("choose_resource", params, socket) do
-    {:noreply, EventHandler.choose_resource(params, socket)}
+    {:noreply, choose_resource(params, socket)}
   end
 
   # new case
@@ -81,12 +82,8 @@ defmodule ErgaWeb.LinkedResourceLive do
     ) do
     case Research.create_linked_resource(linked_resource_params) do
       {:ok, linked_resource} ->
-        {
-          :noreply,
-          socket
-          |> put_flash(:info, "Linked resource created successfully. You may add descriptions.")
-          |> redirect(to: Routes.linked_resource_path(ErgaWeb.Endpoint, :edit, linked_resource.id))
-        }
+        create_label_translation(linked_resource, socket)
+
       {:error, changeset } ->
         {:noreply, assign(socket, changeset: changeset)}
     end
@@ -110,4 +107,74 @@ defmodule ErgaWeb.LinkedResourceLive do
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
+
+  defp create_label_translation(linked_resource, %{assigns: %{name: text}} = socket) do
+
+    label_params =
+      %{
+        "target_table" => linked_resource.__meta__.source,
+        "target_table_primary_key" => linked_resource.id,
+        "target_id" => linked_resource.label_translation_target_id,
+        "target_field" => "label_translation_target_id",
+        "text" => text,
+        "language_code" => Gettext.get_locale()
+      }
+
+    case Erga.Research.create_translated_content(label_params) do
+      {:ok, _translated_content} ->
+        {
+          :noreply,
+          socket
+          |> put_flash(:info, "Linked resource created successfully. You may add descriptions.")
+          |> redirect(to: Routes.linked_resource_path(ErgaWeb.Endpoint, :edit, linked_resource.id))
+        }
+      {:error, _translated_content_changeset } ->
+        {
+          :noreply,
+          socket
+          |> put_flash(:error, "Failed to set initial label for selected linked resource, please check below.")
+          |> redirect(to: Routes.linked_resource_path(ErgaWeb.Endpoint, :edit, linked_resource.id))
+        }
+    end
+  end
+
+  def form_change(target, %{"linked_resource" => params}, socket) do
+    case target do
+      "linked_system" ->
+        update(socket, :uri, fn _ -> "" end)
+        |> update(:search_result, fn _ -> [] end)
+        |> update(:linked_system, fn _ -> params["linked_system"] end)
+      "search_string" ->
+        search(socket, params["search_string"])
+      target ->
+        update(socket, String.to_existing_atom(target), fn _ -> params[target] end)
+    end
+  end
+
+  def choose_resource( %{"id" => id, "name" => name, "uri" => uri}, socket) do
+    socket
+      |> update(:name, fn _ -> name end)
+      |> update(:linked_id, fn _ -> id end)
+      |> update(:uri, fn _ -> uri end)
+      |> update(:search_string, fn _ -> "" end)
+      |> update(:search_result, fn _ -> [] end)
+  end
+
+  defp search(socket, search_string) do
+    service = ErgaWeb.Services.get_system_service(socket.assigns.linked_system)
+    filter = socket.assigns.search_filter
+    # permit users to use wildcard on thier own
+    search_string = String.replace_trailing(search_string, "*", "")
+
+    # perform a search or return empty list
+    if String.length(search_string) > 1 do
+      case service.get_list(search_string, filter) do
+        {:ok, list} -> update(socket, :search_result, fn _old_search_string -> list end)
+        {:error, reason} -> assign(socket, :search_error, reason)
+      end
+    else
+      update(socket, :search_result, fn _l -> [] end)
+    end
+  end
+
 end

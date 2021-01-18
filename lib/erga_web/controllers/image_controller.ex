@@ -19,8 +19,8 @@ defmodule ErgaWeb.ImageController do
     case Research.create_image(image_params) do
       {:ok, image} ->
         conn
-        |> put_flash(:info, "Image created successfully.")
-        |> redirect(to: Routes.project_path(conn, :edit, image.project_id))
+        |> put_flash(:info, "Image created successfully, you may add some labels.")
+        |> redirect(to: Routes.image_path(conn, :edit, image.id))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset, project_id: project.id)

@@ -7,27 +7,86 @@
 
   <%= hidden_input f, :project_id %>
 
-  <%= label f, :label %>
-  <%= text_input f, :label %>
-  <%= error_tag f, :label %>
-
   <%= label f, :primary %>
   <%= checkbox(f, :primary) %>
   <%= error_tag f, :primary %>
 
-  <%= if assigns[:image] && @image.path do %>
-  <div>
-    <label>Image</label>
-    <%= img_tag("/media/#{@image.path}", class: "image") %>
+  <%= if assigns[:image] do %>
+    <div class="row">
+      <div class="column">
+
+        <div class="box">
+          <h2>Labels</h2>
+            <%= link "Add Label", to: Routes.translated_content_path(
+              ErgaWeb.Endpoint,
+              :new,
+              target_table: @image.__meta__.source,
+              target_table_primary_key: @image.id,
+              target_id: @image.label_translation_target_id,
+              target_field: :label_translation_target_id,
+              redirect: @conn.request_path
+            ) %>
+          <table>
+
+            <thead>
+            <tr>
+              <th>Language</th>
+              <th>Text</th>
+              <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <%= for label <- @image.labels do %>
+              <tr>
+                <td>
+                  <%= label.language_code %>
+                </td>
+                <td>
+                  <%= if Map.has_key?(label, :only_one_translation_for_language) do %>
+                    <div class="alert-danger"><%= label.only_one_translation_for_language %></div>
+                  <% end %>
+                  <%= label.text %>
+                </td>
+                <td>
+                  <%= if Map.has_key?(label, :id) do %>
+                    <%=
+                      link "edit", to:
+                        Routes.translated_content_path(ErgaWeb.Endpoint, :edit, label.id, redirect: @conn.request_path)
+                    %> | <%=
+                      link "remove", to: Routes.translated_content_path(
+                        ErgaWeb.Endpoint,
+                        :delete,
+                        label.id,
+                        target_table: @image.__meta__.source,
+                        target_field: :label_translation_target_id,
+                        redirect: @conn.request_path
+                      ), method: :delete, data: [confirm: "Are you sure?"] %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div>
+      <label>Image</label>
+      <%= img_tag("/media/#{@image.path}", class: "image") %>
+    </div>
+    <div>
+      <%= submit "Save" %>
     </div>
   <% else %>
-  <div class="form-group">
-    <label>Upload</label>
-    <%= file_input f, :upload, class: "form-control", accept: "image/*" %>
-  </div>
-  <%= error_tag f, :path %>
+    <div class="form-group">
+      <label>Upload</label>
+      <%= file_input f, :upload, class: "form-control", accept: "image/*" %>
+    </div>
+    <%= error_tag f, :path %>
+    <div>
+      <%= submit "Continue" %>
+    </div>
   <% end %>
-  <div>
-    <%= submit "Save" %>
-  </div>
+
 <% end %>
