@@ -49,6 +49,14 @@ linked_place =
     linked_system: "Gazetteer"
   }
 
+linked_date =
+  %LinkedResource{
+    label: "Klassik",
+    description_translation_target_id: 4,
+    uri: "https://chronontology.dainst.org/period/mSrGeypeMHjw",
+    linked_system: "Chronontology"
+  }
+
 project =
   Erga.Repo.insert! %Project{
 
@@ -68,7 +76,7 @@ project =
         person_id: p2.id
       }],
     linked_resources: [
-      linked_place
+      linked_place, linked_date
     ]
 }
 
@@ -84,6 +92,18 @@ Erga.Research.create_image(
     }
   }
 )
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: linked_date.description_translation_target_id,
+  language_code: "de",
+  text: "Der Zeit über die geschrieben wird."
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: linked_date.description_translation_target_id,
+  language_code: "en",
+  text: "The period written about."
+})
 
 Erga.Repo.insert!(%TranslatedContent{
   target_id: linked_place.description_translation_target_id,
