@@ -162,3 +162,47 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "de",
   text: "Klassik"
 })
+
+project2 =
+  Erga.Repo.insert! %Project{
+
+    project_code: "Dummy",
+    starts_at: ~D[2020-02-29],
+    ends_at: ~D[2024-02-29],
+    title_translation_target_id: 7,
+    description_translation_target_id: 8,
+
+    stakeholders: [
+      %Stakeholder{
+        role: "same guy",
+        person_id: p1.id
+    },
+      %Stakeholder{
+        role: "he again",
+        person_id: p2.id
+      }],
+}
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project2.description_translation_target_id,
+  language_code: "de",
+  text: "Eine kurze Projektbeschreibung."
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project2.description_translation_target_id,
+  language_code: "en",
+  text: "A short project description."
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project2.title_translation_target_id,
+  language_code: "de",
+  text: "Normales Ausgrabungsprojekt"
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: project2.title_translation_target_id,
+  language_code: "en",
+  text: "Standard project"
+})
