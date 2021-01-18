@@ -50,8 +50,8 @@ linked_place =
 
 linked_date =
   %LinkedResource{
-    label: "Klassik",
-    description_translation_target_id: 4,
+    label_translation_target_id: 6,
+    description_translation_target_id: 5,
     uri: "https://chronontology.dainst.org/period/mSrGeypeMHjw",
     linked_system: "Chronontology"
   }
@@ -149,4 +149,16 @@ Erga.Repo.insert!(%TranslatedContent{
   target_id: linked_place.label_translation_target_id,
   language_code: "de",
   text: "Rom"
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: linked_date.label_translation_target_id,
+  language_code: "en",
+  text: "Classic"
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: linked_date.label_translation_target_id,
+  language_code: "de",
+  text: "Klassik"
 })

@@ -130,9 +130,11 @@ defmodule Erga.Research do
             or l_e.updated_at >= ^date
             or i.updated_at >= ^date
             or l_i.updated_at >= ^date,
-          preload: [titles: t, descriptions: d, external_links: e, images: i],
+          preload: [titles: t, descriptions: d],
+          preload: [external_links: {e, labels: l_e }],
+          preload: [images: {i, labels: l_i  }],
           preload: [stakeholders: {s, person: pe}],
-          preload: [linked_resources: {l, descriptions: d_l}]
+          preload: [linked_resources: {l, descriptions: d_l, labels: l_l}]
   end
 
 
