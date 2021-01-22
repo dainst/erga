@@ -96,10 +96,14 @@ defmodule Erga.ResearchTest do
    #   assert project == Research.get_project!(project.id)
     end
 
-    test "delete_project/1 deletes the project" do
+    test "toggle_inactive/1 toggles the project status" do
       project = project_fixture()
-      assert {:ok, %Project{}} = Research.delete_project(project)
-      assert_raise Ecto.NoResultsError, fn -> Research.get_project!(project.id) end
+
+      assert {:ok, %Project{inactive: true}} = Research.toggle_inactive(project)
+      assert %Project{inactive: true} = project = Research.get_project!(project.id)
+
+      assert {:ok, %Project{inactive: false}} = Research.toggle_inactive(project)
+      assert %Project{inactive: false} = Research.get_project!(project.id)
     end
 
     test "change_project/1 returns a project changeset" do

@@ -183,19 +183,22 @@ defmodule Erga.Research do
   end
 
   @doc """
-  Deletes a project.
+  Toggles a project's :inactive field.
 
   ## Examples
 
-      iex> delete_project(project)
+      iex> toggle_inactive(project)
       {:ok, %Project{}}
 
-      iex> delete_project(project)
+      iex> toggle_inactive(project)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_project(%Project{} = project) do
-    Repo.delete(project)
+  def toggle_inactive(%Project{} = project) do
+
+    project
+    |> Project.changeset(%{inactive: !project.inactive})
+    |> Repo.update()
   end
 
   @doc """

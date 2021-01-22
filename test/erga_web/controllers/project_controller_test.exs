@@ -65,12 +65,25 @@ defmodule ErgaWeb.ProjectControllerTest do
     end
   end
 
-  describe "delete project" do
+  describe "toggle project status" do
     setup [:create_project]
 
-    test "deletes chosen project", %{conn: conn, project: project} do
+    test "set chosen project inactive", %{conn: conn, project: project} do
       conn = delete(conn, Routes.project_path(conn, :delete, project))
+
       assert redirected_to(conn) == Routes.project_path(conn, :index)
+      assert get_flash(conn, :info) == "Project deleted successfully."
+    end
+
+    test "set chosen project active", %{conn: conn, project: project} do
+      # Set inactive first
+      {:ok, _ } = Research.update_project(project, %{inactive: true})
+
+      # Toggle back to active
+      conn = delete(conn, Routes.project_path(conn, :delete, project))
+
+      assert redirected_to(conn) == Routes.project_path(conn, :index)
+      assert get_flash(conn, :info) == "Project restored successfully."
     end
   end
 
