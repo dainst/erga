@@ -588,7 +588,6 @@ defmodule Erga.Research do
   def update_image(%Image{} = image, attrs) do
     image
     |> Image.changeset(attrs)
-    |> IO.inspect
     |> Repo.update()
   end
 
@@ -655,7 +654,8 @@ defmodule Erga.Research do
   defp get_schema_based_on_table_name(name) do
     Application.spec(:erga, :modules)
     |> Enum.find(fn module ->
-      function_exported?(module, :__schema__, 1) && module.__schema__(:source) == name
+      Code.ensure_loaded(module)
+      function_exported?(module, :__schema__, 1) and module.__schema__(:source) == name
     end)
   end
 
@@ -731,9 +731,7 @@ defmodule Erga.Research do
 
   defp update_translation_target({:ok, translated_content}, attrs) do
 
-    IO.inspect attrs
-
-    target_schema = get_schema_based_on_table_name(attrs["target_table"]) |> IO.inspect
+    target_schema = get_schema_based_on_table_name(attrs["target_table"])
     target = Repo.get!(target_schema, attrs["target_table_primary_key"])
 
     # Do not cast Atom type based on request parameter without first checking if the Atom type is really
