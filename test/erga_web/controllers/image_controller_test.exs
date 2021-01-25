@@ -123,7 +123,7 @@ defmodule ErgaWeb.ImageControllerTest do
       |> Enum.into(%{"project_id" => project.id})
     {:ok, image} = Research.create_image(attrs)
 
-    create_labels(context, image)
+    create_labels(image)
 
     image = Research.get_image!(image.id)
 
@@ -139,7 +139,7 @@ defmodule ErgaWeb.ImageControllerTest do
     %{project: project}
   end
 
-  defp create_labels(_context, image) do
+  defp create_labels(image) do
     @labels_content
     |> Enum.map(&Map.put(&1, "target_table", "images"))
     |> Enum.map(&Map.put(&1, "target_table_primary_key", image.id))
