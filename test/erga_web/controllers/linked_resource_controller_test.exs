@@ -9,6 +9,25 @@ defmodule ErgaWeb.LinkedResourceControllerTest do
     ends_at: ~D[2023-10-10],
     title_translation_target_id: 1,
   }
+
+  @labels_content [
+    %{
+      "language_code" => "de",
+      "text" => "Berlin, DAI"
+    }
+  ]
+
+  @descriptions_content [
+    %{
+      "language_code" => "de",
+      "text" => "Der Ort, an dem geschrieben wird.",
+    },
+    %{
+      "language_code" => "en",
+      "text" => "The place been written about."
+    }
+  ]
+
   @create_attrs %{
     "label" => "Berlin, DAI",
     "description" => "Der Ort, an dem geschrieben wird.",
@@ -23,6 +42,22 @@ defmodule ErgaWeb.LinkedResourceControllerTest do
       %{"project_id" => proj.id}
       |> Enum.into(@create_attrs)
       |> Research.create_linked_resource
+
+    @labels_content
+    |> Enum.map(&Map.put(&1, "target_table", "linked_resources"))
+    |> Enum.map(&Map.put(&1, "target_table_primary_key", lr.id))
+    |> Enum.map(&Map.put(&1, "target_field", "label_translation_target_id"))
+    |> Enum.map(&Map.put(&1, "target_id", nil))
+    |> Enum.map(&Research.create_translated_content(&1))
+
+    @descriptions_content
+    |> Enum.map(&Map.put(&1, "target_table", "linked_resources"))
+    |> Enum.map(&Map.put(&1, "target_table_primary_key", lr.id))
+    |> Enum.map(&Map.put(&1, "target_field", "description_translation_target_id"))
+    |> Enum.map(&Map.put(&1, "target_id", nil))
+    |> Enum.map(&Research.create_translated_content(&1))
+
+    lr = Research.get_linked_resource!(lr.id)
 
     %{project: proj, lr: lr}
   end
@@ -52,6 +87,15 @@ defmodule ErgaWeb.LinkedResourceControllerTest do
       # check if deleted resource is no longer on projecte edit page
       refute html =~ "#linked-resource-#{lr.id}"
 
+      lr.labels
+      |> Enum.each(fn label ->
+        assert_raise(Ecto.NoResultsError, fn -> Research.get_translated_content!(label.id) end)
+      end)
+
+      lr.descriptions
+      |> Enum.each(fn label ->
+        assert_raise(Ecto.NoResultsError, fn -> Research.get_translated_content!(label.id) end)
+      end)
     end
   end
 

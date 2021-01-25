@@ -183,19 +183,22 @@ defmodule Erga.Research do
   end
 
   @doc """
-  Deletes a project.
+  Toggles a project's :inactive field.
 
   ## Examples
 
-      iex> delete_project(project)
+      iex> toggle_inactive(project)
       {:ok, %Project{}}
 
-      iex> delete_project(project)
+      iex> toggle_inactive(project)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_project(%Project{} = project) do
-    Repo.delete(project)
+  def toggle_inactive(%Project{} = project) do
+
+    project
+    |> Project.changeset(%{inactive: !project.inactive})
+    |> Repo.update()
   end
 
   @doc """
@@ -296,7 +299,7 @@ defmodule Erga.Research do
         &1,
         %{
           "target_table" => linked_resource.__meta__.source,
-          "target_field" => :label_translation_target_id
+          "target_field" => "label_translation_target_id"
         }
       )
     )
@@ -307,7 +310,7 @@ defmodule Erga.Research do
         &1,
         %{
           "target_table" => linked_resource.__meta__.source,
-          "target_field" => :description_translation_target_id
+          "target_field" => "description_translation_target_id"
         }
       )
     )
@@ -412,7 +415,7 @@ defmodule Erga.Research do
         &1,
         %{
           "target_table" => external_link.__meta__.source,
-          "target_field" => :label_translation_target_id
+          "target_field" => "label_translation_target_id"
         }
       )
     )
@@ -588,7 +591,6 @@ defmodule Erga.Research do
   def update_image(%Image{} = image, attrs) do
     image
     |> Image.changeset(attrs)
-    |> IO.inspect
     |> Repo.update()
   end
 
@@ -616,7 +618,7 @@ defmodule Erga.Research do
         &1,
         %{
           "target_table" => image.__meta__.source,
-          "target_field" => :label_translation_target_id
+          "target_field" => "label_translation_target_id"
         }
       )
     )
@@ -655,7 +657,8 @@ defmodule Erga.Research do
   defp get_schema_based_on_table_name(name) do
     Application.spec(:erga, :modules)
     |> Enum.find(fn module ->
-      function_exported?(module, :__schema__, 1) && module.__schema__(:source) == name
+      Code.ensure_loaded(module)
+      function_exported?(module, :__schema__, 1) and module.__schema__(:source) == name
     end)
   end
 
@@ -731,9 +734,7 @@ defmodule Erga.Research do
 
   defp update_translation_target({:ok, translated_content}, attrs) do
 
-    IO.inspect attrs
-
-    target_schema = get_schema_based_on_table_name(attrs["target_table"]) |> IO.inspect
+    target_schema = get_schema_based_on_table_name(attrs["target_table"])
     target = Repo.get!(target_schema, attrs["target_table_primary_key"])
 
     # Do not cast Atom type based on request parameter without first checking if the Atom type is really

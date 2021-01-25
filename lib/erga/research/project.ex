@@ -6,6 +6,7 @@ defmodule Erga.Research.Project do
     field(:project_code, :string)
     field(:starts_at, :date)
     field(:ends_at, :date)
+    field(:inactive, :boolean)
     has_many(:stakeholders, Erga.Research.Stakeholder)
     has_many(:linked_resources, Erga.Research.LinkedResource)
     has_many(:external_links, Erga.Research.ExternalLink)
@@ -22,7 +23,7 @@ defmodule Erga.Research.Project do
   @doc false
   def changeset(project, attrs) do
     project
-    |> cast(attrs, [:project_code, :starts_at, :ends_at])
+    |> cast(attrs, [:project_code, :starts_at, :ends_at, :inactive])
     |> unique_constraint(:project_code)
     |> validate_required(:project_code)
     |> cast_assoc(:stakeholders)

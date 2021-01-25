@@ -11,17 +11,25 @@
     </tr>
   </thead>
   <tbody>
-<%= for project <- @projects do %>
+    <%= for project <- @projects do %>
     <tr>
+      <%= if project.inactive do %>
+      <td class="inactive-project"><%= project.project_code %></td>
+      <td class="inactive-project"><%= get_translated_content(project.titles) %></td>
+      <td class="inactive-project"><%= get_translated_content(project.descriptions) %></td>
+      <td>
+        <span><%= link "Restore", to: Routes.project_path(@conn, :delete, project), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+      <% else %>
       <td><%= project.project_code %></td>
       <td><%= get_translated_content(project.titles) %></td>
       <td><%= get_translated_content(project.descriptions) %></td>
-
       <td>
         <span><%= link "Show", to: Routes.project_path(@conn, :show, project) %></span>
         <span><%= link "Edit", to: Routes.project_path(@conn, :edit, project) %></span>
         <span><%= link "Delete", to: Routes.project_path(@conn, :delete, project), method: :delete, data: [confirm: "Are you sure?"] %></span>
       </td>
+      <% end %>
     </tr>
 <% end %>
   </tbody>

@@ -13,6 +13,18 @@ defmodule ErgaWeb.ImageControllerTest do
   @update_attrs %{"primary" => false}
   @invalid_attrs %{"path" => "nonexistant.jpg"}
 
+
+  @labels_content [
+    %{
+      "language_code" => "de",
+      "text" => "Ein Testbild"
+    },
+    %{
+      "language_code" => "en",
+      "text" => "Sample image"
+    }
+  ]
+
   describe "new image" do
     setup [:create_project]
     test "renders form", %{conn: conn, project: project} do
@@ -95,6 +107,11 @@ defmodule ErgaWeb.ImageControllerTest do
 
       assert !File.exists?("#{@uploads_directory}/#{image.path}")
       assert redirected_to(conn) == Routes.project_path(conn, :edit, image.project_id)
+
+      image.labels
+      |> Enum.each(fn label ->
+        assert_raise(Ecto.NoResultsError, fn -> Research.get_translated_content!(label.id) end)
+      end)
     end
   end
 
@@ -106,6 +123,10 @@ defmodule ErgaWeb.ImageControllerTest do
       |> Enum.into(%{"project_id" => project.id})
     {:ok, image} = Research.create_image(attrs)
 
+    create_labels(image)
+
+    image = Research.get_image!(image.id)
+
     %{image: image, project: project}
   end
 
@@ -116,5 +137,14 @@ defmodule ErgaWeb.ImageControllerTest do
       })
 
     %{project: project}
+  end
+
+  defp create_labels(image) do
+    @labels_content
+    |> Enum.map(&Map.put(&1, "target_table", "images"))
+    |> Enum.map(&Map.put(&1, "target_table_primary_key", image.id))
+    |> Enum.map(&Map.put(&1, "target_field", "label_translation_target_id"))
+    |> Enum.map(&Map.put(&1, "target_id", nil))
+    |> Enum.map(&Research.create_translated_content(&1))
   end
 end

@@ -60,10 +60,17 @@ defmodule ErgaWeb.ProjectController do
 
   def delete(conn, %{"id" => id}) do
     project = Research.get_project!(id)
-    {:ok, _project} = Research.delete_project(project)
+    {:ok, project} = Research.toggle_inactive(project)
+
+    message =
+      if project.inactive do
+        "Project deleted successfully."
+      else
+        "Project restored successfully."
+      end
 
     conn
-    |> put_flash(:info, "Project deleted successfully.")
+    |> put_flash(:info, message)
     |> redirect(to: Routes.project_path(conn, :index))
   end
 end
