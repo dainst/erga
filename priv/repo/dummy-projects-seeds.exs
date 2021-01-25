@@ -48,6 +48,14 @@ linked_place =
     linked_system: "Gazetteer"
   }
 
+linked_place2 =
+    %LinkedResource{
+      description_translation_target_id: 10,
+      label_translation_target_id: 9,
+      uri: "https://gazetteer.dainst.org/place/2072406",
+      linked_system: "Gazetteer"
+}
+
 linked_date =
   %LinkedResource{
     label_translation_target_id: 6,
@@ -75,7 +83,7 @@ project =
         person_id: p2.id
       }],
     linked_resources: [
-      linked_place, linked_date
+      linked_place, linked_place2, linked_date
     ]
 }
 
@@ -116,6 +124,18 @@ Erga.Repo.insert!(%TranslatedContent{
 })
 
 Erga.Repo.insert!(%TranslatedContent{
+  target_id: linked_place2.description_translation_target_id,
+  language_code: "de",
+  text: "Der Ort über den auch geschrieben wird."
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: linked_place2.description_translation_target_id,
+  language_code: "en",
+  text: "The place also written about."
+})
+
+Erga.Repo.insert!(%TranslatedContent{
   target_id: project.description_translation_target_id,
   language_code: "de",
   text: "Eine sehr informative Projektbeschreibung."
@@ -149,6 +169,18 @@ Erga.Repo.insert!(%TranslatedContent{
   target_id: linked_place.label_translation_target_id,
   language_code: "de",
   text: "Rom"
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: linked_place2.label_translation_target_id,
+  language_code: "en",
+  text: "Etruria"
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: linked_place2.label_translation_target_id,
+  language_code: "de",
+  text: "Etrurien"
 })
 
 Erga.Repo.insert!(%TranslatedContent{
