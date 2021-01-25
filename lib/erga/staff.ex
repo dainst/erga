@@ -107,4 +107,104 @@ defmodule Erga.Staff do
   def change_person(%Person{} = person, attrs \\ %{}) do
     Person.changeset(person, attrs)
   end
+
+  alias Erga.Staff.StakeholderRole
+
+  @doc """
+  Returns the list of stakeholder_roles.
+
+  ## Examples
+
+      iex> list_stakeholder_roles()
+      [%StakeholderRole{}, ...]
+
+  """
+  def list_stakeholder_roles do
+    Repo.all(StakeholderRole)
+    |> Repo.preload(stakeholders: [:project])
+  end
+
+  @doc """
+  Gets a single stakeholder_role.
+
+  Raises `Ecto.NoResultsError` if the Stakeholder role does not exist.
+
+  ## Examples
+
+      iex> get_stakeholder_role!(123)
+      %StakeholderRole{}
+
+      iex> get_stakeholder_role!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_stakeholder_role!(id) do
+    Repo.get!(StakeholderRole, id)
+    |> Repo.preload(:stakeholders)
+  end
+
+  @doc """
+  Creates a stakeholder_role.
+
+  ## Examples
+
+      iex> create_stakeholder_role(%{field: value})
+      {:ok, %StakeholderRole{}}
+
+      iex> create_stakeholder_role(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_stakeholder_role(attrs \\ %{}) do
+    %StakeholderRole{}
+    |> StakeholderRole.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a stakeholder_role.
+
+  ## Examples
+
+      iex> update_stakeholder_role(stakeholder_role, %{field: new_value})
+      {:ok, %StakeholderRole{}}
+
+      iex> update_stakeholder_role(stakeholder_role, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_stakeholder_role(%StakeholderRole{} = stakeholder_role, attrs) do
+    stakeholder_role
+    |> StakeholderRole.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a stakeholder_role.
+
+  ## Examples
+
+      iex> delete_stakeholder_role(stakeholder_role)
+      {:ok, %StakeholderRole{}}
+
+      iex> delete_stakeholder_role(stakeholder_role)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_stakeholder_role(%StakeholderRole{} = stakeholder_role) do
+    Repo.delete(stakeholder_role)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking stakeholder_role changes.
+
+  ## Examples
+
+      iex> change_stakeholder_role(stakeholder_role)
+      %Ecto.Changeset{data: %StakeholderRole{}}
+
+  """
+  def change_stakeholder_role(%StakeholderRole{} = stakeholder_role, attrs \\ %{}) do
+    StakeholderRole.changeset(stakeholder_role, attrs)
+  end
 end

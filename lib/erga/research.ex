@@ -22,7 +22,7 @@ defmodule Erga.Research do
   def list_projects do
     Project
     |> Repo.all()
-    |> Repo.preload(stakeholders: :person)
+    |> Repo.preload(stakeholders: [:person, :stakeholder_role])
     |> Repo.preload(linked_resources: [:labels, :descriptions])
     |> Repo.preload(external_links: :labels)
     |> Repo.preload(images: :labels)
@@ -46,7 +46,7 @@ defmodule Erga.Research do
   """
   def get_project!(id) do
     Repo.get!(Project, id)
-    |> Repo.preload(stakeholders: :person)
+    |> Repo.preload(stakeholders: [:person, :stakeholder_role])
     |> Repo.preload(linked_resources: [:labels, :descriptions])
     |> Repo.preload(external_links: :labels)
     |> Repo.preload(images: :labels)
@@ -70,7 +70,7 @@ defmodule Erga.Research do
   """
   def get_project_by_code!(code) do
     Repo.one!(from(p in Project, where: p.project_code == ^code))
-    |> Repo.preload(stakeholders: :person)
+    |> Repo.preload(stakeholders: [:person, :stakeholder_role])
     |> Repo.preload(linked_resources: [:labels, :descriptions])
     |> Repo.preload(external_links: :labels)
     |> Repo.preload(images: :labels)
@@ -80,7 +80,7 @@ defmodule Erga.Research do
 
   def get_project_by_code(code) do
     Repo.one(from(p in Project, where: p.project_code == ^code))
-    |> Repo.preload(stakeholders: :person)
+    |> Repo.preload(stakeholders: [:person, :stakeholder_role])
     |> Repo.preload(linked_resources: [:labels, :descriptions])
     |> Repo.preload(external_links: :labels)
     |> Repo.preload(images: :labels)
@@ -111,6 +111,7 @@ defmodule Erga.Research do
           left_join: d in assoc(p, :descriptions),
           left_join: s in assoc(p, :stakeholders),
           left_join: pe in assoc(s, :person),
+          left_join: sr in assoc(s, :stakeholder_role),
           left_join: l in assoc(p, :linked_resources),
           left_join: d_l in assoc(l, :descriptions),
           left_join: l_l in assoc(l, :labels),
@@ -123,6 +124,7 @@ defmodule Erga.Research do
             or d.updated_at >= ^date
             or s.updated_at >= ^date
             or pe.updated_at >= ^date
+            or sr.updated_at >= ^date
             or l.updated_at >= ^date
             or d_l.updated_at >= ^date
             or l_l.updated_at >= ^date
@@ -133,7 +135,7 @@ defmodule Erga.Research do
           preload: [titles: t, descriptions: d],
           preload: [external_links: {e, labels: l_e }],
           preload: [images: {i, labels: l_i  }],
-          preload: [stakeholders: {s, person: pe}],
+          preload: [stakeholders: {s, person: pe, stakeholder_role: sr}],
           preload: [linked_resources: {l, descriptions: d_l, labels: l_l}]
   end
 
