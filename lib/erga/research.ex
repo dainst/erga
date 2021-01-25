@@ -299,7 +299,7 @@ defmodule Erga.Research do
         &1,
         %{
           "target_table" => linked_resource.__meta__.source,
-          "target_field" => :label_translation_target_id
+          "target_field" => "label_translation_target_id"
         }
       )
     )
@@ -310,7 +310,7 @@ defmodule Erga.Research do
         &1,
         %{
           "target_table" => linked_resource.__meta__.source,
-          "target_field" => :description_translation_target_id
+          "target_field" => "description_translation_target_id"
         }
       )
     )
@@ -415,7 +415,7 @@ defmodule Erga.Research do
         &1,
         %{
           "target_table" => external_link.__meta__.source,
-          "target_field" => :label_translation_target_id
+          "target_field" => "label_translation_target_id"
         }
       )
     )
@@ -618,7 +618,7 @@ defmodule Erga.Research do
         &1,
         %{
           "target_table" => image.__meta__.source,
-          "target_field" => :label_translation_target_id
+          "target_field" => "label_translation_target_id"
         }
       )
     )
