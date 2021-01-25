@@ -576,6 +576,11 @@ defmodule Erga.Research do
     |> Repo.insert()
   end
 
+  def create_image(attrs = %{project_id: _}) do
+    map = for {key, val} <- attrs, into: %{}, do: {Atom.to_string(key), val}
+    create_image(map)
+  end
+
   @doc """
   Updates a image.
 
