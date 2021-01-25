@@ -87,26 +87,26 @@ project =
     ]
 }
 
-img = Erga.Research.create_image(
+{:ok, img} = Erga.Research.create_image(
   %{
     primary: "true",
     label_translation_target_id: 11,
     project_id: project.id,
     upload: %{
       filename: "idai_archive_spanish_codices.jpg",
-      url: "https://idai.world/assets/images/content/what/archives/idai_archive_spanish_codices.jpg"
+      path: "priv/repo/idai_world_assets/images/content/what/images/idai_images_photothek_berlin.jpg"
     }
   }
 )
 
 Erga.Repo.insert!(%TranslatedContent{
-  target_id: img["label_translation_target_id"],
+  target_id: img.label_translation_target_id,
   language_code: "de",
   text: "Voll das passende Bild."
 })
 
 Erga.Repo.insert!(%TranslatedContent{
-  target_id: img["label_translation_target_id"],
+  target_id: img.label_translation_target_id,
   language_code: "en",
   text: "Just a good fitting picture."
 })
