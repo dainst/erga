@@ -7,9 +7,9 @@
   <% end %>
 
   <%= hidden_input f, :redirect, value: @redirect %>
-  <%= label f, :key %>
-  <%= text_input f, :key %>
-  <%= error_tag f, :key %>
+  <%= label f, :tag %>
+  <%= text_input f, :tag %>
+  <%= error_tag f, :tag %>
   <div>
     <%= submit "Save" %>
   </div>

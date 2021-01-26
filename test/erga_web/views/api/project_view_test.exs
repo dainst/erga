@@ -61,12 +61,12 @@ defmodule ErgaWeb.Api.ProjectViewTest do
         ],
         stakeholders: [
           %Stakeholder{
-            stakeholder_role: %StakeholderRole{key: "manager"},
+            stakeholder_role: %StakeholderRole{tag: "manager"},
             person_id: p1.id,
             person: p1
         },
           %Stakeholder{
-            stakeholder_role: %StakeholderRole{key: "intern"},
+            stakeholder_role: %StakeholderRole{tag: "intern"},
             person_id: p2.id,
             person: p2
           }],

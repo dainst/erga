@@ -7,7 +7,7 @@
   <table>
     <thead>
       <tr>
-        <th>Key</th>
+        <th>Tag</th>
         <th>Projects</th>
         <th></th>
       </tr>
@@ -15,7 +15,7 @@
     <tbody>
       <%= for stakeholder_role <- @stakeholder_roles do %>
       <tr>
-        <td><%= stakeholder_role.key %></td>
+        <td><%= stakeholder_role.tag %></td>
         <td>
           <%= for stakeholder <- stakeholder_role.stakeholders do %>
           <div><%= link stakeholder.project.project_code, to: Routes.project_path(@conn, :show, stakeholder.project) %></div>

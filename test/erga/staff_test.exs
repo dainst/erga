@@ -96,9 +96,9 @@ defmodule Erga.StaffTest do
   describe "stakeholder_roles" do
     alias Erga.Staff.StakeholderRole
 
-    @valid_attrs %{key: "some key"}
-    @update_attrs %{key: "some updated key"}
-    @invalid_attrs %{key: nil}
+    @valid_attrs %{tag: "some tag"}
+    @update_attrs %{tag: "some updated tag"}
+    @invalid_attrs %{tag: nil}
 
     def stakeholder_role_fixture(attrs \\ %{}) do
       {:ok, stakeholder_role} =
@@ -122,7 +122,7 @@ defmodule Erga.StaffTest do
 
     test "create_stakeholder_role/1 with valid data creates a stakeholder_role" do
       assert {:ok, %StakeholderRole{} = stakeholder_role} = Staff.create_stakeholder_role(@valid_attrs)
-      assert stakeholder_role.key == "some key"
+      assert stakeholder_role.tag == "some tag"
     end
 
     test "create_stakeholder_role/1 with invalid data returns error changeset" do
@@ -132,7 +132,7 @@ defmodule Erga.StaffTest do
     test "update_stakeholder_role/2 with valid data updates the stakeholder_role" do
       stakeholder_role = stakeholder_role_fixture()
       assert {:ok, %StakeholderRole{} = stakeholder_role} = Staff.update_stakeholder_role(stakeholder_role, @update_attrs)
-      assert stakeholder_role.key == "some updated key"
+      assert stakeholder_role.tag == "some updated tag"
     end
 
     test "update_stakeholder_role/2 with invalid data returns error changeset" do

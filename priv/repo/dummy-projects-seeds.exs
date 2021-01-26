@@ -43,11 +43,11 @@ p2 = Erga.Repo.insert!(%Person{
 })
 
 stakeholder_role_1 = Erga.Repo.insert!(%StakeholderRole{
-  key: "manager"
+  tag: "manager"
 })
 
 stakeholder_role_2 = Erga.Repo.insert!(%StakeholderRole{
-  key: "intern"
+  tag: "intern"
 })
 
 linked_place =
@@ -82,7 +82,7 @@ project =
     },
       %Stakeholder{
         person_id: p2.id,
-        stakeholder_role_id: stakeholder_role_1.id
+        stakeholder_role_id: stakeholder_role_2.id
       }],
     linked_resources: [
       linked_place, linked_date

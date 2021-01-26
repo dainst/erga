@@ -119,7 +119,7 @@
           <td><%= stakeholder.person.lastname %></td>
           <td><%= stakeholder.person.firstname %></td>
           <td><%= stakeholder.person.external_id %></td>
-          <td><%= stakeholder.stakeholder_role.key %></td>
+          <td><%= stakeholder.stakeholder_role.tag %></td>
           <td><%= link "edit", to: Routes.stakeholder_path(@conn, :edit, stakeholder.id) %> |
           <%= link "remove", to: Routes.stakeholder_path(@conn, :delete, stakeholder), method: :delete, data: [confirm: "Are you sure?"] %></td>
         </tr>

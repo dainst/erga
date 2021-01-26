@@ -3,7 +3,7 @@ defmodule Erga.Staff.StakeholderRole do
   import Ecto.Changeset
 
   schema "stakeholder_roles" do
-    field(:key, :string)
+    field(:tag, :string)
     has_many(:stakeholders, Erga.Research.Stakeholder)
     timestamps()
   end
@@ -11,9 +11,9 @@ defmodule Erga.Staff.StakeholderRole do
   @doc false
   def changeset(stakeholder_role, attrs) do
     stakeholder_role
-    |> cast(attrs, [:key])
-    |> validate_required([:key])
-    |> unique_constraint(:key)
+    |> cast(attrs, [:tag])
+    |> validate_required([:tag])
+    |> unique_constraint(:tag)
     |> cast_assoc(:stakeholders)
   end
 end

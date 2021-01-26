@@ -9,7 +9,7 @@ defmodule Erga.Repo.Migrations.CreateStakeholderRoles do
       |> Erga.Repo.all()
 
     create table(:stakeholder_roles) do
-      add :key, :string
+      add :tag, :string
 
       timestamps()
     end
@@ -27,7 +27,7 @@ defmodule Erga.Repo.Migrations.CreateStakeholderRoles do
       {1, [%{id: role_id}]}=
         Erga.Repo.insert_all(
           "stakeholder_roles",
-          [[key: value.role, inserted_at: NaiveDateTime.utc_now(), updated_at: NaiveDateTime.utc_now()]],
+          [[tag: value.role, inserted_at: NaiveDateTime.utc_now(), updated_at: NaiveDateTime.utc_now()]],
           returning: [:id]
         )
 
@@ -42,7 +42,7 @@ defmodule Erga.Repo.Migrations.CreateStakeholderRoles do
 
   def down do
     role_values =
-      from("stakeholder_roles", select: [:id, :key])
+      from("stakeholder_roles", select: [:id, :tag])
       |> Erga.Repo.all()
 
     alter table(:stakeholders) do
@@ -55,7 +55,7 @@ defmodule Erga.Repo.Migrations.CreateStakeholderRoles do
     |> Enum.each(fn value ->
       from("stakeholders",
         where: [stakeholder_role_id: ^value.id],
-        update: [set: [role: ^value.key]]
+        update: [set: [role: ^value.tag]]
       )
       |> Erga.Repo.update_all([])
     end)
@@ -68,20 +68,4 @@ defmodule Erga.Repo.Migrations.CreateStakeholderRoles do
 
     drop table(:stakeholder_roles)
   end
-
-  # def change do
-
-  #   create table(:stakeholder_roles) do
-  #     add :key, :string
-
-  #     timestamps()
-  #   end
-
-  #   alter table(:stakeholders) do
-  #     add(:stakeholder_role_id, references(:stakeholder_roles, null: false))
-  #     remove(:role)
-  #   end
-
-  #   create unique_index(:stakeholder_roles, [:key])
-  # end
 end

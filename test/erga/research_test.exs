@@ -42,7 +42,7 @@ defmodule Erga.ResearchTest do
   defp create_stakeholder_role(_) do
     {:ok, role} =
       Staff.create_stakeholder_role(
-        %{key: "some stakeholder role"}
+        %{tag: "some stakeholder role"}
       )
     %{stakeholder_role: role}
   end
@@ -50,7 +50,7 @@ defmodule Erga.ResearchTest do
   defp create_stakeholder_role_variant(_) do
     {:ok, role} =
       Staff.create_stakeholder_role(
-        %{key: "some variant stakeholder role"}
+        %{tag: "some variant stakeholder role"}
       )
     %{stakeholder_role_variant: role}
   end
@@ -271,7 +271,7 @@ defmodule Erga.ResearchTest do
 
       assert stakeholder.project_id == proj.id
 
-      assert stakeholder.stakeholder_role.key == role.key
+      assert stakeholder.stakeholder_role.tag == role.tag
     end
 
     test "create_stakeholder/1 with invalid data returns error changeset", %{project: proj, person: pers}  do
@@ -309,7 +309,7 @@ defmodule Erga.ResearchTest do
 
       assert stakeholder.project_id == proj.id
 
-      assert stakeholder.stakeholder_role.key == role.key
+      assert stakeholder.stakeholder_role.tag == role.tag
 
       assert {:ok, %Stakeholder{}} =
         Research.update_stakeholder(
@@ -328,7 +328,7 @@ defmodule Erga.ResearchTest do
       assert stakeholder.person.firstname == person_variant.firstname
       assert stakeholder.person.lastname == person_variant.lastname
       assert stakeholder.person.title == person_variant.title
-      assert stakeholder.stakeholder_role.key == role_variant.key
+      assert stakeholder.stakeholder_role.tag == role_variant.tag
     end
 
     test "update_stakeholder/2 with invalid data returns error changeset", %{project: proj, person: pers} do

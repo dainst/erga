@@ -5,9 +5,9 @@ defmodule ErgaWeb.StakeholderRoleControllerTest do
 
   @redirect "some_path"
 
-  @create_attrs %{key: "some key", redirect: @redirect}
-  @update_attrs %{key: "some updated key", redirect: @redirect}
-  @invalid_attrs %{key: nil, redirect: @redirect}
+  @create_attrs %{tag: "some key", redirect: @redirect}
+  @update_attrs %{tag: "some updated key", redirect: @redirect}
+  @invalid_attrs %{tag: nil, redirect: @redirect}
 
 
   def fixture(:stakeholder_role) do

@@ -13,7 +13,7 @@
   <%= error_tag f, :person_id %>
 
   <%= label f, :stakeholder_role_id, "Role" %>
-  <%= select f, :stakeholder_role_id, Enum.map(@stakeholder_roles, &{"#{&1.key}", &1.id}), prompt: "Bitte wählen", required: true %>
+  <%= select f, :stakeholder_role_id, Enum.map(@stakeholder_roles, &{"#{&1.tag}", &1.id}), prompt: "Bitte wählen", required: true %>
   <%= error_tag f, :stakeholder_role_id %>
   <div>
     <%= link "Manage persons", to: Routes.person_path(@conn, :index, redirect: get_stakeholder_redirect(@conn.request_path, @project_id)) %>
