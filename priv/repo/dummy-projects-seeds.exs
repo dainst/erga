@@ -64,6 +64,12 @@ linked_date =
     linked_system: "Chronontology"
   }
 
+  ex_link =
+    %ExternalLink{
+      label_translation_target_id: 12,
+      url: "https://antikewelt.de/2021/01/15/wieder-intakt-die-restaurierung-der-saeulen-der-casa-del-fauno-in-pompeji/",
+    }
+
 project =
   Erga.Repo.insert! %Project{
 
@@ -84,6 +90,9 @@ project =
       }],
     linked_resources: [
       linked_place, linked_place2, linked_date
+    ],
+    external_links: [
+      ex_link
     ]
 }
 
@@ -98,6 +107,18 @@ project =
     }
   }
 )
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: ex_link.label_translation_target_id,
+  language_code: "de",
+  text: "Super link, Background Story, wie alles begann!"
+})
+
+Erga.Repo.insert!(%TranslatedContent{
+  target_id: ex_link.label_translation_target_id,
+  language_code: "en",
+  text: "The prequel to the main story, with a sick hook!"
+})
 
 Erga.Repo.insert!(%TranslatedContent{
   target_id: img.label_translation_target_id,
