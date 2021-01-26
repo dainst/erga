@@ -19,7 +19,7 @@ defmodule ErgaWeb.PersonController do
       {:ok, _person} ->
         conn
         |> put_flash(:info, "Person created successfully.")
-        |> redirect(to: redirect)
+        |> redirect(to: Routes.person_path(conn, :index, redirect: redirect))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset, redirect: redirect)
@@ -39,7 +39,7 @@ defmodule ErgaWeb.PersonController do
       {:ok, _person} ->
         conn
         |> put_flash(:info, "Person updated successfully.")
-        |> redirect(to: redirect)
+        |> redirect(to: Routes.person_path(conn, :index, redirect: redirect))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", person: person, changeset: changeset, redirect: redirect)

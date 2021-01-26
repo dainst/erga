@@ -111,7 +111,7 @@
     <h2>Stakeholders</h2>
     <table>
       <thead>
-      <tr><th>Lastname</th><th>Firstname</th><th>Role</th><th>External ID</th><th></th></tr>
+      <tr><th>Lastname</th><th>Firstname</th><th>External ID</th><th>Role</th><th></th></tr>
       </thead>
       <tbody>
       <%= for stakeholder <- @project.stakeholders do %>
@@ -119,7 +119,7 @@
           <td><%= stakeholder.person.lastname %></td>
           <td><%= stakeholder.person.firstname %></td>
           <td><%= stakeholder.person.external_id %></td>
-          <td><%= stakeholder.role %></td>
+          <td><%= stakeholder.stakeholder_role.tag %></td>
           <td><%= link "edit", to: Routes.stakeholder_path(@conn, :edit, stakeholder.id) %> |
           <%= link "remove", to: Routes.stakeholder_path(@conn, :delete, stakeholder), method: :delete, data: [confirm: "Are you sure?"] %></td>
         </tr>
@@ -144,8 +144,8 @@
       <tbody>
       <%= for resource <- @project.linked_resources do %>
         <tr id="<%= "resource_id-#{resource.id}" %>">
-          <td><%= get_translated_content(resource.labels) %></td>
-          <td><%= get_translated_content(resource.descriptions) %></td>
+          <td><%= ErgaWeb.LayoutView.get_translated_content(resource.labels) %></td>
+          <td><%= ErgaWeb.LayoutView.get_translated_content(resource.descriptions) %></td>
           <td><a href="<%= resource.uri %>" target="_blank"><%= resource.linked_system %></a></td>
           <td>
             <%= link "edit", to: Routes.linked_resource_path(@conn, :edit, resource.id) %> |
@@ -166,7 +166,7 @@
       <%= for link <- @project.external_links do %>
         <div>
 
-          <%= get_translated_content(link.labels) %>, <%= link.url %> |
+          <%= ErgaWeb.LayoutView.get_translated_content(link.labels) %>, <%= link.url %> |
           <%= link "edit", to: Routes.external_link_path(@conn, :edit, link.id) %> |
           <%= link "remove", to: Routes.external_link_path(@conn, :delete, link), method: :delete, data: [confirm: "Are you sure?"]  %>
         </div>
@@ -182,7 +182,7 @@
           <div class="column"><%= img_tag("/media/#{image.path}") %></div>
           <div class="column">
             <b>
-              <%= get_translated_content(image.labels) %>
+              <%= ErgaWeb.LayoutView.get_translated_content(image.labels) %>
             </b> <br/>
             <%= link "edit", to: Routes.image_path(@conn, :edit, image.id) %> |
             <%= link "remove", to: Routes.image_path(@conn, :delete, image), method: :delete, data: [confirm: "Are you sure?"]  %>
@@ -195,7 +195,7 @@
           <div class="column"><%= img_tag("/media/#{image.path}") %></div>
           <div class="column">
             <b>
-              <%= get_translated_content(image.labels) %>
+              <%= ErgaWeb.LayoutView.get_translated_content(image.labels) %>
             </b> <br/>
             <%= link "edit", to: Routes.image_path(@conn, :edit, image.id) %> |
             <%= link "remove", to: Routes.image_path(@conn, :delete, image), method: :delete, data: [confirm: "Are you sure?"]  %>

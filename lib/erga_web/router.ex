@@ -34,7 +34,8 @@ defmodule ErgaWeb.Router do
     get("/", ProjectController, :index)
 
     resources("/projects", ProjectController)
-    resources("/person", PersonController,                          only: [:create, :delete, :edit, :new, :update, :index])
+    resources("/persons", PersonController,                          only: [:create, :delete, :edit, :new, :update, :index])
+    resources("/stakeholder_roles", StakeholderRoleController,      only: [:create, :delete, :edit, :new, :update, :index])
     resources("/stakeholders", StakeholderController,               only: [:create, :delete, :edit, :new, :update])
     resources("/external_links", ExternalLinkController,            only: [:create, :delete, :edit, :new, :update])
     resources("/images", ImageController,                           only: [:create, :delete, :edit, :new, :update])

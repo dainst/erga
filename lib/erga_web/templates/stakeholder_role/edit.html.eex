@@ -1,0 +1,5 @@
+<h1>Edit Stakeholder role</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.stakeholder_role_path(@conn, :update, @stakeholder_role)) %>
+
+<span><%= link "Back", to: Routes.stakeholder_role_path(@conn, :index, redirect: assigns.redirect) %></span>

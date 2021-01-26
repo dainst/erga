@@ -14,6 +14,7 @@ alias Erga.Research.ExternalLink
 alias Erga.Research.Image
 alias Erga.Research.LinkedResource
 alias Erga.Staff.Person
+alias Erga.Staff.StakeholderRole
 alias Erga.Research.Project
 alias Erga.Research.Stakeholder
 alias Erga.Research.TranslatedContent
@@ -22,6 +23,7 @@ Erga.Repo.delete_all ExternalLink
 Erga.Repo.delete_all Image
 Erga.Repo.delete_all LinkedResource
 Erga.Repo.delete_all Person
+Erga.Repo.delete_all StakeholderRole
 Erga.Repo.delete_all Project
 Erga.Repo.delete_all Stakeholder
 Erga.Repo.delete_all TranslatedContent
@@ -38,6 +40,14 @@ p2 = Erga.Repo.insert!(%Person{
   firstname: "Hansi",
   lastname: "Flick",
   external_id: "http://viaf.org/viaf/6918159820920814000000"
+})
+
+stakeholder_role_1 = Erga.Repo.insert!(%StakeholderRole{
+  tag: "manager"
+})
+
+stakeholder_role_2 = Erga.Repo.insert!(%StakeholderRole{
+  tag: "intern"
 })
 
 linked_place =
@@ -81,12 +91,12 @@ project =
 
     stakeholders: [
       %Stakeholder{
-        role: "chef role",
-        person_id: p1.id
+        person_id: p1.id,
+        stakeholder_role_id: stakeholder_role_1.id
     },
       %Stakeholder{
-        role: "intern",
-        person_id: p2.id
+        person_id: p2.id,
+        stakeholder_role_id: stakeholder_role_2.id
       }],
     linked_resources: [
       linked_place, linked_place2, linked_date

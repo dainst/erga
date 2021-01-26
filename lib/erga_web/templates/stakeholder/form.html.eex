@@ -7,16 +7,20 @@
 
   <%= hidden_input f, :project_id %>
 
+<div class="box">
   <%= label f, :person_id %>
   <%= select f, :person_id, Enum.map(@persons, &{ "#{&1.firstname} #{&1.lastname}", &1.id}), prompt: "Bitte wählen", required: true %>
   <%= error_tag f, :person_id %>
 
-  <%= link "New Person", to: Routes.person_path(@conn, :new, redirect: get_person_redirect(@conn.request_path, @project_id)) %> |
-  <%= link "Manage Persons", to: Routes.person_path(@conn, :index, redirect: get_person_redirect(@conn.request_path, @project_id)) %>
+  <%= label f, :stakeholder_role_id, "Role" %>
+  <%= select f, :stakeholder_role_id, Enum.map(@stakeholder_roles, &{"#{&1.tag}", &1.id}), prompt: "Bitte wählen", required: true %>
+  <%= error_tag f, :stakeholder_role_id %>
+  <div>
+    <%= link "Manage persons", to: Routes.person_path(@conn, :index, redirect: get_stakeholder_redirect(@conn.request_path, @project_id)) %>
+      | <%= link "Manage roles", to: Routes.stakeholder_role_path(@conn, :index, redirect: get_stakeholder_redirect(@conn.request_path, @project_id)) %>
+  </div>
+</div>
 
-  <%= label f, :role %>
-  <%= text_input f, :role %>
-  <%= error_tag f, :role %>
 
   <div>
     <%= submit "Save" %>

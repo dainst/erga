@@ -11,7 +11,15 @@ defmodule ErgaWeb.StakeholderController do
       |> Ecto.Changeset.put_change(:project_id, project_id)
 
     persons = Staff.list_persons()
-    render(conn, "new.html", changeset: changeset, persons: persons, project_id: project_id)
+    stakeholder_roles = Staff.list_stakeholder_roles()
+    render(
+      conn,
+      "new.html",
+      changeset: changeset,
+      persons: persons,
+      stakeholder_roles: stakeholder_roles,
+      project_id: project_id
+    )
   end
 
   @spec create(Plug.Conn.t(), map) :: Plug.Conn.t()
@@ -24,7 +32,15 @@ defmodule ErgaWeb.StakeholderController do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         persons = Staff.list_persons()
-        render(conn, "new.html", changeset: changeset, persons: persons, project_id: stakeholder_params["project_id"])
+        stakeholder_roles = Staff.list_stakeholder_roles()
+        render(
+          conn,
+          "new.html",
+          changeset: changeset,
+          persons: persons,
+          stakeholder_roles: stakeholder_roles,
+          project_id: stakeholder_params["project_id"]
+        )
     end
   end
 
@@ -32,7 +48,16 @@ defmodule ErgaWeb.StakeholderController do
     stakeholder = Research.get_stakeholder!(id)
     changeset = Research.change_stakeholder(stakeholder)
     persons = Staff.list_persons()
-    render(conn, "edit.html", stakeholder: stakeholder, changeset: changeset, persons: persons, project_id: stakeholder.project_id)
+    stakeholder_roles = Staff.list_stakeholder_roles()
+    render(
+      conn,
+      "edit.html",
+      stakeholder: stakeholder,
+      changeset: changeset,
+      persons: persons,
+      stakeholder_roles: stakeholder_roles,
+      project_id: stakeholder.project_id
+    )
   end
 
   def update(conn, %{"id" => id, "stakeholder" => stakeholder_params}) do
@@ -46,7 +71,16 @@ defmodule ErgaWeb.StakeholderController do
 
       {:error, %Ecto.Changeset{} = changeset} ->
         persons = Staff.list_persons()
-        render(conn, "edit.html", stakeholder: stakeholder, changeset: changeset, persons: persons, project_id: stakeholder.project_id)
+        stakeholder_roles = Staff.list_stakeholder_roles()
+        render(
+          conn,
+          "edit.html",
+          stakeholder: stakeholder,
+          changeset: changeset,
+          persons: persons,
+          stakeholder_roles: stakeholder_roles,
+          project_id: stakeholder.project_id
+        )
     end
   end
 
