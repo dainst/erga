@@ -2,4 +2,4 @@
 
 <%= render "form.html", Map.put(assigns, :action, Routes.person_path(@conn, :update, @person)) %>
 
-<span><%= link "Back", to: assigns.redirect %></span>
+<span><%= link "Back", to: Routes.person_path(@conn, :index, redirect: assigns.redirect) %></span>

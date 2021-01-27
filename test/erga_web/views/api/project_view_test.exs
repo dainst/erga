@@ -2,6 +2,7 @@ defmodule ErgaWeb.Api.ProjectViewTest do
   use ErgaWeb.ConnCase, async: true
 
   alias Erga.Staff.Person
+  alias Erga.Staff.StakeholderRole
 
   alias Erga.Research.Project
   alias Erga.Research.TranslatedContent
@@ -60,12 +61,12 @@ defmodule ErgaWeb.Api.ProjectViewTest do
         ],
         stakeholders: [
           %Stakeholder{
-            role: "chef role",
+            stakeholder_role: %StakeholderRole{tag: "manager"},
             person_id: p1.id,
             person: p1
         },
           %Stakeholder{
-            role: "intern",
+            stakeholder_role: %StakeholderRole{tag: "intern"},
             person_id: p2.id,
             person: p2
           }],

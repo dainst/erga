@@ -1,8 +1,8 @@
 <div><%= link "Back", to: Routes.project_path(@conn, :index) %> | <%= link "Edit", to: Routes.project_path(@conn, :edit, @project) %> </div>
 
-<h1><%= get_translated_content(@project.titles) %></h1>
+<h1><%= ErgaWeb.LayoutView.get_translated_content(@project.titles) %></h1>
 
-<div class="box"><strong><%= @project.project_code %></strong>: <%= get_translated_content(@project.descriptions) %></div>
+<div class="box"><strong><%= @project.project_code %></strong>: <%= ErgaWeb.LayoutView.get_translated_content(@project.descriptions) %></div>
 <%= if @project.starts_at != nil and @project.ends_at != nil do %>
 <div class="box"><strong>Duration:</strong> <%= @project.starts_at %> to <%= @project.ends_at %></div>
 <% end %>
@@ -18,7 +18,7 @@
     <%= for stakeholder <- @project.stakeholders do %>
       <tr>
         <td><%= stakeholder.person.title <> " " <> stakeholder.person.firstname <> " " <> stakeholder.person.lastname %></td>
-        <td><%= stakeholder.role %></td>
+        <td><%= stakeholder.stakeholder_role.tag %></td>
       </tr>
     <% end %>
     </tbody>
@@ -35,8 +35,8 @@
     <tbody>
     <%= for resource <- @project.linked_resources do %>
       <tr>
-        <td><%= get_translated_content(resource.labels) %></td>
-        <td><%= get_translated_content(resource.descriptions) %></td>
+        <td><%= ErgaWeb.LayoutView.get_translated_content(resource.labels) %></td>
+        <td><%= ErgaWeb.LayoutView.get_translated_content(resource.descriptions) %></td>
         <td><a href="<%= resource.uri %>" target="_blank"><%= resource.uri %></a></td>
       </tr>
     <% end %>
@@ -47,7 +47,7 @@
   <h2>External links:</h2>
   <ul>
     <%= for external_link <- @project.external_links do %>
-    <li><%= link external_link.url, to: external_link.url %> (<%= get_translated_content(external_link.labels) %>)</li>
+    <li><%= link external_link.url, to: external_link.url %> (<%= ErgaWeb.LayoutView.get_translated_content(external_link.labels) %>)</li>
     <% end %>
   </ul>
 </div>
@@ -57,14 +57,14 @@
     <%= for image <- primary_images(@project.images) do %>
     <div class="row">
         <div class="column"><%= img_tag("/media/#{image.path}") %></div>
-        <div class="column"><b><%= get_translated_content(image.labels) %></b></div>
+        <div class="column"><b><%= ErgaWeb.LayoutView.get_translated_content(image.labels) %></b></div>
     </div>
     <% end %>
 
     <%= for image <- other_images(@project.images) do %>
     <div class="row">
         <div class="column"><%= img_tag("/media/#{image.path}") %></div>
-        <div class="column"><%= get_translated_content(image.labels) %></div>
+        <div class="column"><%= ErgaWeb.LayoutView.get_translated_content(image.labels) %></div>
     </div>
     <% end %>
     </div>

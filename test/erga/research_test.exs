@@ -29,6 +29,32 @@ defmodule Erga.ResearchTest do
     %{person: pers}
   end
 
+  defp create_person_variant(_) do
+    {:ok, pers} = Staff.create_person(%{
+      firstname: "some variant firstname",
+      lastname: "some ariant lastname",
+      title: "some variant title",
+      external_id: "some variant viaf id"
+    })
+    %{person_variant: pers}
+  end
+
+  defp create_stakeholder_role(_) do
+    {:ok, role} =
+      Staff.create_stakeholder_role(
+        %{tag: "some stakeholder role"}
+      )
+    %{stakeholder_role: role}
+  end
+
+  defp create_stakeholder_role_variant(_) do
+    {:ok, role} =
+      Staff.create_stakeholder_role(
+        %{tag: "some variant stakeholder role"}
+      )
+    %{stakeholder_role_variant: role}
+  end
+
   describe "projects" do
     alias Erga.Research.Project
 
@@ -195,7 +221,13 @@ defmodule Erga.ResearchTest do
   end
 
   describe "stakeholders" do
-    setup [:create_project, :create_person]
+    setup [
+      :create_project,
+      :create_person,
+      :create_person_variant,
+      :create_stakeholder_role,
+      :create_stakeholder_role_variant
+    ]
 
     alias Erga.Research.Stakeholder
 
@@ -217,14 +249,29 @@ defmodule Erga.ResearchTest do
       assert Research.get_stakeholder!(stakeholder.id) == stakeholder
     end
 
-    test "create_stakeholder/1 with valid data creates a stakeholder", %{project: proj, person: pers} do
+    test "create_stakeholder/1 with valid data creates a stakeholder",
+    %{
+      project: proj,
+      person: pers,
+      stakeholder_role: role
+    } do
       assert {:ok, %Stakeholder{} = stakeholder} =
-        %{"project_id" => proj.id, "person_id" => pers.id}
+        %{"project_id" => proj.id, "person_id" => pers.id, "stakeholder_role_id" => role.id}
         |> Enum.into(@valid_attrs)
         |> Research.create_stakeholder()
-      assert stakeholder.person_id == pers.id
+
+      stakeholder =
+        stakeholder
+        |> Repo.preload(:stakeholder_role)
+        |> Repo.preload(:person)
+
+      assert stakeholder.person.firstname == pers.firstname
+      assert stakeholder.person.lastname == pers.lastname
+      assert stakeholder.person.title == pers.title
+
       assert stakeholder.project_id == proj.id
-      assert stakeholder.role == "some role"
+
+      assert stakeholder.stakeholder_role.tag == role.tag
     end
 
     test "create_stakeholder/1 with invalid data returns error changeset", %{project: proj, person: pers}  do
@@ -234,12 +281,54 @@ defmodule Erga.ResearchTest do
         |> Research.create_stakeholder()
     end
 
-    test "update_stakeholder/2 with valid data updates the stakeholder", %{project: proj, person: pers} do
-      stakeholder = stakeholder_fixture(%{"project_id" => proj.id, "person_id" => pers.id})
-      assert {:ok, %Stakeholder{} = stakeholder} = Research.update_stakeholder(stakeholder, @update_attrs)
-      assert stakeholder.person_id == pers.id
+    test "update_stakeholder/2 with valid data updates the stakeholder",
+    %{
+      project: proj,
+      person: person,
+      person_variant: person_variant,
+      stakeholder_role: role,
+      stakeholder_role_variant: role_variant
+    } do
+      stakeholder =
+        stakeholder_fixture(
+          %{
+            "project_id" => proj.id,
+            "person_id" => person.id,
+            "stakeholder_role_id" => role.id
+          }
+        )
+
+      stakeholder =
+        stakeholder
+        |> Repo.preload(:stakeholder_role)
+        |> Repo.preload(:person)
+
+      assert stakeholder.person.firstname == person.firstname
+      assert stakeholder.person.lastname == person.lastname
+      assert stakeholder.person.title == person.title
+
       assert stakeholder.project_id == proj.id
-      assert stakeholder.role == "some updated role"
+
+      assert stakeholder.stakeholder_role.tag == role.tag
+
+      assert {:ok, %Stakeholder{}} =
+        Research.update_stakeholder(
+          stakeholder,
+           %{
+             "stakeholder_role_id" => role_variant.id,
+             "person_id" => person_variant.id
+            }
+          )
+
+      stakeholder =
+        Research.get_stakeholder!(stakeholder.id)
+        |> Repo.preload(:stakeholder_role)
+        |> Repo.preload(:person)
+
+      assert stakeholder.person.firstname == person_variant.firstname
+      assert stakeholder.person.lastname == person_variant.lastname
+      assert stakeholder.person.title == person_variant.title
+      assert stakeholder.stakeholder_role.tag == role_variant.tag
     end
 
     test "update_stakeholder/2 with invalid data returns error changeset", %{project: proj, person: pers} do
