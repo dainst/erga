@@ -228,11 +228,11 @@ project2 =
 
     stakeholders: [
       %Stakeholder{
-        role: "same guy",
+        stakeholder_role_id: stakeholder_role_1.id,
         person_id: p1.id
     },
       %Stakeholder{
-        role: "he again",
+        stakeholder_role_id: stakeholder_role_2.id,
         person_id: p2.id
       }],
 }
