@@ -271,6 +271,8 @@ Erga.Repo.insert!(%TranslatedContent{
   text: "Standard project"
 })
 
+# TODO: Seed image withouth using Research functions more in line with other seeds?
+
 {:ok, image} = Erga.Research.create_image(
   %{
     primary: "true",
