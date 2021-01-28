@@ -26,8 +26,8 @@ defmodule Erga.Repo.Migrations.InstitutionsAndPersonsAsStakeholder do
     drop constraint(:persons, "persons_pkey")
 
     rename table(:persons), :external_id, to: :orc_id
-    rename table(:persons), :first_name, to: :first_name # renamed for consistency, two words separted by underscore
-    rename table(:persons), :last_name, to: :last_name   # ^-
+    rename table(:persons), :firstname, to: :first_name # renamed for consistency, two words separted by underscore
+    rename table(:persons), :lastname, to: :last_name   # ^-
     rename table(:persons), to: table(:stakeholders)
 
     alter table(:stakeholders) do
