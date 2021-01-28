@@ -67,7 +67,7 @@ defmodule Erga.Repo.Migrations.TranslatedLabels do
       |> Erga.Repo.all()
 
     existing_data
-    |> Enum.map(fn {id, tc} -> tc end)
+    |> Enum.map(fn {_id, tc} -> tc end)
     |> List.flatten()
     |> Enum.each(
       &Erga.Research.delete_translated_content(
