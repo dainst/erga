@@ -285,7 +285,7 @@ Erga.Repo.insert!(%TranslatedContent{
   }
 )
 
-Erga.Research.create_translated_content(
+{:ok, translated_content}= Erga.Research.create_translated_content(
   %{
     "target_table" => image.__meta__.source,
     "target_table_primary_key" => image.id,
@@ -300,7 +300,7 @@ Erga.Research.create_translated_content(
   %{
     "target_table" => image.__meta__.source,
     "target_table_primary_key" => image.id,
-    "target_id" => nil,
+    "target_id" => translated_content.target_id,
     "target_field" => "label_translation_target_id",
     "text" => "Just a very fitting picture.",
     "language_code" => "en"
