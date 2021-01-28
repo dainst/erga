@@ -18,7 +18,7 @@ defmodule ErgaWeb.Api.LinkedResourceView do
 
     case service.get_resource_id_from_uri(linked_resource.uri) do
       :error ->
-        Logger.error("Unable to extract resource ID from URI.")
+        Logger.error("Unable to extract resource ID from URI #{linked_resource.uri}, system: #{linked_resource.linked_system}.")
         ""
       id ->
         id
