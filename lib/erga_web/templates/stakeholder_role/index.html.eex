@@ -17,8 +17,8 @@
       <tr>
         <td><%= stakeholder_role.tag %></td>
         <td>
-          <%= for stakeholder <- stakeholder_role.stakeholders do %>
-          <div><%= link stakeholder.project.project_code, to: Routes.project_path(@conn, :show, stakeholder.project) %></div>
+          <%= for pts <- stakeholder_role.role_to_projects do %>
+          <div><%= link pts.project.project_code, to: Routes.project_path(@conn, :show, pts.project) %></div>
           <% end %>
         </td>
         <td>

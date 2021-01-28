@@ -7,7 +7,7 @@ defmodule Erga.Research do
   import Ecto.Query, warn: false
   alias Erga.Repo
 
-  alias Erga.Research.{Project, LinkedResource, ExternalLink, Image, Stakeholder, TranslatedContent}
+  alias Erga.Research.{Project, LinkedResource, ExternalLink, Image, ProjectToStakeholder, TranslatedContent}
 
   @upload_directory Application.get_env(:erga, :uploads_directory)
   @doc """
@@ -22,7 +22,7 @@ defmodule Erga.Research do
   def list_projects do
     Project
     |> Repo.all()
-    |> Repo.preload(stakeholders: [:person, :stakeholder_role])
+    |> Repo.preload(project_to_stakeholders: [:stakeholder, :stakeholder_role])
     |> Repo.preload(linked_resources: [:labels, :descriptions])
     |> Repo.preload(external_links: :labels)
     |> Repo.preload(images: :labels)
@@ -46,7 +46,7 @@ defmodule Erga.Research do
   """
   def get_project!(id) do
     Repo.get!(Project, id)
-    |> Repo.preload(stakeholders: [:person, :stakeholder_role])
+    |> Repo.preload(project_to_stakeholders: [:stakeholder, :stakeholder_role])
     |> Repo.preload(linked_resources: [:labels, :descriptions])
     |> Repo.preload(external_links: :labels)
     |> Repo.preload(images: :labels)
@@ -70,7 +70,7 @@ defmodule Erga.Research do
   """
   def get_project_by_code!(code) do
     Repo.one!(from(p in Project, where: p.project_code == ^code))
-    |> Repo.preload(stakeholders: [:person, :stakeholder_role])
+    |> Repo.preload(project_to_stakeholders: [:stakeholder, :stakeholder_role])
     |> Repo.preload(linked_resources: [:labels, :descriptions])
     |> Repo.preload(external_links: :labels)
     |> Repo.preload(images: :labels)
@@ -80,7 +80,7 @@ defmodule Erga.Research do
 
   def get_project_by_code(code) do
     Repo.one(from(p in Project, where: p.project_code == ^code))
-    |> Repo.preload(stakeholders: [:person, :stakeholder_role])
+    |> Repo.preload(project_to_stakeholders: [:stakeholder, :stakeholder_role])
     |> Repo.preload(linked_resources: [:labels, :descriptions])
     |> Repo.preload(external_links: :labels)
     |> Repo.preload(images: :labels)
@@ -109,9 +109,9 @@ defmodule Erga.Research do
     Repo.all from p in Project,
           left_join: t in assoc(p, :titles),
           left_join: d in assoc(p, :descriptions),
-          left_join: s in assoc(p, :stakeholders),
-          left_join: pe in assoc(s, :person),
-          left_join: sr in assoc(s, :stakeholder_role),
+          left_join: pts in assoc(p, :project_to_stakeholders),
+          left_join: s in assoc(pts, :stakeholder),
+          left_join: sr in assoc(pts, :stakeholder_role),
           left_join: l in assoc(p, :linked_resources),
           left_join: d_l in assoc(l, :descriptions),
           left_join: l_l in assoc(l, :labels),
@@ -122,8 +122,8 @@ defmodule Erga.Research do
           where: p.updated_at >= ^date
             or t.updated_at >= ^date
             or d.updated_at >= ^date
+            or pts.updated_at >= ^date
             or s.updated_at >= ^date
-            or pe.updated_at >= ^date
             or sr.updated_at >= ^date
             or l.updated_at >= ^date
             or d_l.updated_at >= ^date
@@ -135,7 +135,7 @@ defmodule Erga.Research do
           preload: [titles: t, descriptions: d],
           preload: [external_links: {e, labels: l_e }],
           preload: [images: {i, labels: l_i  }],
-          preload: [stakeholders: {s, person: pe, stakeholder_role: sr}],
+          preload: [project_to_stakeholders: {pts, stakeholder: s, stakeholder_role: sr}],
           preload: [linked_resources: {l, descriptions: d_l, labels: l_l}]
   end
 
@@ -155,7 +155,7 @@ defmodule Erga.Research do
   def create_project(attrs \\ %{}) do
     %Project{}
     |> Project.changeset(attrs)
-    |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:project_to_stakeholders, with: &ProjectToStakeholder.changeset/2)
     |> Ecto.Changeset.cast_assoc(:linked_resources, with: &LinkedResource.changeset/2)
     |> Ecto.Changeset.cast_assoc(:external_links, with: &ExternalLink.changeset/2)
     |> Ecto.Changeset.cast_assoc(:images, with: &Image.changeset/2)
@@ -177,7 +177,7 @@ defmodule Erga.Research do
   def update_project(%Project{} = project, attrs) do
     project
     |> Project.changeset(attrs)
-    |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
+    |> Ecto.Changeset.cast_assoc(:project_to_stakeholders, with: &ProjectToStakeholder.changeset/2)
     |> Ecto.Changeset.cast_assoc(:linked_resources, with: &LinkedResource.changeset/2)
     |> Ecto.Changeset.cast_assoc(:external_links, with: &ExternalLink.changeset/2)
     |> Ecto.Changeset.cast_assoc(:images, with: &Image.changeset/2)
@@ -439,89 +439,89 @@ defmodule Erga.Research do
   end
 
   @doc """
-  Gets a single stakeholder.
+  Gets a single project_to_stakeholder.
 
-  Raises `Ecto.NoResultsError` if the Stakeholder does not exist.
+  Raises `Ecto.NoResultsError` if the ProjectToStakeholder does not exist.
 
   ## Examples
 
-      iex> get_stakeholder!(123)
-      %Stakeholder{}
+      iex> get_project_to_stakeholder!(123)
+      %ProjectToStakeholder{}
 
-      iex> get_stakeholder!(456)
+      iex> get_project_to_stakeholder!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_stakeholder!(id) do
-    Repo.get!(Stakeholder, id)
+  def get_project_to_stakeholder!(id) do
+    Repo.get!(ProjectToStakeholder, id)
     |> Repo.preload(:project)
-    |> Repo.preload(:person)
+    |> Repo.preload(:stakeholder)
   end
 
   @doc """
-  Creates a stakeholder.
+  Creates a project_to_stakeholder.
 
   ## Examples
 
-      iex> create_stakeholder(%{field: value})
-      {:ok, %Stakeholder{}}
+      iex> create_project_to_stakeholder(%{field: value})
+      {:ok, %ProjectToStakeholder{}}
 
-      iex> create_stakeholder(%{field: bad_value})
+      iex> create_project_to_stakeholder(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_stakeholder(attrs) do
+  def create_project_to_stakeholder(attrs) do
 
-    %Stakeholder{}
-    |> Stakeholder.changeset(attrs)
+    %ProjectToStakeholder{}
+    |> ProjectToStakeholder.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a stakeholder.
+  Updates a project_to_stakeholder.
 
   ## Examples
 
-      iex> update_stakeholder(stakeholder, %{field: new_value})
-      {:ok, %Stakeholder{}}
+      iex> update_project_to_stakeholder(project_to_stakeholder, %{field: new_value})
+      {:ok, %ProjectToStakeholder{}}
 
-      iex> update_stakeholder(stakeholder, %{field: bad_value})
+      iex> update_project_to_stakeholder(project_to_stakeholder, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_stakeholder(%Stakeholder{} = stakeholder, attrs) do
-    stakeholder
-    |> Stakeholder.changeset(attrs)
+  def update_project_to_stakeholder(%ProjectToStakeholder{} = project_to_stakeholder, attrs) do
+    project_to_stakeholder
+    |> ProjectToStakeholder.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a stakeholder.
+  Deletes a project_to_stakeholder.
 
   ## Examples
 
-      iex> delete_stakeholder(stakeholder)
-      {:ok, %Stakeholder{}}
+      iex> delete_project_to_stakeholder(project_to_stakeholder)
+      {:ok, %ProjectToStakeholder{}}
 
-      iex> delete_stakeholder(stakeholder)
+      iex> delete_project_to_stakeholder(project_to_stakeholder)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_stakeholder(%Stakeholder{} = stakeholder) do
-    Repo.delete(stakeholder)
+  def delete_project_to_stakeholder(%ProjectToStakeholder{} = project_to_stakeholder) do
+    Repo.delete(project_to_stakeholder)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking stakeholder changes.
+  Returns an `%Ecto.Changeset{}` for tracking project_to_stakeholder changes.
 
   ## Examples
 
-      iex> change_stakeholder(stakeholder)
-      %Ecto.Changeset{data: %Stakeholder{}}
+      iex> change_project_to_stakeholder(project_to_stakeholder)
+      %Ecto.Changeset{data: %ProjectToStakeholder{}}
 
   """
-  def change_stakeholder(%Stakeholder{} = stakeholder, attrs \\ %{}) do
-    Stakeholder.changeset(stakeholder, attrs)
+  def change_project_to_stakeholder(%ProjectToStakeholder{} = project_to_stakeholder, attrs \\ %{}) do
+    ProjectToStakeholder.changeset(project_to_stakeholder, attrs)
     |> Ecto.Changeset.cast_assoc(:project, with: &Project.changeset/2)
   end
 

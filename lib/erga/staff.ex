@@ -6,106 +6,106 @@ defmodule Erga.Staff do
   import Ecto.Query, warn: false
   alias Erga.Repo
 
-  alias Erga.Staff.Person
-  alias Erga.Research.Stakeholder
+  alias Erga.Staff.Stakeholder
+  alias Erga.Research.ProjectToStakeholder
 
   @doc """
-  Returns the list of persons.
+  Returns the list of stakeholders.
 
   ## Examples
 
-      iex> list_persons()
-      [%Person{}, ...]
+      iex> list_stakeholders()
+      [%Stakeholder{}, ...]
 
   """
-  def list_persons do
-    Repo.all(Person)
-    |> Repo.preload(stakeholders: [:project])
+  def list_stakeholders do
+    Repo.all(Stakeholder)
+    |> Repo.preload(stakeholder_to_projects: [:project])
   end
 
   @doc """
-  Gets a single person.
+  Gets a single stakeholder.
 
-  Raises `Ecto.NoResultsError` if the Person does not exist.
+  Raises `Ecto.NoResultsError` if the Stakeholder does not exist.
 
   ## Examples
 
-      iex> get_person!(123)
-      %Person{}
+      iex> get_stakeholder!(123)
+      %Stakeholder{}
 
-      iex> get_person!(456)
+      iex> get_stakeholder!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_person!(id) do
-    Repo.get!(Person, id)
-    |> Repo.preload(:stakeholders)
+  def get_stakeholder!(id) do
+    Repo.get!(Stakeholder, id)
+    |> Repo.preload(:stakeholder_to_projects)
   end
 
   @doc """
-  Creates a person.
+  Creates a stakeholder.
 
   ## Examples
 
-      iex> create_person(%{field: value})
-      {:ok, %Person{}}
+      iex> create_stakeholder(%{field: value})
+      {:ok, %Stakeholder{}}
 
-      iex> create_person(%{field: bad_value})
+      iex> create_stakeholder(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_person(attrs \\ %{}) do
-    %Person{}
-    |> Person.changeset(attrs)
-    |> Ecto.Changeset.cast_assoc(:stakeholders, with: &Stakeholder.changeset/2)
+  def create_stakeholder(attrs \\ %{}) do
+    %Stakeholder{}
+    |> Stakeholder.changeset(attrs)
+    |> Ecto.Changeset.cast_assoc(:stakeholder_to_projects, with: &ProjectToStakeholder.changeset/2)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a person.
+  Updates a stakeholder.
 
   ## Examples
 
-      iex> update_person(person, %{field: new_value})
-      {:ok, %Person{}}
+      iex> update_stakeholder(stakeholder, %{field: new_value})
+      {:ok, %Stakeholder{}}
 
-      iex> update_person(person, %{field: bad_value})
+      iex> update_stakeholder(stakeholder, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_person(%Person{} = person, attrs) do
-    person
-    |> Person.changeset(attrs)
+  def update_stakeholder(%Stakeholder{} = stakeholder, attrs) do
+    stakeholder
+    |> Stakeholder.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a person.
+  Deletes a stakeholder.
 
   ## Examples
 
-      iex> delete_person(person)
-      {:ok, %Person{}}
+      iex> delete_stakeholder(stakeholder)
+      {:ok, %Stakeholder{}}
 
-      iex> delete_person(person)
+      iex> delete_stakeholder(stakeholder)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_person(%Person{} = person) do
-    Repo.delete(person)
+  def delete_stakeholder(%Stakeholder{} = stakeholder) do
+    Repo.delete(stakeholder)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking person changes.
+  Returns an `%Ecto.Changeset{}` for tracking stakeholder changes.
 
   ## Examples
 
-      iex> change_person(person)
-      %Ecto.Changeset{data: %Person{}}
+      iex> change_stakeholder(stakeholder)
+      %Ecto.Changeset{data: %Stakeholder{}}
 
   """
-  def change_person(%Person{} = person, attrs \\ %{}) do
-    Person.changeset(person, attrs)
+  def change_stakeholder(%Stakeholder{} = stakeholder, attrs \\ %{}) do
+    Stakeholder.changeset(stakeholder, attrs)
   end
 
   alias Erga.Staff.StakeholderRole
@@ -121,7 +121,7 @@ defmodule Erga.Staff do
   """
   def list_stakeholder_roles do
     Repo.all(StakeholderRole)
-    |> Repo.preload(stakeholders: [:project])
+    |> Repo.preload(role_to_projects: [:project])
   end
 
   @doc """
@@ -140,7 +140,7 @@ defmodule Erga.Staff do
   """
   def get_stakeholder_role!(id) do
     Repo.get!(StakeholderRole, id)
-    |> Repo.preload(:stakeholders)
+    |> Repo.preload(:role_to_projects)
   end
 
   @doc """

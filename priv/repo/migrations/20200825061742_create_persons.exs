@@ -3,8 +3,8 @@ defmodule Erga.Repo.Migrations.CreatePersons do
 
   def change do
     create table(:persons) do
-      add :firstname, :string
-      add :lastname, :string
+      add :first_name, :string
+      add :last_name, :string
       add :title, :string
 
       timestamps()

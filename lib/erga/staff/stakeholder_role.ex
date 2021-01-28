@@ -4,7 +4,7 @@ defmodule Erga.Staff.StakeholderRole do
 
   schema "stakeholder_roles" do
     field(:tag, :string)
-    has_many(:stakeholders, Erga.Research.Stakeholder)
+    has_many(:role_to_projects, Erga.Research.ProjectToStakeholder)
     timestamps()
   end
 
@@ -14,6 +14,6 @@ defmodule Erga.Staff.StakeholderRole do
     |> cast(attrs, [:tag])
     |> validate_required([:tag])
     |> unique_constraint(:tag)
-    |> cast_assoc(:stakeholders)
+    |> cast_assoc(:role_to_projects)
   end
 end

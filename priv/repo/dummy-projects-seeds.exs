@@ -30,15 +30,15 @@ Erga.Repo.delete_all TranslatedContent
 
 
 p1 = Erga.Repo.insert!(%Person{
-  firstname: "Theodor",
-  lastname: "Wiegand",
+  first_name: "Theodor",
+  last_name: "Wiegand",
   title: "Prof. Dr.",
   external_id: "http://viaf.org/viaf/12347811"
 })
 
 p2 = Erga.Repo.insert!(%Person{
-  firstname: "Hansi",
-  lastname: "Flick",
+  first_name: "Hansi",
+  last_name: "Flick",
   external_id: "http://viaf.org/viaf/6918159820920814000000"
 })
 

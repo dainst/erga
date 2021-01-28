@@ -2,4 +2,4 @@
 
 <%= render "form.html", Map.put(assigns, :action, Routes.stakeholder_path(@conn, :create)) %>
 
-<span><%= link "Back", to: Routes.project_path(@conn, :edit, assigns.project_id) %></span>
+<span><%= link "Back", to: Routes.stakeholder_path(@conn, :index, redirect: assigns.redirect) %></span>

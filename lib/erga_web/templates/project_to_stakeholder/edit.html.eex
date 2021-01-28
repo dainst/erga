@@ -1,0 +1,5 @@
+<h1>Edit project's stakeholder</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.project_to_stakeholder_path(@conn, :update, @project_to_stakeholder)) %>
+
+<span><%= link "Back", to: Routes.project_path(@conn, :edit, assigns.project_to_stakeholder.project_id) %></span>

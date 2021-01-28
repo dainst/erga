@@ -34,12 +34,12 @@ defmodule ErgaWeb.Router do
     get("/", ProjectController, :index)
 
     resources("/projects", ProjectController)
-    resources("/persons", PersonController,                          only: [:create, :delete, :edit, :new, :update, :index])
-    resources("/stakeholder_roles", StakeholderRoleController,      only: [:create, :delete, :edit, :new, :update, :index])
-    resources("/stakeholders", StakeholderController,               only: [:create, :delete, :edit, :new, :update])
-    resources("/external_links", ExternalLinkController,            only: [:create, :delete, :edit, :new, :update])
-    resources("/images", ImageController,                           only: [:create, :delete, :edit, :new, :update])
-    resources("/translated_contents", TranslatedContentController,  only: [:create, :delete, :edit, :new, :update])
+    resources("/projects_to_stakeholders", ProjectToStakeholderController, only: [:create, :delete, :edit, :new, :update])
+    resources("/stakeholders", StakeholderController,                      only: [:create, :delete, :edit, :new, :update, :index])
+    resources("/stakeholder_roles", StakeholderRoleController,             only: [:create, :delete, :edit, :new, :update, :index])
+    resources("/external_links", ExternalLinkController,                   only: [:create, :delete, :edit, :new, :update])
+    resources("/images", ImageController,                                  only: [:create, :delete, :edit, :new, :update])
+    resources("/translated_contents", TranslatedContentController,         only: [:create, :delete, :edit, :new, :update])
 
     resources("/linked_resource", LinkedResourceController, only: [ :delete ])
 
@@ -47,8 +47,6 @@ defmodule ErgaWeb.Router do
 
     live "/linked_resources/new/:project_id", LinkedResourceLive, :new
     live "/linked_resources/:id/edit", LinkedResourceLive, :edit
-    #live "/linked_resources/:id/delete", LinkedResourceLive.Index, :delete
-
   end
 
   # Other scopes may use custom stacks.

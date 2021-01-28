@@ -19,7 +19,7 @@ defmodule ErgaWeb.Api.ProjectView do
       descriptions: render_many(project.descriptions, ErgaWeb.Api.TranslatedContentView, "translated_content.json"),
       inserted_at: project.inserted_at,
       updated_at: project.updated_at,
-      stakeholders: render_many(project.stakeholders, ErgaWeb.Api.StakeholderView, "stakeholder.json"),
+      stakeholders: render_many(project.project_to_stakeholders, ErgaWeb.Api.ProjectToStakeholderView, "project_to_stakeholder.json"),
       linked_resources: render_many(project.linked_resources, ErgaWeb.Api.LinkedResourceView, "linked_resource.json"),
       external_links: render_many(project.external_links, ErgaWeb.Api.ExternalLinkView, "external_link.json"),
       images: render_many(project.images, ErgaWeb.Api.ImageView, "image.json")
@@ -35,7 +35,7 @@ defmodule ErgaWeb.Api.ProjectView do
       titles: render_many(project.titles, ErgaWeb.Api.TranslatedContentView, "translated_content.json"),
       inserted_at: project.inserted_at,
       updated_at: project.updated_at,
-      stakeholder_count: Enum.count(project.stakeholders),
+      stakeholder_count: Enum.count(project.project_to_stakeholders),
       linked_resources: render_many(project.linked_resources, ErgaWeb.Api.LinkedResourceView, "linked_resource.json"),
       image_count: Enum.count(project.images)
     }
