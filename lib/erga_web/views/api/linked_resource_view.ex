@@ -1,6 +1,8 @@
 defmodule ErgaWeb.Api.LinkedResourceView do
   use ErgaWeb, :view
 
+  require Logger
+
   def render("linked_resource.json", %{linked_resource: lr}) do
     %{
       linked_system: lr.linked_system,
@@ -16,7 +18,8 @@ defmodule ErgaWeb.Api.LinkedResourceView do
 
     case service.get_resource_id_from_uri(linked_resource.uri) do
       :error ->
-        "No match for given uri please add pattern to function"
+        Logger.error("Unable to extract resource ID from URI.")
+        ""
       id ->
         id
     end
