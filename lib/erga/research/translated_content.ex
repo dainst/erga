@@ -37,7 +37,7 @@ defmodule Erga.Research.TranslatedContent do
   defp generate_translation_target_id(translated_content) do
     translated_content.data
     highest_target_id =
-      case from(q in "translated_contents", select: q.target_id, order_by: [desc: q.target_id],  limit: 1)
+      case from(q in "translated_contents", where: not is_nil(q.target_id), select: q.target_id, order_by: [desc: q.target_id],  limit: 1)
       |> Repo.all()
       |> List.first do
         nil -> 0

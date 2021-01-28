@@ -116,17 +116,8 @@ project =
     ]
 }
 
-{:ok, img} = Erga.Research.create_image(
-  %{
-    primary: "true",
-    label_translation_target_id: 11,
-    project_id: project.id,
-    upload: %{
-      filename: "idai_archive_spanish_codices.jpg",
-      path: "priv/repo/idai_world_assets/images/content/what/images/idai_images_photothek_berlin.jpg"
-    }
-  }
-)
+
+
 
 Erga.Repo.insert!(%TranslatedContent{
   target_id: ex_link.label_translation_target_id,
@@ -138,18 +129,6 @@ Erga.Repo.insert!(%TranslatedContent{
   target_id: ex_link.label_translation_target_id,
   language_code: "en",
   text: "The prequel to the main story, with a sick hook!"
-})
-
-Erga.Repo.insert!(%TranslatedContent{
-  target_id: img.label_translation_target_id,
-  language_code: "de",
-  text: "Voll das passende Bild."
-})
-
-Erga.Repo.insert!(%TranslatedContent{
-  target_id: img.label_translation_target_id,
-  language_code: "en",
-  text: "Just a good fitting picture."
 })
 
 Erga.Repo.insert!(%TranslatedContent{
@@ -291,3 +270,37 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Standard project"
 })
+
+{:ok, image} = Erga.Research.create_image(
+  %{
+    primary: "true",
+    label_translation_target_id: 11,
+    project_id: project.id,
+    upload: %{
+      filename: "idai_archive_spanish_codices.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/images/idai_images_photothek_berlin.jpg"
+    }
+  }
+)
+
+Erga.Research.create_translated_content(
+  %{
+    "target_table" => image.__meta__.source,
+    "target_table_primary_key" => image.id,
+    "target_id" => nil,
+    "target_field" => "label_translation_target_id",
+    "text" => "Voll das passende Bild.",
+    "language_code" => "de"
+  }
+)
+
+Erga.Research.create_translated_content(
+  %{
+    "target_table" => image.__meta__.source,
+    "target_table_primary_key" => image.id,
+    "target_id" => nil,
+    "target_field" => "label_translation_target_id",
+    "text" => "Just a very fitting picture.",
+    "language_code" => "en"
+  }
+)
