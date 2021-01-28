@@ -11,6 +11,7 @@ defmodule ErgaWeb.Services do
   end
 
   @callback get_result_list(term) :: [term]
+  @callback get_resource_id_from_uri(String.t) :: String.t | :error
 
   defmacro __using__(_) do
     quote do

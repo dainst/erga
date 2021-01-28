@@ -39,4 +39,13 @@ defmodule ChronontologyService do
       []
     end
   end
+
+  def get_resource_id_from_uri(uri) do
+    case uri do
+      "https://chronontology.dainst.org/period/" <> id ->
+        id
+      _ ->
+        :error
+    end
+  end
 end

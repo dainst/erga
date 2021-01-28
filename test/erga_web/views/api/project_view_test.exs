@@ -84,12 +84,35 @@ defmodule ErgaWeb.Api.ProjectViewTest do
             descriptions: [
               %TranslatedContent{
                 target_id: 4,
-                language_code: "en",
+                language_code: "de",
                 text: "Der Ort über den geschrieben wird."
+              },
+              %TranslatedContent{
+                target_id: 4,
+                language_code: "en",
+                text: "The place that is been written about."
               }
             ],
-            uri: "https://gazetteer.dainst.org/doc/2078206",
-            linked_system: "Gazetteer"
+            uri: "https://gazetteer.dainst.org/place/2078206",
+            linked_system: "gazetteer"
+          },
+          %LinkedResource{
+            labels: [
+              %TranslatedContent{
+                target_id: 3,
+                language_code: "en",
+                text: "Berlin"
+              }
+            ],
+            descriptions: [
+              %TranslatedContent{
+                target_id: 4,
+                language_code: "de",
+                text: "Der Ort an dem geschrieben wird."
+              }
+            ],
+            uri: "https://gazetteer.dainst.org/place/2282601",
+            linked_system: "gazetteer"
           }
         ],
         images: [

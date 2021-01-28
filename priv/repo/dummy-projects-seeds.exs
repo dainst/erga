@@ -55,7 +55,7 @@ linked_place =
     description_translation_target_id: 3,
     label_translation_target_id: 4,
     uri: "https://gazetteer.dainst.org/place/2323295",
-    linked_system: "Gazetteer"
+    linked_system: "gazetteer"
   }
 
 linked_place2 =
@@ -63,7 +63,7 @@ linked_place2 =
       description_translation_target_id: 10,
       label_translation_target_id: 9,
       uri: "https://gazetteer.dainst.org/place/2072406",
-      linked_system: "Gazetteer"
+      linked_system: "gazetteer"
 }
 
 linked_date =
@@ -71,7 +71,23 @@ linked_date =
     label_translation_target_id: 6,
     description_translation_target_id: 5,
     uri: "https://chronontology.dainst.org/period/mSrGeypeMHjw",
-    linked_system: "Chronontology"
+    linked_system: "chronontology"
+  }
+
+linked_thesauri_term = %{
+  uri: "http://thesauri.dainst.org/_ab3a94b2.html",
+  linked_system: "thesaurus"
+}
+
+linked_arachne_object = %{
+  uri: "http://arachne.dainst.org/entity/1140385",
+  linked_system: "arachne"
+}
+
+ex_link =
+  %ExternalLink{
+    label_translation_target_id: 12,
+    url: "https://antikewelt.de/2021/01/15/wieder-intakt-die-restaurierung-der-saeulen-der-casa-del-fauno-in-pompeji/",
   }
 
 project =
@@ -93,32 +109,26 @@ project =
         stakeholder_role_id: stakeholder_role_2.id
       }],
     linked_resources: [
-      linked_place, linked_place2, linked_date
+      linked_place, linked_place2, linked_date, linked_thesauri_term, linked_arachne_object
+    ],
+    external_links: [
+      ex_link
     ]
 }
 
-{:ok, img} = Erga.Research.create_image(
-  %{
-    primary: "true",
-    label_translation_target_id: 11,
-    project_id: project.id,
-    upload: %{
-      filename: "idai_archive_spanish_codices.jpg",
-      path: "priv/repo/idai_world_assets/images/content/what/images/idai_images_photothek_berlin.jpg"
-    }
-  }
-)
+
+
 
 Erga.Repo.insert!(%TranslatedContent{
-  target_id: img.label_translation_target_id,
+  target_id: ex_link.label_translation_target_id,
   language_code: "de",
-  text: "Voll das passende Bild."
+  text: "Super link, Background Story, wie alles begann!"
 })
 
 Erga.Repo.insert!(%TranslatedContent{
-  target_id: img.label_translation_target_id,
+  target_id: ex_link.label_translation_target_id,
   language_code: "en",
-  text: "Just a good fitting picture."
+  text: "The prequel to the main story, with a sick hook!"
 })
 
 Erga.Repo.insert!(%TranslatedContent{
@@ -228,11 +238,12 @@ project2 =
 
     stakeholders: [
       %Stakeholder{
-        stakeholder_role_id: stakeholder_role_1.id,
+
+        stakeholder_role_id: stakeholder_role_2.id,
         person_id: p1.id
     },
       %Stakeholder{
-        stakeholder_role_id: stakeholder_role_2.id,
+        stakeholder_role_id: stakeholder_role_1.id,
         person_id: p2.id
       }],
 }
@@ -260,3 +271,39 @@ Erga.Repo.insert!(%TranslatedContent{
   language_code: "en",
   text: "Standard project"
 })
+
+# TODO: Seed image withouth using Research functions more in line with other seeds?
+
+{:ok, image} = Erga.Research.create_image(
+  %{
+    primary: "true",
+    label_translation_target_id: 11,
+    project_id: project.id,
+    upload: %{
+      filename: "idai_archive_spanish_codices.jpg",
+      path: "priv/repo/idai_world_assets/images/content/what/images/idai_images_photothek_berlin.jpg"
+    }
+  }
+)
+
+{:ok, translated_content}= Erga.Research.create_translated_content(
+  %{
+    "target_table" => image.__meta__.source,
+    "target_table_primary_key" => image.id,
+    "target_id" => nil,
+    "target_field" => "label_translation_target_id",
+    "text" => "Voll das passende Bild.",
+    "language_code" => "de"
+  }
+)
+
+Erga.Research.create_translated_content(
+  %{
+    "target_table" => image.__meta__.source,
+    "target_table_primary_key" => image.id,
+    "target_id" => translated_content.target_id,
+    "target_field" => "label_translation_target_id",
+    "text" => "Just a very fitting picture.",
+    "language_code" => "en"
+  }
+)
