@@ -56,4 +56,13 @@ defmodule GazetteerService do
       []
     end
   end
+
+  def get_resource_id_from_uri(uri) do
+    case uri do
+      "https://gazetteer.dainst.org/place/" <> id ->
+        id
+      _ ->
+        :error
+    end
+  end
 end

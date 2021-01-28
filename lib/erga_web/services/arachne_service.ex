@@ -39,8 +39,14 @@ defmodule ArachneService do
     else
       []
     end
-
   end
 
-
+  def get_resource_id_from_uri(uri) do
+    case uri do
+      "http://arachne.dainst.org/entity/" <> id ->
+        id
+      _ ->
+        :error
+    end
+  end
 end

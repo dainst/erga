@@ -78,4 +78,13 @@ defmodule ThesaurusService do
       uri: RDF.IRI.to_string(n["link"])
      }
   end
+
+  def get_resource_id_from_uri(uri) do
+    case uri do
+      "http://thesauri.dainst.org/" <> id ->
+        id
+      _ ->
+        :error
+    end
+  end
 end

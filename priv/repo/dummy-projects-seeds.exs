@@ -55,7 +55,7 @@ linked_place =
     description_translation_target_id: 3,
     label_translation_target_id: 4,
     uri: "https://gazetteer.dainst.org/place/2323295",
-    linked_system: "Gazetteer"
+    linked_system: "gazetteer"
   }
 
 linked_place2 =
@@ -63,7 +63,7 @@ linked_place2 =
       description_translation_target_id: 10,
       label_translation_target_id: 9,
       uri: "https://gazetteer.dainst.org/place/2072406",
-      linked_system: "Gazetteer"
+      linked_system: "gazetteer"
 }
 
 linked_date =
@@ -71,14 +71,24 @@ linked_date =
     label_translation_target_id: 6,
     description_translation_target_id: 5,
     uri: "https://chronontology.dainst.org/period/mSrGeypeMHjw",
-    linked_system: "Chronontology"
+    linked_system: "chronontology"
   }
 
-  ex_link =
-    %ExternalLink{
-      label_translation_target_id: 12,
-      url: "https://antikewelt.de/2021/01/15/wieder-intakt-die-restaurierung-der-saeulen-der-casa-del-fauno-in-pompeji/",
-    }
+linked_thesauri_term = %{
+  uri: "http://thesauri.dainst.org/_ab3a94b2.html",
+  linked_system: "thesaurus"
+}
+
+linked_arachne_object = %{
+  uri: "http://arachne.dainst.org/entity/1140385",
+  linked_system: "arachne"
+}
+
+ex_link =
+  %ExternalLink{
+    label_translation_target_id: 12,
+    url: "https://antikewelt.de/2021/01/15/wieder-intakt-die-restaurierung-der-saeulen-der-casa-del-fauno-in-pompeji/",
+  }
 
 project =
   Erga.Repo.insert! %Project{
@@ -99,7 +109,7 @@ project =
         stakeholder_role_id: stakeholder_role_2.id
       }],
     linked_resources: [
-      linked_place, linked_place2, linked_date
+      linked_place, linked_place2, linked_date, linked_thesauri_term, linked_arachne_object
     ],
     external_links: [
       ex_link
@@ -249,11 +259,11 @@ project2 =
 
     stakeholders: [
       %Stakeholder{
-        role: "same guy",
+        stakeholder_role_id: stakeholder_role_2.id,
         person_id: p1.id
     },
       %Stakeholder{
-        role: "he again",
+        stakeholder_role_id: stakeholder_role_1.id,
         person_id: p2.id
       }],
 }
