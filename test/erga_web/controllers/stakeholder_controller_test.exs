@@ -3,9 +3,60 @@ defmodule ErgaWeb.StakeholderControllerTest do
 
   alias Erga.Staff
 
-  @create_attrs %{first_name: "some first_name", last_name: "some last_name", title: "some title", redirect: "some_path"}
-  @invalid_attrs %{first_name: nil, last_name: nil, title: nil, redirect: "some_path"}
-  @update_attrs %{first_name: "some updated first_name", last_name: "some updated last_name", title: "some updated title", redirect: "some_path"}
+  @create_attrs %{
+    first_name: "some first_name",
+    last_name: "some last_name",
+    title: "some title",
+    orc_id: "some orc id",
+    organization_name: "some organization name",
+    ror_id: "some ror id",
+    redirect: "some_path"
+  }
+  @create_person_attrs %{
+    first_name: "some first name",
+    last_name: "some last name",
+    redirect: "some_path"
+  }
+  @create_organization_attrs %{
+    organization_name: "some organization name",
+    redirect: "some_path"
+  }
+
+  @missing_data_invalid_attrs %{
+    first_name: nil,
+    last_name: nil,
+    title: nil,
+    orc_id: nil,
+    organization_name: nil,
+    ror_id: nil,
+    redirect: "some_path"
+  }
+
+  @missing_last_name_invalid_attrs %{
+    first_name: "some first_name",
+    last_name: nil, redirect:
+    "some_path"
+  }
+
+  @orc_id_without_name_data_invalid_attrs %{
+    orc_id: "some orc id",
+    first_name: nil,
+    last_name: nil,
+    redirect: "some_path"
+  }
+
+  @ror_id_without_organization_name_invalid_attrs %{
+    ror_id: "some orc id",
+    organization_name: nil,
+    redirect: "some_path"
+  }
+
+  @update_attrs %{
+    first_name: "some updated first_name",
+    last_name: "some updated last_name",
+    title: "some updated title",
+    redirect: "some_path"
+  }
 
   defp fixture(:stakeholder) do
     {:ok, stakeholder} = Staff.create_stakeholder(@create_attrs)
@@ -45,12 +96,70 @@ defmodule ErgaWeb.StakeholderControllerTest do
       assert html_response(conn, 200) =~  "Listing Stakeholders"
       assert html_response(conn, 200) =~  "some first_name"
       assert html_response(conn, 200) =~  "some last_name"
-      assert html_response(conn, 200) =~  "some title"
+      assert html_response(conn, 200) =~  "some orc id"
+      assert html_response(conn, 200) =~  "some organization name"
+      assert html_response(conn, 200) =~  "some ror id"
     end
 
-    test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.stakeholder_path(conn, :create), stakeholder: @invalid_attrs)
+    test "creates stakeholder with person data only", %{conn: conn} do
+      [location] =
+        conn
+        |> post(Routes.stakeholder_path(conn, :create), stakeholder: @create_person_attrs)
+        |> Plug.Conn.get_resp_header("location")
+
+      assert location == "/stakeholders?redirect=#{@create_person_attrs.redirect}"
+
+      conn =
+        conn
+        |> recycle()
+        |> Map.put(:assigns, conn.assigns)
+        |> get(location)
+
+      assert html_response(conn, 200) =~  "Listing Stakeholders"
+      assert html_response(conn, 200) =~  "some first name"
+      assert html_response(conn, 200) =~  "some last name"
+    end
+
+    test "creates stakeholder with organization data only", %{conn: conn} do
+      [location] =
+        conn
+        |> post(Routes.stakeholder_path(conn, :create), stakeholder: @create_organization_attrs)
+        |> Plug.Conn.get_resp_header("location")
+
+      assert location == "/stakeholders?redirect=#{@create_organization_attrs.redirect}"
+
+      conn =
+        conn
+        |> recycle()
+        |> Map.put(:assigns, conn.assigns)
+        |> get(location)
+
+      assert html_response(conn, 200) =~  "Listing Stakeholders"
+      assert html_response(conn, 200) =~  "some organization name"
+    end
+
+    test "renders error when missing data", %{conn: conn} do
+      conn = post(conn, Routes.stakeholder_path(conn, :create), stakeholder: @missing_data_invalid_attrs)
       assert html_response(conn, 200) =~ "New Stakeholder"
+      assert html_response(conn, 200) =~ "Please input some data."
+    end
+
+    test "renders error when first name is set but last name is not", %{conn: conn} do
+      conn = post(conn, Routes.stakeholder_path(conn, :create), stakeholder: @missing_last_name_invalid_attrs)
+      assert html_response(conn, 200) =~ "New Stakeholder"
+      assert html_response(conn, 200) =~ "Please provide last name when setting first name."
+    end
+
+    test "renders error when orc id set but no person name", %{conn: conn} do
+      conn = post(conn, Routes.stakeholder_path(conn, :create), stakeholder: @orc_id_without_name_data_invalid_attrs)
+      assert html_response(conn, 200) =~ "New Stakeholder"
+      assert html_response(conn, 200) =~ "Please provide last name when setting ORCID."
+    end
+
+    test "renders error when ror id set but no organization name", %{conn: conn} do
+      conn = post(conn, Routes.stakeholder_path(conn, :create), stakeholder: @ror_id_without_organization_name_invalid_attrs)
+      assert html_response(conn, 200) =~ "New Stakeholder"
+      assert html_response(conn, 200) =~ "Please provide organization name when setting RORID."
     end
   end
 
@@ -84,12 +193,30 @@ defmodule ErgaWeb.StakeholderControllerTest do
       assert html_response(conn, 200) =~  "Listing Stakeholders"
       assert html_response(conn, 200) =~  "some updated first_name"
       assert html_response(conn, 200) =~  "some updated last_name"
-      assert html_response(conn, 200) =~  "some updated title"
     end
 
-    test "renders errors when data is invalid", %{conn: conn, stakeholder: stakeholder} do
-      conn = put(conn, Routes.stakeholder_path(conn, :update, stakeholder), stakeholder: @invalid_attrs)
+    test "renders errors when missing data", %{conn: conn, stakeholder: stakeholder} do
+      conn = put(conn, Routes.stakeholder_path(conn, :update, stakeholder), stakeholder: @missing_data_invalid_attrs)
       assert html_response(conn, 200) =~ "Edit Stakeholder"
+      assert html_response(conn, 200) =~ "Please input some data."
+    end
+
+    test "renders errors when first name is set but last name is not", %{conn: conn, stakeholder: stakeholder} do
+      conn = put(conn, Routes.stakeholder_path(conn, :update, stakeholder), stakeholder: @missing_last_name_invalid_attrs)
+      assert html_response(conn, 200) =~ "Edit Stakeholder"
+      assert html_response(conn, 200) =~ "Please provide last name when setting first name."
+    end
+
+    test "renders error when orc id set but no person name", %{conn: conn, stakeholder: stakeholder} do
+      conn = put(conn, Routes.stakeholder_path(conn, :update, stakeholder), stakeholder: @orc_id_without_name_data_invalid_attrs)
+      assert html_response(conn, 200) =~ "Edit Stakeholder"
+      assert html_response(conn, 200) =~ "Please provide last name when setting ORCID."
+    end
+
+    test "renders error when ror id set but no organization name", %{conn: conn, stakeholder: stakeholder} do
+      conn = put(conn, Routes.stakeholder_path(conn, :update, stakeholder), stakeholder: @ror_id_without_organization_name_invalid_attrs)
+      assert html_response(conn, 200) =~ "Edit Stakeholder"
+      assert html_response(conn, 200) =~ "Please provide organization name when setting RORID."
     end
   end
 

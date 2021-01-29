@@ -6,9 +6,10 @@
   <table>
     <thead>
       <tr>
-        <th>first_name</th>
-        <th>last_name</th>
-        <th>Title</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Organization</th>
+        <th>IDs</th>
         <th>Projects</th>
         <th></th>
       </tr>
@@ -16,9 +17,17 @@
     <tbody>
       <%= for stakeholder <- @stakeholders do %>
       <tr>
+
         <td><%= stakeholder.first_name %></td>
-        <td><%= stakeholder.last_name %></td>
-        <td><%= stakeholder.title %></td>
+        <td><%= stakeholder.last_name %><br/></td>
+        <td><%= stakeholder.organization_name%><br/></td>
+        <td>
+          <%= if stakeholder.orc_id do %>
+          <a href="<%= stakeholder.orc_id %>">ORC</a>
+          <% end %>
+          <%= if stakeholder.ror_id do %>
+          <a href="<%= stakeholder.ror_id %>">ROR</a>
+          <% end %>
         <td>
           <%= for pts <- stakeholder.stakeholder_to_projects do %>
           <div><%= link pts.project.project_code, to: Routes.project_path(@conn, :show, pts.project) %></div>

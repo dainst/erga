@@ -23,7 +23,14 @@ defmodule Erga.StaffTest do
       ror_id: "another ror id"
     }
 
-    @invalid_attrs %{first_name: nil, last_name: nil, title: nil}
+    @invalid_attrs %{
+      first_name: nil,
+      last_name: nil,
+      title: nil,
+      orc_id: nil,
+      organization_name: nil,
+      ror_id: nil
+    }
 
     defp without_associations(stakeholder) do
       Map.delete(stakeholder, :stakeholder_to_projects)
