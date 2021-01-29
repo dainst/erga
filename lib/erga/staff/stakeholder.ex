@@ -38,7 +38,7 @@ defmodule Erga.Staff.Stakeholder do
 
       not is_nil(get_field(changeset, :ror_id)) && is_nil(get_field(changeset, :organization_name)) ->
         changeset
-        |> add_error(:last_name, "Please provide organization name when setting RORID.")
+        |> add_error(:organization_name, "Please provide organization name when setting RORID.")
 
       [:first_name, :last_name, :orc_id, :organization_name, :ror_id]
       |> Enum.map(&get_field(changeset, &1))
