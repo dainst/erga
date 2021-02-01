@@ -13,33 +13,36 @@
 alias Erga.Research.ExternalLink
 alias Erga.Research.Image
 alias Erga.Research.LinkedResource
-alias Erga.Staff.Person
+alias Erga.Staff.Stakeholder
 alias Erga.Staff.StakeholderRole
 alias Erga.Research.Project
-alias Erga.Research.Stakeholder
+alias Erga.Research.ProjectToStakeholder
 alias Erga.Research.TranslatedContent
 
 Erga.Repo.delete_all ExternalLink
 Erga.Repo.delete_all Image
 Erga.Repo.delete_all LinkedResource
-Erga.Repo.delete_all Person
+Erga.Repo.delete_all Stakeholder
 Erga.Repo.delete_all StakeholderRole
 Erga.Repo.delete_all Project
-Erga.Repo.delete_all Stakeholder
+Erga.Repo.delete_all ProjectToStakeholder
 Erga.Repo.delete_all TranslatedContent
 
 
-p1 = Erga.Repo.insert!(%Person{
-  firstname: "Theodor",
-  lastname: "Wiegand",
-  title: "Prof. Dr.",
-  external_id: "http://viaf.org/viaf/12347811"
+p1 = Erga.Repo.insert!(%Stakeholder{
+  first_name: "Benjamin",
+  last_name: "Ducke",
+  orc_id: "https://orcid.org/0000-0002-0560-4749",
+  organization_name: "Deutsches Archäologisches Insitut",
+  ror_id: "https://ror.org/023md1f53"
 })
 
-p2 = Erga.Repo.insert!(%Person{
-  firstname: "Hansi",
-  lastname: "Flick",
-  external_id: "http://viaf.org/viaf/6918159820920814000000"
+p2 = Erga.Repo.insert!(%Stakeholder{
+  first_name: "Marcel",
+  last_name: "Riedel",
+  orc_id: "https://orcid.org/0000-0002-2701-9356",
+  organization_name: "Deutsches Archäologisches Insitut",
+  ror_id: "https://ror.org/023md1f53"
 })
 
 stakeholder_role_1 = Erga.Repo.insert!(%StakeholderRole{
@@ -99,13 +102,13 @@ project =
     title_translation_target_id: 1,
     description_translation_target_id: 2,
 
-    stakeholders: [
-      %Stakeholder{
-        person_id: p1.id,
+    project_to_stakeholders: [
+      %ProjectToStakeholder{
+        stakeholder_id: p1.id,
         stakeholder_role_id: stakeholder_role_1.id
     },
-      %Stakeholder{
-        person_id: p2.id,
+      %ProjectToStakeholder{
+        stakeholder_id: p2.id,
         stakeholder_role_id: stakeholder_role_2.id
       }],
     linked_resources: [
@@ -115,9 +118,6 @@ project =
       ex_link
     ]
 }
-
-
-
 
 Erga.Repo.insert!(%TranslatedContent{
   target_id: ex_link.label_translation_target_id,
@@ -236,14 +236,14 @@ project2 =
     title_translation_target_id: 7,
     description_translation_target_id: 8,
 
-    stakeholders: [
-      %Stakeholder{
+    project_to_stakeholders: [
+      %ProjectToStakeholder{
         stakeholder_role_id: stakeholder_role_2.id,
-        person_id: p1.id
+        stakeholder_id: p1.id
     },
-      %Stakeholder{
+      %ProjectToStakeholder{
         stakeholder_role_id: stakeholder_role_1.id,
-        person_id: p2.id
+        stakeholder_id: p2.id
       }],
 }
 

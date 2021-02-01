@@ -1,26 +1,41 @@
-<%= form_for @changeset , @action, fn f -> %>
+<%= form_for @changeset, @action,  [multipart: true], fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
 
-  <%= hidden_input f, :project_id %>
+  <%= error_tag f, :general %>
 
-<div class="box">
-  <%= label f, :person_id %>
-  <%= select f, :person_id, Enum.map(@persons, &{ "#{&1.firstname} #{&1.lastname}", &1.id}), prompt: "Bitte wählen", required: true %>
-  <%= error_tag f, :person_id %>
+  <%= hidden_input f, :redirect, value: @redirect %>
 
-  <%= label f, :stakeholder_role_id, "Role" %>
-  <%= select f, :stakeholder_role_id, Enum.map(@stakeholder_roles, &{"#{&1.tag}", &1.id}), prompt: "Bitte wählen", required: true %>
-  <%= error_tag f, :stakeholder_role_id %>
-  <div>
-    <%= link "Manage persons", to: Routes.person_path(@conn, :index, redirect: get_stakeholder_redirect(@conn.request_path, @project_id)) %>
-      | <%= link "Manage roles", to: Routes.stakeholder_role_path(@conn, :index, redirect: get_stakeholder_redirect(@conn.request_path, @project_id)) %>
-  </div>
-</div>
+  <%= label f, :title %>
+  <%= text_input f, :title %>
+  <%= error_tag f, :title %>
 
+  <%= label f, :first_name %>
+  <%= text_input f, :first_name %>
+  <%= error_tag f, :first_name %>
+
+  <%= label f, :last_name %>
+  <%= text_input f, :last_name %>
+  <%= error_tag f, :last_name %>
+
+  <%= label f, :orc_id do %>
+    <a href="https://orcid.org">ORCID</a>
+  <% end %>
+  <%= text_input f, :orc_id %>
+  <%= error_tag f, :orc_id %>
+
+  <%= label f, :organization_name %>
+  <%= text_input f, :organization_name %>
+  <%= error_tag f, :organization_name %>
+
+  <%= label f, :ror_id do %>
+    <a href="https://ror.org">ROR ID</a>
+  <% end %>
+  <%= text_input f, :ror_id %>
+  <%= error_tag f, :ror_id %>
 
   <div>
     <%= submit "Save" %>

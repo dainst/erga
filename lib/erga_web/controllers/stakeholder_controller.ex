@@ -1,95 +1,57 @@
 defmodule ErgaWeb.StakeholderController do
   use ErgaWeb, :controller
 
-  alias Erga.Research
-  alias Erga.Research.Stakeholder
   alias Erga.Staff
+  alias Erga.Staff.Stakeholder
 
-  def new(conn, %{"project_id" => project_id}) do
-    changeset =
-      Research.change_stakeholder(%Stakeholder{})
-      |> Ecto.Changeset.put_change(:project_id, project_id)
-
-    persons = Staff.list_persons()
-    stakeholder_roles = Staff.list_stakeholder_roles()
-    render(
-      conn,
-      "new.html",
-      changeset: changeset,
-      persons: persons,
-      stakeholder_roles: stakeholder_roles,
-      project_id: project_id
-    )
+  def index(conn,  %{"redirect" => redirect}) do
+    stakeholders = Staff.list_stakeholders()
+    render(conn, "index.html", stakeholders: stakeholders, redirect: redirect)
   end
 
-  @spec create(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def create(conn, %{"stakeholder" => stakeholder_params}) do
-    case Research.create_stakeholder(stakeholder_params) do
-      {:ok, stakeholder} ->
+  def new(conn, %{"redirect" => redirect}) do
+    changeset = Staff.change_stakeholder(%Stakeholder{})
+    render(conn, "new.html", changeset: changeset, redirect: redirect)
+  end
+
+  def create(conn, %{"stakeholder" => %{"redirect" => redirect} = stakeholder_params}) do
+    case Staff.create_stakeholder(stakeholder_params) do
+      {:ok, _stakeholder} ->
         conn
         |> put_flash(:info, "Stakeholder created successfully.")
-        |> redirect(to: Routes.project_path(conn, :edit, stakeholder.project_id))
+        |> redirect(to: Routes.stakeholder_path(conn, :index, redirect: redirect))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        persons = Staff.list_persons()
-        stakeholder_roles = Staff.list_stakeholder_roles()
-        render(
-          conn,
-          "new.html",
-          changeset: changeset,
-          persons: persons,
-          stakeholder_roles: stakeholder_roles,
-          project_id: stakeholder_params["project_id"]
-        )
+        render(conn, "new.html", changeset: changeset, redirect: redirect)
     end
   end
 
-  def edit(conn, %{"id" => id}) do
-    stakeholder = Research.get_stakeholder!(id)
-    changeset = Research.change_stakeholder(stakeholder)
-    persons = Staff.list_persons()
-    stakeholder_roles = Staff.list_stakeholder_roles()
-    render(
-      conn,
-      "edit.html",
-      stakeholder: stakeholder,
-      changeset: changeset,
-      persons: persons,
-      stakeholder_roles: stakeholder_roles,
-      project_id: stakeholder.project_id
-    )
+  def edit(conn, %{"id" => id, "redirect" => redirect}) do
+    stakeholder = Staff.get_stakeholder!(id)
+    changeset = Staff.change_stakeholder(stakeholder)
+    render(conn, "edit.html", stakeholder: stakeholder, redirect: redirect, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "stakeholder" => stakeholder_params}) do
-    stakeholder = Research.get_stakeholder!(id)
+  def update(conn, %{"id" => id, "stakeholder" => %{"redirect" => redirect} = stakeholder_params}) do
+    stakeholder = Staff.get_stakeholder!(id)
 
-    case Research.update_stakeholder(stakeholder, stakeholder_params) do
-      {:ok, stakeholder} ->
+    case Staff.update_stakeholder(stakeholder, stakeholder_params) do
+      {:ok, _stakeholder} ->
         conn
         |> put_flash(:info, "Stakeholder updated successfully.")
-        |> redirect(to: Routes.project_path(conn, :edit, stakeholder.project_id))
+        |> redirect(to: Routes.stakeholder_path(conn, :index, redirect: redirect))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        persons = Staff.list_persons()
-        stakeholder_roles = Staff.list_stakeholder_roles()
-        render(
-          conn,
-          "edit.html",
-          stakeholder: stakeholder,
-          changeset: changeset,
-          persons: persons,
-          stakeholder_roles: stakeholder_roles,
-          project_id: stakeholder.project_id
-        )
+        render(conn, "edit.html", stakeholder: stakeholder, changeset: changeset, redirect: redirect)
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    stakeholder = Research.get_stakeholder!(id)
-    {:ok, _stakeholder} = Research.delete_stakeholder(stakeholder)
+  def delete(conn, %{"id" => id, "redirect" => redirect}) do
+    stakeholder = Staff.get_stakeholder!(id)
+    {:ok, _stakeholder} = Staff.delete_stakeholder(stakeholder)
 
     conn
     |> put_flash(:info, "Stakeholder deleted successfully.")
-    |> redirect(to: Routes.project_path(conn, :edit, stakeholder.project_id))
+    |> redirect(to: redirect)
   end
 end

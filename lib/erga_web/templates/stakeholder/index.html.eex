@@ -1,0 +1,51 @@
+<h1>Listing Stakeholders</h1>
+
+<span><%= link "Back", to: @redirect %></span>
+
+<div class="box">
+  <table>
+    <thead>
+      <tr>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Organization</th>
+        <th>IDs</th>
+        <th>Projects</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for stakeholder <- @stakeholders do %>
+      <tr>
+
+        <td><%= stakeholder.first_name %></td>
+        <td><%= stakeholder.last_name %><br/></td>
+        <td><%= stakeholder.organization_name%><br/></td>
+        <td>
+          <%= if stakeholder.orc_id do %>
+          <a href="<%= stakeholder.orc_id %>">ORC</a>
+          <% end %>
+          <%= if stakeholder.ror_id do %>
+          <a href="<%= stakeholder.ror_id %>">ROR</a>
+          <% end %>
+        <td>
+          <%= for pts <- stakeholder.stakeholder_to_projects do %>
+          <div><%= link pts.project.project_code, to: Routes.project_path(@conn, :show, pts.project) %></div>
+          <% end %>
+        </td>
+        <td>
+          <span><%= link "Edit", to: Routes.stakeholder_path(@conn, :edit, stakeholder, redirect: @redirect) %></span>
+          <span><%= link "Delete", to: Routes.stakeholder_path(@conn, :delete, stakeholder, redirect: @redirect), method: :delete, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div>
+    <%= link "New stakeholder", to: Routes.stakeholder_path(@conn, :new, redirect: @redirect) %>
+  </div>
+
+</div>
+
+<span><%= link "Back", to: @redirect %></span>

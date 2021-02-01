@@ -1,0 +1,28 @@
+<%= form_for @changeset , @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <%= hidden_input f, :project_id %>
+
+<div class="box">
+  <%= label f, :stakeholder_id %>
+  <%= select f, :stakeholder_id, Enum.map(@stakeholders, &{ "#{&1.first_name} #{&1.last_name}", &1.id}), prompt: "Bitte wählen", required: true %>
+  <%= error_tag f, :stakeholder_id %>
+
+  <%= label f, :stakeholder_role_id, "Role" %>
+  <%= select f, :stakeholder_role_id, Enum.map(@stakeholder_roles, &{"#{&1.tag}", &1.id}), prompt: "Bitte wählen", required: true %>
+  <%= error_tag f, :stakeholder_role_id %>
+  <div>
+    <%= link "Manage stakeholders", to: Routes.stakeholder_path(@conn, :index, redirect: get_stakeholder_to_project_redirect(@conn.request_path, @project_id)) %>
+      | <%= link "Manage roles", to: Routes.stakeholder_role_path(@conn, :index, redirect: get_stakeholder_to_project_redirect(@conn.request_path, @project_id)) %>
+  </div>
+</div>
+
+
+  <div>
+    <%= submit "Save" %>
+  </div>
+<% end %>

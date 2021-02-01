@@ -12,13 +12,15 @@
   <table>
     <thead>
       <th>Name</th>
+      <th>Organization</th>
       <th>Role</th>
     </thead>
     <tbody>
-    <%= for stakeholder <- @project.stakeholders do %>
+    <%= for pts <- @project.project_to_stakeholders do %>
       <tr>
-        <td><%= stakeholder.person.title <> " " <> stakeholder.person.firstname <> " " <> stakeholder.person.lastname %></td>
-        <td><%= stakeholder.stakeholder_role.tag %></td>
+        <td><%= pts.stakeholder.title <> " " <> pts.stakeholder.first_name <> " " <> pts.stakeholder.last_name %></td>
+        <td>
+        <td><%= pts.stakeholder_role.tag %></td>
       </tr>
     <% end %>
     </tbody>

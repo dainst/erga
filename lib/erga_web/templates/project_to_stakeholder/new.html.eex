@@ -1,0 +1,5 @@
+<h1>Add stakeholder to project</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.project_to_stakeholder_path(@conn, :create)) %>
+
+<span><%= link "Back", to: Routes.project_path(@conn, :edit, assigns.project_id) %></span>

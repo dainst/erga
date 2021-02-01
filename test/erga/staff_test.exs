@@ -3,93 +3,119 @@ defmodule Erga.StaffTest do
 
   alias Erga.Staff
 
-  describe "persons" do
-    alias Erga.Staff.Person
+  describe "stakeholders" do
+    alias Erga.Staff.Stakeholder
 
-    @valid_attrs %{firstname: "some firstname", lastname: "some lastname", title: "some title", external_id: "some viaf id"}
-    @update_attrs %{firstname: "some updated firstname", lastname: "some updated lastname", title: "some updated title", external_id: "another viaf id"}
-    @invalid_attrs %{firstname: nil, lastname: nil, title: nil}
+    @valid_attrs %{
+      title: "some title",
+      first_name: "some first_name",
+      last_name: "some last_name",
+      orc_id: "some orc id",
+      organization_name: "some organization name",
+      ror_id: "some ror id"
+    }
+    @update_attrs %{
+      first_name: "some updated first_name",
+      last_name: "some updated last_name",
+      title: "some updated title",
+      orc_id: "another orc id",
+      organization_name: "another organization name",
+      ror_id: "another ror id"
+    }
 
-    defp without_associations(person) do
-      Map.delete(person, :stakeholders)
+    @invalid_attrs %{
+      first_name: nil,
+      last_name: nil,
+      title: nil,
+      orc_id: nil,
+      organization_name: nil,
+      ror_id: nil
+    }
+
+    defp without_associations(stakeholder) do
+      Map.delete(stakeholder, :stakeholder_to_projects)
     end
 
-    def person_fixture(attrs \\ %{}) do
-      {:ok, person} =
+    def stakeholder_fixture(attrs \\ %{}) do
+      {:ok, stakeholder} =
         attrs
         |> Enum.into(@valid_attrs)
-        |> Staff.create_person()
+        |> Staff.create_stakeholder()
 
-      person
+      stakeholder
     end
 
-    test "list_persons/0 returns all persons" do
-      person =
-        person_fixture()
+    test "list_stakeholders/0 returns all stakeholders" do
+      stakeholder =
+        stakeholder_fixture()
         |> without_associations
 
-      person_list =
-        Staff.list_persons()
+      stakeholder_list =
+        Staff.list_stakeholders()
         |> Enum.map(&without_associations/1)
 
-      assert person_list == [person]
+      assert stakeholder_list == [stakeholder]
     end
 
-    test "get_person!/1 returns the person with given id" do
-      person =
-        person_fixture()
+    test "get_stakeholder!/1 returns the stakeholder with given id" do
+      stakeholder =
+        stakeholder_fixture()
         |> without_associations
 
-      person_loaded =
-        Staff.get_person!(person.id)
+      stakeholder_loaded =
+        Staff.get_stakeholder!(stakeholder.id)
         |> without_associations
-      assert person == person_loaded
+      assert stakeholder == stakeholder_loaded
     end
 
-    test "create_person/1 with valid data creates a person" do
-      assert {:ok, %Person{} = person} = Staff.create_person(@valid_attrs)
-      assert person.firstname == "some firstname"
-      assert person.lastname == "some lastname"
-      assert person.title == "some title"
-      assert person.external_id == "some viaf id"
+    test "create_stakeholder/1 with valid data creates a stakeholder" do
+      assert {:ok, %Stakeholder{} = stakeholder} = Staff.create_stakeholder(@valid_attrs)
+      assert stakeholder.first_name == "some first_name"
+      assert stakeholder.last_name == "some last_name"
+      assert stakeholder.title == "some title"
+      assert stakeholder.orc_id == "some orc id"
+      assert stakeholder.organization_name == "some organization name"
+      assert stakeholder.ror_id == "some ror id"
     end
 
-    test "create_person/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Staff.create_person(@invalid_attrs)
+    test "create_stakeholder/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Staff.create_stakeholder(@invalid_attrs)
     end
 
-    test "update_person/2 with valid data updates the person" do
-      person = person_fixture()
-      assert {:ok, %Person{} = person} = Staff.update_person(person, @update_attrs)
-      assert person.firstname == "some updated firstname"
-      assert person.lastname == "some updated lastname"
-      assert person.title == "some updated title"
-      assert person.external_id == "another viaf id"
+    test "update_stakeholder/2 with valid data updates the stakeholder" do
+      stakeholder = stakeholder_fixture()
+      assert {:ok, %Stakeholder{} = stakeholder} = Staff.update_stakeholder(stakeholder, @update_attrs)
+      assert stakeholder.first_name == "some updated first_name"
+      assert stakeholder.last_name == "some updated last_name"
+      assert stakeholder.title == "some updated title"
+      assert stakeholder.orc_id == "another orc id"
+      assert stakeholder.organization_name == "another organization name"
+      assert stakeholder.ror_id == "another ror id"
     end
 
-    test "update_person/2 with invalid data returns error changeset" do
-      person =
-        person_fixture()
-        |> without_associations
-
-      assert {:error, %Ecto.Changeset{}} = Staff.update_person(person, @invalid_attrs)
-
-      person_loaded =
-        Staff.get_person!(person.id)
+    test "update_stakeholder/2 with invalid data returns error changeset" do
+      stakeholder =
+        stakeholder_fixture()
         |> without_associations
 
-      assert person == person_loaded
+      assert {:error, %Ecto.Changeset{}} = Staff.update_stakeholder(stakeholder, @invalid_attrs)
+
+      stakeholder_loaded =
+        Staff.get_stakeholder!(stakeholder.id)
+        |> without_associations
+
+      assert stakeholder == stakeholder_loaded
     end
 
-    test "delete_person/1 deletes the person" do
-      person = person_fixture()
-      assert {:ok, %Person{}} = Staff.delete_person(person)
-      assert_raise Ecto.NoResultsError, fn -> Staff.get_person!(person.id) end
+    test "delete_stakeholder/1 deletes the stakeholder" do
+      stakeholder = stakeholder_fixture()
+      assert {:ok, %Stakeholder{}} = Staff.delete_stakeholder(stakeholder)
+      assert_raise Ecto.NoResultsError, fn -> Staff.get_stakeholder!(stakeholder.id) end
     end
 
-    test "change_person/1 returns a person changeset" do
-      person = person_fixture()
-      assert %Ecto.Changeset{} = Staff.change_person(person)
+    test "change_stakeholder/1 returns a stakeholder changeset" do
+      stakeholder = stakeholder_fixture()
+      assert %Ecto.Changeset{} = Staff.change_stakeholder(stakeholder)
     end
   end
 
@@ -107,7 +133,7 @@ defmodule Erga.StaffTest do
         |> Staff.create_stakeholder_role()
 
       stakeholder_role
-      |> Erga.Repo.preload(:stakeholders)
+      |> Erga.Repo.preload(:role_to_projects)
     end
 
     test "list_stakeholder_roles/0 returns all stakeholder_roles" do

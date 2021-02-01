@@ -1,12 +1,12 @@
 defmodule ErgaWeb.Api.ProjectViewTest do
   use ErgaWeb.ConnCase, async: true
 
-  alias Erga.Staff.Person
+  alias Erga.Staff.Stakeholder
   alias Erga.Staff.StakeholderRole
 
   alias Erga.Research.Project
   alias Erga.Research.TranslatedContent
-  alias Erga.Research.Stakeholder
+  alias Erga.Research.ProjectToStakeholder
   alias Erga.Research.LinkedResource
   alias Erga.Research.Image
   alias Erga.Research.ExternalLink
@@ -14,20 +14,24 @@ defmodule ErgaWeb.Api.ProjectViewTest do
   alias ErgaWeb.Api.ProjectView
 
   def create_project(_) do
-    p1 = %Person{
+    p1 = %Stakeholder{
       id: 1,
-      firstname: "Theodor",
-      lastname: "Wiegand",
+      first_name: "Theodor",
+      last_name: "Wiegand",
       title: "Prof. Dr.",
-      external_id: "DOI:123XABC123"
+      orc_id: "some orc id",
+      organization_name: "some organization name",
+      ror_id: "some ror id"
     }
 
-    p2 = %Person{
+    p2 = %Stakeholder{
       id: 2,
-      firstname: "Hansi",
-      lastname: "Flick",
+      first_name: "Hansi",
+      last_name: "Flick",
       title: "Cand. phil",
-      external_id: "PERSID:34578"
+      orc_id: "another orc id",
+      organization_name: "some organization name",
+      ror_id: "some ror id"
     }
 
     project =
@@ -59,16 +63,14 @@ defmodule ErgaWeb.Api.ProjectViewTest do
             text: "This is a very informativ project description."
           }
         ],
-        stakeholders: [
-          %Stakeholder{
+        project_to_stakeholders: [
+          %ProjectToStakeholder{
             stakeholder_role: %StakeholderRole{tag: "manager"},
-            person_id: p1.id,
-            person: p1
+            stakeholder: p1
         },
-          %Stakeholder{
+          %ProjectToStakeholder{
             stakeholder_role: %StakeholderRole{tag: "intern"},
-            person_id: p2.id,
-            person: p2
+            stakeholder: p2
           }],
         linked_resources: [
           %LinkedResource{

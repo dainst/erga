@@ -3,8 +3,12 @@ defmodule ErgaWeb.Api.StakeholderView do
 
   def render("stakeholder.json", %{stakeholder: stakeholder}) do
     %{
-      role: stakeholder.stakeholder_role.tag,
-      person: render_one(stakeholder.person, ErgaWeb.Api.PersonView, "person.json")
+      first_name: stakeholder.first_name,
+      last_name: stakeholder.last_name,
+      title: stakeholder.title,
+      orc_id: stakeholder.orc_id,
+      organization_name: stakeholder.organization_name,
+      ror_id: stakeholder.ror_id
     }
   end
 end
