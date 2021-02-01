@@ -111,7 +111,7 @@
     <h2>Stakeholders</h2>
     <table>
       <thead>
-      <tr><th>last_name</th><th>first_name</th><th>Organization</th><th>Role</th><th></th></tr>
+      <tr><th>Last name</th><th>First name</th><th>Organization</th><th>Role</th><th></th></tr>
       </thead>
       <tbody>
       <%= for pts <- @project.project_to_stakeholders do %>
