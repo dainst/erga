@@ -23,7 +23,11 @@
         </td>
         <td>
           <span><%= link "Edit", to: Routes.stakeholder_role_path(@conn, :edit, stakeholder_role, redirect: @redirect) %></span>
+          <%= if stakeholder_role.role_to_projects do %>
+          <div title="Please remove linked projects in order to delete" style="color:grey">Delete</div>
+          <% else %>
           <span><%= link "Delete", to: Routes.stakeholder_role_path(@conn, :delete, stakeholder_role, redirect: @redirect), method: :delete, data: [confirm: "Are you sure?"] %></span>
+          <% end %>
         </td>
       </tr>
       <% end %>
