@@ -78,7 +78,7 @@ linked_date =
   }
 
 linked_thesauri_term = %{
-  uri: "http://thesauri.dainst.org/_ab3a94b2.html",
+  uri: "http://thesauri.dainst.org/_ab3a94b2",
   linked_system: "thesaurus"
 }
 
