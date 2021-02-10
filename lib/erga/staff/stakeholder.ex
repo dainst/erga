@@ -53,7 +53,17 @@ defmodule Erga.Staff.Stakeholder do
   end
 
   def evaluate_external_ids(changeset, _attrs) do
-    # TODO
-    changeset
+    cond do
+      not is_nil(get_field(changeset, :orc_id)) && not String.match?(get_field(changeset, :orc_id), ~r/^([0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9])$/) ->
+        changeset
+        |> add_error(:orc_id, "Not a valid ORCID")
+
+      not is_nil(get_field(changeset, :ror_id)) && not String.match?(get_field(changeset, :ror_id), ~r/0[^ILO][^ILO][^ILO][^ILO][^ILO][^ILO][0-9][0-9]$/) ->
+        changeset
+        |> add_error(:ror_id, "Not a valid RORID")
+
+      true ->
+        changeset
+    end
   end
 end
