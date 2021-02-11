@@ -60,7 +60,7 @@ defmodule Erga.Staff.Stakeholder do
 
       not is_nil(get_field(changeset, :ror_id)) && not String.match?(get_field(changeset, :ror_id), ~r/^https:\/\/ror.org\/0[^ILO]{6}[0-9]{2}$/) ->
         changeset
-        |> add_error(:ror_id, "https://ror.org/0XXXXXXXX'")
+        |> add_error(:ror_id, "Not a valid RORID, expected pattern: 'https://ror.org/0XXXXXXXX'")
 
       true ->
         changeset
