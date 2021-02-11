@@ -54,13 +54,13 @@ defmodule Erga.Staff.Stakeholder do
 
   def evaluate_external_ids(changeset, _attrs) do
     cond do
-      not is_nil(get_field(changeset, :orc_id)) && not String.match?(get_field(changeset, :orc_id), ~r/^(https*:\/\/)*orcid.org\/([0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9])$/) ->
+      not is_nil(get_field(changeset, :orc_id)) && not String.match?(get_field(changeset, :orc_id), ~r/^https:\/\/orcid.org\/([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4})$/) ->
         changeset
-        |> add_error(:orc_id, "Not a valid ORCID")
+        |> add_error(:orc_id, "Not a valid ORCID, pattern: 'https://orcid.org/XXXX-XXXX-XXXX-XXXX'")
 
-      not is_nil(get_field(changeset, :ror_id)) && not String.match?(get_field(changeset, :ror_id), ~r/^(https*:\/\/)*ror.org\/0[^ILO][^ILO][^ILO][^ILO][^ILO][^ILO][0-9][0-9]$/) ->
+      not is_nil(get_field(changeset, :ror_id)) && not String.match?(get_field(changeset, :ror_id), ~r/^https:\/\/ror.org\/0[^ILO]{6}[0-9]{2}$/) ->
         changeset
-        |> add_error(:ror_id, "Not a valid RORID")
+        |> add_error(:ror_id, "https://ror.org/0XXXXXXXX'")
 
       true ->
         changeset
