@@ -56,7 +56,7 @@ defmodule Erga.Staff.Stakeholder do
     cond do
       not is_nil(get_field(changeset, :orc_id)) && not String.match?(get_field(changeset, :orc_id), ~r/^https:\/\/orcid.org\/([0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4})$/) ->
         changeset
-        |> add_error(:orc_id, "Not a valid ORCID, pattern: 'https://orcid.org/XXXX-XXXX-XXXX-XXXX'")
+        |> add_error(:orc_id, "Not a valid ORCID, expected pattern: 'https://orcid.org/XXXX-XXXX-XXXX-XXXX'")
 
       not is_nil(get_field(changeset, :ror_id)) && not String.match?(get_field(changeset, :ror_id), ~r/^https:\/\/ror.org\/0[^ILO]{6}[0-9]{2}$/) ->
         changeset
