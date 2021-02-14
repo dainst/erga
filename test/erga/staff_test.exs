@@ -10,17 +10,17 @@ defmodule Erga.StaffTest do
       title: "some title",
       first_name: "some first_name",
       last_name: "some last_name",
-      orc_id: "some orc id",
+      orc_id: "https://orcid.org/0000-0000-0000-0000",
       organization_name: "some organization name",
-      ror_id: "some ror id"
+      ror_id: "https://ror.org/023md1f53"
     }
     @update_attrs %{
       first_name: "some updated first_name",
       last_name: "some updated last_name",
       title: "some updated title",
-      orc_id: "another orc id",
+      orc_id: "https://orcid.org/0000-0000-0000-0001",
       organization_name: "another organization name",
-      ror_id: "another ror id"
+      ror_id: "https://ror.org/023md1f54"
     }
 
     @invalid_attrs %{
@@ -73,9 +73,9 @@ defmodule Erga.StaffTest do
       assert stakeholder.first_name == "some first_name"
       assert stakeholder.last_name == "some last_name"
       assert stakeholder.title == "some title"
-      assert stakeholder.orc_id == "some orc id"
+      assert stakeholder.orc_id == "https://orcid.org/0000-0000-0000-0000"
       assert stakeholder.organization_name == "some organization name"
-      assert stakeholder.ror_id == "some ror id"
+      assert stakeholder.ror_id == "https://ror.org/023md1f53"
     end
 
     test "create_stakeholder/1 with invalid data returns error changeset" do
@@ -88,9 +88,9 @@ defmodule Erga.StaffTest do
       assert stakeholder.first_name == "some updated first_name"
       assert stakeholder.last_name == "some updated last_name"
       assert stakeholder.title == "some updated title"
-      assert stakeholder.orc_id == "another orc id"
+      assert stakeholder.orc_id == "https://orcid.org/0000-0000-0000-0001"
       assert stakeholder.organization_name == "another organization name"
-      assert stakeholder.ror_id == "another ror id"
+      assert stakeholder.ror_id == "https://ror.org/023md1f54"
     end
 
     test "update_stakeholder/2 with invalid data returns error changeset" do

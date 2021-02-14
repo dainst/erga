@@ -19,9 +19,9 @@ defmodule ErgaWeb.Api.ProjectViewTest do
       first_name: "Theodor",
       last_name: "Wiegand",
       title: "Prof. Dr.",
-      orc_id: "some orc id",
+      orc_id: "https://orcid.org/0000-0000-0000-0000",
       organization_name: "some organization name",
-      ror_id: "some ror id"
+      ror_id: "https://ror.org/023md1f53"
     }
 
     p2 = %Stakeholder{
@@ -29,9 +29,9 @@ defmodule ErgaWeb.Api.ProjectViewTest do
       first_name: "Hansi",
       last_name: "Flick",
       title: "Cand. phil",
-      orc_id: "another orc id",
+      orc_id: "https://orcid.org/0000-0000-0000-0001",
       organization_name: "some organization name",
-      ror_id: "some ror id"
+      ror_id: "https://ror.org/023md1f53"
     }
 
     project =

@@ -24,9 +24,9 @@ defmodule Erga.ResearchTest do
       first_name: "some first_name",
       last_name: "some last_name",
       title: "some title",
-      orc_id: "some orcid",
+      orc_id: "https://orcid.org/0000-0000-0000-0000",
       organization_name: "some organization name",
-      ror_id: "some ror id"
+      ror_id: "https://ror.org/023md1f53"
     })
     %{stakeholder: pers}
   end
@@ -36,9 +36,9 @@ defmodule Erga.ResearchTest do
       %{first_name: "another first_name",
       last_name: "another last_name",
       title: "another title",
-      orc_id: "another orc id",
+      orc_id: "https://orcid.org/0000-0000-0000-0001",
       organization_name: "another organization name",
-      ror_id: "another ror id"
+      ror_id: "https://ror.org/023md1f54"
     })
     %{stakeholder_variant: pers}
   end

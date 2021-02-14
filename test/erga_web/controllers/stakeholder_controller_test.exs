@@ -7,9 +7,9 @@ defmodule ErgaWeb.StakeholderControllerTest do
     first_name: "some first_name",
     last_name: "some last_name",
     title: "some title",
-    orc_id: "some orc id",
+    orc_id: "https://orcid.org/0000-0000-0000-0000",
     organization_name: "some organization name",
-    ror_id: "some ror id",
+    ror_id: "https://ror.org/023md1f53",
     redirect: "some_path"
   }
   @create_person_attrs %{
@@ -39,14 +39,14 @@ defmodule ErgaWeb.StakeholderControllerTest do
   }
 
   @orc_id_without_name_data_invalid_attrs %{
-    orc_id: "some orc id",
+    orc_id: "https://orcid.org/0000-0000-0000-0000",
     first_name: nil,
     last_name: nil,
     redirect: "some_path"
   }
 
   @ror_id_without_organization_name_invalid_attrs %{
-    ror_id: "some orc id",
+    ror_id: "https://orcid.org/0000-0000-0000-0000",
     organization_name: nil,
     redirect: "some_path"
   }
@@ -96,9 +96,9 @@ defmodule ErgaWeb.StakeholderControllerTest do
       assert html_response(conn, 200) =~  "Listing Stakeholders"
       assert html_response(conn, 200) =~  "some first_name"
       assert html_response(conn, 200) =~  "some last_name"
-      assert html_response(conn, 200) =~  "some orc id"
+      assert html_response(conn, 200) =~  "https://orcid.org/0000-0000-0000-0000"
       assert html_response(conn, 200) =~  "some organization name"
-      assert html_response(conn, 200) =~  "some ror id"
+      assert html_response(conn, 200) =~  "https://ror.org/023md1f53"
     end
 
     test "creates stakeholder with person data only", %{conn: conn} do
