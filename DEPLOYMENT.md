@@ -26,6 +26,16 @@ sudo cp -r _build/prod/rel/erga/* /erga/ && sudo chown -R erga:erga /erga/
 sudo systemctl start erga
 ```
 
+## 5. Run migrations, only necessary if database had structural changes between builds
+```
+export DATABASE_URL=ecto://postgres:<password>@localhost/<database>
+export SECRET_KEY_BASE=<secret>
+export host=<host/IP>
+export PORT=80
+
+/erga/bin/erga eval "Erga.Release.migrate"
+```
+
 # Prerequisites
 
 ## Software
