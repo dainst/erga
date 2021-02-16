@@ -8,7 +8,7 @@ defmodule GazetteerService do
       "populated-place" -> get_list_request(@base_url <> URI.encode(val <> "* types:populated-place")  , "result")
       "building-institution" -> get_list_request(@base_url <> URI.encode(val <> "* types:building-institution")  , "result")
       "archaeological-site" -> get_list_request(@base_url <> URI.encode(val <> "* types:archaeological-site")  , "result")
-      _ -> get_list_request(@base_url <> val <> "*" , "result")
+      _ -> get_list_request(@base_url <> URI.encode(val <> "*") , "result")
     end
 
   end

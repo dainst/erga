@@ -1,4 +1,4 @@
-<h1><%= @page_title %></h1>
+<h1><%= @page_title %>HALLO</h1>
 
 <%= f = form_for @changeset, "#",
       id: "linked-resource-form",
@@ -17,7 +17,7 @@
       <div class="column">
         <%= if @linked_system == "gazetteer" do %>
           <%= label f, :search_filter %>
-          <%= select f, :search_filter, [Ort: "populated-place", Institut: "building-institution", Ausgrabungsstätte: "archaeological-site"], value: @search_filter%>
+          <%= select f, :search_filter, [Ort: "populated-place", Institut: "building-institution", Ausgrabungsstätte: "archaeological-site"], prompt: "<No Filter>", value: @search_filter%>
         <% end %>
       </div>
     </div>

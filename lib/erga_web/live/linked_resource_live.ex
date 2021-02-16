@@ -13,7 +13,7 @@ defmodule ErgaWeb.LinkedResourceLive do
     |> assign(:search_result, [])
     |> assign(:search_string, "")
     |> assign(:linked_id, nil)
-    |> assign(:search_filter, "populated-place")
+    |> assign(:search_filter, "")
     |> assign(:lang_codes, Application.get_env(:gettext, :locales))
   end
 
