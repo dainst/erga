@@ -98,8 +98,8 @@ defmodule ErgaWeb.StakeholderRoleControllerTest do
     setup [:create_stakeholder_role]
 
     test "deletes chosen stakeholder_role", %{conn: conn, stakeholder_role: stakeholder_role} do
-      conn = delete(conn, Routes.stakeholder_role_path(conn, :delete, stakeholder_role))
-      assert redirected_to(conn) == Routes.stakeholder_role_path(conn, :index)
+      conn = delete(conn, Routes.stakeholder_role_path(conn, :delete, stakeholder_role), redirect: @redirect)
+      assert redirected_to(conn) == Routes.stakeholder_role_path(conn, :index, redirect: @redirect)
 
       conn =
         conn

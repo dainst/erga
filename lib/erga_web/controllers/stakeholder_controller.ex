@@ -1,6 +1,6 @@
 defmodule ErgaWeb.StakeholderController do
   use ErgaWeb, :controller
-
+  alias ErgaWeb.ErrorHelpers
   alias Erga.Staff
   alias Erga.Staff.Stakeholder
 
@@ -48,10 +48,16 @@ defmodule ErgaWeb.StakeholderController do
 
   def delete(conn, %{"id" => id, "redirect" => redirect}) do
     stakeholder = Staff.get_stakeholder!(id)
-    {:ok, _stakeholder} = Staff.delete_stakeholder(stakeholder)
-
-    conn
-    |> put_flash(:info, "Stakeholder deleted successfully.")
-    |> redirect(to: redirect)
+    case Staff.delete_stakeholder(stakeholder) do
+      {:ok, _changeset} ->
+        conn
+        |> put_flash(:info, "Stakeholder deleted successfully.")
+        |> redirect(to: Routes.stakeholder_path(conn, :index, redirect: redirect))
+      {:error, changeset} ->
+        conn
+        |> put_flash(:error, ErrorHelpers.changeset_error_to_string(changeset))
+        |> redirect(to: Routes.stakeholder_path(conn, :index, redirect: redirect))
+    end
   end
+
 end
