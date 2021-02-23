@@ -195,7 +195,10 @@ defmodule Erga.Staff do
 
   """
   def delete_stakeholder_role(%StakeholderRole{} = stakeholder_role) do
-    Repo.delete(stakeholder_role)
+    stakeholder_role
+    |> Ecto.Changeset.change
+    |> Ecto.Changeset.no_assoc_constraint(:role_to_projects)
+    |> Repo.delete
   end
 
   @doc """
