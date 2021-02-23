@@ -225,7 +225,7 @@ defmodule ErgaWeb.StakeholderControllerTest do
 
     test "deletes chosen stakeholder", %{conn: conn, stakeholder: stakeholder} do
       conn = delete(conn, Routes.stakeholder_path(conn, :delete, stakeholder, redirect: "/redirect_path"))
-      assert redirected_to(conn) == "/redirect_path"
+      assert redirected_to(conn) == "/stakeholders?redirect=%2Fredirect_path"
 
       assert_raise Ecto.NoResultsError, fn -> Staff.get_stakeholder!(stakeholder.id) end
     end
