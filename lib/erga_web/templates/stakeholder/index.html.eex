@@ -35,8 +35,8 @@
         </td>
         <td>
           <span><%= link "Edit", to: Routes.stakeholder_path(@conn, :edit, stakeholder, redirect: @redirect) %></span>
-          <%= if stakeholder.orc_id != nil or stakeholder.ror_id != nil do%>
-            <div title="Please remove linked ROR and ORC to delete" style="color:grey">Delete</div>
+          <%= if stakeholder.stakeholder_to_projects != [] do %>
+            <span title="You can not delete a stakeholder still used in a project" style="color:grey">Delete</span>
           <% else %>
           <span><%= link "Delete", to: Routes.stakeholder_path(@conn, :delete, stakeholder, redirect: @redirect), method: :delete, data: [confirm: "Are you sure?"] %></span>
           <% end %>
