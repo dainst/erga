@@ -52,11 +52,11 @@ defmodule ErgaWeb.StakeholderController do
       {:ok, _changeset} ->
         conn
         |> put_flash(:info, "Stakeholder deleted successfully.")
-        |> redirect(to: redirect)
+        |> redirect(to: Routes.stakeholder_path(conn, :index, redirect: redirect))
       {:error, changeset} ->
         conn
         |> put_flash(:error, ErrorHelpers.changeset_error_to_string(changeset))
-        |> redirect(to: redirect)
+        |> redirect(to: Routes.stakeholder_path(conn, :index, redirect: redirect))
     end
   end
 

@@ -54,11 +54,11 @@ defmodule ErgaWeb.StakeholderRoleController do
       {:ok, _changeset} ->
         conn
         |> put_flash(:info, "Stakeholder role deleted successfully.")
-        |> redirect(to: redirect)
+        |> redirect(to: Routes.stakeholder_role_path(conn, :index, redirect: redirect))
       {:error, changeset} ->
         conn
         |> put_flash(:error, ErrorHelpers.changeset_error_to_string(changeset))
-        |> redirect(to: redirect)
+        |> redirect(to: Routes.stakeholder_role_path(conn, :index, redirect: redirect))
     end
   end
 end
