@@ -49,7 +49,7 @@ defmodule ErgaWeb.StakeholderController do
   def delete(conn, %{"id" => id, "redirect" => redirect}) do
     stakeholder = Staff.get_stakeholder!(id)
     case Staff.delete_stakeholder(stakeholder) do
-      {:ok, changeset} ->
+      {:ok, _changeset} ->
         conn
         |> put_flash(:info, "Stakeholder deleted successfully.")
         |> redirect(to: redirect)
