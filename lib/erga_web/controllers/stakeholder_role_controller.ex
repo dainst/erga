@@ -4,6 +4,8 @@ defmodule ErgaWeb.StakeholderRoleController do
   alias Erga.Staff
   alias Erga.Staff.StakeholderRole
 
+  alias ErgaWeb.ErrorHelpers
+
   def index(conn,  %{"redirect" => redirect}) do
     stakeholder_roles = Staff.list_stakeholder_roles()
     render(conn, "index.html", stakeholder_roles: stakeholder_roles, redirect: redirect)
@@ -46,12 +48,17 @@ defmodule ErgaWeb.StakeholderRoleController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => id, "redirect" => redirect}) do
     stakeholder_role = Staff.get_stakeholder_role!(id)
-    {:ok, _stakeholder_role} = Staff.delete_stakeholder_role(stakeholder_role)
-
-    conn
-    |> put_flash(:info, "Stakeholder role deleted successfully.")
-    |> redirect(to: Routes.stakeholder_role_path(conn, :index))
+    case Staff.delete_stakeholder_role(stakeholder_role) do
+      {:ok, _changeset} ->
+        conn
+        |> put_flash(:info, "Stakeholder role deleted successfully.")
+        |> redirect(to: redirect)
+      {:error, changeset} ->
+        conn
+        |> put_flash(:error, ErrorHelpers.changeset_error_to_string(changeset))
+        |> redirect(to: redirect)
+    end
   end
 end
