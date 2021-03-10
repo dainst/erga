@@ -1,7 +1,7 @@
 defmodule ErgaWeb.StakeholderRoleControllerTest do
   use ErgaWeb.ConnCase
-
   alias Erga.Staff
+  alias Erga.Research
 
   @redirect "some_path"
 
@@ -45,8 +45,8 @@ defmodule ErgaWeb.StakeholderRoleControllerTest do
         |> Map.put(:assigns, conn.assigns)
         |> get(location)
 
-      assert html_response(conn, 200) =~  "Listing Stakeholder roles"
-      assert html_response(conn, 200) =~  "some key"
+      assert html_response(conn, 200) =~ "Listing Stakeholder roles"
+      assert html_response(conn, 200) =~ "some key"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -67,7 +67,8 @@ defmodule ErgaWeb.StakeholderRoleControllerTest do
   describe "update stakeholder_role" do
     setup [:create_stakeholder_role]
 
-    test "redirects to index, preserving redirect parameter when data is valid", %{conn: conn, stakeholder_role: stakeholder_role} do
+    test "redirects to index, preserving redirect parameter when data is valid",
+         %{conn: conn, stakeholder_role: stakeholder_role} do
 
       conn =
         conn
@@ -84,12 +85,17 @@ defmodule ErgaWeb.StakeholderRoleControllerTest do
         |> Map.put(:assigns, conn.assigns)
         |> get(location)
 
-      assert html_response(conn, 200) =~  "Listing Stakeholder roles"
-      assert html_response(conn, 200) =~  "some updated key"
+      assert html_response(conn, 200) =~ "Listing Stakeholder roles"
+      assert html_response(conn, 200) =~ "some updated key"
     end
 
     test "renders errors when data is invalid", %{conn: conn, stakeholder_role: stakeholder_role} do
-      conn = put(conn, Routes.stakeholder_role_path(conn, :update, stakeholder_role), stakeholder_role: @invalid_attrs, redirect: @redirect)
+      conn = put(
+        conn,
+        Routes.stakeholder_role_path(conn, :update, stakeholder_role),
+        stakeholder_role: @invalid_attrs,
+        redirect: @redirect
+      )
       assert html_response(conn, 200) =~ "Edit Stakeholder role"
     end
   end
@@ -110,6 +116,45 @@ defmodule ErgaWeb.StakeholderRoleControllerTest do
         get(conn, Routes.stakeholder_role_path(conn, :edit, stakeholder_role, redirect: @create_attrs.redirect))
       end
     end
+  end
+
+  describe "delete stakeholder_role with linked project" do
+    setup [
+      :create_stakeholder_role_with_linked_project
+    ]
+
+    test "deletes chosen stakeholder_role, returns error", %{conn: conn, stakeholder_role: stakeholder_role} do
+      delete(conn, Routes.stakeholder_role_path(conn, :delete, stakeholder_role), redirect: @redirect)
+      conn = get(conn, Routes.stakeholder_role_path(conn, :edit, stakeholder_role, redirect: @create_attrs.redirect))
+      assert html_response(conn, 200) =~ "Edit Stakeholder role"
+    end
+  end
+
+  defp create_stakeholder_role_with_linked_project(_) do
+    stakeholder_role = fixture(:stakeholder_role)
+    {:ok, proj} = Research.create_project(
+      %{
+        project_code: "Test001",
+        starts_at: ~D[2019-01-10],
+        ends_at: ~D[2023-10-10],
+        title_translation_target_id: 1,
+      }
+    )
+    {:ok, pers} = Staff.create_stakeholder(
+      %{
+        first_name: "some first_name",
+        last_name: "some last_name",
+        title: "some title",
+        orc_id: "https://orcid.org/0000-0000-0000-0000",
+        organization_name: "some organization name",
+        ror_id: "https://ror.org/023md1f53"
+      }
+    )
+    {:ok, %Erga.Research.ProjectToStakeholder{} = project_to_stakeholder} =
+      %{"project_id" => proj.id, "stakeholder_id" => pers.id, "stakeholder_role_id" => stakeholder_role.id}
+      |> Enum.into(%{"role" => "some role"})
+      |> Research.create_project_to_stakeholder()
+    %{stakeholder_role: stakeholder_role}
   end
 
   defp create_stakeholder_role(_) do
