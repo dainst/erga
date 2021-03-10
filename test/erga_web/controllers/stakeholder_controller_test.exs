@@ -1,6 +1,6 @@
 defmodule ErgaWeb.StakeholderControllerTest do
   use ErgaWeb.ConnCase
-
+  alias Erga.Research
   alias Erga.Staff
 
   @create_attrs %{
@@ -229,6 +229,42 @@ defmodule ErgaWeb.StakeholderControllerTest do
 
       assert_raise Ecto.NoResultsError, fn -> Staff.get_stakeholder!(stakeholder.id) end
     end
+  end
+
+  describe "delete stakeholder with linked project" do
+    setup [:create_stakeholder_with_linked_project]
+
+    test "deletes chosen stakeholder, returns error", %{conn: conn, stakeholder: stakeholder} do
+      conn = delete(conn, Routes.stakeholder_path(conn, :delete, stakeholder, redirect: "/redirect_path"))
+      assert redirected_to(conn) == "/stakeholders?redirect=%2Fredirect_path"
+
+      assert Staff.get_stakeholder!(stakeholder.id)!= nil
+    end
+  end
+
+  defp create_stakeholder_with_linked_project(_) do
+    {:ok, proj} = Research.create_project(
+      %{
+        project_code: "Test001",
+        starts_at: ~D[2019-01-10],
+        ends_at: ~D[2023-10-10],
+        title_translation_target_id: 1,
+      }
+    )
+    {:ok, pers} = Staff.create_stakeholder(
+      %{
+        first_name: "some first_name",
+        last_name: "some last_name",
+        title: "some title",
+        orc_id: "https://orcid.org/0000-0000-0000-0000",
+        organization_name: "some organization name",
+        ror_id: "https://ror.org/023md1f53"
+      }
+    )
+    {:ok, %Erga.Research.ProjectToStakeholder{} = project_to_stakeholder} =
+      %{"project_id" => proj.id, "stakeholder_id" => pers.id}
+      |> Research.create_project_to_stakeholder()
+    %{stakeholder: pers}
   end
 
   defp create_stakeholder(_) do
