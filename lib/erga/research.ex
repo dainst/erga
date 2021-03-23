@@ -825,6 +825,10 @@ defmodule Erga.Research do
       "target_field" => target_field
     }) do
 
+    updated_at = DateTime.utc_now
+                 |> DateTime.to_iso8601
+    Repo.update_all(from(p in Project, where: p.title_translation_target_id== ^translated_content.target_id or p.description_translation_target_id== ^translated_content.target_id), set: [{:updated_at, updated_at}])
+
     result = Repo.delete(translated_content)
 
     translations_remaining_with_target_id =
