@@ -295,6 +295,8 @@ defmodule Erga.Research do
       |> Repo.preload(:labels)
       |> Repo.preload(:descriptions)
 
+    update_project_timestamp(get_project!(linked_resource.project_id))
+
     linked_resource.labels
     |> Enum.each(
       &delete_translated_content(
