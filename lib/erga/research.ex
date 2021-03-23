@@ -197,7 +197,6 @@ defmodule Erga.Research do
 
   """
   def toggle_inactive(%Project{} = project) do
-
     project
     |> Project.changeset(%{inactive: !project.inactive})
     |> Repo.update()
@@ -456,6 +455,7 @@ defmodule Erga.Research do
     Repo.get!(ProjectToStakeholder, id)
     |> Repo.preload(:project)
     |> Repo.preload(:stakeholder)
+    |> Repo.preload(:stakeholder_role)
   end
 
   @doc """
