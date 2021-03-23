@@ -3,10 +3,10 @@ defmodule Erga.Research do
   The Research context.
   """
   require Logger
-
+  import Ecto.Changeset
   import Ecto.Query, warn: false
   alias Erga.Repo
-
+  alias DateTime
   alias Erga.Research.{Project, LinkedResource, ExternalLink, Image, ProjectToStakeholder, TranslatedContent}
 
   @upload_directory Application.get_env(:erga, :uploads_directory)
@@ -508,7 +508,19 @@ defmodule Erga.Research do
 
   """
   def delete_project_to_stakeholder(%ProjectToStakeholder{} = project_to_stakeholder) do
+    update_project_timestamp(get_project!(project_to_stakeholder.project_id))
     Repo.delete(project_to_stakeholder)
+
+  end
+  @doc """
+  Updates the updated_at value of a project.
+  """
+  def update_project_timestamp(%Project{}=project) do
+    updated_at = DateTime.utc_now
+                 |> DateTime.to_iso8601
+    project
+    |> cast(%{ updated_at: updated_at }, [:updated_at])
+    |> Repo.update()
   end
 
   @doc """
