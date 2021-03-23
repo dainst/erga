@@ -631,6 +631,8 @@ defmodule Erga.Research do
       image
       |> Repo.preload(:labels)
 
+    update_project_timestamp(get_project!(image.project_id))
+
     image.labels
     |> Enum.each(
       &delete_translated_content(
