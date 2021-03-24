@@ -34,6 +34,11 @@ config :erga, ErgaWeb.Endpoint,
   url: [
     host: System.get_env("HOST", "localhost"),
     port: port,
+  ],
+  https: [
+    port: 443,
+    keyfile: System.get_env("SSL_KEY_PATH"),
+    certfile: System.get_env("SSL_CERT_PATH")
   ]
 # ## Using releases (Elixir v1.9+)
 #
