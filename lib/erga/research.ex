@@ -413,6 +413,8 @@ defmodule Erga.Research do
       external_link
       |> Repo.preload(:labels)
 
+    update_project_timestamp(get_project!(external_link.project_id))
+
     external_link.labels
     |> Enum.each(
       &delete_translated_content(
@@ -828,6 +830,12 @@ defmodule Erga.Research do
     updated_at = DateTime.utc_now
                  |> DateTime.to_iso8601
     Repo.update_all(from(p in Project, where: p.title_translation_target_id== ^translated_content.target_id or p.description_translation_target_id== ^translated_content.target_id), set: [{:updated_at, updated_at}])
+
+    Repo.update_all(from(i in Image, where: i.label_translation_target_id== ^translated_content.target_id), set: [{:updated_at, updated_at}])
+
+    Repo.update_all(from(i in LinkedResource, where: i.label_translation_target_id== ^translated_content.target_id or p.description_translation_target_id== ^translated_content.target_id), set: [{:updated_at, updated_at}])
+
+    Repo.update_all(from(i in ExternalLink, where: i.label_translation_target_id== ^translated_content.target_id), set: [{:updated_at, updated_at}])
 
     result = Repo.delete(translated_content)
 
