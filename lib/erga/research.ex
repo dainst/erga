@@ -3,10 +3,10 @@ defmodule Erga.Research do
   The Research context.
   """
   require Logger
-
+  import Ecto.Changeset
   import Ecto.Query, warn: false
   alias Erga.Repo
-
+  alias DateTime
   alias Erga.Research.{Project, LinkedResource, ExternalLink, Image, ProjectToStakeholder, TranslatedContent}
 
   @upload_directory Application.get_env(:erga, :uploads_directory)
@@ -294,6 +294,8 @@ defmodule Erga.Research do
       |> Repo.preload(:labels)
       |> Repo.preload(:descriptions)
 
+    update_project_timestamp(get_project!(linked_resource.project_id))
+
     linked_resource.labels
     |> Enum.each(
       &delete_translated_content(
@@ -410,6 +412,8 @@ defmodule Erga.Research do
       external_link
       |> Repo.preload(:labels)
 
+    update_project_timestamp(get_project!(external_link.project_id))
+
     external_link.labels
     |> Enum.each(
       &delete_translated_content(
@@ -508,7 +512,19 @@ defmodule Erga.Research do
 
   """
   def delete_project_to_stakeholder(%ProjectToStakeholder{} = project_to_stakeholder) do
+    update_project_timestamp(get_project!(project_to_stakeholder.project_id))
     Repo.delete(project_to_stakeholder)
+
+  end
+  @doc """
+  Updates the updated_at value of a project.
+  """
+  def update_project_timestamp(%Project{}=project) do
+    updated_at = DateTime.utc_now
+                 |> DateTime.to_iso8601
+    project
+    |> cast(%{ updated_at: updated_at }, [:updated_at])
+    |> Repo.update()
   end
 
   @doc """
@@ -618,6 +634,8 @@ defmodule Erga.Research do
     image =
       image
       |> Repo.preload(:labels)
+
+    update_project_timestamp(get_project!(image.project_id))
 
     image.labels
     |> Enum.each(
@@ -808,6 +826,16 @@ defmodule Erga.Research do
       "target_table" => target_table,
       "target_field" => target_field
     }) do
+
+    updated_at = DateTime.utc_now
+                 |> DateTime.to_iso8601
+    Repo.update_all(from(p in Project, where: p.title_translation_target_id== ^translated_content.target_id or p.description_translation_target_id== ^translated_content.target_id), set: [{:updated_at, updated_at}])
+
+    Repo.update_all(from(i in Image, where: i.label_translation_target_id== ^translated_content.target_id), set: [{:updated_at, updated_at}])
+
+    Repo.update_all(from(i in LinkedResource, where: i.label_translation_target_id== ^translated_content.target_id or p.description_translation_target_id== ^translated_content.target_id), set: [{:updated_at, updated_at}])
+
+    Repo.update_all(from(i in ExternalLink, where: i.label_translation_target_id== ^translated_content.target_id), set: [{:updated_at, updated_at}])
 
     result = Repo.delete(translated_content)
 

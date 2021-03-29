@@ -5,9 +5,12 @@
     </div>
   <% end %>
 
-  <%= label f, :project_code %>
-  <%= text_input f, :project_code %>
-  <%= error_tag f, :project_code %>
+<%= label f, :project_code %>
+<%= text_input f, :project_code %>
+<%= error_tag f, :project_code %>
+<%= label f, :updated_at %>
+<%= text_input f, :updated_at %>
+<%= error_tag f, :updated_at %>
 
   <div class="box">
   <h2>Titles</h2>
