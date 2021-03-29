@@ -833,7 +833,7 @@ defmodule Erga.Research do
 
     Repo.update_all(from(i in Image, where: i.label_translation_target_id== ^translated_content.target_id), set: [{:updated_at, updated_at}])
 
-    Repo.update_all(from(i in LinkedResource, where: i.label_translation_target_id== ^translated_content.target_id or p.description_translation_target_id== ^translated_content.target_id), set: [{:updated_at, updated_at}])
+    Repo.update_all(from(i in LinkedResource, where: i.label_translation_target_id== ^translated_content.target_id or i.description_translation_target_id== ^translated_content.target_id), set: [{:updated_at, updated_at}])
 
     Repo.update_all(from(i in ExternalLink, where: i.label_translation_target_id== ^translated_content.target_id), set: [{:updated_at, updated_at}])
 
