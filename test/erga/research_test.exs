@@ -213,9 +213,15 @@ defmodule Erga.ResearchTest do
     end
 
     test "delete_linked_resource/1 deletes the linked_resource" do
+      Process.sleep(1000) #Needed for a change in date
+      time = NaiveDateTime.utc_now()
+      projects_before = Research.get_projects_updated_since(time)
       linked_resource = linked_resource_fixture()
       assert {:ok, %LinkedResource{}} = Research.delete_linked_resource(linked_resource)
       assert_raise Ecto.NoResultsError, fn -> Research.get_linked_resource!(linked_resource.id) end
+      assert projects_before != Research.get_projects_updated_since(time)
+
+
     end
 
     test "change_linked_resource/1 returns a linked_resource changeset" do
@@ -342,9 +348,13 @@ defmodule Erga.ResearchTest do
     end
 
     test "delete_project_to_stakeholder/1 deletes the project_to_stakeholder", %{project: proj, stakeholder: pers} do
+      Process.sleep(1000) #Needed for a change in date
+      time = NaiveDateTime.utc_now()
+      projects_before = Research.get_projects_updated_since(time)
       project_to_stakeholder = project_to_stakeholder_fixture(%{"project_id" => proj.id, "stakeholder_id" => pers.id})
       assert {:ok, %ProjectToStakeholder{}} = Research.delete_project_to_stakeholder(project_to_stakeholder)
       assert_raise Ecto.NoResultsError, fn -> Research.get_project_to_stakeholder!(project_to_stakeholder.id) end
+      assert projects_before != Research.get_projects_updated_since(time)
     end
 
     test "change_project_to_stakeholder/1 returns a project_to_stakeholder changeset", %{project: proj, stakeholder: pers} do
@@ -416,9 +426,13 @@ defmodule Erga.ResearchTest do
     end
 
     test "delete_image/1 deletes the image", %{project: proj} do
+      Process.sleep(1000) #Needed for a change in date
+      time = NaiveDateTime.utc_now()
+      projects_before = Research.get_projects_updated_since(time)
       image = image_fixture(%{"project_id" => proj.id})
       assert {:ok, %Image{}} = Research.delete_image(image)
       assert_raise Ecto.NoResultsError, fn -> Research.get_image!(image.id) end
+      assert projects_before != Research.get_projects_updated_since(time)
     end
 
     test "change_image/1 returns a image changeset", %{project: proj} do
@@ -484,9 +498,15 @@ defmodule Erga.ResearchTest do
     end
 
     test "delete_translated_content/1 deletes the translated_content", %{project: proj}  do
+
+      Process.sleep(1000) #Needed for a change in date
+      time = NaiveDateTime.utc_now()
+      projects_before = Research.get_projects_updated_since(time)
       translated_content = translated_content_fixture(%{"target_table_primary_key" => proj.id, "target_field" => "title_translation_target_id", "target_table" => "projects"})
       assert {:ok, %TranslatedContent{}} = Research.delete_translated_content(translated_content, %{"target_field" => "title_translation_target_id", "target_table" => "projects"})
       assert_raise Ecto.NoResultsError, fn -> Research.get_translated_content!(translated_content.id) end
+      assert projects_before != Research.get_projects_updated_since(time)
+
     end
 
     test "change_translated_content/1 returns a translated_content changeset", %{project: proj}  do

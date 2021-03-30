@@ -150,7 +150,7 @@ defmodule ErgaWeb.StakeholderRoleControllerTest do
         ror_id: "https://ror.org/023md1f53"
       }
     )
-    {:ok, %Erga.Research.ProjectToStakeholder{} = project_to_stakeholder} =
+    {:ok, %Erga.Research.ProjectToStakeholder{} = _project_to_stakeholder} =
       %{"project_id" => proj.id, "stakeholder_id" => pers.id, "stakeholder_role_id" => stakeholder_role.id}
       |> Enum.into(%{"role" => "some role"})
       |> Research.create_project_to_stakeholder()

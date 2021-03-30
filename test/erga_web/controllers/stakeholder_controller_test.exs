@@ -261,7 +261,7 @@ defmodule ErgaWeb.StakeholderControllerTest do
         ror_id: "https://ror.org/023md1f53"
       }
     )
-    {:ok, %Erga.Research.ProjectToStakeholder{} = project_to_stakeholder} =
+    {:ok, %Erga.Research.ProjectToStakeholder{} = _project_to_stakeholder} =
       %{"project_id" => proj.id, "stakeholder_id" => pers.id}
       |> Research.create_project_to_stakeholder()
     %{stakeholder: pers}
