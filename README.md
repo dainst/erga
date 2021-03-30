@@ -22,6 +22,9 @@ To create a new user, run `mix run priv/repo/create_user.exs useremail userpassw
 ## Database reset
 To remove all current data, apply all migrations and reseed based on [seeds.exs](priv/repo/seeds.exs) run `mix ecto.reset`. You may be unable to reset the database if it is still opened by another application (for example [pgAdmin](https://www.pgadmin.org)).
 
+## Run tests
+Run `mix test` to start the test cases
+
 ## Troubleshooting
 
 ### Dockerized PostgreSQL 
