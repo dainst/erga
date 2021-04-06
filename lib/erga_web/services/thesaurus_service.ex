@@ -5,6 +5,11 @@ defmodule ThesaurusService do
 
   @base_single_value "http://thesauri.dainst.org"
 
+  @base_hierarchy_world_tree "http://thesauri.dainst.org/de/hierarchy/_fe65f286.ttl?dir=down"
+
+  HTTPoison.start()
+  @hierarchy HTTPoison.get("http://thesauri.dainst.org/de/hierarchy/_fe65f286.ttl?dir=down", %{}, [recv_timeout: 24000, timeout: 24000])
+
   @query """
   PREFIX sdc: <http://sindice.com/vocab/search#>
   PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -27,6 +32,35 @@ defmodule ThesaurusService do
     ?s skosxl:literalForm ?label .
   }
   """
+
+
+  def get_list(val, %{use_hierarchy: true}) do
+    search_query = "
+      PREFIX sdc: <http://sindice.com/vocab/search#>
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+
+      SELECT ?label ?link
+      WHERE {
+
+        ?s skosxl:prefLabel ?link .
+        ?s skos:prefLabel ?label .
+        FILTER regex(?label, \"^#{val}\", \"i\")
+      }
+    "
+
+    case @hierarchy  do
+      {:ok, response} ->
+        list =
+          response.body
+          |> RDF.Turtle.read_string!
+          |> SPARQL.execute_query(search_query)
+          |> get_result_list
+        {:ok, list}
+      {:error, reason} ->
+        {:error, "Error during search: #{reason.reason}"}
+    end
+  end
 
   def get_list(val, _filter) do
     case HTTPoison.get("#{@base_search_url}#{val}") do
