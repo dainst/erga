@@ -45,7 +45,7 @@ defmodule ThesaurusService do
 
         ?s skosxl:prefLabel ?link .
         ?s skos:prefLabel ?label .
-        FILTER regex(?label, \"^#{val}\", \"i\")
+        FILTER regex(?label, \"#{val}\", \"i\")
       }
     "
 
