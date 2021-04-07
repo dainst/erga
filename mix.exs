@@ -24,7 +24,8 @@ defmodule Erga.MixProject do
         :logger,
         :runtime_tools,
         :httpoison,
-        :os_mon
+        :os_mon,
+        :cachex
       ]
     ]
   end
@@ -58,7 +59,8 @@ defmodule Erga.MixProject do
       {:hackney, "~> 1.6"},
       {:zarex, "~> 1.0"},
       {:ecto_psql_extras, "~> 0.2"},
-      {:pow, "~> 1.0.21"}
+      {:pow, "~> 1.0.21"},
+      {:cachex, "~> 3.2"}
     ]
   end
 

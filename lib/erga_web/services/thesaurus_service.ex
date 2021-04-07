@@ -7,9 +7,6 @@ defmodule ThesaurusService do
 
   @base_hierarchy_world_tree "http://thesauri.dainst.org/de/hierarchy/_fe65f286.ttl?dir=down"
 
-  HTTPoison.start()
-  @hierarchy HTTPoison.get("http://thesauri.dainst.org/de/hierarchy/_fe65f286.ttl?dir=down", %{}, [recv_timeout: 24000, timeout: 24000])
-
   @query """
   PREFIX sdc: <http://sindice.com/vocab/search#>
   PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -48,8 +45,15 @@ defmodule ThesaurusService do
         FILTER regex(?label, \"#{val}\", \"i\")
       }
     "
-
-    case @hierarchy  do
+    hierarchy =
+      case Cachex.get(:data_cache, {__MODULE__, :thesaurus_hierarchy}) do
+        {:ok, nil} ->
+          hier = HTTPoison.get(@base_hierarchy_world_tree, %{}, [recv_timeout: 24000, timeout: 24000])
+          Cachex.put(:data_cache, {__MODULE__, :thesaurus_hierarchy}, hier)
+          hier
+        {:ok, hier} -> hier
+      end
+    case hierarchy  do
       {:ok, response} ->
         list =
           response.body
