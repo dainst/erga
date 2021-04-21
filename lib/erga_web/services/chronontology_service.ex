@@ -6,7 +6,7 @@ defmodule ChronontologyService do
   @uri_base_url "#{@base_url}/period/"
 
   def get_list(val, _filter) do
-    url = '#{@data_base_url}?q=#{val}*%20AND%20Chronontology'
+    url = '#{@data_base_url}?fq=resource.provenance:Chronontology&q=#{val}*'
     get_list_request(url, "results")
   end
 
