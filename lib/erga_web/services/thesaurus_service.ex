@@ -1,23 +1,9 @@
 defmodule ThesaurusService do
   use ErgaWeb.Services
 
-  @base_search_url "http://thesauri.dainst.org/de/search.ttl?q="
-
   @base_single_value "http://thesauri.dainst.org"
 
   @base_hierarchy_world_tree "http://thesauri.dainst.org/de/hierarchy/_fe65f286.ttl?dir=down"
-
-  @query """
-  PREFIX sdc: <http://sindice.com/vocab/search#>
-  PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-  PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
-
-  select ?label ?link
-  where {
-    ?s skosxl:xllabel ?label .
-    ?s sdc:link ?link .
-  }
-  """
 
   @query_label """
   PREFIX sdc: <http://sindice.com/vocab/search#>
