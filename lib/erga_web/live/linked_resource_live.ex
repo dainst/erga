@@ -163,6 +163,7 @@ defmodule ErgaWeb.LinkedResourceLive do
   defp search(socket, search_string) do
     service = ErgaWeb.Services.get_system_service(socket.assigns.linked_system)
     filter = socket.assigns.search_filter
+    
     # permit users to use wildcard on thier own
     search_string = String.replace_trailing(search_string, "*", "")
 

@@ -1,21 +1,9 @@
 defmodule ThesaurusService do
   use ErgaWeb.Services
 
-  @base_search_url "http://thesauri.dainst.org/de/search.ttl?q="
-
   @base_single_value "http://thesauri.dainst.org"
 
-  @query """
-  PREFIX sdc: <http://sindice.com/vocab/search#>
-  PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-  PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
-
-  select ?label ?link
-  where {
-    ?s skosxl:xllabel ?label .
-    ?s sdc:link ?link .
-  }
-  """
+  @base_hierarchy_world_tree "http://thesauri.dainst.org/de/hierarchy/_fe65f286.ttl?dir=down"
 
   @query_label """
   PREFIX sdc: <http://sindice.com/vocab/search#>
@@ -28,13 +16,35 @@ defmodule ThesaurusService do
   }
   """
 
+
   def get_list(val, _filter) do
-    case HTTPoison.get("#{@base_search_url}#{val}") do
+    search_query = "
+      PREFIX sdc: <http://sindice.com/vocab/search#>
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      PREFIX skosxl: <http://www.w3.org/2008/05/skos-xl#>
+
+      SELECT ?label ?link
+      WHERE {
+
+        ?s skosxl:prefLabel ?link .
+        ?s skos:prefLabel ?label .
+        FILTER regex(?label, \"#{val}\", \"i\")
+      }
+    "
+    hierarchy =
+      case Cachex.get(:data_cache, {__MODULE__, :thesaurus_hierarchy}) do
+        {:ok, nil} ->
+          hier = HTTPoison.get(@base_hierarchy_world_tree, %{}, [recv_timeout: 24000, timeout: 24000])
+          Cachex.put(:data_cache, {__MODULE__, :thesaurus_hierarchy}, hier)
+          hier
+        {:ok, hier} -> hier
+      end
+    case hierarchy  do
       {:ok, response} ->
         list =
           response.body
           |> RDF.Turtle.read_string!
-          |> SPARQL.execute_query(@query)
+          |> SPARQL.execute_query(search_query)
           |> get_result_list
         {:ok, list}
       {:error, reason} ->

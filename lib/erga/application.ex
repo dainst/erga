@@ -4,6 +4,7 @@ defmodule Erga.Application do
   @moduledoc false
 
   use Application
+  import Cachex.Spec
 
   def start(_type, _args) do
 
@@ -22,9 +23,10 @@ defmodule Erga.Application do
           # Start the PubSub system
           {Phoenix.PubSub, name: Erga.PubSub},
           # Start the Endpoint (http/https)
-          ErgaWeb.Endpoint
+          ErgaWeb.Endpoint,
           # Start a worker by calling: Erga.Worker.start_link(arg)
           # {Erga.Worker, arg}
+          {Cachex, name: :data_cache, options: [ expiration: expiration(default: :timer.hours(8), interval: :timer.hours(8)) ] }
         ]
       end
 
