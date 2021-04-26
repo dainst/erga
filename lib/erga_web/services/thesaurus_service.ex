@@ -31,7 +31,7 @@ defmodule ThesaurusService do
   """
 
 
-  def get_list(val, %{use_hierarchy: true}) do
+  def get_list(val, _filter) do
     search_query = "
       PREFIX sdc: <http://sindice.com/vocab/search#>
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -59,20 +59,6 @@ defmodule ThesaurusService do
           response.body
           |> RDF.Turtle.read_string!
           |> SPARQL.execute_query(search_query)
-          |> get_result_list
-        {:ok, list}
-      {:error, reason} ->
-        {:error, "Error during search: #{reason.reason}"}
-    end
-  end
-
-  def get_list(val, _filter) do
-    case HTTPoison.get("#{@base_search_url}#{val}") do
-      {:ok, response} ->
-        list =
-          response.body
-          |> RDF.Turtle.read_string!
-          |> SPARQL.execute_query(@query)
           |> get_result_list
         {:ok, list}
       {:error, reason} ->
