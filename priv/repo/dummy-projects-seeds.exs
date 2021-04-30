@@ -14,6 +14,8 @@ alias Erga.Research.ExternalLink
 alias Erga.Research.Image
 alias Erga.Research.LinkedResource
 alias Erga.Staff.Stakeholder
+alias Erga.Staff.Person
+alias Erga.Staff.Institution
 alias Erga.Staff.StakeholderRole
 alias Erga.Research.Project
 alias Erga.Research.ProjectToStakeholder
@@ -29,18 +31,13 @@ Erga.Repo.delete_all ProjectToStakeholder
 Erga.Repo.delete_all TranslatedContent
 
 
-p1 = Erga.Repo.insert!(%Stakeholder{
+p1 = Erga.Repo.insert!(%Person{
   first_name: "Benjamin",
   last_name: "Ducke",
-  orc_id: "https://orcid.org/0000-0002-0560-4749",
-  organization_name: "Deutsches Archäologisches Insitut",
-  ror_id: "https://ror.org/023md1f53"
+  orc_id: "https://orcid.org/0000-0002-0560-4749"
 })
 
-p2 = Erga.Repo.insert!(%Stakeholder{
-  first_name: "Marcel",
-  last_name: "Riedel",
-  orc_id: "https://orcid.org/0000-0002-2701-9356",
+p2 = Erga.Repo.insert!(%Institution{
   organization_name: "Deutsches Archäologisches Insitut",
   ror_id: "https://ror.org/023md1f53"
 })
