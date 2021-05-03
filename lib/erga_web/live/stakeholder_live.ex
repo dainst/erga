@@ -16,6 +16,7 @@ defmodule ErgaWeb.StakeholderLive do
     socket =
       socket
       |> assign(:changeset, changeset)
+      |> assign(:stakeholder, stakeholder)
       |> assign(:type, Map.get(stakeholder,:type))
 
     {:ok, socket}
@@ -39,6 +40,9 @@ defmodule ErgaWeb.StakeholderLive do
   def handle_event("form_change", %{"_target" => ["stakeholder", target]} = params, socket) do
     socket = socket
              |>update(:type, fn _ -> params["stakeholder"]["type"] end)
+    {:noreply, socket}
+  end
+  def handle_event("form_change", _ , socket) do
     {:noreply, socket}
   end
 
@@ -74,7 +78,7 @@ defmodule ErgaWeb.StakeholderLive do
           :noreply,
           socket
           |> put_flash(:info, "Stakeholder updated successfully.")
-          |> redirect(to: socket.assign.redirect)
+          |> redirect(to: socket.assigns.redirect)
         }
       {:error, changeset } ->
         {:noreply, assign(socket, changeset: changeset)}
