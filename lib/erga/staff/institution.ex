@@ -3,7 +3,7 @@ defmodule Erga.Staff.Institution do
   import Ecto.Changeset
 
   schema "stakeholders" do
-
+    field :type, :string, default: "Institution"
     field :organization_name, :string
     field :ror_id, :string
 
@@ -15,11 +15,11 @@ defmodule Erga.Staff.Institution do
   def changeset(institution, attrs) do
     institution
     |> cast(attrs, [
-      :organization_name, :ror_id
+      :type,:organization_name, :ror_id
       ])
     |> evaluate_field_combination(attrs)
     |> evaluate_external_ids(attrs)
-    |> cast_assoc(:stakeholder)
+    |> cast_assoc(:stakeholder_to_projects)
   end
 
   def evaluate_field_combination(changeset, _attrs) do

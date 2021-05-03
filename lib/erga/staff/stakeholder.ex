@@ -3,6 +3,7 @@ defmodule Erga.Staff.Stakeholder do
   import Ecto.Changeset
 
   schema "stakeholders" do
+    field :type, :string, default: "Person"
     field :first_name, :string
     field :last_name, :string
     field :title, :string, default: ""
@@ -16,10 +17,10 @@ defmodule Erga.Staff.Stakeholder do
   end
 
   @doc false
-  def changeset(person, attrs) do
-    person
+  def changeset(stakeholder, attrs) do
+    stakeholder
     |> cast(attrs, [
-      :first_name, :last_name, :title, :orc_id, :organization_name, :ror_id
+      :type, :first_name, :last_name, :title, :orc_id, :organization_name, :ror_id
       ])
     |> evaluate_field_combination(attrs)
     |> evaluate_external_ids(attrs)
