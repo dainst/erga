@@ -24,14 +24,14 @@ defmodule ErgaWeb.StakeholderLive do
 
   def mount(_,_session, socket) do
     # new case
+    stakeholder = %Stakeholder{type: "person"}
     changeset =
-      Staff.change_stakeholder(%Stakeholder{})
+      Staff.change_stakeholder(stakeholder)
 
     socket =
       socket
       |> assign(:changeset, changeset)
-      |> assign(:type, "Person")
-
+      |> assign(:type, Map.get(stakeholder,:type))
     {:ok, socket}
   end
 

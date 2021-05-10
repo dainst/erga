@@ -3,11 +3,14 @@
       phx_change: "form_change",
       phx_submit: "save" %>
 
-  <%= hidden_input f, :redirect, value: @redirect %>
+<%= hidden_input f, :redirect, value: @redirect %>
 
-<%= select f, :type , %{"Person": "Person", "Institution": "Institution"} %>
+<%= error_tag f, :general %>
+<%= select f, :type , %{"Person": "person", "Institution": "institution"} %>
 
-<%= if @type == "Person" do %>
+<%= @type %>
+
+<%= if @type == "person" do %>
 <%= label f, :title %>
 <%= text_input f, :title %>
 <%= error_tag f, :title %>
@@ -27,14 +30,13 @@
 <%= error_tag f, :orc_id %>
 <% end %>
 
-<%= if @type == "Institution" do %>
+<%= if @type == "institution" do %>
 
 <%= label f, :organization_name %>
 <%= text_input f, :organization_name %>
 <%= error_tag f, :organization_name %>
-
 <%= label f, :ror_id do %>
-<a href="https://orcid.org">ORCID</a>
+<a href="https://ror.org">RORID</a>
 <% end %>
 <%= text_input f, :ror_id %>
 <%= error_tag f, :ror_id %>
