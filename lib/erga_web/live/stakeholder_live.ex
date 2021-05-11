@@ -38,9 +38,21 @@ defmodule ErgaWeb.StakeholderLive do
   def render(assigns), do: Phoenix.View.render(ErgaWeb.StakeholderView, "form.html", assigns)
 
   def handle_event("form_change", %{"_target" => ["stakeholder", target]} = params, socket) do
-    socket = socket
-             |>update(:type, fn _ -> params["stakeholder"]["type"] end)
-    {:noreply, socket}
+    if socket.assigns[:type] != params["stakeholder"]["type"] do
+      stakeholder = %Stakeholder{type: params["stakeholder"]["type"] }
+      changeset =
+        Staff.change_stakeholder(stakeholder)
+
+      socket = socket
+               |>update(:type, fn _ -> params["stakeholder"]["type"] end)
+               |>assign(:stakeholder, stakeholder)
+               |>assign(:changeset, changeset)
+      {:noreply, socket}
+      else
+      {:noreply, socket}
+    end
+
+
   end
   def handle_event("form_change", _ , socket) do
     {:noreply, socket}

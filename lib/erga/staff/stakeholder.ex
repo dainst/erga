@@ -17,9 +17,6 @@ defmodule Erga.Staff.Stakeholder do
   end
 
   def changeset(stakeholder, %{} = attrs) do
-    IO.puts("1")
-    IO.inspect(attrs)
-    IO.inspect(stakeholder)
     case stakeholder.type do
       "person" ->
         stakeholder
@@ -39,7 +36,6 @@ defmodule Erga.Staff.Stakeholder do
         |> cast_assoc(:stakeholder_to_projects)
 
       _ ->
-      IO.inspect(stakeholder)
         stakeholder
         |> cast(attrs, [
           :type, :first_name, :last_name, :title, :orc_id, :organization_name, :ror_id
@@ -51,7 +47,6 @@ defmodule Erga.Staff.Stakeholder do
   end
   @doc false
   def changeset(stakeholder, attrs) do
-    IO.puts("2")
     case attrs["type"] do
       :person ->
         stakeholder

@@ -8,9 +8,7 @@
 <%= error_tag f, :general %>
 <%= select f, :type , %{"Person": "person", "Institution": "institution"} %>
 
-<%= @type %>
-
-<%= if @type == "person" do %>
+<%= if @type == "person" or @type == :person do %>
 <%= label f, :title %>
 <%= text_input f, :title %>
 <%= error_tag f, :title %>
@@ -30,7 +28,7 @@
 <%= error_tag f, :orc_id %>
 <% end %>
 
-<%= if @type == "institution" do %>
+<%= if @type == "institution" or @type == :institution do %>
 
 <%= label f, :organization_name %>
 <%= text_input f, :organization_name %>
