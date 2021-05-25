@@ -16,35 +16,34 @@ defmodule Erga.Staff.Stakeholder do
     timestamps()
   end
 
-  def changeset(stakeholder, %{} = attrs) do
-    case stakeholder.type do
-      "person" ->
-        stakeholder
-        |> cast(attrs, [
-          :type, :first_name, :last_name, :title, :orc_id, :organization_name, :ror_id
-        ])
-        |> person_evaluate_field_combination(attrs)
-        |> person_evaluate_external_ids(attrs)
-        |> cast_assoc(:stakeholder_to_projects)
-      "institution" ->
-        stakeholder
-        |> cast(attrs, [
-          :type, :first_name, :last_name, :title, :orc_id, :organization_name, :ror_id
-        ])
-        |> institution_evaluate_field_combination(attrs)
-        |> institution_evaluate_external_ids(attrs)
-        |> cast_assoc(:stakeholder_to_projects)
-
-      _ ->
-        stakeholder
-        |> cast(attrs, [
-          :type, :first_name, :last_name, :title, :orc_id, :organization_name, :ror_id
-        ])
-        |> institution_evaluate_field_combination(attrs)
-        |> institution_evaluate_external_ids(attrs)
-        |> cast_assoc(:stakeholder_to_projects)
-    end
+  def changeset(%{type: "person"} = stakeholder, %{} = attrs) do
+    stakeholder
+    |> cast(attrs, [
+      :type, :first_name, :last_name, :title, :orc_id, :organization_name, :ror_id
+    ])
+    |> person_evaluate_field_combination(attrs)
+    |> person_evaluate_external_ids(attrs)
+    |> cast_assoc(:stakeholder_to_projects)
   end
+  def changeset(%{type: "institution"} = stakeholder, %{} = attrs) do
+    stakeholder
+    |> cast(attrs, [
+      :type, :first_name, :last_name, :title, :orc_id, :organization_name, :ror_id
+    ])
+    |> institution_evaluate_field_combination(attrs)
+    |> institution_evaluate_external_ids(attrs)
+    |> cast_assoc(:stakeholder_to_projects)
+  end
+    def changeset(stakeholder, %{} = attrs) do
+      stakeholder
+      |> cast(attrs, [
+        :type, :first_name, :last_name, :title, :orc_id, :organization_name, :ror_id
+      ])
+      |> institution_evaluate_field_combination(attrs)
+      |> institution_evaluate_external_ids(attrs)
+      |> cast_assoc(:stakeholder_to_projects)
+  end
+
   @doc false
   def changeset(stakeholder, attrs) do
     case attrs["type"] do
