@@ -16,7 +16,7 @@ defmodule Erga.Staff.Stakeholder do
     timestamps()
   end
 
-  def changeset(%{type: "person"} = stakeholder, %{} = attrs) do
+  def changeset(%{"person" => type} = stakeholder, %{} = attrs) do
     stakeholder
     |> cast(attrs, [
       :type, :first_name, :last_name, :title, :orc_id, :organization_name, :ror_id
@@ -25,7 +25,7 @@ defmodule Erga.Staff.Stakeholder do
     |> person_evaluate_external_ids(attrs)
     |> cast_assoc(:stakeholder_to_projects)
   end
-  def changeset(%{type: "institution"} = stakeholder, %{} = attrs) do
+  def changeset(%{"institution" => type} = stakeholder, %{} = attrs) do
     stakeholder
     |> cast(attrs, [
       :type, :first_name, :last_name, :title, :orc_id, :organization_name, :ror_id
