@@ -3,6 +3,7 @@ defmodule ErgaWeb.LinkedResourceLive do
 
   alias Erga.Research
   alias Erga.Research.LinkedResource
+  alias SearchComponent
 
   def handle_params(_unsigned_params, uri, socket) do
     {:noreply, assign(socket, request_path: URI.parse(uri).path)}
@@ -15,6 +16,7 @@ defmodule ErgaWeb.LinkedResourceLive do
     |> assign(:linked_id, nil)
     |> assign(:search_filter, "")
     |> assign(:lang_codes, Application.get_env(:gettext, :locales))
+    |> assign(:loading, false)
   end
 
   def mount(%{"project_id" => project_id}, _session, socket) do
@@ -33,6 +35,7 @@ defmodule ErgaWeb.LinkedResourceLive do
       |> assign(:linked_system, "gazetteer")
       |> assign(:uri, "")
       |> assign(:name, "")
+      |> assign(:loading, false)
 
     {:ok, socket}
   end
@@ -52,6 +55,7 @@ defmodule ErgaWeb.LinkedResourceLive do
       |> assign(:linked_system, linked_resource.linked_system)
       |> assign(:labels, linked_resource.labels)
       |> assign(:uri, linked_resource.uri)
+      |> assign(:loading, false)
 
     {:ok, socket}
   end
@@ -145,10 +149,20 @@ defmodule ErgaWeb.LinkedResourceLive do
         |> update(:search_result, fn _ -> [] end)
         |> update(:linked_system, fn _ -> params["linked_system"] end)
       "search_string" ->
-        search(socket, params["search_string"])
+        socket
+        |> search( params["search_string"])
       target ->
         update(socket, String.to_existing_atom(target), fn _ -> params[target] end)
     end
+  end
+
+  def handle_info({_pid, {:search_result, list}}, socket) do
+    send_update(SearchComponent, id: :search_comp, loading: false, search_result: list)
+    {:noreply, socket}
+  end
+
+  def handle_info(_msg, socket) do
+    {:noreply, socket}
   end
 
   def choose_resource( %{"id" => id, "name" => name, "uri" => uri}, socket) do
@@ -163,19 +177,34 @@ defmodule ErgaWeb.LinkedResourceLive do
   defp search(socket, search_string) do
     service = ErgaWeb.Services.get_system_service(socket.assigns.linked_system)
     filter = socket.assigns.search_filter
-    
+
     # permit users to use wildcard on thier own
     search_string = String.replace_trailing(search_string, "*", "")
 
     # perform a search or return empty list
     if String.length(search_string) > 1 do
-      case service.get_list(search_string, filter) do
-        {:ok, list} -> update(socket, :search_result, fn _old_search_string -> list end)
-        {:error, reason} -> assign(socket, :search_error, reason)
-      end
+      socket = update(socket, :loading, fn _ -> true end)
+      Task.async(fn ->
+        case service.get_list(search_string, filter) do
+          {:ok, list} -> {:search_result, list}
+
+
+          {:error, reason} -> assign(socket, :search_error, reason)
+        end
+      end)
+      socket
     else
-      update(socket, :search_result, fn _l -> [] end)
+      socket
+      |> update(:search_result, fn _l -> [] end)
+      |> update(:loading, fn _ -> false end)
     end
   end
 
+end
+
+defmodule SearchComponent do
+  use Phoenix.LiveComponent
+  def render(assigns) do
+    Phoenix.View.render(ErgaWeb.LinkedResourceView, "search_component.html", assigns)
+  end
 end
