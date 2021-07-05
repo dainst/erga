@@ -1,0 +1,34 @@
+
+        <%= if @search_result != [] do %>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Search result:</th>
+            </tr>
+          </thead>
+          <small>
+            <tbody>
+              <%= for res <- @search_result do %>
+              <tr>
+                <td>
+                  <%= link "Select", to: "#", phx_click: "choose_resource", class: "btn btn-primary",
+                    phx_value_id: res.res_id, phx_value_name: res.name, phx_value_uri: res.uri %>
+                  </td>
+                <td><%= res.name %> | <%= res.uri %> </td>
+              </tr>
+              <% end %>
+            </tbody>
+          </small>
+        </table>
+        <% else %>
+        <div>&nbsp;</div>
+        <% end %>
+        <%= if @loading do %>
+          <div class="spinner">
+            Loading...
+          </div>
+        <% end %>
+        <%= if assigns[:search_error] do %>
+        <p><%= @search_error %></p>
+        <% end %>
