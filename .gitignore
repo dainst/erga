@@ -51,3 +51,6 @@ npm-debug.log
 
 # Docker
 .env
+
+# Traefik
+acme.json
