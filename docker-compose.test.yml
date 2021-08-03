@@ -8,18 +8,20 @@ services:
         container_name: erga_db
         environment:
             - POSTGRES_PASSWORD
+            - POSTGRES_DB
         ports:
             - 5432:5432
         volumes:
-            /opt/erga/data/db:/var/lib/postgresql/data
+            - /opt/erga/data/db:/var/lib/postgresql/data
         labels:
             - traefik.enable=false
 
     app:
-        image: dainst/erga:latest
-        container_name: erga-app
-        environment: 
-            - DATABASE_URL
+        build:
+            context: .
+        container_name: erga_app
+        environment:
+            - DATABASE_URL="ecto://postgres:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}"
             - SECRET_KEY_BASE
         volumes:
             - /opt/erga/data/uploads:/uploads
