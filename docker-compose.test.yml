@@ -1,0 +1,41 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+    db:
+        image: postgres:12-alpine
+        container_name: erga_db
+        environment:
+            - POSTGRES_PASSWORD
+        ports:
+            - 5432:5432
+        volumes:
+            /opt/erga/data/db:/var/lib/postgresql/data
+        labels:
+            - traefik.enable=false
+
+    app:
+        image: dainst/erga:latest
+        container_name: erga-app
+        environment: 
+            - DATABASE_URL
+            - SECRET_KEY_BASE
+        volumes:
+            - /opt/erga/data/uploads:/uploads
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.api.rule=Host(`projects.test.dainst.org`)        
+            - traefik.http.services.api.loadbalancer.server.port=4000
+            - traefik.http.routers.api.tls=true
+            - traefik.http.routers.api.tls.certresolver=myresolver
+
+    traefik:
+        image: "traefik:v2.4"
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock:ro"
+            - "/opt/traefik/acme.json:/acme.json"
+            - "/opt/traefik/traefik.toml:/etc/traefik/traefik.toml"

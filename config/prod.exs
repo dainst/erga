@@ -53,4 +53,4 @@ config :logger, level: :info
 # and configuration from environment variables.
 
 config :erga,
-  uploads_directory: System.get_env("ERGA_UPLOADS_DIRECTORY") || "/uploads"
+  uploads_directory: "/uploads"
