@@ -21,7 +21,7 @@ services:
             context: .
         container_name: erga_app
         environment:
-            - DATABASE_URL="ecto://postgres:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}"
+            - DATABASE_URL=ecto://postgres:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
             - SECRET_KEY_BASE
         volumes:
             - /opt/erga/data/uploads:/uploads
