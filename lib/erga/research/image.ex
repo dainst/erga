@@ -75,7 +75,7 @@ defmodule Erga.Research.Image do
         add_error(
           changeset,
           :path,
-          "Unable to download file from #{url}, reason: #{reason}."
+          "Unable to download file from #{url} to #{target_file}, reason: #{reason}."
         )
     end
   end
@@ -89,7 +89,7 @@ defmodule Erga.Research.Image do
         add_error(
           changeset,
           :path,
-          "Unable to copy file #{target_file}, reason: #{reason}."
+          "Unable to copy file #{path} to #{target_file}, reason: #{reason}."
       )
       :ok -> changeset
     end
@@ -97,7 +97,7 @@ defmodule Erga.Research.Image do
 
   def evaluate_path(%{changes: %{path: path}} = changeset, _attrs) do
     if !File.exists?("#{@upload_directory}/#{path}") do
-      add_error(changeset, :path, "File #{path} does not exists!")
+      add_error(changeset, :path, "File #{path} does not exist!")
     else
       changeset
     end
