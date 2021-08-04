@@ -32,7 +32,7 @@ config :erga, ErgaWeb.Endpoint,
   url: [
     host: System.get_env("HOST"),
     scheme: "https",
-    port: 443,
+    port: 443
   ]
 # ## Using releases (Elixir v1.9+)
 #
