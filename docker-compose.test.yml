@@ -1,4 +1,3 @@
-# Use postgres/example user/password credentials
 version: '3.1'
 
 services:
@@ -12,6 +11,8 @@ services:
         ports:
             - 5432:5432
         volumes:
+            # Uncomment to seed database with a previously created dump
+            #- /path/to/database/dump/erga.sql:/docker-entrypoint-initdb.d/erga.sql
             - ./data:/var/lib/postgresql/data
         labels:
             - traefik.enable=false
