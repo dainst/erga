@@ -53,15 +53,11 @@ docker-compose -f docker-compose.release.yml up -d
 ```
 
 You have to set the /upload directory user privileges to enable Erga to write to the directory.
+```bash
 docker exec erga_app id 
 ```
 
 Which should yield the container's uid. Accordingly run
 ```bash
 chown -R <id> uploads/
-```
-
-### 5. Run detached
-```bash
-docker-compose -f docker-compose.release.yml up -d
 ```
