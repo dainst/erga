@@ -39,6 +39,9 @@ npm-debug.log
 # Ignore test uploads directory (see test.exs)
 /test_uploads
 
+# Ignore postgres data directory (for release builds)
+/data
+
 
 # Editor directories and files
 .idea

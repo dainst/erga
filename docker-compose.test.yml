@@ -12,7 +12,7 @@ services:
         ports:
             - 5432:5432
         volumes:
-            - /opt/erga/data/db:/var/lib/postgresql/data
+            - ./data:/var/lib/postgresql/data
         labels:
             - traefik.enable=false
 
@@ -23,8 +23,12 @@ services:
         environment:
             - DATABASE_URL=ecto://postgres:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
             - SECRET_KEY_BASE
+        depends_on:
+            - "db"
         volumes:
-            - /opt/erga/data/uploads:/uploads
+            - "./uploads:/uploads"
+            - "./priv/:/app/priv/"
+        
         labels:
             - traefik.enable=true
             - traefik.http.routers.api.rule=Host(`projects.test.dainst.org`)        
