@@ -5,6 +5,7 @@ services:
     db:
         image: postgres:12-alpine
         container_name: erga_db
+        restart: always
         environment:
             - POSTGRES_PASSWORD
             - POSTGRES_DB
@@ -21,6 +22,7 @@ services:
         build:
             context: .
         container_name: erga_app
+        restart: always
         environment:
             - HOST
             - DATABASE_URL=ecto://postgres:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
@@ -39,6 +41,7 @@ services:
 
     traefik:
         image: "traefik:v2.4"
+        restart: always
         ports:
             - "80:80"
             - "443:443"
