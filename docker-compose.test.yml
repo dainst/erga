@@ -21,6 +21,7 @@ services:
             context: .
         container_name: erga_app
         environment:
+            - HOST
             - DATABASE_URL=ecto://postgres:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
             - SECRET_KEY_BASE
         depends_on:
@@ -28,10 +29,9 @@ services:
         volumes:
             - "./uploads:/uploads"
             - "./priv/:/app/priv/"
-        
         labels:
             - traefik.enable=true
-            - traefik.http.routers.api.rule=Host(`projects.test.dainst.org`)        
+            - traefik.http.routers.api.rule=Host(`${HOST}`)        
             - traefik.http.services.api.loadbalancer.server.port=4000
             - traefik.http.routers.api.tls=true
             - traefik.http.routers.api.tls.certresolver=myresolver
