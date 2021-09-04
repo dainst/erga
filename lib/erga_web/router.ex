@@ -35,7 +35,7 @@ defmodule ErgaWeb.Router do
 
     resources("/projects", ProjectController)
     resources("/projects_to_stakeholders", ProjectToStakeholderController, only: [:create, :delete, :edit, :new, :update])
-    resources("/stakeholders", StakeholderController,                      only: [:create, :delete, :edit, :new, :update, :index])
+    resources("/stakeholders", StakeholderController,                      only: [:delete, :index])
     resources("/stakeholder_roles", StakeholderRoleController,             only: [:create, :delete, :edit, :new, :update, :index])
     resources("/external_links", ExternalLinkController,                   only: [:create, :delete, :edit, :new, :update])
     resources("/images", ImageController,                                  only: [:create, :delete, :edit, :new, :update])
@@ -47,6 +47,9 @@ defmodule ErgaWeb.Router do
 
     live "/linked_resources/new/:project_id", LinkedResourceLive, :new
     live "/linked_resources/:id/edit", LinkedResourceLive, :edit
+
+    live "/stakeholders/new/", StakeholderLive, :new
+    live "/stakeholders/:id/edit", StakeholderLive, :edit
   end
 
   # Other scopes may use custom stacks.

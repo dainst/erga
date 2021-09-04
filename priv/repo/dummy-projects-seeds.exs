@@ -30,18 +30,15 @@ Erga.Repo.delete_all TranslatedContent
 
 
 p1 = Erga.Repo.insert!(%Stakeholder{
+  type: :person,
   first_name: "Benjamin",
   last_name: "Ducke",
-  orc_id: "https://orcid.org/0000-0002-0560-4749",
-  organization_name: "Deutsches Archäologisches Insitut",
-  ror_id: "https://ror.org/023md1f53"
+  orc_id: "https://orcid.org/0000-0002-0560-4749"
 })
 
 p2 = Erga.Repo.insert!(%Stakeholder{
-  first_name: "Marcel",
-  last_name: "Riedel",
-  orc_id: "https://orcid.org/0000-0002-2701-9356",
-  organization_name: "Deutsches Archäologisches Insitut",
+  type: :institution,
+  organization_name: "Deutsches Archäologisches Institut",
   ror_id: "https://ror.org/023md1f53"
 })
 

@@ -3,6 +3,8 @@ defmodule ErgaWeb.StakeholderController do
   alias ErgaWeb.ErrorHelpers
   alias Erga.Staff
   alias Erga.Staff.Stakeholder
+  alias Erga.Staff.Person
+  alias Erga.Staff.Institution
 
   def index(conn,  %{"redirect" => redirect}) do
     stakeholders = Staff.list_stakeholders()

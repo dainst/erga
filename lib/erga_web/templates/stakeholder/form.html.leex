@@ -1,0 +1,48 @@
+<%= f = form_for @changeset, "#",
+      id: "stakeholder-form",
+      phx_change: "form_change",
+      phx_submit: "save" %>
+
+<%= hidden_input f, :redirect, value: @redirect %>
+
+<%= error_tag f, :general %>
+<%= select f, :type , %{"Person": "person", "Institution": "institution"} %>
+
+<%= if @type == "person" or @type == :person do %>
+<%= label f, :title %>
+<%= text_input f, :title %>
+<%= error_tag f, :title %>
+
+<%= label f, :first_name %>
+<%= text_input f, :first_name %>
+<%= error_tag f, :first_name %>
+
+<%= label f, :last_name %>
+<%= text_input f, :last_name %>
+<%= error_tag f, :last_name %>
+
+<%= label f, :orc_id do %>
+<a href="https://orcid.org">ORCID</a>
+<% end %>
+<%= text_input f, :orc_id %>
+<%= error_tag f, :orc_id %>
+<% end %>
+
+<%= if @type == "institution" or @type == :institution do %>
+
+<%= label f, :organization_name %>
+<%= text_input f, :organization_name %>
+<%= error_tag f, :organization_name %>
+<%= label f, :ror_id do %>
+<a href="https://ror.org">RORID</a>
+<% end %>
+<%= text_input f, :ror_id %>
+<%= error_tag f, :ror_id %>
+<% end %>
+
+
+
+  <div>
+    <%= submit "Save" %>
+  </div>
+</form>

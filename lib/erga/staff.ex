@@ -108,7 +108,8 @@ defmodule Erga.Staff do
 
   """
   def change_stakeholder(%Stakeholder{} = stakeholder, attrs \\ %{}) do
-    Stakeholder.changeset(stakeholder, attrs)
+    stakeholder
+    |>Stakeholder.changeset(attrs)
   end
 
   alias Erga.Staff.StakeholderRole
